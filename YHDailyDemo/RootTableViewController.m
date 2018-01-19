@@ -21,7 +21,7 @@
 }
 - (NSArray *)controllers {
     if (!_controllers) {
-        _controllers = @[@"FindMaxAndMinNumberViewController"];
+        _controllers = @[@"FindMaxAndMinNumberViewController",@"DrawViewController"];
     }
     return _controllers;
 }
