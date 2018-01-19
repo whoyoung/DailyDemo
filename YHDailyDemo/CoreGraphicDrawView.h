@@ -1,5 +1,5 @@
 //
-//  DrawView.h
+//  CoreGraphicDrawView.h
 //  YHDailyDemo
 //
 //  Created by 杨虎 on 2018/1/19.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DrawView : UIView
+@interface CoreGraphicDrawView : UIView
 
 @end

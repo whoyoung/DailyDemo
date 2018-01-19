@@ -15,7 +15,7 @@
 		776FC19F2011F04100CDF3E6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC19E2011F04100CDF3E6 /* main.m */; };
 		776FC1A72011F08200CDF3E6 /* RootTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1A62011F08200CDF3E6 /* RootTableViewController.m */; };
 		776FC1AA2011F53000CDF3E6 /* DrawViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1A92011F53000CDF3E6 /* DrawViewController.m */; };
-		776FC1AD2011F69600CDF3E6 /* DrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1AC2011F69600CDF3E6 /* DrawView.m */; };
+		776FC1AD2011F69600CDF3E6 /* CoreGraphicDrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1AC2011F69600CDF3E6 /* CoreGraphicDrawView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,8 +33,8 @@
 		776FC1A62011F08200CDF3E6 /* RootTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootTableViewController.m; sourceTree = "<group>"; };
 		776FC1A82011F53000CDF3E6 /* DrawViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DrawViewController.h; sourceTree = "<group>"; };
 		776FC1A92011F53000CDF3E6 /* DrawViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DrawViewController.m; sourceTree = "<group>"; };
-		776FC1AB2011F69600CDF3E6 /* DrawView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DrawView.h; sourceTree = "<group>"; };
-		776FC1AC2011F69600CDF3E6 /* DrawView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DrawView.m; sourceTree = "<group>"; };
+		776FC1AB2011F69600CDF3E6 /* CoreGraphicDrawView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreGraphicDrawView.h; sourceTree = "<group>"; };
+		776FC1AC2011F69600CDF3E6 /* CoreGraphicDrawView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreGraphicDrawView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,8 +75,8 @@
 				776FC1932011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m */,
 				776FC1A82011F53000CDF3E6 /* DrawViewController.h */,
 				776FC1A92011F53000CDF3E6 /* DrawViewController.m */,
-				776FC1AB2011F69600CDF3E6 /* DrawView.h */,
-				776FC1AC2011F69600CDF3E6 /* DrawView.m */,
+				776FC1AB2011F69600CDF3E6 /* CoreGraphicDrawView.h */,
+				776FC1AC2011F69600CDF3E6 /* CoreGraphicDrawView.m */,
 				776FC1952011F04100CDF3E6 /* Main.storyboard */,
 				776FC1982011F04100CDF3E6 /* Assets.xcassets */,
 				776FC19A2011F04100CDF3E6 /* LaunchScreen.storyboard */,
@@ -159,7 +159,7 @@
 			files = (
 				776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */,
 				776FC1AA2011F53000CDF3E6 /* DrawViewController.m in Sources */,
-				776FC1AD2011F69600CDF3E6 /* DrawView.m in Sources */,
+				776FC1AD2011F69600CDF3E6 /* CoreGraphicDrawView.m in Sources */,
 				776FC19F2011F04100CDF3E6 /* main.m in Sources */,
 				776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */,
 				776FC1A72011F08200CDF3E6 /* RootTableViewController.m in Sources */,

@@ -1,14 +1,14 @@
 //
-//  DrawView.m
+//  CoreGraphicDrawView.m
 //  YHDailyDemo
 //
 //  Created by 杨虎 on 2018/1/19.
 //  Copyright © 2018年 杨虎. All rights reserved.
 //
 
-#import "DrawView.h"
+#import "CoreGraphicDrawView.h"
 
-@implementation DrawView
+@implementation CoreGraphicDrawView
 
 - (void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();
