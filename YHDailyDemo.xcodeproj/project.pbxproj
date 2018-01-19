@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1902011F04100CDF3E6 /* AppDelegate.m */; };
-		776FC1942011F04100CDF3E6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1932011F04100CDF3E6 /* ViewController.m */; };
+		776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1932011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m */; };
 		776FC1972011F04100CDF3E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 776FC1952011F04100CDF3E6 /* Main.storyboard */; };
 		776FC1992011F04100CDF3E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 776FC1982011F04100CDF3E6 /* Assets.xcassets */; };
 		776FC19C2011F04100CDF3E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 776FC19A2011F04100CDF3E6 /* LaunchScreen.storyboard */; };
@@ -20,8 +20,8 @@
 		776FC18C2011F04100CDF3E6 /* YHDailyDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YHDailyDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		776FC18F2011F04100CDF3E6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		776FC1902011F04100CDF3E6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		776FC1922011F04100CDF3E6 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		776FC1932011F04100CDF3E6 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		776FC1922011F04100CDF3E6 /* FindMaxAndMinNumberViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FindMaxAndMinNumberViewController.h; sourceTree = "<group>"; };
+		776FC1932011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FindMaxAndMinNumberViewController.m; sourceTree = "<group>"; };
 		776FC1962011F04100CDF3E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		776FC1982011F04100CDF3E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		776FC19B2011F04100CDF3E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -65,8 +65,8 @@
 				776FC1A62011F08200CDF3E6 /* RootTableViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
-				776FC1922011F04100CDF3E6 /* ViewController.h */,
-				776FC1932011F04100CDF3E6 /* ViewController.m */,
+				776FC1922011F04100CDF3E6 /* FindMaxAndMinNumberViewController.h */,
+				776FC1932011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m */,
 				776FC1952011F04100CDF3E6 /* Main.storyboard */,
 				776FC1982011F04100CDF3E6 /* Assets.xcassets */,
 				776FC19A2011F04100CDF3E6 /* LaunchScreen.storyboard */,
@@ -147,7 +147,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				776FC1942011F04100CDF3E6 /* ViewController.m in Sources */,
+				776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */,
 				776FC19F2011F04100CDF3E6 /* main.m in Sources */,
 				776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */,
 				776FC1A72011F08200CDF3E6 /* RootTableViewController.m in Sources */,

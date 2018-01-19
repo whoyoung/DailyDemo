@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  FindMaxAndMinNumberViewController.h
 //  YHDailyDemo
 //
 //  Created by 杨虎 on 2018/1/19.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface FindMaxAndMinNumberViewController : UIViewController
 
 
 @end

@@ -7,9 +7,9 @@
 //
 
 #import "RootTableViewController.h"
-
+#import "FindMaxAndMinNumberViewController.h"
 @interface RootTableViewController ()
-
+@property (nonatomic, strong) NSArray *controllers;
 @end
 
 @implementation RootTableViewController
@@ -17,21 +17,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationItem setTitle:@"RootViewController"];
+    
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (NSArray *)controllers {
+    if (!_controllers) {
+        _controllers = @[@"FindMaxAndMinNumberViewController"];
+    }
+    return _controllers;
 }
 
 #pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return self.controllers.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -39,15 +40,17 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"reuseIdentifier"];
     }
-    if (indexPath.row == 0) {
-        cell.textLabel.text = @"1";
-    } else {
-        cell.textLabel.text = @"2";
-    }
+    cell.textLabel.text = self.controllers[indexPath.row];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    Class cls = NSClassFromString(self.controllers[indexPath.row]);
+    [self.navigationController pushViewController:[[cls alloc] init] animated:YES];
 }
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
 @end
