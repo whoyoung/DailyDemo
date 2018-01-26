@@ -74,14 +74,8 @@
 				776FC1A62011F08200CDF3E6 /* RootTableViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
-				776FC1922011F04100CDF3E6 /* FindMaxAndMinNumberViewController.h */,
-				776FC1932011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m */,
-				776FC1A82011F53000CDF3E6 /* DrawViewController.h */,
-				776FC1A92011F53000CDF3E6 /* DrawViewController.m */,
-				776FC1AB2011F69600CDF3E6 /* CoreGraphicDrawView.h */,
-				776FC1AC2011F69600CDF3E6 /* CoreGraphicDrawView.m */,
-				776FC1AE2012204400CDF3E6 /* CoreAnimationDrawView.h */,
-				776FC1AF2012204400CDF3E6 /* CoreAnimationDrawView.m */,
+				77714A24201B4691004DD6EB /* FindMaxAndMinNumber */,
+				77714A23201B4664004DD6EB /* DrawView */,
 				776FC1952011F04100CDF3E6 /* Main.storyboard */,
 				776FC1982011F04100CDF3E6 /* Assets.xcassets */,
 				776FC19A2011F04100CDF3E6 /* LaunchScreen.storyboard */,
@@ -89,6 +83,28 @@
 				776FC19E2011F04100CDF3E6 /* main.m */,
 			);
 			path = YHDailyDemo;
+			sourceTree = "<group>";
+		};
+		77714A23201B4664004DD6EB /* DrawView */ = {
+			isa = PBXGroup;
+			children = (
+				776FC1A82011F53000CDF3E6 /* DrawViewController.h */,
+				776FC1A92011F53000CDF3E6 /* DrawViewController.m */,
+				776FC1AB2011F69600CDF3E6 /* CoreGraphicDrawView.h */,
+				776FC1AC2011F69600CDF3E6 /* CoreGraphicDrawView.m */,
+				776FC1AE2012204400CDF3E6 /* CoreAnimationDrawView.h */,
+				776FC1AF2012204400CDF3E6 /* CoreAnimationDrawView.m */,
+			);
+			name = DrawView;
+			sourceTree = "<group>";
+		};
+		77714A24201B4691004DD6EB /* FindMaxAndMinNumber */ = {
+			isa = PBXGroup;
+			children = (
+				776FC1922011F04100CDF3E6 /* FindMaxAndMinNumberViewController.h */,
+				776FC1932011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m */,
+			);
+			path = FindMaxAndMinNumber;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
