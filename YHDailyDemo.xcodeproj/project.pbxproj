@@ -17,6 +17,7 @@
 		776FC1AA2011F53000CDF3E6 /* DrawViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1A92011F53000CDF3E6 /* DrawViewController.m */; };
 		776FC1AD2011F69600CDF3E6 /* CoreGraphicDrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1AC2011F69600CDF3E6 /* CoreGraphicDrawView.m */; };
 		776FC1B02012204400CDF3E6 /* CoreAnimationDrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1AF2012204400CDF3E6 /* CoreAnimationDrawView.m */; };
+		77714A28201B4725004DD6EB /* LineChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A27201B4725004DD6EB /* LineChartView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,8 @@
 		776FC1AC2011F69600CDF3E6 /* CoreGraphicDrawView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreGraphicDrawView.m; sourceTree = "<group>"; };
 		776FC1AE2012204400CDF3E6 /* CoreAnimationDrawView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreAnimationDrawView.h; sourceTree = "<group>"; };
 		776FC1AF2012204400CDF3E6 /* CoreAnimationDrawView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreAnimationDrawView.m; sourceTree = "<group>"; };
+		77714A26201B4725004DD6EB /* LineChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineChartView.h; sourceTree = "<group>"; };
+		77714A27201B4725004DD6EB /* LineChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LineChartView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +77,7 @@
 				776FC1A62011F08200CDF3E6 /* RootTableViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				77714A25201B46F4004DD6EB /* LineChart */,
 				77714A24201B4691004DD6EB /* FindMaxAndMinNumber */,
 				77714A23201B4664004DD6EB /* DrawView */,
 				776FC1952011F04100CDF3E6 /* Main.storyboard */,
@@ -105,6 +109,15 @@
 				776FC1932011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m */,
 			);
 			path = FindMaxAndMinNumber;
+			sourceTree = "<group>";
+		};
+		77714A25201B46F4004DD6EB /* LineChart */ = {
+			isa = PBXGroup;
+			children = (
+				77714A26201B4725004DD6EB /* LineChartView.h */,
+				77714A27201B4725004DD6EB /* LineChartView.m */,
+			);
+			name = LineChart;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,6 +198,7 @@
 				776FC19F2011F04100CDF3E6 /* main.m in Sources */,
 				776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */,
 				776FC1A72011F08200CDF3E6 /* RootTableViewController.m in Sources */,
+				77714A28201B4725004DD6EB /* LineChartView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
