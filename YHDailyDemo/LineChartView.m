@@ -23,8 +23,15 @@ static const float minItemWidth = 20;
 @property (nonatomic, assign) NSUInteger beginIndex;
 @property (nonatomic, assign) NSUInteger endIndex;
 @property (nonatomic, assign) CGFloat itemW;
+@property (nonatomic, assign) CGFloat itemH;
 @property (nonatomic, assign) CGFloat maxYValue;
 @property (nonatomic, assign) CGFloat minYValue;
+
+@property (nonatomic, assign) NSUInteger yPostiveSegmentNum;
+@property (nonatomic, assign) NSUInteger yNegativeSegmentNum;
+
+@property (nonatomic, assign) CGFloat yItemUnitH;
+@property (nonatomic, assign) CGFloat xItemUnitW;
 @end
 
 @implementation LineChartView
@@ -34,6 +41,7 @@ static const float minItemWidth = 20;
     
     [self addGestureScroll];
     [self findMaxAndMinValue:_beginIndex rightIndex:_endIndex];
+    [self calculateYAxisSegment];
     
 }
 
@@ -64,9 +72,6 @@ static const float minItemWidth = 20;
     }
 }
 
-- (void)findMaxAndMinYValue {
-    
-}
 - (void)findMaxAndMinValue:(NSUInteger)leftIndex rightIndex:(NSUInteger)rightIndex {
     if (leftIndex == rightIndex) {
         self.minYValue = MIN([self.yValueArray[leftIndex] floatValue], self.minYValue);
@@ -86,6 +91,49 @@ static const float minItemWidth = 20;
     NSUInteger mid = (leftIndex + rightIndex)/2;
     [self findMaxAndMinValue:leftIndex rightIndex:mid];
     [self findMaxAndMinValue:mid + 1 rightIndex:rightIndex];
+}
+
+- (void)calculateYAxisSegment {
+    if (self.minYValue >= 0) {
+        self.yPostiveSegmentNum = 4;
+        self.yNegativeSegmentNum = 0;
+        self.itemH = ceil(self.maxYValue/self.yPostiveSegmentNum);
+        self.yItemUnitH = LineChartHeight/(self.itemH * self.yPostiveSegmentNum);
+    } else if (self.maxYValue < 0) {
+        self.yPostiveSegmentNum = 0;
+        self.yNegativeSegmentNum = 4;
+        self.itemH = ceil(fabs(self.minYValue)/self.yNegativeSegmentNum);
+        self.yItemUnitH = LineChartHeight/(self.itemH * self.yNegativeSegmentNum);
+    } else if (self.maxYValue >= fabs(self.minYValue)) {
+        self.yPostiveSegmentNum = 4;
+        self.itemH = ceil(self.maxYValue/self.yPostiveSegmentNum);
+        self.yNegativeSegmentNum = ceil(fabs(self.minYValue)/self.itemH);
+        self.yItemUnitH = LineChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
+    } else {
+        self.yNegativeSegmentNum = 4;
+        self.itemH = ceil(fabs(self.minYValue)/self.yNegativeSegmentNum);
+        self.yPostiveSegmentNum = ceil(self.maxYValue/self.itemH);
+        self.yItemUnitH = LineChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
+    }
+}
+
+- (void)drawYValuePoint {
+    CAShapeLayer *yValueLayer = [CAShapeLayer layer];
+    UIBezierPath *yValueBezier = [UIBezierPath bezierPath];
+    
+    for (NSUInteger i=self.beginIndex; i<self.endIndex+1; i++) {
+        CGFloat yPoint = [self.yValueArray[i] floatValue] * _yItemUnitH;
+        CGPoint p = CGPointMake((i+1)*self.itemW, yPoint);
+        if (i == self.beginIndex) {
+            [yValueBezier moveToPoint:p];
+        } else {
+            [yValueBezier addLineToPoint:p];
+        }
+    }
+    yValueLayer.path = yValueBezier.CGPath;
+    yValueLayer.backgroundColor = [UIColor blueColor].CGColor;
+    yValueLayer.lineWidth = 0.5;
+    
 }
 - (void)redraw {
     
