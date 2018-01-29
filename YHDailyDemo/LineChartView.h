@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface LineChartView : UIView
+@property (nonatomic, assign) BOOL showXAxisDashLine;
+@property (nonatomic, assign) BOOL showYAxisDashLine;
 
 @end

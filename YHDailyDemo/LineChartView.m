@@ -251,11 +251,25 @@ static const float YTextWidth = 45;
         [xScaleBezier addLineToPoint:CGPointMake(LeftEdge + self.zoomedItemW*(i+1) - offsetX, self.bounds.size.height-BottomEdge+5)];
     }
     xScaleLayer.path = xScaleBezier.CGPath;
-    xScaleLayer.backgroundColor = [UIColor blueColor].CGColor;
     xScaleLayer.lineWidth = 1;
     xScaleLayer.strokeColor = [UIColor blackColor].CGColor;
     xScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:xScaleLayer];
+    
+    if (_showXAxisDashLine) {
+        CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
+        UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
+        for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
+            [dashLineBezier moveToPoint:CGPointMake(LeftEdge + self.zoomedItemW*(i+1) - offsetX, self.bounds.size.height-BottomEdge-1)];
+            [dashLineBezier addLineToPoint:CGPointMake(LeftEdge + self.zoomedItemW*(i+1) - offsetX, TopEdge)];
+        }
+        dashLineLayer.path = dashLineBezier.CGPath;
+        [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
+        dashLineLayer.lineWidth = 1;
+        dashLineLayer.strokeColor = [UIColor blackColor].CGColor;
+        dashLineLayer.fillColor = [UIColor clearColor].CGColor;
+        [self.containerView.layer addSublayer:dashLineLayer];
+    }
 }
 - (void)addYAxisLayer {
     for (NSInteger i=-1*_yNegativeSegmentNum; i<=_yPostiveSegmentNum+1; i++) {
@@ -280,6 +294,21 @@ static const float YTextWidth = 45;
     yScaleLayer.strokeColor = [UIColor blackColor].CGColor;
     yScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:yScaleLayer];
+    
+    if (_showYAxisDashLine) {
+        CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
+        UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
+        for (NSUInteger i=0; i<=_yNegativeSegmentNum+_yPostiveSegmentNum; i++) {
+            [dashLineBezier moveToPoint:CGPointMake(LeftEdge+1, TopEdge+i*self.yAxisUnitH)];
+            [dashLineBezier addLineToPoint:CGPointMake(self.bounds.size.width, TopEdge+i*self.yAxisUnitH)];
+        }
+        dashLineLayer.path = dashLineBezier.CGPath;
+        [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
+        dashLineLayer.lineWidth = 1;
+        dashLineLayer.strokeColor = [UIColor blackColor].CGColor;
+        dashLineLayer.fillColor = [UIColor clearColor].CGColor;
+        [self.containerView.layer addSublayer:dashLineLayer];
+    }
 }
 - (CATextLayer *)getTextLayerWithString:(NSString *)text
                               textColor:(UIColor *)textColor
