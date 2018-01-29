@@ -18,6 +18,7 @@
 		776FC1AD2011F69600CDF3E6 /* CoreGraphicDrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1AC2011F69600CDF3E6 /* CoreGraphicDrawView.m */; };
 		776FC1B02012204400CDF3E6 /* CoreAnimationDrawView.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1AF2012204400CDF3E6 /* CoreAnimationDrawView.m */; };
 		77714A28201B4725004DD6EB /* LineChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A27201B4725004DD6EB /* LineChartView.m */; };
+		77714A2B201EB312004DD6EB /* LineChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A2A201EB312004DD6EB /* LineChartViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,8 @@
 		776FC1AF2012204400CDF3E6 /* CoreAnimationDrawView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreAnimationDrawView.m; sourceTree = "<group>"; };
 		77714A26201B4725004DD6EB /* LineChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineChartView.h; sourceTree = "<group>"; };
 		77714A27201B4725004DD6EB /* LineChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LineChartView.m; sourceTree = "<group>"; };
+		77714A29201EB312004DD6EB /* LineChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LineChartViewController.h; sourceTree = "<group>"; };
+		77714A2A201EB312004DD6EB /* LineChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LineChartViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +119,8 @@
 			children = (
 				77714A26201B4725004DD6EB /* LineChartView.h */,
 				77714A27201B4725004DD6EB /* LineChartView.m */,
+				77714A29201EB312004DD6EB /* LineChartViewController.h */,
+				77714A2A201EB312004DD6EB /* LineChartViewController.m */,
 			);
 			name = LineChart;
 			sourceTree = "<group>";
@@ -193,6 +198,7 @@
 			files = (
 				776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */,
 				776FC1AA2011F53000CDF3E6 /* DrawViewController.m in Sources */,
+				77714A2B201EB312004DD6EB /* LineChartViewController.m in Sources */,
 				776FC1AD2011F69600CDF3E6 /* CoreGraphicDrawView.m in Sources */,
 				776FC1B02012204400CDF3E6 /* CoreAnimationDrawView.m in Sources */,
 				776FC19F2011F04100CDF3E6 /* main.m in Sources */,

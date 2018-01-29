@@ -32,35 +32,50 @@ static const float minItemWidth = 20;
 
 @property (nonatomic, assign) CGFloat yItemUnitH;
 @property (nonatomic, assign) CGFloat xItemUnitW;
+
+@property (nonatomic, strong) UIView *containerView;
 @end
 
 @implementation LineChartView
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
     [self addGestureScroll];
-    [self findMaxAndMinValue:_beginIndex rightIndex:_endIndex];
-    [self calculateYAxisSegment];
-    
+    self.gestureScroll.contentSize = CGSizeMake(self.yValueArray.count*self.itemW, LineChartHeight);
+    if (!_containerView) {
+        [self redraw];
+    }
 }
 
 - (void)addGestureScroll {
     if (!_gestureScroll) {
-        UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:self.bounds];
+        UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, LineChartWidth, LineChartHeight)];
         scroll.showsVerticalScrollIndicator = NO;
         scroll.showsHorizontalScrollIndicator = NO;
         scroll.minimumZoomScale = 1.0;
         scroll.maximumZoomScale = 1.0;
         scroll.bounces = NO;
         scroll.delegate = self;
-        scroll.backgroundColor = [UIColor blueColor];
+        scroll.backgroundColor = [UIColor clearColor];
         _gestureScroll = scroll;
         [self addSubview:scroll];
     }
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self redraw];
+}
+
+- (void)redraw {
+    [_containerView removeFromSuperview];
+    _containerView = nil;
+    _containerView = [[UIView alloc] initWithFrame:self.bounds];
+    _containerView.backgroundColor = [UIColor whiteColor];
     
+    [self insertSubview:_containerView belowSubview:_gestureScroll];
+    [self findBeginAndEndIndex];
+    [self findMaxAndMinValue:_beginIndex rightIndex:_endIndex];
+    [self calculateYAxisSegment];
+    [self drawYValuePoint];
 }
 
 - (void)findBeginAndEndIndex {
@@ -73,6 +88,9 @@ static const float minItemWidth = 20;
 }
 
 - (void)findMaxAndMinValue:(NSUInteger)leftIndex rightIndex:(NSUInteger)rightIndex {
+    if (leftIndex > rightIndex) {
+        leftIndex = rightIndex;
+    }
     if (leftIndex == rightIndex) {
         self.minYValue = MIN([self.yValueArray[leftIndex] floatValue], self.minYValue);
         self.maxYValue = MAX([self.yValueArray[leftIndex] floatValue], self.maxYValue);
@@ -120,10 +138,10 @@ static const float minItemWidth = 20;
 - (void)drawYValuePoint {
     CAShapeLayer *yValueLayer = [CAShapeLayer layer];
     UIBezierPath *yValueBezier = [UIBezierPath bezierPath];
-    
+    CGFloat offsetX = self.gestureScroll.contentOffset.x;
     for (NSUInteger i=self.beginIndex; i<self.endIndex+1; i++) {
-        CGFloat yPoint = [self.yValueArray[i] floatValue] * _yItemUnitH;
-        CGPoint p = CGPointMake((i+1)*self.itemW, yPoint);
+        CGFloat yPoint = self.containerView.frame.size.height - [self.yValueArray[i] floatValue] * _yItemUnitH - TopEdge;
+        CGPoint p = CGPointMake((i+1)*self.itemW-offsetX+LeftEdge, yPoint);
         if (i == self.beginIndex) {
             [yValueBezier moveToPoint:p];
         } else {
@@ -133,21 +151,20 @@ static const float minItemWidth = 20;
     yValueLayer.path = yValueBezier.CGPath;
     yValueLayer.backgroundColor = [UIColor blueColor].CGColor;
     yValueLayer.lineWidth = 0.5;
-    
-}
-- (void)redraw {
-    
+    yValueLayer.strokeColor = [UIColor blackColor].CGColor;
+    yValueLayer.fillColor = [UIColor clearColor].CGColor;
+    [self.containerView.layer addSublayer:yValueLayer];
 }
 
 - (NSMutableArray *)xAxisArray {
     if (!_xAxisArray) {
-        _xAxisArray = [NSMutableArray arrayWithObjects:@"Mon",@"",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun", nil];
+        _xAxisArray = [NSMutableArray arrayWithObjects:@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun", nil];
     }
     return _xAxisArray;
 }
 - (NSMutableArray *)yValueArray {
     if (!_yValueArray) {
-        _yValueArray = [NSMutableArray arrayWithObjects:@50,@20,@70,@30,@11,@59,@199, nil];
+        _yValueArray = [NSMutableArray arrayWithObjects:@50,@20,@70,@30,@11,@59,@399,@50,@20,@70,@30,@11,@59,@199,@50,@20,@70,@30,@11,@59,@199,@50,@20,@70,@30,@11,@59,@199, nil];
     }
     return _yValueArray;
 }
