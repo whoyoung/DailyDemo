@@ -73,10 +73,13 @@ static const float minItemWidth = 20;
     
     [self insertSubview:_containerView belowSubview:_gestureScroll];
     [self findBeginAndEndIndex];
+    self.minYValue = [self.yValueArray[_beginIndex] floatValue];
+    self.maxYValue = self.minYValue;
     [self findMaxAndMinValue:_beginIndex rightIndex:_endIndex];
     [self calculateYAxisSegment];
     [self drawYValuePoint];
     [self addXAxisLayer];
+    [self addYAxisLayer];
 }
 
 - (void)findBeginAndEndIndex {
@@ -141,7 +144,7 @@ static const float minItemWidth = 20;
     UIBezierPath *yValueBezier = [UIBezierPath bezierPath];
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
     for (NSUInteger i=self.beginIndex; i<self.endIndex+1; i++) {
-        CGFloat yPoint = self.containerView.frame.size.height - [self.yValueArray[i] floatValue] * _yItemUnitH - TopEdge;
+        CGFloat yPoint = self.containerView.frame.size.height - [self.yValueArray[i] floatValue] * _yItemUnitH - BottomEdge;
         CGPoint p = CGPointMake((i+1)*self.itemW-offsetX+LeftEdge, yPoint);
         if (i == self.beginIndex) {
             [yValueBezier moveToPoint:p];
@@ -165,7 +168,13 @@ static const float minItemWidth = 20;
         [self.containerView.layer addSublayer:text];
     }
 }
-
+- (void)addYAxisLayer {
+    for (NSInteger i=-1*_yNegativeSegmentNum; i<=_yPostiveSegmentNum+1; i++) {
+        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-(_yNegativeSegmentNum+i)*self.yAxisUnitH, LeftEdge, BottomEdge);
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%f",i*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        [self.containerView.layer addSublayer:text];
+    }
+}
 - (CATextLayer *)getTextLayerWithString:(NSString *)text
                               textColor:(UIColor *)textColor
                                fontSize:(NSInteger)fontSize
@@ -186,13 +195,13 @@ static const float minItemWidth = 20;
 
 - (NSMutableArray *)xAxisArray {
     if (!_xAxisArray) {
-        _xAxisArray = [NSMutableArray arrayWithObjects:@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun", nil];
+        _xAxisArray = [NSMutableArray arrayWithObjects:@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun", nil];
     }
     return _xAxisArray;
 }
 - (NSMutableArray *)yValueArray {
     if (!_yValueArray) {
-        _yValueArray = [NSMutableArray arrayWithObjects:@50,@20,@70,@30,@11,@59,@399,@50,@20,@70,@30,@11,@59,@199,@50,@20,@70,@30,@11,@59,@199,@50,@20,@70,@30,@11,@59,@199, nil];
+        _yValueArray = [NSMutableArray arrayWithObjects:@50,@20,@70,@30,@11,@59,@399,@50,@20,@70,@30,@11,@59,@299,@50,@20,@70,@30,@11,@59,@199,@50,@20,@70,@30,@11,@59,@99,@50,@20,@70,@30,@11,@59,@399,@50,@20,@70,@30,@11,@59,@299,@50,@20,@70,@30,@11,@59,@199,@50,@20,@70,@30,@11,@59,@99, nil];
     }
     return _yValueArray;
 }
@@ -201,5 +210,8 @@ static const float minItemWidth = 20;
         _itemW = LineChartWidth/self.yValueArray.count > minItemWidth ? (LineChartWidth/self.yValueArray.count) : minItemWidth;
     }
     return _itemW;
+}
+- (CGFloat)yAxisUnitH {
+    return LineChartHeight/(_yNegativeSegmentNum + _yPostiveSegmentNum);
 }
 @end

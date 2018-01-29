@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    LineChartView *chartView = [[LineChartView alloc] initWithFrame:self.view.bounds];
+    LineChartView *chartView = [[LineChartView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64)];
     [self.view addSubview:chartView];
 }
 
