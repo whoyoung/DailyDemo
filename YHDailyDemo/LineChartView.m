@@ -11,6 +11,9 @@ static const float LeftEdge = 50;
 static const float RightEdge = 10;
 static const float BottomEdge = 20;
 static const float minItemWidth = 20;
+static const float XTextHeight = 15;
+static const float YTextWidth = 45;
+
 #define LineChartWidth (self.bounds.size.width-LeftEdge-RightEdge)
 #define LineChartHeight (self.bounds.size.height-TopEdge-BottomEdge)
 
@@ -81,6 +84,7 @@ static const float minItemWidth = 20;
     [self addXAxisLayer];
     [self addXScaleLayer];
     [self addYAxisLayer];
+    [self addYScaleLayer];
 }
 
 - (void)findBeginAndEndIndex {
@@ -164,7 +168,7 @@ static const float minItemWidth = 20;
 - (void)addXAxisLayer {
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
     for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
-        CGRect textFrame = CGRectMake(LeftEdge+_itemW/2.0 + _itemW*i - offsetX, self.bounds.size.height-BottomEdge, _itemW, BottomEdge);
+        CGRect textFrame = CGRectMake(LeftEdge+_itemW/2.0 + _itemW*i - offsetX, self.bounds.size.height-XTextHeight, _itemW, XTextHeight);
         CATextLayer *text = [self getTextLayerWithString:self.xAxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
         [self.containerView.layer addSublayer:text];
     }
@@ -189,10 +193,27 @@ static const float minItemWidth = 20;
 }
 - (void)addYAxisLayer {
     for (NSInteger i=-1*_yNegativeSegmentNum; i<=_yPostiveSegmentNum+1; i++) {
-        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-(_yNegativeSegmentNum+i)*self.yAxisUnitH, LeftEdge, BottomEdge);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%f",i*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-(_yNegativeSegmentNum+i)*self.yAxisUnitH, YTextWidth, BottomEdge);
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%.2f",i*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
         [self.containerView.layer addSublayer:text];
     }
+}
+- (void)addYScaleLayer {
+    CAShapeLayer *yScaleLayer = [CAShapeLayer layer];
+    UIBezierPath *yScaleBezier = [UIBezierPath bezierPath];
+    [yScaleBezier moveToPoint:CGPointMake(LeftEdge+1, TopEdge)];
+    [yScaleBezier addLineToPoint:CGPointMake(LeftEdge+1, self.bounds.size.height-BottomEdge)];
+    
+    for (NSUInteger i=0; i<=_yNegativeSegmentNum+_yPostiveSegmentNum+1; i++) {
+        [yScaleBezier moveToPoint:CGPointMake(LeftEdge-5, TopEdge+i*self.yAxisUnitH)];
+        [yScaleBezier addLineToPoint:CGPointMake(LeftEdge+1, TopEdge+i*self.yAxisUnitH)];
+    }
+    yScaleLayer.path = yScaleBezier.CGPath;
+    yScaleLayer.backgroundColor = [UIColor blueColor].CGColor;
+    yScaleLayer.lineWidth = 1;
+    yScaleLayer.strokeColor = [UIColor blackColor].CGColor;
+    yScaleLayer.fillColor = [UIColor clearColor].CGColor;
+    [self.containerView.layer addSublayer:yScaleLayer];
 }
 - (CATextLayer *)getTextLayerWithString:(NSString *)text
                               textColor:(UIColor *)textColor
