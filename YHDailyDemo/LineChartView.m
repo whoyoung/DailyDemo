@@ -21,7 +21,6 @@ static const float YTextWidth = 45;
 @interface LineChartView()<UIScrollViewDelegate>
 @property (nonatomic, weak) UIScrollView *gestureScroll;
 @property (nonatomic, strong) NSMutableArray *xAxisArray;
-@property (nonatomic, strong) NSMutableArray *yValueArray;
 
 @property (nonatomic, assign) NSInteger beginIndex;
 @property (nonatomic, assign) NSInteger endIndex;
@@ -43,6 +42,8 @@ static const float YTextWidth = 45;
 @property (nonatomic, assign) CGFloat pinCenterToLeftDistance;
 @property (nonatomic, assign) CGFloat pinCenterRatio;
 @property (nonatomic, assign) CGFloat zoomedItemW;
+@property (nonatomic, strong) NSArray *yValues;
+@property (nonatomic, strong) NSArray *lineColors;
 @end
 
 @implementation LineChartView
@@ -50,7 +51,7 @@ static const float YTextWidth = 45;
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self addGestureScroll];
-    self.gestureScroll.contentSize = CGSizeMake(self.yValueArray.count*self.zoomedItemW, LineChartHeight);
+    self.gestureScroll.contentSize = CGSizeMake([self.yValues[0] count]*self.zoomedItemW, LineChartHeight);
     if (!_containerView) {
         [self redraw];
     }
@@ -86,13 +87,17 @@ static const float YTextWidth = 45;
         }
             break;
         case UIGestureRecognizerStateChanged: {
-            _newPinScale = pinGesture.scale;
+            if (pinGesture.scale < 1 && [self.yValues[0] count]*self.zoomedItemW <= LineChartWidth) {
+                _newPinScale = LineChartWidth/([self.yValues[0] count]*self.itemW*_oldPinScale);
+            } else {
+                _newPinScale = pinGesture.scale;
+            }
             [self adjustScroll];
             [self redraw];
         }
             break;
         case UIGestureRecognizerStateEnded: {
-            _oldPinScale *= pinGesture.scale;
+            _oldPinScale *= _newPinScale;
         }
             break;
             
@@ -101,7 +106,7 @@ static const float YTextWidth = 45;
     }
 }
 - (void)adjustScroll {
-    self.gestureScroll.contentSize = CGSizeMake(self.yValueArray.count*self.zoomedItemW, LineChartHeight);
+    self.gestureScroll.contentSize = CGSizeMake([self.yValues[0] count]*self.zoomedItemW, LineChartHeight);
     CGFloat offsetX = self.gestureScroll.contentSize.width * self.pinCenterRatio - self.pinCenterToLeftDistance;
     if (offsetX < 0) {
         offsetX = 0;
@@ -123,9 +128,9 @@ static const float YTextWidth = 45;
     
     [self insertSubview:_containerView belowSubview:_gestureScroll];
     [self findBeginAndEndIndex];
-    self.minYValue = [self.yValueArray[_beginIndex] floatValue];
+    self.minYValue = [self.yValues[0][_beginIndex] floatValue];
     self.maxYValue = self.minYValue;
-    [self findMaxAndMinValue:_beginIndex rightIndex:_endIndex];
+    [self campareMaxAndMinValue:_beginIndex rightIndex:_endIndex];
     [self calculateYAxisSegment];
     [self drawYValuePoint];
     [self addXAxisLayer];
@@ -141,36 +146,41 @@ static const float YTextWidth = 45;
     if (self.beginIndex < 0) {
         self.beginIndex = 0;
     }
-    if (self.endIndex > self.yValueArray.count - 1) {
-        self.endIndex = self.yValueArray.count - 1;
+    if (self.endIndex > [self.yValues[0] count] - 1) {
+        self.endIndex = [self.yValues[0] count] - 1;
     }
     if (self.beginIndex > self.endIndex) {
         self.beginIndex = self.endIndex;
     }
 }
 
-- (void)findMaxAndMinValue:(NSUInteger)leftIndex rightIndex:(NSUInteger)rightIndex {
+- (void)campareMaxAndMinValue:(NSUInteger)leftIndex rightIndex:(NSUInteger)rightIndex {
+    for (NSArray *values in self.yValues) {
+        [self findMaxAndMinValue:leftIndex rightIndex:rightIndex compareA:values];
+    }
+}
+- (void)findMaxAndMinValue:(NSUInteger)leftIndex rightIndex:(NSUInteger)rightIndex compareA:(NSArray *)compareA {
     if (leftIndex > rightIndex) {
         leftIndex = rightIndex;
     }
     if (leftIndex == rightIndex) {
-        self.minYValue = MIN([self.yValueArray[leftIndex] floatValue], self.minYValue);
-        self.maxYValue = MAX([self.yValueArray[leftIndex] floatValue], self.maxYValue);
+        self.minYValue = MIN([compareA[leftIndex] floatValue], self.minYValue);
+        self.maxYValue = MAX([compareA[leftIndex] floatValue], self.maxYValue);
         return;
     } else if(leftIndex == rightIndex-1) {
-        if ([self.yValueArray[leftIndex] floatValue] < [self.yValueArray[rightIndex] floatValue]) {
-            self.minYValue = MIN([self.yValueArray[leftIndex] floatValue], self.minYValue);
-            self.maxYValue = MAX([self.yValueArray[rightIndex] floatValue], self.maxYValue);
+        if ([compareA[leftIndex] floatValue] < [compareA[rightIndex] floatValue]) {
+            self.minYValue = MIN([compareA[leftIndex] floatValue], self.minYValue);
+            self.maxYValue = MAX([compareA[rightIndex] floatValue], self.maxYValue);
             return;
         } else {
-            self.minYValue = MIN([self.yValueArray[rightIndex] floatValue], self.minYValue);
-            self.maxYValue = MAX([self.yValueArray[leftIndex] floatValue], self.maxYValue);
+            self.minYValue = MIN([compareA[rightIndex] floatValue], self.minYValue);
+            self.maxYValue = MAX([compareA[leftIndex] floatValue], self.maxYValue);
             return;
         }
     }
     NSUInteger mid = (leftIndex + rightIndex)/2;
-    [self findMaxAndMinValue:leftIndex rightIndex:mid];
-    [self findMaxAndMinValue:mid + 1 rightIndex:rightIndex];
+    [self findMaxAndMinValue:leftIndex rightIndex:mid compareA:compareA];
+    [self findMaxAndMinValue:mid + 1 rightIndex:rightIndex compareA:compareA];
 }
 
 - (void)calculateYAxisSegment {
@@ -198,24 +208,27 @@ static const float YTextWidth = 45;
 }
 
 - (void)drawYValuePoint {
-    CAShapeLayer *yValueLayer = [CAShapeLayer layer];
-    UIBezierPath *yValueBezier = [UIBezierPath bezierPath];
-    CGFloat offsetX = self.gestureScroll.contentOffset.x;
-    for (NSUInteger i=self.beginIndex; i<self.endIndex+1; i++) {
-        CGFloat yPoint = self.containerView.frame.size.height - [self.yValueArray[i] floatValue] * _yItemUnitH - BottomEdge;
-        CGPoint p = CGPointMake((i+1)*self.zoomedItemW-offsetX+LeftEdge, yPoint);
-        if (i == self.beginIndex) {
-            [yValueBezier moveToPoint:p];
-        } else {
-            [yValueBezier addLineToPoint:p];
+    for (NSUInteger i=0;i<self.yValues.count;i++) {
+        NSArray *values = self.yValues[i];
+        CAShapeLayer *yValueLayer = [CAShapeLayer layer];
+        UIBezierPath *yValueBezier = [UIBezierPath bezierPath];
+        CGFloat offsetX = self.gestureScroll.contentOffset.x;
+        for (NSUInteger i=self.beginIndex; i<self.endIndex+1; i++) {
+            CGFloat yPoint = self.containerView.frame.size.height - [values[i] floatValue] * _yItemUnitH - BottomEdge;
+            CGPoint p = CGPointMake((i+1)*self.zoomedItemW-offsetX+LeftEdge, yPoint);
+            if (i == self.beginIndex) {
+                [yValueBezier moveToPoint:p];
+            } else {
+                [yValueBezier addLineToPoint:p];
+            }
         }
+        yValueLayer.path = yValueBezier.CGPath;
+        yValueLayer.lineWidth = 1;
+        yValueLayer.strokeColor = [self.lineColors[i] CGColor];
+        yValueLayer.fillColor = [UIColor clearColor].CGColor;
+        [self.containerView.layer addSublayer:yValueLayer];
     }
-    yValueLayer.path = yValueBezier.CGPath;
-    yValueLayer.backgroundColor = [UIColor blueColor].CGColor;
-    yValueLayer.lineWidth = 0.5;
-    yValueLayer.strokeColor = [UIColor blackColor].CGColor;
-    yValueLayer.fillColor = [UIColor clearColor].CGColor;
-    [self.containerView.layer addSublayer:yValueLayer];
+    
 }
 
 - (void)addXAxisLayer {
@@ -292,15 +305,20 @@ static const float YTextWidth = 45;
     }
     return _xAxisArray;
 }
-- (NSMutableArray *)yValueArray {
-    if (!_yValueArray) {
-        _yValueArray = [NSMutableArray arrayWithObjects:@50,@20,@70,@30,@11,@59,@399,@50,@20,@70,@30,@11,@59,@299,@50,@20,@70,@30,@11,@59,@199,@50,@20,@70,@30,@11,@59,@99,@50,@20,@70,@30,@11,@59,@399,@50,@20,@70,@30,@11,@59,@299,@50,@20,@70,@30,@11,@59,@199,@50,@20,@70,@30,@11,@59,@99, nil];
+
+- (NSArray *)yValues {
+    if (!_yValues) {
+        _yValues = @[
+  @[@50,@20,@70,@30,@11,@59,@399,@50,@20,@70,@30,@11,@59,@299,@50,@20,@70,@30,@11,@59,@199,@50,@20,@70,@30,@11,@59,@99,@50,@20,@70,@30,@11,@59,@399,@50,@20,@70,@30,@11,@59,@299,@50,@20,@70,@30,@11,@59,@199,@50,@20,@70,@30,@11,@59,@99],
+  @[@144,@50,@25,@170,@50,@20,@80,@99,@50,@20,@70,@30,@11,@59,@30,@20,@70,@30,@11,@59,@39,@50,@20,@70,@30,@11,@59,@9,@30,@11,@59,@219,@50,@20,@70,@30,@11,@59,@19,@50,@20,@11,@49,@99,@50,@70,@30,@11,@59,@29,@50,@20,@70,@40,@11,@59],
+  @[@33,@80,@110,@44,@20,@177,@150,@80,@250,@10,@69,@110,@90,@569,@3,@220,@75,@399,@122,@59,@39,@50,@29,@170,@30,@11,@59,@9,@30,@11,@59,@219,@50,@550,@70,@30,@141,@59,@69,@50,@30,@11,@19,@93,@20,@550,@50,@71,@569,@29,@20,@10,@70,@410,@101,@589]
+                     ];
     }
-    return _yValueArray;
+    return _yValues;
 }
 - (CGFloat)itemW {
     if (_itemW == 0) {
-        _itemW = LineChartWidth/self.yValueArray.count > minItemWidth ? (LineChartWidth/self.yValueArray.count) : minItemWidth;
+        _itemW = LineChartWidth/[self.yValues[0] count] > minItemWidth ? (LineChartWidth/[self.yValues[0] count]) : minItemWidth;
     }
     return _itemW;
 }
@@ -321,5 +339,16 @@ static const float YTextWidth = 45;
         _newPinScale = 1.0;
     }
     return _newPinScale;
+}
+- (NSArray *)lineColors {
+    if (!_lineColors) {
+        NSMutableArray *colors = [NSMutableArray arrayWithCapacity:self.yValues.count];
+        for (NSUInteger i=0; i<self.yValues.count; i++) {
+            UIColor *color = [UIColor colorWithRed:arc4random_uniform(256)/255.0 green:arc4random_uniform(256)/255.0 blue:arc4random_uniform(256)/255.0 alpha:1];
+            [colors addObject:color];
+        }
+        _lineColors = [colors copy];
+    }
+    return _lineColors;
 }
 @end
