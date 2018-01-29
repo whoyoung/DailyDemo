@@ -213,8 +213,9 @@ static const float YTextWidth = 45;
         CAShapeLayer *yValueLayer = [CAShapeLayer layer];
         UIBezierPath *yValueBezier = [UIBezierPath bezierPath];
         CGFloat offsetX = self.gestureScroll.contentOffset.x;
+        CGFloat zeroY = TopEdge + _yPostiveSegmentNum * self.yAxisUnitH;
         for (NSUInteger i=self.beginIndex; i<self.endIndex+1; i++) {
-            CGFloat yPoint = self.containerView.frame.size.height - [values[i] floatValue] * _yItemUnitH - BottomEdge;
+            CGFloat yPoint = zeroY - [values[i] floatValue] * _yItemUnitH;
             CGPoint p = CGPointMake((i+1)*self.zoomedItemW-offsetX+LeftEdge, yPoint);
             if (i == self.beginIndex) {
                 [yValueBezier moveToPoint:p];
