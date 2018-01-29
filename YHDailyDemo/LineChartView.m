@@ -76,6 +76,7 @@ static const float minItemWidth = 20;
     [self findMaxAndMinValue:_beginIndex rightIndex:_endIndex];
     [self calculateYAxisSegment];
     [self drawYValuePoint];
+    [self addXAxisLayer];
 }
 
 - (void)findBeginAndEndIndex {
@@ -154,6 +155,33 @@ static const float minItemWidth = 20;
     yValueLayer.strokeColor = [UIColor blackColor].CGColor;
     yValueLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:yValueLayer];
+}
+
+- (void)addXAxisLayer {
+    CGFloat offsetX = self.gestureScroll.contentOffset.x;
+    for (NSUInteger i=_beginIndex; i<_endIndex; i++) {
+        CGRect textFrame = CGRectMake(LeftEdge+_itemW/2.0 + _itemW*i - offsetX, self.bounds.size.height-BottomEdge, _itemW, BottomEdge);
+        CATextLayer *text = [self getTextLayerWithString:self.xAxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        [self.containerView.layer addSublayer:text];
+    }
+}
+
+- (CATextLayer *)getTextLayerWithString:(NSString *)text
+                              textColor:(UIColor *)textColor
+                               fontSize:(NSInteger)fontSize
+                        backgroundColor:(UIColor *)bgColor
+                                  frame:(CGRect)frame {
+    CATextLayer *textLayer = [CATextLayer layer];
+    textLayer.frame = frame;
+    textLayer.string = text;
+    textLayer.fontSize = fontSize;
+    textLayer.foregroundColor = textColor.CGColor;
+    textLayer.backgroundColor = bgColor.CGColor;
+    textLayer.alignmentMode = kCAAlignmentCenter;
+    textLayer.wrapped = YES;
+    //设置分辨率
+    textLayer.contentsScale = [UIScreen mainScreen].scale;
+    return textLayer;
 }
 
 - (NSMutableArray *)xAxisArray {
