@@ -272,7 +272,12 @@ static const float YTextWidth = 45;
     }
 }
 - (void)addYAxisLayer {
-    for (NSInteger i=-1*_yNegativeSegmentNum; i<=_yPostiveSegmentNum+1; i++) {
+    for (NSUInteger i=0; i<_yNegativeSegmentNum; i++) {
+        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-i*self.yAxisUnitH, YTextWidth, BottomEdge);
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%.2f",(_yNegativeSegmentNum-i)*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        [self.containerView.layer addSublayer:text];
+    }
+    for (NSInteger i=0; i<=_yPostiveSegmentNum+1; i++) {
         CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-(_yNegativeSegmentNum+i)*self.yAxisUnitH, YTextWidth, BottomEdge);
         CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%.2f",i*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
         [self.containerView.layer addSublayer:text];
@@ -338,9 +343,9 @@ static const float YTextWidth = 45;
 - (NSArray *)yValues {
     if (!_yValues) {
         _yValues = @[
-  @[@50,@20,@70,@30,@11,@59,@399,@50,@20,@70,@30,@11,@59,@299,@50,@20,@70,@30,@11,@59,@199,@50,@20,@70,@30,@11,@59,@99,@50,@20,@70,@30,@11,@59,@399,@50,@20,@70,@30,@11,@59,@299,@50,@20,@70,@30,@11,@59,@199,@50,@20,@70,@30,@11,@59,@99],
-  @[@144,@50,@25,@170,@50,@20,@80,@99,@50,@20,@70,@30,@11,@59,@30,@20,@70,@30,@11,@59,@39,@50,@20,@70,@30,@11,@59,@9,@30,@11,@59,@219,@50,@20,@70,@30,@11,@59,@19,@50,@20,@11,@49,@99,@50,@70,@30,@11,@59,@29,@50,@20,@70,@40,@11,@59],
-  @[@33,@80,@110,@44,@20,@177,@150,@80,@250,@10,@69,@110,@90,@569,@3,@220,@75,@399,@122,@59,@39,@50,@29,@170,@30,@11,@59,@9,@30,@11,@59,@219,@50,@550,@70,@30,@141,@59,@69,@50,@30,@11,@19,@93,@20,@550,@50,@71,@569,@29,@20,@10,@70,@410,@101,@589]
+  @[@50,@20,@70,@30,@-11,@59,@399,@50,@20,@70,@30,@11,@59,@299,@50,@20,@70,@30,@11,@59,@199,@50,@20,@70,@30,@11,@59,@-99,@50,@20,@70,@30,@11,@59,@399,@50,@20,@70,@30,@11,@59,@299,@50,@20,@70,@30,@11,@59,@199,@50,@20,@70,@30,@11,@59,@99],
+  @[@144,@50,@25,@170,@50,@20,@80,@99,@50,@20,@70,@30,@11,@59,@30,@20,@70,@30,@11,@59,@39,@50,@20,@70,@30,@11,@59,@-9,@30,@11,@59,@219,@50,@20,@70,@30,@11,@59,@19,@50,@20,@11,@49,@99,@50,@70,@30,@11,@59,@29,@-50,@20,@70,@40,@11,@59],
+  @[@33,@80,@110,@44,@20,@177,@150,@80,@250,@10,@69,@110,@90,@-569,@3,@220,@75,@399,@122,@59,@39,@50,@29,@170,@30,@11,@59,@9,@30,@11,@59,@219,@50,@550,@70,@30,@141,@59,@69,@50,@30,@11,@19,@93,@20,@550,@50,@71,@569,@29,@20,@10,@70,@410,@101,@589]
                      ];
     }
     return _yValues;
