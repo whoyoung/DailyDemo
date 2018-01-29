@@ -79,6 +79,7 @@ static const float minItemWidth = 20;
     [self calculateYAxisSegment];
     [self drawYValuePoint];
     [self addXAxisLayer];
+    [self addXScaleLayer];
     [self addYAxisLayer];
 }
 
@@ -162,11 +163,29 @@ static const float minItemWidth = 20;
 
 - (void)addXAxisLayer {
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
-    for (NSUInteger i=_beginIndex; i<_endIndex; i++) {
+    for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
         CGRect textFrame = CGRectMake(LeftEdge+_itemW/2.0 + _itemW*i - offsetX, self.bounds.size.height-BottomEdge, _itemW, BottomEdge);
         CATextLayer *text = [self getTextLayerWithString:self.xAxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
         [self.containerView.layer addSublayer:text];
     }
+}
+- (void)addXScaleLayer {
+    CAShapeLayer *xScaleLayer = [CAShapeLayer layer];
+    UIBezierPath *xScaleBezier = [UIBezierPath bezierPath];
+    [xScaleBezier moveToPoint:CGPointMake(LeftEdge, self.bounds.size.height-BottomEdge)];
+    [xScaleBezier addLineToPoint:CGPointMake(self.bounds.size.width, self.bounds.size.height-BottomEdge)];
+    
+    CGFloat offsetX = self.gestureScroll.contentOffset.x;
+    for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
+        [xScaleBezier moveToPoint:CGPointMake(LeftEdge + _itemW*(i+1) - offsetX, self.bounds.size.height-BottomEdge-1)];
+        [xScaleBezier addLineToPoint:CGPointMake(LeftEdge + _itemW*(i+1) - offsetX, self.bounds.size.height-BottomEdge+5)];
+    }
+    xScaleLayer.path = xScaleBezier.CGPath;
+    xScaleLayer.backgroundColor = [UIColor blueColor].CGColor;
+    xScaleLayer.lineWidth = 1;
+    xScaleLayer.strokeColor = [UIColor blackColor].CGColor;
+    xScaleLayer.fillColor = [UIColor clearColor].CGColor;
+    [self.containerView.layer addSublayer:xScaleLayer];
 }
 - (void)addYAxisLayer {
     for (NSInteger i=-1*_yNegativeSegmentNum; i<=_yPostiveSegmentNum+1; i++) {
