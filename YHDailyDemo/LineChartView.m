@@ -23,8 +23,8 @@ static const float YTextWidth = 45;
 @property (nonatomic, strong) NSMutableArray *xAxisArray;
 @property (nonatomic, strong) NSMutableArray *yValueArray;
 
-@property (nonatomic, assign) NSUInteger beginIndex;
-@property (nonatomic, assign) NSUInteger endIndex;
+@property (nonatomic, assign) NSInteger beginIndex;
+@property (nonatomic, assign) NSInteger endIndex;
 @property (nonatomic, assign) CGFloat itemW;
 @property (nonatomic, assign) CGFloat itemH;
 @property (nonatomic, assign) CGFloat maxYValue;
@@ -37,6 +37,12 @@ static const float YTextWidth = 45;
 @property (nonatomic, assign) CGFloat xItemUnitW;
 
 @property (nonatomic, strong) UIView *containerView;
+
+@property (nonatomic, assign) CGFloat oldPinScale;
+@property (nonatomic, assign) CGFloat newPinScale;
+@property (nonatomic, assign) CGFloat pinCenterToLeftDistance;
+@property (nonatomic, assign) CGFloat pinCenterRatio;
+@property (nonatomic, assign) CGFloat zoomedItemW;
 @end
 
 @implementation LineChartView
@@ -44,7 +50,7 @@ static const float YTextWidth = 45;
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self addGestureScroll];
-    self.gestureScroll.contentSize = CGSizeMake(self.yValueArray.count*self.itemW, LineChartHeight);
+    self.gestureScroll.contentSize = CGSizeMake(self.yValueArray.count*self.zoomedItemW, LineChartHeight);
     if (!_containerView) {
         [self redraw];
     }
@@ -62,12 +68,53 @@ static const float YTextWidth = 45;
         scroll.backgroundColor = [UIColor clearColor];
         _gestureScroll = scroll;
         [self addSubview:scroll];
+        
+        UIPinchGestureRecognizer *pinGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(chartDidZooming:)];
+        [_gestureScroll addGestureRecognizer:pinGesture];
     }
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [self redraw];
 }
-
+- (void)chartDidZooming:(UIPinchGestureRecognizer *)pinGesture {
+    switch (pinGesture.state) {
+        case UIGestureRecognizerStateBegan: {
+            CGPoint pinCenterContainer = [pinGesture locationInView:self.containerView];
+            _pinCenterToLeftDistance = pinCenterContainer.x - LeftEdge;
+            CGPoint pinCenterScrollView = [pinGesture locationInView:self.containerView];
+            _pinCenterRatio = pinCenterScrollView.x/self.gestureScroll.contentSize.width;
+        }
+            break;
+        case UIGestureRecognizerStateChanged: {
+            _newPinScale = pinGesture.scale;
+            [self adjustScroll];
+            [self redraw];
+        }
+            break;
+        case UIGestureRecognizerStateEnded: {
+            _oldPinScale *= pinGesture.scale;
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+- (void)adjustScroll {
+    self.gestureScroll.contentSize = CGSizeMake(self.yValueArray.count*self.zoomedItemW, LineChartHeight);
+    CGFloat offsetX = self.gestureScroll.contentSize.width * self.pinCenterRatio - self.pinCenterToLeftDistance;
+    if (offsetX < 0) {
+        offsetX = 0;
+    }
+    if (self.gestureScroll.contentSize.width > LineChartWidth) {
+        if (offsetX > self.gestureScroll.contentSize.width - LineChartWidth) {
+            offsetX = self.gestureScroll.contentSize.width - LineChartWidth;
+        }
+    } else {
+        offsetX = 0;
+    }
+    self.gestureScroll.contentOffset = CGPointMake(offsetX, 0);
+}
 - (void)redraw {
     [_containerView removeFromSuperview];
     _containerView = nil;
@@ -89,10 +136,16 @@ static const float YTextWidth = 45;
 
 - (void)findBeginAndEndIndex {
     CGPoint offset = self.gestureScroll.contentOffset;
-    self.beginIndex = floor(offset.x/self.itemW);
-    self.endIndex = ceil((offset.x+LineChartWidth)/self.itemW);
+    self.beginIndex = floor(offset.x/self.zoomedItemW);
+    self.endIndex = ceil((offset.x+LineChartWidth)/self.zoomedItemW);
+    if (self.beginIndex < 0) {
+        self.beginIndex = 0;
+    }
     if (self.endIndex > self.yValueArray.count - 1) {
         self.endIndex = self.yValueArray.count - 1;
+    }
+    if (self.beginIndex > self.endIndex) {
+        self.beginIndex = self.endIndex;
     }
 }
 
@@ -150,7 +203,7 @@ static const float YTextWidth = 45;
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
     for (NSUInteger i=self.beginIndex; i<self.endIndex+1; i++) {
         CGFloat yPoint = self.containerView.frame.size.height - [self.yValueArray[i] floatValue] * _yItemUnitH - BottomEdge;
-        CGPoint p = CGPointMake((i+1)*self.itemW-offsetX+LeftEdge, yPoint);
+        CGPoint p = CGPointMake((i+1)*self.zoomedItemW-offsetX+LeftEdge, yPoint);
         if (i == self.beginIndex) {
             [yValueBezier moveToPoint:p];
         } else {
@@ -168,7 +221,7 @@ static const float YTextWidth = 45;
 - (void)addXAxisLayer {
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
     for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
-        CGRect textFrame = CGRectMake(LeftEdge+_itemW/2.0 + _itemW*i - offsetX, self.bounds.size.height-XTextHeight, _itemW, XTextHeight);
+        CGRect textFrame = CGRectMake(LeftEdge+self.zoomedItemW/2.0 + self.zoomedItemW*i - offsetX, self.bounds.size.height-XTextHeight, self.zoomedItemW, XTextHeight);
         CATextLayer *text = [self getTextLayerWithString:self.xAxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
         [self.containerView.layer addSublayer:text];
     }
@@ -181,8 +234,8 @@ static const float YTextWidth = 45;
     
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
     for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
-        [xScaleBezier moveToPoint:CGPointMake(LeftEdge + _itemW*(i+1) - offsetX, self.bounds.size.height-BottomEdge-1)];
-        [xScaleBezier addLineToPoint:CGPointMake(LeftEdge + _itemW*(i+1) - offsetX, self.bounds.size.height-BottomEdge+5)];
+        [xScaleBezier moveToPoint:CGPointMake(LeftEdge + self.zoomedItemW*(i+1) - offsetX, self.bounds.size.height-BottomEdge-1)];
+        [xScaleBezier addLineToPoint:CGPointMake(LeftEdge + self.zoomedItemW*(i+1) - offsetX, self.bounds.size.height-BottomEdge+5)];
     }
     xScaleLayer.path = xScaleBezier.CGPath;
     xScaleLayer.backgroundColor = [UIColor blueColor].CGColor;
@@ -251,7 +304,22 @@ static const float YTextWidth = 45;
     }
     return _itemW;
 }
+- (CGFloat)zoomedItemW {
+    return self.itemW * self.newPinScale * self.oldPinScale;
+}
 - (CGFloat)yAxisUnitH {
     return LineChartHeight/(_yNegativeSegmentNum + _yPostiveSegmentNum);
+}
+- (CGFloat)oldPinScale {
+    if (_oldPinScale == 0) {
+        _oldPinScale = 1.0;
+    }
+    return _oldPinScale;
+}
+- (CGFloat)newPinScale {
+    if (_newPinScale == 0) {
+        _newPinScale = 1.0;
+    }
+    return _newPinScale;
 }
 @end
