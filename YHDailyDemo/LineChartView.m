@@ -87,7 +87,7 @@ static const float YTextWidth = 45;
         }
             break;
         case UIGestureRecognizerStateChanged: {
-            if (pinGesture.scale < 1 && [self.yValues[0] count]*self.zoomedItemW <= LineChartWidth) {
+            if (pinGesture.scale < 1 && [self.yValues[0] count]*self.itemW*_oldPinScale*pinGesture.scale <= LineChartWidth) {
                 _newPinScale = LineChartWidth/([self.yValues[0] count]*self.itemW*_oldPinScale);
             } else {
                 _newPinScale = pinGesture.scale;
