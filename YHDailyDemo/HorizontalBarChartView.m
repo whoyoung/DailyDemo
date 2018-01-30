@@ -81,6 +81,7 @@ static const float GroupSpace = 5;
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [self redraw];
 }
+
 - (void)chartDidZooming:(UIPinchGestureRecognizer *)pinGesture {
     switch (pinGesture.state) {
         case UIGestureRecognizerStateBegan: {
@@ -142,7 +143,7 @@ static const float GroupSpace = 5;
     [_containerView removeFromSuperview];
     _containerView = nil;
     _containerView = [[UIView alloc] initWithFrame:self.bounds];
-    _containerView.backgroundColor = [UIColor whiteColor];
+    _containerView.backgroundColor = [UIColor clearColor];
     
     [self insertSubview:_containerView belowSubview:_gestureScroll];
     [self findBeginAndEndIndex];
@@ -163,7 +164,7 @@ static const float GroupSpace = 5;
         if (floor(itemBeginOffsetX/self.zoomedItemW) < self.yValues.count) {
             self.beginItemIndex = floor(itemBeginOffsetX/self.zoomedItemW);
         } else {
-            self.beginItemIndex = self.yValues.count;
+            self.beginItemIndex = self.yValues.count - 1;
         }
         
         self.endGroupIndex = floor((offset.x+LineChartWidth)/(self.zoomedItemW*self.yValues.count + GroupSpace));
@@ -174,7 +175,7 @@ static const float GroupSpace = 5;
         if (floor(itemEndOffsetX/self.zoomedItemW) < self.yValues.count) {
             self.endItemIndex = floor(itemEndOffsetX/self.zoomedItemW);
         } else {
-            self.endItemIndex = self.yValues.count;
+            self.endItemIndex = self.yValues.count - 1;
         }
     } else {
         self.beginGroupIndex = floor(offset.x/(self.zoomedItemW + GroupSpace));
@@ -383,12 +384,13 @@ static const float GroupSpace = 5;
         case BarChartTypeGroup: {
             CGFloat offsetX = self.gestureScroll.contentOffset.x;
             CGFloat zeroY = _yPostiveSegmentNum * self.yAxisUnitH;
-            if (self.beginItemIndex >= self.yValues.count || self.beginItemIndex>self.endItemIndex) break;
+            if (self.beginItemIndex >= self.yValues.count) break;
             NSUInteger rightLoopIndex = self.endItemIndex;
             if (self.endItemIndex >= self.yValues.count) {
                 rightLoopIndex = self.yValues.count - 1;
             }
             if (self.beginGroupIndex == self.endGroupIndex) {
+                if (self.beginItemIndex>self.endItemIndex) break;
                 [self drawBeginAndEndItemLayer:self.beginItemIndex rightIndex:rightLoopIndex isBegin:YES containerView:subContainerV];
                 break;
             }
