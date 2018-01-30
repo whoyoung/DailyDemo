@@ -56,7 +56,7 @@ static const float GroupSpace = 5;
     [self addGestureScroll];
     self.gestureScroll.contentSize = CGSizeMake(self.scrollContentSizeWidth, LineChartHeight);
     if (!_containerView) {
-        self.chartType = BarChartTypeSingle;
+        self.chartType = BarChartTypeStack;
         [self redraw];
     }
 }
@@ -351,17 +351,16 @@ static const float GroupSpace = 5;
             CGFloat offsetX = self.gestureScroll.contentOffset.x;
             CGFloat zeroY = _yPostiveSegmentNum * self.yAxisUnitH;
             for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
-                CGFloat positiveY = zeroY, negativeY = zeroY;
+                CGFloat positiveY = zeroY, negativeY = zeroY, yPoint = zeroY;
                 for (NSUInteger j=0; j<self.yValues.count; j++) {
                     NSArray *array = self.yValues[j];
                     CAShapeLayer *yValueLayer = [CAShapeLayer layer];
-                    CGFloat yPoint = zeroY;
-                    if ([array[i] floatValue] > 0) {
+                    if ([array[i] floatValue] >= 0) {
                         positiveY -= [array[i] floatValue] * _yItemUnitH;
                         yPoint = positiveY;
-                    } else {
-                        negativeY -= [array[i] floatValue] * _yItemUnitH;
-                        yPoint = negativeY;
+                    }
+                    if ([array[i] floatValue] < 0 && 0 <= yPoint && yPoint < zeroY) {
+                        yPoint = zeroY;
                     }
                     UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(i*(self.zoomedItemW+GroupSpace)-offsetX, yPoint, self.zoomedItemW, fabs([array[i] floatValue]) * _yItemUnitH)];
                     yValueLayer.path = yValueBezier.CGPath;
@@ -369,6 +368,11 @@ static const float GroupSpace = 5;
                     yValueLayer.strokeColor = [self.lineColors[j] CGColor];
                     yValueLayer.fillColor = [self.lineColors[j] CGColor];
                     [subContainerV.layer addSublayer:yValueLayer];
+                    
+                    if ([array[i] floatValue] < 0) {
+                        negativeY -= [array[i] floatValue] * _yItemUnitH;
+                        yPoint = negativeY;
+                    }
                 }
             }
         }
@@ -522,7 +526,8 @@ static const float GroupSpace = 5;
 - (NSArray *)yValues {
     if (!_yValues) {
         _yValues = @[
-                     @[@"1",@"2",@"3",@"-4",@"5",@"6",@"-7"]
+                     @[@"1",@"2",@"3",@"-4",@"5",@"6",@"-7"],
+                     @[@"5",@"6",@"-7",@"9",@"12",@"13",@"-14"]
                      ];
     }
     return _yValues;
