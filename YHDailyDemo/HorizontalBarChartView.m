@@ -234,9 +234,9 @@ static const float GroupSpace = 5;
             } else {
                 NSMutableArray *minYValues = [NSMutableArray arrayWithCapacity:(self.endGroupIndex - self.beginGroupIndex + 1)];
                 NSMutableArray *maxYValues = [NSMutableArray arrayWithCapacity:(self.endGroupIndex - self.beginGroupIndex + 1)];
-                CGFloat tempMinYValue = 0, tempMaxYValue = 0;
 
                 for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
+                    CGFloat tempMinYValue = 0, tempMaxYValue = 0;
                     for (NSUInteger j=0;j<self.yValues.count;j++) {
                         CGFloat y = [[self.yValues[j] objectAtIndex:i] floatValue];
                         if (y < 0) {
