@@ -54,9 +54,9 @@ static const float GroupSpace = 5;
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self addGestureScroll];
+    self.chartType = BarChartTypeGroup;
     self.gestureScroll.contentSize = CGSizeMake(self.scrollContentSizeWidth, LineChartHeight);
     if (!_containerView) {
-        self.chartType = BarChartTypeStack;
         [self redraw];
     }
 }
@@ -167,6 +167,9 @@ static const float GroupSpace = 5;
         }
         
         self.endGroupIndex = floor((offset.x+LineChartWidth)/(self.zoomedItemW*self.yValues.count + GroupSpace));
+        if (self.endGroupIndex >= [self.yValues[0] count]) {
+            self.endGroupIndex = [self.yValues[0] count] - 1;
+        }
         CGFloat itemEndOffsetX = offset.x+LineChartWidth - self.endGroupIndex * (self.zoomedItemW*self.yValues.count + GroupSpace);
         if (floor(itemEndOffsetX/self.zoomedItemW) < self.yValues.count) {
             self.endItemIndex = floor(itemEndOffsetX/self.zoomedItemW);
@@ -380,25 +383,28 @@ static const float GroupSpace = 5;
         case BarChartTypeGroup: {
             CGFloat offsetX = self.gestureScroll.contentOffset.x;
             CGFloat zeroY = _yPostiveSegmentNum * self.yAxisUnitH;
+            if (self.beginItemIndex >= self.yValues.count || self.beginItemIndex>self.endItemIndex) break;
+            NSUInteger rightLoopIndex = self.endItemIndex;
+            if (self.endItemIndex >= self.yValues.count) {
+                rightLoopIndex = self.yValues.count - 1;
+            }
             if (self.beginGroupIndex == self.endGroupIndex) {
-                if (self.beginItemIndex >= self.yValues.count || self.beginItemIndex>self.endItemIndex) break;
-                NSUInteger rightLoopIndex = self.endItemIndex;
-                if (self.endItemIndex >= self.yValues.count) {
-                    rightLoopIndex = self.yValues.count - 1;
-                }
                 [self drawBeginAndEndItemLayer:self.beginItemIndex rightIndex:rightLoopIndex isBegin:YES containerView:subContainerV];
                 break;
             }
             
             [self drawBeginAndEndItemLayer:self.beginItemIndex rightIndex:self.yValues.count-1 isBegin:YES containerView:subContainerV];
-            [self drawBeginAndEndItemLayer:0 rightIndex:self.endItemIndex isBegin:NO containerView:subContainerV];
+            [self drawBeginAndEndItemLayer:0 rightIndex:rightLoopIndex isBegin:NO containerView:subContainerV];
             
             for (NSUInteger i=self.beginGroupIndex+1; i<self.endGroupIndex; i++) {
                 for (NSUInteger j=0; j<self.yValues.count; j++) {
                     NSArray *array = self.yValues[j];
                     CAShapeLayer *yValueLayer = [CAShapeLayer layer];
                     CGFloat yPoint = zeroY - [array[i] floatValue] * _yItemUnitH;
-                    UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(i*(self.zoomedItemW+GroupSpace)+j*self.zoomedItemW-offsetX, yPoint, self.zoomedItemW, fabs([array[i] floatValue]) * _yItemUnitH)];
+                    if ([array[i] floatValue] < 0) {
+                        yPoint = zeroY;
+                    }
+                    UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(i*(self.zoomedItemW*self.yValues.count+GroupSpace)+j*self.zoomedItemW-offsetX, yPoint, self.zoomedItemW, fabs([array[i] floatValue]) * _yItemUnitH)];
                     yValueLayer.path = yValueBezier.CGPath;
                     yValueLayer.lineWidth = 1;
                     yValueLayer.strokeColor = [self.lineColors[j] CGColor];
@@ -420,9 +426,13 @@ static const float GroupSpace = 5;
     for (NSUInteger i=leftIndex; i<=rightIndex; i++) {
         NSArray *array = self.yValues[i];
         CAShapeLayer *yValueLayer = [CAShapeLayer layer];
-        CGFloat itemValue = isBegin ? [array[self.beginGroupIndex] floatValue] :  [array[self.endItemIndex] floatValue];
+        CGFloat itemValue = isBegin ? [array[self.beginGroupIndex] floatValue] :  [array[self.endGroupIndex] floatValue];
         CGFloat yPoint = zeroY - itemValue * _yItemUnitH;
-        CGFloat x = (isBegin ? self.beginGroupIndex : self.endGroupIndex) *(self.zoomedItemW+GroupSpace)+i*self.zoomedItemW-offsetX;
+        if (itemValue < 0) {
+            yPoint = zeroY;
+        }
+        NSUInteger leftIndex = isBegin ? self.beginGroupIndex : self.endGroupIndex;
+        CGFloat x = leftIndex *(self.zoomedItemW*self.yValues.count+GroupSpace)+i*self.zoomedItemW-offsetX;
         UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(x, yPoint, self.zoomedItemW, fabs(itemValue) * _yItemUnitH)];
         yValueLayer.path = yValueBezier.CGPath;
         yValueLayer.lineWidth = 1;
