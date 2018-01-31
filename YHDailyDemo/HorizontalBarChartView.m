@@ -210,13 +210,13 @@ static const float GroupSpace = 5;
         self.beginItemIndex = 0;
     }
     if (self.beginItemIndex > self.yValues.count) {
-        self.beginItemIndex = self.yValues.count;
+        self.beginItemIndex = self.yValues.count - 1;
     }
     if (self.endItemIndex < 0) {
         self.endItemIndex = 0;
     }
     if (self.endItemIndex > self.yValues.count) {
-        self.endItemIndex = self.yValues.count;
+        self.endItemIndex = self.yValues.count - 1;
     }
     
     if (self.endGroupIndex > [self.yValues[0] count] - 1) {
@@ -285,14 +285,45 @@ static const float GroupSpace = 5;
         }
             break;
         case BarChartTypeGroup: {
-            self.minYValue = [[self.yValues[0] objectAtIndex:self.beginGroupIndex] floatValue];
-            self.maxYValue = self.minYValue;
-            [self campareMaxAndMinValue:self.beginGroupIndex rightIndex:self.endGroupIndex];
+            if (self.beginGroupIndex == self.endGroupIndex) {
+                if (self.beginItemIndex > self.endItemIndex) {
+                    self.beginItemIndex = self.endItemIndex;
+                }
+                self.minYValue = [[self.yValues[self.beginItemIndex] objectAtIndex:self.beginGroupIndex] floatValue];
+                self.maxYValue = self.minYValue;
+                for (NSUInteger i=self.beginItemIndex+1; i<=self.endItemIndex; i++) {
+                    CGFloat tempValue = [[self.yValues[i] objectAtIndex:self.beginGroupIndex] floatValue];
+                    self.minYValue = MIN(self.minYValue, tempValue);
+                    self.maxYValue = MAX(self.maxYValue, tempValue);
+                }
+            } else if (self.beginGroupIndex == self.endGroupIndex - 1) {
+                self.minYValue = [[self.yValues[self.beginItemIndex] objectAtIndex:self.beginGroupIndex] floatValue];
+                self.maxYValue = self.minYValue;
+                
+                [self compareBeginAndEndItemValue:self.beginItemIndex+1 endItem:self.yValues.count-1 isBeginGroup:YES];
+                [self compareBeginAndEndItemValue:0 endItem:self.endItemIndex isBeginGroup:NO];
+            } else {
+                self.minYValue = [[self.yValues[self.beginItemIndex] objectAtIndex:self.beginGroupIndex] floatValue];
+                self.maxYValue = self.minYValue;
+                
+                [self compareBeginAndEndItemValue:self.beginItemIndex+1 endItem:self.yValues.count-1 isBeginGroup:YES];
+                [self compareBeginAndEndItemValue:0 endItem:self.endItemIndex isBeginGroup:NO];
+                [self campareMaxAndMinValue:self.beginGroupIndex+1 rightIndex:self.endGroupIndex-1];
+
+            }
         }
             break;
             
         default:
             break;
+    }
+}
+- (void)compareBeginAndEndItemValue:(NSUInteger)beginItem endItem:(NSUInteger)endItem isBeginGroup:(BOOL)isBeginGroup {
+    for (NSUInteger i=beginItem; i<=endItem; i++) {
+        NSUInteger index = isBeginGroup ? self.beginGroupIndex : self.endGroupIndex;
+        CGFloat tempValue = [[self.yValues[i] objectAtIndex:index] floatValue];
+        self.minYValue = MIN(self.minYValue, tempValue);
+        self.maxYValue = MAX(self.maxYValue, tempValue);
     }
 }
 - (void)campareMaxAndMinValue:(NSUInteger)leftIndex rightIndex:(NSUInteger)rightIndex {
