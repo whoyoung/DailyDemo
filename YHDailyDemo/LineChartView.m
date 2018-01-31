@@ -189,21 +189,25 @@ static const float YTextWidth = 45;
 - (void)calculateYAxisSegment {
     if (self.minYValue >= 0) {
         self.yPostiveSegmentNum = 4;
+        if(self.maxYValue < 1) self.yPostiveSegmentNum = 1;
         self.yNegativeSegmentNum = 0;
         self.itemH = ceil(self.maxYValue/self.yPostiveSegmentNum);
         self.yItemUnitH = LineChartHeight/(self.itemH * self.yPostiveSegmentNum);
     } else if (self.maxYValue < 0) {
         self.yPostiveSegmentNum = 0;
         self.yNegativeSegmentNum = 4;
+        if(fabs(self.minYValue) < 1) self.yNegativeSegmentNum = 1;
         self.itemH = ceil(fabs(self.minYValue)/self.yNegativeSegmentNum);
         self.yItemUnitH = LineChartHeight/(self.itemH * self.yNegativeSegmentNum);
     } else if (self.maxYValue >= fabs(self.minYValue)) {
         self.yPostiveSegmentNum = 4;
+        if(self.maxYValue < 1) self.yPostiveSegmentNum = 1;
         self.itemH = ceil(self.maxYValue/self.yPostiveSegmentNum);
         self.yNegativeSegmentNum = ceil(fabs(self.minYValue)/self.itemH);
         self.yItemUnitH = LineChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
     } else {
         self.yNegativeSegmentNum = 4;
+        if(fabs(self.minYValue) < 1) self.yNegativeSegmentNum = 1;
         self.itemH = ceil(fabs(self.minYValue)/self.yNegativeSegmentNum);
         self.yPostiveSegmentNum = ceil(self.maxYValue/self.itemH);
         self.yItemUnitH = LineChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
