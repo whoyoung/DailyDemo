@@ -82,6 +82,9 @@ static const float GroupSpace = 5;
         [_gestureScroll addGestureRecognizer:tapGesture];
     }
 }
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    _newPinScale = 1.0;
+}
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [self removeTipView];
     [self redraw];
@@ -93,7 +96,7 @@ static const float GroupSpace = 5;
         case UIGestureRecognizerStateBegan: {
             CGPoint pinCenterContainer = [pinGesture locationInView:self.containerView];
             _pinCenterToLeftDistance = pinCenterContainer.x - LeftEdge;
-            CGPoint pinCenterScrollView = [pinGesture locationInView:self.containerView];
+            CGPoint pinCenterScrollView = [pinGesture locationInView:self.gestureScroll];
             _pinCenterRatio = pinCenterScrollView.x/self.gestureScroll.contentSize.width;
         }
             break;

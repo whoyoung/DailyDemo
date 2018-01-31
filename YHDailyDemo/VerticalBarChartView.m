@@ -9,28 +9,27 @@ static const float TopEdge = 10;
 static const float LeftEdge = 50;
 static const float RightEdge = 10;
 static const float BottomEdge = 20;
-static const float minItemWidth = 20;
-static const float XTextHeight = 15;
-static const float YTextWidth = 45;
+static const float minItemHeight = 20;
+static const float TextHeight = 15;
 static const float GroupSpace = 5;
-#define LineChartWidth (self.bounds.size.width-LeftEdge-RightEdge)
-#define LineChartHeight (self.bounds.size.height-TopEdge-BottomEdge)
+#define ChartWidth (self.bounds.size.width-LeftEdge-RightEdge)
+#define ChartHeight (self.bounds.size.height-TopEdge-BottomEdge)
 
 #import "VerticalBarChartView.h"
 
 @interface VerticalBarChartView()<UIScrollViewDelegate>
 @property (nonatomic, weak) UIScrollView *gestureScroll;
-@property (nonatomic, strong) NSMutableArray *xAxisArray;
+@property (nonatomic, strong) NSMutableArray *yAxisArray;
 
 @property (nonatomic, assign) NSInteger beginItemIndex;
 @property (nonatomic, assign) NSInteger endItemIndex;
 @property (nonatomic, assign) CGFloat itemW;
 @property (nonatomic, assign) CGFloat itemH;
-@property (nonatomic, assign) CGFloat maxYValue;
-@property (nonatomic, assign) CGFloat minYValue;
+@property (nonatomic, assign) CGFloat maxXValue;
+@property (nonatomic, assign) CGFloat minXValue;
 
-@property (nonatomic, assign) NSUInteger yPostiveSegmentNum;
-@property (nonatomic, assign) NSUInteger yNegativeSegmentNum;
+@property (nonatomic, assign) NSUInteger xPostiveSegmentNum;
+@property (nonatomic, assign) NSUInteger xNegativeSegmentNum;
 
 @property (nonatomic, assign) CGFloat yItemUnitH;
 @property (nonatomic, assign) CGFloat xItemUnitW;
@@ -39,13 +38,13 @@ static const float GroupSpace = 5;
 
 @property (nonatomic, assign) CGFloat oldPinScale;
 @property (nonatomic, assign) CGFloat newPinScale;
-@property (nonatomic, assign) CGFloat pinCenterToLeftDistance;
+@property (nonatomic, assign) CGFloat pinCenterToTopDistance;
 @property (nonatomic, assign) CGFloat pinCenterRatio;
-@property (nonatomic, assign) CGFloat zoomedItemW;
-@property (nonatomic, strong) NSArray *yValues;
+@property (nonatomic, assign) CGFloat zoomedItemH;
+@property (nonatomic, strong) NSArray *xValues;
 @property (nonatomic, strong) NSArray *lineColors;
 
-@property (nonatomic, assign) CGFloat scrollContentSizeWidth;
+@property (nonatomic, assign) CGFloat scrollContentSizeHeight;
 @property (nonatomic, assign) NSInteger beginGroupIndex;
 @property (nonatomic, assign) NSInteger endGroupIndex;
 @end
@@ -56,7 +55,7 @@ static const float GroupSpace = 5;
     [super layoutSubviews];
     [self addGestureScroll];
     self.chartType = BarChartTypeGroup;
-    self.gestureScroll.contentSize = CGSizeMake(self.scrollContentSizeWidth, LineChartHeight);
+    self.gestureScroll.contentSize = CGSizeMake(ChartWidth, self.scrollContentSizeHeight);
     if (!_containerView) {
         [self redraw];
     }
@@ -64,7 +63,7 @@ static const float GroupSpace = 5;
 
 - (void)addGestureScroll {
     if (!_gestureScroll) {
-        UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, LineChartWidth, LineChartHeight)];
+        UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, ChartWidth, ChartHeight)];
         scroll.showsVerticalScrollIndicator = NO;
         scroll.showsHorizontalScrollIndicator = NO;
         scroll.minimumZoomScale = 1.0;
@@ -78,10 +77,13 @@ static const float GroupSpace = 5;
         UIPinchGestureRecognizer *pinGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(chartDidZooming:)];
         [_gestureScroll addGestureRecognizer:pinGesture];
         
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chartDidTaping:)];
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chartDidTapping:)];
         tapGesture.numberOfTapsRequired = 1;
         [_gestureScroll addGestureRecognizer:tapGesture];
     }
+}
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    _newPinScale = 1.0;
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [self removeTipView];
@@ -93,24 +95,24 @@ static const float GroupSpace = 5;
     switch (pinGesture.state) {
         case UIGestureRecognizerStateBegan: {
             CGPoint pinCenterContainer = [pinGesture locationInView:self.containerView];
-            _pinCenterToLeftDistance = pinCenterContainer.x - LeftEdge;
-            CGPoint pinCenterScrollView = [pinGesture locationInView:self.containerView];
-            _pinCenterRatio = pinCenterScrollView.x/self.gestureScroll.contentSize.width;
+            _pinCenterToTopDistance = pinCenterContainer.x - TopEdge;
+            CGPoint pinCenterScrollView = [pinGesture locationInView:self.gestureScroll];
+            _pinCenterRatio = pinCenterScrollView.y/self.gestureScroll.contentSize.height;
         }
             break;
         case UIGestureRecognizerStateChanged: {
             if (pinGesture.scale < 1){
-                CGFloat testZoomedWidth = 0;
+                CGFloat testZoomedHeight = 0;
                 if (self.chartType == BarChartTypeGroup) {
-                    testZoomedWidth = ([self.yValues count]*self.itemW*self.oldPinScale*pinGesture.scale + GroupSpace) * [self.yValues[0] count];
+                    testZoomedHeight = ([self.xValues count]*self.itemH*self.oldPinScale*pinGesture.scale + GroupSpace) * [self.xValues[0] count];
                 } else {
-                    testZoomedWidth = (self.itemW*self.oldPinScale*pinGesture.scale + GroupSpace) * [self.yValues[0] count];
+                    testZoomedHeight = (self.itemH*self.oldPinScale*pinGesture.scale + GroupSpace) * [self.xValues[0] count];
                 }
-                if (testZoomedWidth < LineChartWidth) {
+                if (testZoomedHeight < ChartHeight) {
                     if (self.chartType == BarChartTypeGroup) {
-                        _newPinScale = (LineChartWidth/[self.yValues[0] count] - GroupSpace)/self.yValues.count/self.itemW/self.oldPinScale;
+                        _newPinScale = (ChartHeight/[self.xValues[0] count] - GroupSpace)/self.xValues.count/self.itemH/self.oldPinScale;
                     } else {
-                        _newPinScale = (LineChartWidth/[self.yValues[0] count] - GroupSpace)/self.itemW/self.oldPinScale;
+                        _newPinScale = (ChartHeight/[self.xValues[0] count] - GroupSpace)/self.itemH/self.oldPinScale;
                     }
                 } else {
                     _newPinScale = pinGesture.scale;
@@ -131,7 +133,22 @@ static const float GroupSpace = 5;
             break;
     }
 }
-- (void)chartDidTaping:(UITapGestureRecognizer *)tapGesture {
+- (void)adjustScroll {
+    self.gestureScroll.contentSize = CGSizeMake(self.scrollContentSizeHeight, ChartHeight);
+    CGFloat offsetY = self.gestureScroll.contentSize.width * self.pinCenterRatio - self.pinCenterToTopDistance;
+    if (offsetY < 0) {
+        offsetY = 0;
+    }
+    if (self.gestureScroll.contentSize.width > ChartWidth) {
+        if (offsetY > self.gestureScroll.contentSize.width - ChartWidth) {
+            offsetY = self.gestureScroll.contentSize.width - ChartWidth;
+        }
+    } else {
+        offsetY = 0;
+    }
+    self.gestureScroll.contentOffset = CGPointMake(offsetY, 0);
+}
+- (void)chartDidTapping:(UITapGestureRecognizer *)tapGesture {
     [self removeTipView];
     CGPoint tapP = [tapGesture locationInView:self.gestureScroll];
     UIView *tipView = [[UIView alloc] initWithFrame:CGRectMake(tapP.x, tapP.y, 50, 50)];
@@ -143,21 +160,7 @@ static const float GroupSpace = 5;
     UIView *existedV = [self.gestureScroll viewWithTag:101];
     [existedV removeFromSuperview];
 }
-- (void)adjustScroll {
-    self.gestureScroll.contentSize = CGSizeMake(self.scrollContentSizeWidth, LineChartHeight);
-    CGFloat offsetX = self.gestureScroll.contentSize.width * self.pinCenterRatio - self.pinCenterToLeftDistance;
-    if (offsetX < 0) {
-        offsetX = 0;
-    }
-    if (self.gestureScroll.contentSize.width > LineChartWidth) {
-        if (offsetX > self.gestureScroll.contentSize.width - LineChartWidth) {
-            offsetX = self.gestureScroll.contentSize.width - LineChartWidth;
-        }
-    } else {
-        offsetX = 0;
-    }
-    self.gestureScroll.contentOffset = CGPointMake(offsetX, 0);
-}
+
 - (void)redraw {
     [_containerView removeFromSuperview];
     _containerView = nil;
@@ -167,8 +170,8 @@ static const float GroupSpace = 5;
     [self insertSubview:_containerView belowSubview:_gestureScroll];
     [self findBeginAndEndIndex];
     [self calculateMaxAndMinValue];
-    [self calculateYAxisSegment];
-    [self drawYValuePoint];
+    [self calculateXAxisSegment];
+    [self drawXValuePoint];
     [self addXAxisLayer];
     [self addXScaleLayer];
     [self addYAxisLayer];
@@ -178,27 +181,27 @@ static const float GroupSpace = 5;
 - (void)findBeginAndEndIndex {
     CGPoint offset = self.gestureScroll.contentOffset;
     if (self.chartType == BarChartTypeGroup) {
-        self.beginGroupIndex = floor(offset.x/(self.zoomedItemW*self.yValues.count + GroupSpace));
-        CGFloat itemBeginOffsetX = offset.x - self.beginGroupIndex * (self.zoomedItemW*self.yValues.count + GroupSpace);
-        if (floor(itemBeginOffsetX/self.zoomedItemW) < self.yValues.count) {
-            self.beginItemIndex = floor(itemBeginOffsetX/self.zoomedItemW);
+        self.beginGroupIndex = floor(offset.y/(self.zoomedItemH*self.xValues.count + GroupSpace));
+        CGFloat itemBeginOffsetY = offset.y - self.beginGroupIndex * (self.zoomedItemH*self.xValues.count + GroupSpace);
+        if (floor(itemBeginOffsetY/self.zoomedItemH) < self.xValues.count) {
+            self.beginItemIndex = floor(itemBeginOffsetY/self.zoomedItemH);
         } else {
-            self.beginItemIndex = self.yValues.count - 1;
+            self.beginItemIndex = self.xValues.count - 1;
         }
         
-        self.endGroupIndex = floor((offset.x+LineChartWidth)/(self.zoomedItemW*self.yValues.count + GroupSpace));
-        if (self.endGroupIndex >= [self.yValues[0] count]) {
-            self.endGroupIndex = [self.yValues[0] count] - 1;
+        self.endGroupIndex = floor((offset.y+ChartHeight)/(self.zoomedItemH*self.xValues.count + GroupSpace));
+        if (self.endGroupIndex >= [self.xValues[0] count]) {
+            self.endGroupIndex = [self.xValues[0] count] - 1;
         }
-        CGFloat itemEndOffsetX = offset.x+LineChartWidth - self.endGroupIndex * (self.zoomedItemW*self.yValues.count + GroupSpace);
-        if (floor(itemEndOffsetX/self.zoomedItemW) < self.yValues.count) {
-            self.endItemIndex = floor(itemEndOffsetX/self.zoomedItemW);
+        CGFloat itemEndOffsetY = offset.y+ChartHeight - self.endGroupIndex * (self.zoomedItemH*self.xValues.count + GroupSpace);
+        if (floor(itemEndOffsetY/self.zoomedItemH) < self.xValues.count) {
+            self.endItemIndex = floor(itemEndOffsetY/self.zoomedItemH);
         } else {
-            self.endItemIndex = self.yValues.count - 1;
+            self.endItemIndex = self.xValues.count - 1;
         }
     } else {
-        self.beginGroupIndex = floor(offset.x/(self.zoomedItemW + GroupSpace));
-        self.endGroupIndex = floor((offset.x+LineChartWidth)/(self.zoomedItemW + GroupSpace));
+        self.beginGroupIndex = floor(offset.y/(self.zoomedItemH + GroupSpace));
+        self.endGroupIndex = floor((offset.y+ChartHeight)/(self.zoomedItemH + GroupSpace));
     }
     
     if (self.beginGroupIndex < 0) {
@@ -207,18 +210,18 @@ static const float GroupSpace = 5;
     if (self.beginItemIndex < 0) {
         self.beginItemIndex = 0;
     }
-    if (self.beginItemIndex > self.yValues.count) {
-        self.beginItemIndex = self.yValues.count;
+    if (self.beginItemIndex > self.xValues.count) {
+        self.beginItemIndex = self.xValues.count - 1;
     }
     if (self.endItemIndex < 0) {
         self.endItemIndex = 0;
     }
-    if (self.endItemIndex > self.yValues.count) {
-        self.endItemIndex = self.yValues.count;
+    if (self.endItemIndex > self.xValues.count) {
+        self.endItemIndex = self.xValues.count - 1;
     }
     
-    if (self.endGroupIndex > [self.yValues[0] count] - 1) {
-        self.endGroupIndex = [self.yValues[0] count] - 1;
+    if (self.endGroupIndex > [self.xValues[0] count] - 1) {
+        self.endGroupIndex = [self.xValues[0] count] - 1;
     }
     if (self.beginGroupIndex > self.endGroupIndex) {
         self.beginGroupIndex = self.endGroupIndex;
@@ -229,62 +232,62 @@ static const float GroupSpace = 5;
     switch (self.chartType) {
         case BarChartTypeSingle: {
             if (self.beginGroupIndex == self.endGroupIndex) {
-                self.minYValue = [[(NSArray *)self.yValues[0] objectAtIndex:self.beginGroupIndex] floatValue];
-                self.maxYValue = self.minYValue;
+                self.minXValue = [[(NSArray *)self.xValues[0] objectAtIndex:self.beginGroupIndex] floatValue];
+                self.maxXValue = self.minXValue;
             } else {
                 NSMutableArray *array = [NSMutableArray arrayWithCapacity:(self.endGroupIndex - self.beginGroupIndex + 1)];
                 for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
-                    [array addObject:[(NSArray *)self.yValues[0] objectAtIndex:i]];
+                    [array addObject:[(NSArray *)self.xValues[0] objectAtIndex:i]];
                 }
-                self.minYValue = [array[0] floatValue];
-                self.maxYValue = self.minYValue;
+                self.minXValue = [array[0] floatValue];
+                self.maxXValue = self.minXValue;
                 [self findMaxAndMinValue:0 rightIndex:array.count-1 compareA:array];
             }
         }
             break;
         case BarChartTypeStack: {
             if (self.beginGroupIndex == self.endGroupIndex) {
-                self.minYValue = 0; self.maxYValue = 0;
-                for (NSUInteger i=0; i<self.yValues.count; i++) {
-                    CGFloat y = [[self.yValues[i] objectAtIndex:self.beginGroupIndex] floatValue];
-                    if (y < 0) {
-                        self.minYValue += y;
+                self.minXValue = 0; self.maxXValue = 0;
+                for (NSUInteger i=0; i<self.xValues.count; i++) {
+                    CGFloat x = [[self.xValues[i] objectAtIndex:self.beginGroupIndex] floatValue];
+                    if (x < 0) {
+                        self.minXValue += x;
                     } else {
-                        self.maxYValue += y;
+                        self.maxXValue += x;
                     }
                     
                 }
             } else {
-                NSMutableArray *minYValues = [NSMutableArray arrayWithCapacity:(self.endGroupIndex - self.beginGroupIndex + 1)];
-                NSMutableArray *maxYValues = [NSMutableArray arrayWithCapacity:(self.endGroupIndex - self.beginGroupIndex + 1)];
+                NSMutableArray *minXValues = [NSMutableArray arrayWithCapacity:(self.endGroupIndex - self.beginGroupIndex + 1)];
+                NSMutableArray *maxXValues = [NSMutableArray arrayWithCapacity:(self.endGroupIndex - self.beginGroupIndex + 1)];
                 
                 for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
-                    CGFloat tempMinYValue = 0, tempMaxYValue = 0;
-                    for (NSUInteger j=0;j<self.yValues.count;j++) {
-                        CGFloat y = [[self.yValues[j] objectAtIndex:i] floatValue];
-                        if (y < 0) {
-                            tempMinYValue += y;
+                    CGFloat tempMinXValue = 0, tempMaxXValue = 0;
+                    for (NSUInteger j=0;j<self.xValues.count;j++) {
+                        CGFloat x = [[self.xValues[j] objectAtIndex:i] floatValue];
+                        if (x< 0) {
+                            tempMinXValue += x;
                         } else {
-                            tempMaxYValue += y;
+                            tempMaxXValue += x;
                         }
                     }
-                    [minYValues addObject:[NSString stringWithFormat:@"%f",tempMinYValue]];
-                    [maxYValues addObject:[NSString stringWithFormat:@"%f",tempMaxYValue]];
+                    [minXValues addObject:[NSString stringWithFormat:@"%f",tempMinXValue]];
+                    [maxXValues addObject:[NSString stringWithFormat:@"%f",tempMaxXValue]];
                 }
-                self.minYValue = [minYValues[0] floatValue];
-                self.maxYValue = [maxYValues[0] floatValue];
-                for (NSString *value in minYValues) {
-                    self.minYValue = MIN(self.minYValue, [value floatValue]);
+                self.minXValue = [minXValues[0] floatValue];
+                self.maxXValue = [maxXValues[0] floatValue];
+                for (NSString *value in minXValues) {
+                    self.minXValue = MIN(self.minXValue, [value floatValue]);
                 }
-                for (NSString *value in maxYValues) {
-                    self.maxYValue = MAX(self.maxYValue, [value floatValue]);
+                for (NSString *value in maxXValues) {
+                    self.maxXValue = MAX(self.maxXValue, [value floatValue]);
                 }
             }
         }
             break;
         case BarChartTypeGroup: {
-            self.minYValue = [[self.yValues[0] objectAtIndex:self.beginGroupIndex] floatValue];
-            self.maxYValue = self.minYValue;
+            self.minXValue = [[self.xValues[0] objectAtIndex:self.beginGroupIndex] floatValue];
+            self.maxXValue = self.minXValue;
             [self campareMaxAndMinValue:self.beginGroupIndex rightIndex:self.endGroupIndex];
         }
             break;
@@ -294,7 +297,7 @@ static const float GroupSpace = 5;
     }
 }
 - (void)campareMaxAndMinValue:(NSUInteger)leftIndex rightIndex:(NSUInteger)rightIndex {
-    for (NSArray *values in self.yValues) {
+    for (NSArray *values in self.xValues) {
         [self findMaxAndMinValue:leftIndex rightIndex:rightIndex compareA:values];
     }
 }
@@ -303,17 +306,17 @@ static const float GroupSpace = 5;
         leftIndex = rightIndex;
     }
     if (leftIndex == rightIndex) {
-        self.minYValue = MIN([compareA[leftIndex] floatValue], self.minYValue);
-        self.maxYValue = MAX([compareA[leftIndex] floatValue], self.maxYValue);
+        self.minXValue = MIN([compareA[leftIndex] floatValue], self.minXValue);
+        self.maxXValue = MAX([compareA[leftIndex] floatValue], self.maxXValue);
         return;
     } else if(leftIndex == rightIndex-1) {
         if ([compareA[leftIndex] floatValue] < [compareA[rightIndex] floatValue]) {
-            self.minYValue = MIN([compareA[leftIndex] floatValue], self.minYValue);
-            self.maxYValue = MAX([compareA[rightIndex] floatValue], self.maxYValue);
+            self.minXValue = MIN([compareA[leftIndex] floatValue], self.minXValue);
+            self.maxXValue = MAX([compareA[rightIndex] floatValue], self.maxXValue);
             return;
         } else {
-            self.minYValue = MIN([compareA[rightIndex] floatValue], self.minYValue);
-            self.maxYValue = MAX([compareA[leftIndex] floatValue], self.maxYValue);
+            self.minXValue = MIN([compareA[rightIndex] floatValue], self.minXValue);
+            self.maxXValue = MAX([compareA[leftIndex] floatValue], self.maxXValue);
             return;
         }
     }
@@ -322,91 +325,91 @@ static const float GroupSpace = 5;
     [self findMaxAndMinValue:mid + 1 rightIndex:rightIndex compareA:compareA];
 }
 
-- (void)calculateYAxisSegment {
-    if (self.minYValue >= 0) {
-        self.yPostiveSegmentNum = 4;
-        self.yNegativeSegmentNum = 0;
-        self.itemH = ceil(self.maxYValue/self.yPostiveSegmentNum);
-        self.yItemUnitH = LineChartHeight/(self.itemH * self.yPostiveSegmentNum);
-    } else if (self.maxYValue < 0) {
-        self.yPostiveSegmentNum = 0;
-        self.yNegativeSegmentNum = 4;
-        self.itemH = ceil(fabs(self.minYValue)/self.yNegativeSegmentNum);
-        self.yItemUnitH = LineChartHeight/(self.itemH * self.yNegativeSegmentNum);
-    } else if (self.maxYValue >= fabs(self.minYValue)) {
-        self.yPostiveSegmentNum = 4;
-        self.itemH = ceil(self.maxYValue/self.yPostiveSegmentNum);
-        self.yNegativeSegmentNum = ceil(fabs(self.minYValue)/self.itemH);
-        self.yItemUnitH = LineChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
+- (void)calculateXAxisSegment {
+    if (self.minXValue >= 0) {
+        self.xPostiveSegmentNum = 4;
+        self.xNegativeSegmentNum = 0;
+        self.itemW = ceil(self.maxXValue/self.xPostiveSegmentNum);
+        self.xItemUnitW = ChartWidth/(self.itemW * self.xPostiveSegmentNum);
+    } else if (self.maxXValue < 0) {
+        self.xPostiveSegmentNum = 0;
+        self.xNegativeSegmentNum = 4;
+        self.itemW = ceil(fabs(self.minXValue)/self.xNegativeSegmentNum);
+        self.xItemUnitW = ChartWidth/(self.itemW * self.xNegativeSegmentNum);
+    } else if (self.maxXValue >= fabs(self.minXValue)) {
+        self.xPostiveSegmentNum = 4;
+        self.itemW = ceil(self.maxXValue/self.xPostiveSegmentNum);
+        self.xNegativeSegmentNum = ceil(fabs(self.minXValue)/self.itemW);
+        self.xItemUnitW = ChartWidth/(self.itemW * (self.xPostiveSegmentNum+self.xNegativeSegmentNum));
     } else {
-        self.yNegativeSegmentNum = 4;
-        self.itemH = ceil(fabs(self.minYValue)/self.yNegativeSegmentNum);
-        self.yPostiveSegmentNum = ceil(self.maxYValue/self.itemH);
-        self.yItemUnitH = LineChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
+        self.xNegativeSegmentNum = 4;
+        self.itemW = ceil(fabs(self.minXValue)/self.xNegativeSegmentNum);
+        self.xPostiveSegmentNum = ceil(self.maxXValue/self.itemW);
+        self.xItemUnitW = ChartWidth/(self.itemW * (self.xPostiveSegmentNum+self.xNegativeSegmentNum));
     }
 }
 
-- (void)drawYValuePoint {
-    UIView *subContainerV = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, LineChartWidth, LineChartHeight)];
+- (void)drawXValuePoint {
+    UIView *subContainerV = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, ChartWidth, ChartHeight)];
     subContainerV.layer.masksToBounds = YES;
     [self.containerView addSubview:subContainerV];
     switch (self.chartType) {
         case BarChartTypeSingle: {
-            NSArray *array = self.yValues[0];
-            CGFloat offsetX = self.gestureScroll.contentOffset.x;
-            CGFloat zeroY = _yPostiveSegmentNum * self.yAxisUnitH;
+            NSArray *array = self.xValues[0];
+            CGFloat offsetY = self.gestureScroll.contentOffset.y;
+            CGFloat zeroX = _xPostiveSegmentNum * self.xAxisUnitW;
             for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
-                CAShapeLayer *yValueLayer = [CAShapeLayer layer];
-                CGFloat yPoint = zeroY - [array[i] floatValue] * _yItemUnitH;
+                CAShapeLayer *xValueLayer = [CAShapeLayer layer];
+                CGFloat xPoint = zeroX - [array[i] floatValue] * _xItemUnitW;
                 if ([array[i] floatValue] < 0) {
-                    yPoint = zeroY;
+                    xPoint = zeroX;
                 }
-                UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(i*(self.zoomedItemW+GroupSpace)-offsetX, yPoint, self.zoomedItemW, fabs([array[i] floatValue]) * _yItemUnitH)];
-                yValueLayer.path = yValueBezier.CGPath;
-                yValueLayer.lineWidth = 1;
-                yValueLayer.strokeColor = [self.lineColors[0] CGColor];
-                yValueLayer.fillColor = [self.lineColors[0] CGColor];
-                [subContainerV.layer addSublayer:yValueLayer];
+                UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemH+GroupSpace)-offsetY, fabs([array[i] floatValue]) * _xItemUnitW, self.zoomedItemH)];
+                xValueLayer.path = xValueBezier.CGPath;
+                xValueLayer.lineWidth = 1;
+                xValueLayer.strokeColor = [self.lineColors[0] CGColor];
+                xValueLayer.fillColor = [self.lineColors[0] CGColor];
+                [subContainerV.layer addSublayer:xValueLayer];
             }
         }
             break;
         case BarChartTypeStack: {
-            CGFloat offsetX = self.gestureScroll.contentOffset.x;
-            CGFloat zeroY = _yPostiveSegmentNum * self.yAxisUnitH;
+            CGFloat offsetY = self.gestureScroll.contentOffset.y;
+            CGFloat zeroX = _xPostiveSegmentNum * self.xAxisUnitW;
             for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
-                CGFloat positiveY = zeroY, negativeY = zeroY, yPoint = zeroY;
-                for (NSUInteger j=0; j<self.yValues.count; j++) {
-                    NSArray *array = self.yValues[j];
-                    CAShapeLayer *yValueLayer = [CAShapeLayer layer];
+                CGFloat positiveX = zeroX, negativeX = zeroX, xPoint = zeroX;
+                for (NSUInteger j=0; j<self.xValues.count; j++) {
+                    NSArray *array = self.xValues[j];
+                    CAShapeLayer *xValueLayer = [CAShapeLayer layer];
                     if ([array[i] floatValue] >= 0) {
-                        positiveY -= [array[i] floatValue] * _yItemUnitH;
-                        yPoint = positiveY;
+                        positiveX -= [array[i] floatValue] * _xItemUnitW;
+                        xPoint = positiveX;
                     }
-                    if ([array[i] floatValue] < 0 && 0 <= yPoint && yPoint < zeroY) {
-                        yPoint = zeroY;
+                    if ([array[i] floatValue] < 0 && 0 <= xPoint && xPoint < zeroX) {
+                        xPoint = zeroX;
                     }
-                    UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(i*(self.zoomedItemW+GroupSpace)-offsetX, yPoint, self.zoomedItemW, fabs([array[i] floatValue]) * _yItemUnitH)];
-                    yValueLayer.path = yValueBezier.CGPath;
-                    yValueLayer.lineWidth = 1;
-                    yValueLayer.strokeColor = [self.lineColors[j] CGColor];
-                    yValueLayer.fillColor = [self.lineColors[j] CGColor];
-                    [subContainerV.layer addSublayer:yValueLayer];
+                    UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemH+GroupSpace)-offsetY, fabs([array[i] floatValue]) * _xItemUnitW, self.zoomedItemH)];
+                    xValueLayer.path = xValueBezier.CGPath;
+                    xValueLayer.lineWidth = 1;
+                    xValueLayer.strokeColor = [self.lineColors[j] CGColor];
+                    xValueLayer.fillColor = [self.lineColors[j] CGColor];
+                    [subContainerV.layer addSublayer:xValueLayer];
                     
                     if ([array[i] floatValue] < 0) {
-                        negativeY -= [array[i] floatValue] * _yItemUnitH;
-                        yPoint = negativeY;
+                        negativeX -= [array[i] floatValue] * _xItemUnitW;
+                        xPoint = negativeX;
                     }
                 }
             }
         }
             break;
         case BarChartTypeGroup: {
-            CGFloat offsetX = self.gestureScroll.contentOffset.x;
-            CGFloat zeroY = _yPostiveSegmentNum * self.yAxisUnitH;
-            if (self.beginItemIndex >= self.yValues.count) break;
+            CGFloat offsetY = self.gestureScroll.contentOffset.y;
+            CGFloat zeroX = _xPostiveSegmentNum * self.xAxisUnitW;
+            if (self.beginItemIndex >= self.xValues.count) break;
             NSUInteger rightLoopIndex = self.endItemIndex;
-            if (self.endItemIndex >= self.yValues.count) {
-                rightLoopIndex = self.yValues.count - 1;
+            if (self.endItemIndex >= self.xValues.count) {
+                rightLoopIndex = self.xValues.count - 1;
             }
             if (self.beginGroupIndex == self.endGroupIndex) {
                 if (self.beginItemIndex>self.endItemIndex) break;
@@ -414,23 +417,23 @@ static const float GroupSpace = 5;
                 break;
             }
             
-            [self drawBeginAndEndItemLayer:self.beginItemIndex rightIndex:self.yValues.count-1 isBegin:YES containerView:subContainerV];
+            [self drawBeginAndEndItemLayer:self.beginItemIndex rightIndex:self.xValues.count-1 isBegin:YES containerView:subContainerV];
             [self drawBeginAndEndItemLayer:0 rightIndex:rightLoopIndex isBegin:NO containerView:subContainerV];
             
             for (NSUInteger i=self.beginGroupIndex+1; i<self.endGroupIndex; i++) {
-                for (NSUInteger j=0; j<self.yValues.count; j++) {
-                    NSArray *array = self.yValues[j];
-                    CAShapeLayer *yValueLayer = [CAShapeLayer layer];
-                    CGFloat yPoint = zeroY - [array[i] floatValue] * _yItemUnitH;
+                for (NSUInteger j=0; j<self.xValues.count; j++) {
+                    NSArray *array = self.xValues[j];
+                    CAShapeLayer *xValueLayer = [CAShapeLayer layer];
+                    CGFloat xPoint = zeroX - [array[i] floatValue] * _xItemUnitW;
                     if ([array[i] floatValue] < 0) {
-                        yPoint = zeroY;
+                        xPoint = zeroX;
                     }
-                    UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(i*(self.zoomedItemW*self.yValues.count+GroupSpace)+j*self.zoomedItemW-offsetX, yPoint, self.zoomedItemW, fabs([array[i] floatValue]) * _yItemUnitH)];
-                    yValueLayer.path = yValueBezier.CGPath;
-                    yValueLayer.lineWidth = 1;
-                    yValueLayer.strokeColor = [self.lineColors[j] CGColor];
-                    yValueLayer.fillColor = [self.lineColors[j] CGColor];
-                    [subContainerV.layer addSublayer:yValueLayer];
+                    UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemH*self.xValues.count+GroupSpace)+j*self.zoomedItemH-offsetY, fabs([array[i] floatValue]) * _xItemUnitW, self.zoomedItemH)];
+                    xValueLayer.path = xValueBezier.CGPath;
+                    xValueLayer.lineWidth = 1;
+                    xValueLayer.strokeColor = [self.lineColors[j] CGColor];
+                    xValueLayer.fillColor = [self.lineColors[j] CGColor];
+                    [subContainerV.layer addSublayer:xValueLayer];
                 }
             }
         }
@@ -441,40 +444,63 @@ static const float GroupSpace = 5;
     }
 }
 - (void)drawBeginAndEndItemLayer:(NSInteger)leftIndex rightIndex:(NSInteger)rightIndex isBegin:(BOOL)isBegin containerView:(UIView *)subContainerV {
-    CGFloat zeroY = _yPostiveSegmentNum * self.yAxisUnitH;
-    CGFloat offsetX = self.gestureScroll.contentOffset.x;
+    CGFloat zeroX = _xPostiveSegmentNum * self.xAxisUnitW;
+    CGFloat offsetY = self.gestureScroll.contentOffset.y;
     
     for (NSUInteger i=leftIndex; i<=rightIndex; i++) {
-        NSArray *array = self.yValues[i];
-        CAShapeLayer *yValueLayer = [CAShapeLayer layer];
+        NSArray *array = self.xValues[i];
+        CAShapeLayer *xValueLayer = [CAShapeLayer layer];
         CGFloat itemValue = isBegin ? [array[self.beginGroupIndex] floatValue] :  [array[self.endGroupIndex] floatValue];
-        CGFloat yPoint = zeroY - itemValue * _yItemUnitH;
+        CGFloat xPoint = zeroX - itemValue * _xItemUnitW;
         if (itemValue < 0) {
-            yPoint = zeroY;
+            xPoint = zeroX;
         }
         NSUInteger leftIndex = isBegin ? self.beginGroupIndex : self.endGroupIndex;
-        CGFloat x = leftIndex *(self.zoomedItemW*self.yValues.count+GroupSpace)+i*self.zoomedItemW-offsetX;
-        UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(x, yPoint, self.zoomedItemW, fabs(itemValue) * _yItemUnitH)];
-        yValueLayer.path = yValueBezier.CGPath;
-        yValueLayer.lineWidth = 1;
-        yValueLayer.strokeColor = [self.lineColors[i] CGColor];
-        yValueLayer.fillColor = [self.lineColors[i] CGColor];
-        [subContainerV.layer addSublayer:yValueLayer];
+        CGFloat y = leftIndex *(self.zoomedItemH*self.xValues.count+GroupSpace)+i*self.zoomedItemH-offsetY;
+        UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, y, fabs(itemValue) * _xItemUnitW, self.zoomedItemH)];
+        xValueLayer.path = xValueBezier.CGPath;
+        xValueLayer.lineWidth = 1;
+        xValueLayer.strokeColor = [self.lineColors[i] CGColor];
+        xValueLayer.fillColor = [self.lineColors[i] CGColor];
+        [subContainerV.layer addSublayer:xValueLayer];
     }
 }
 
-- (void)addXAxisLayer {
-    UIView *xAxisContainer = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, self.bounds.size.height - XTextHeight, LineChartWidth, XTextHeight)];
-    xAxisContainer.layer.masksToBounds = YES;
-    [self.containerView addSubview:xAxisContainer];
-    CGFloat offsetX = self.gestureScroll.contentOffset.x;
+- (void)addYAxisLayer {
+    UIView *yAxisContainer = [[UIView alloc] initWithFrame:CGRectMake(0, TopEdge, LeftEdge, ChartHeight)];
+    yAxisContainer.layer.masksToBounds = YES;
+    [self.containerView addSubview:yAxisContainer];
+    CGFloat offsetY = self.gestureScroll.contentOffset.y;
     for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
-        CGRect textFrame = CGRectMake((self.zoomedItemW+GroupSpace)*i - offsetX, 0, self.zoomedItemW, XTextHeight);
+        CGRect textFrame = CGRectMake(0, (self.zoomedItemH+GroupSpace)*i - offsetY, LeftEdge, self.zoomedItemH);
         if (self.chartType == BarChartTypeGroup) {
-            textFrame = CGRectMake((self.yValues.count*self.zoomedItemW+GroupSpace)*i - offsetX, 0, self.yValues.count*self.zoomedItemW, XTextHeight);
+            textFrame = CGRectMake(0, (self.xValues.count*self.zoomedItemH+GroupSpace)*i - offsetY, LeftEdge, self.xValues.count*self.zoomedItemH);
         }
-        CATextLayer *text = [self getTextLayerWithString:self.xAxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
-        [xAxisContainer.layer addSublayer:text];
+        CATextLayer *text = [self getTextLayerWithString:self.yAxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        [yAxisContainer.layer addSublayer:text];
+    }
+}
+- (void)addYScaleLayer {
+    CAShapeLayer *yScaleLayer = [CAShapeLayer layer];
+    UIBezierPath *yScaleBezier = [UIBezierPath bezierPath];
+    [yScaleBezier moveToPoint:CGPointMake(LeftEdge, TopEdge)];
+    [yScaleBezier addLineToPoint:CGPointMake(LeftEdge, self.bounds.size.height-BottomEdge)];
+    yScaleLayer.path = yScaleBezier.CGPath;
+    yScaleLayer.lineWidth = 1;
+    yScaleLayer.strokeColor = [UIColor blackColor].CGColor;
+    yScaleLayer.fillColor = [UIColor clearColor].CGColor;
+    [self.containerView.layer addSublayer:yScaleLayer];
+}
+- (void)addXAxisLayer {
+    for (NSUInteger i=0; i<_xNegativeSegmentNum; i++) {
+        CGRect textFrame = CGRectMake((i-0.5)*self.xAxisUnitW+LeftEdge, self.bounds.size.height-TextHeight, self.xAxisUnitW, TextHeight);
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%.2f",(_xNegativeSegmentNum-i)*_itemW] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        [self.containerView.layer addSublayer:text];
+    }
+    for (NSInteger i=0; i<=_xPostiveSegmentNum+1; i++) {
+        CGRect textFrame = CGRectMake((_xNegativeSegmentNum+i-0.5)*self.xAxisUnitW+LeftEdge, self.bounds.size.height-TextHeight, self.xAxisUnitW, TextHeight);
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%.2f",i*_itemW] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        [self.containerView.layer addSublayer:text];
     }
 }
 - (void)addXScaleLayer {
@@ -482,47 +508,24 @@ static const float GroupSpace = 5;
     UIBezierPath *xScaleBezier = [UIBezierPath bezierPath];
     [xScaleBezier moveToPoint:CGPointMake(LeftEdge, self.bounds.size.height-BottomEdge)];
     [xScaleBezier addLineToPoint:CGPointMake(self.bounds.size.width, self.bounds.size.height-BottomEdge)];
+    
+    for (NSUInteger i=0; i<=_xNegativeSegmentNum+_xPostiveSegmentNum+1; i++) {
+        [xScaleBezier moveToPoint:CGPointMake(LeftEdge+i*self.xAxisUnitW, self.bounds.size.height-BottomEdge)];
+        [xScaleBezier addLineToPoint:CGPointMake(LeftEdge+i*self.xAxisUnitW, self.bounds.size.height-BottomEdge+5)];
+    }
     xScaleLayer.path = xScaleBezier.CGPath;
+    xScaleLayer.backgroundColor = [UIColor blueColor].CGColor;
     xScaleLayer.lineWidth = 1;
     xScaleLayer.strokeColor = [UIColor blackColor].CGColor;
     xScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:xScaleLayer];
-}
-- (void)addYAxisLayer {
-    for (NSUInteger i=0; i<_yNegativeSegmentNum; i++) {
-        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-i*self.yAxisUnitH, YTextWidth, BottomEdge);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%.2f",(_yNegativeSegmentNum-i)*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
-        [self.containerView.layer addSublayer:text];
-    }
-    for (NSInteger i=0; i<=_yPostiveSegmentNum+1; i++) {
-        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-(_yNegativeSegmentNum+i)*self.yAxisUnitH, YTextWidth, BottomEdge);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%.2f",i*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
-        [self.containerView.layer addSublayer:text];
-    }
-}
-- (void)addYScaleLayer {
-    CAShapeLayer *yScaleLayer = [CAShapeLayer layer];
-    UIBezierPath *yScaleBezier = [UIBezierPath bezierPath];
-    [yScaleBezier moveToPoint:CGPointMake(LeftEdge+1, TopEdge)];
-    [yScaleBezier addLineToPoint:CGPointMake(LeftEdge+1, self.bounds.size.height-BottomEdge)];
     
-    for (NSUInteger i=0; i<=_yNegativeSegmentNum+_yPostiveSegmentNum+1; i++) {
-        [yScaleBezier moveToPoint:CGPointMake(LeftEdge-5, TopEdge+i*self.yAxisUnitH)];
-        [yScaleBezier addLineToPoint:CGPointMake(LeftEdge+1, TopEdge+i*self.yAxisUnitH)];
-    }
-    yScaleLayer.path = yScaleBezier.CGPath;
-    yScaleLayer.backgroundColor = [UIColor blueColor].CGColor;
-    yScaleLayer.lineWidth = 1;
-    yScaleLayer.strokeColor = [UIColor blackColor].CGColor;
-    yScaleLayer.fillColor = [UIColor clearColor].CGColor;
-    [self.containerView.layer addSublayer:yScaleLayer];
-    
-    if (_showYAxisDashLine) {
+    if (YES) {
         CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
         UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
-        for (NSUInteger i=0; i<=_yNegativeSegmentNum+_yPostiveSegmentNum; i++) {
-            [dashLineBezier moveToPoint:CGPointMake(LeftEdge+1, TopEdge+i*self.yAxisUnitH)];
-            [dashLineBezier addLineToPoint:CGPointMake(self.bounds.size.width, TopEdge+i*self.yAxisUnitH)];
+        for (NSUInteger i=0; i<=_xNegativeSegmentNum+_xPostiveSegmentNum; i++) {
+            [dashLineBezier moveToPoint:CGPointMake(LeftEdge+i*self.xAxisUnitW, self.bounds.size.height-BottomEdge)];
+            [dashLineBezier addLineToPoint:CGPointMake(LeftEdge+i*self.xAxisUnitW, TopEdge)];
         }
         dashLineLayer.path = dashLineBezier.CGPath;
         [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
@@ -550,38 +553,38 @@ static const float GroupSpace = 5;
     return textLayer;
 }
 
-- (NSMutableArray *)xAxisArray {
-    if (!_xAxisArray) {
-        _xAxisArray = [NSMutableArray arrayWithObjects:@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun", nil];
+- (NSMutableArray *)yAxisArray {
+    if (!_yAxisArray) {
+        _yAxisArray = [NSMutableArray arrayWithObjects:@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun", nil];
     }
-    return _xAxisArray;
+    return _yAxisArray;
 }
 
-- (NSArray *)yValues {
-    if (!_yValues) {
-        _yValues = @[
+- (NSArray *)xValues {
+    if (!_xValues) {
+        _xValues = @[
                      @[@"1",@"2",@"3",@"-4",@"5",@"6",@"-7"],
                      @[@"5",@"6",@"-7",@"9",@"12",@"13",@"-14"]
                      ];
     }
-    return _yValues;
+    return _xValues;
 }
-- (CGFloat)itemW {
-    if (_itemW == 0) {
+- (CGFloat)itemH {
+    if (_itemH == 0) {
         if (self.chartType == BarChartTypeGroup) {
-            CGFloat w = (LineChartWidth-[self.yValues[0] count]*GroupSpace)/[self.yValues[0] count]/self.yValues.count;
-            _itemW = w > minItemWidth ? w : minItemWidth;
+            CGFloat h = (ChartHeight-[self.xValues[0] count]*GroupSpace)/[self.xValues[0] count]/self.xValues.count;
+            _itemH = h > minItemHeight ? h : minItemHeight;
         } else {
-            _itemW = (LineChartWidth/[self.yValues[0] count] - GroupSpace) > minItemWidth ? (LineChartWidth/[self.yValues[0] count] - GroupSpace) : minItemWidth;
+            _itemH = (ChartHeight/[self.xValues[0] count] - GroupSpace) > minItemHeight ? (ChartHeight/[self.xValues[0] count] - GroupSpace) : minItemHeight;
         }
     }
-    return _itemW;
+    return _itemH;
 }
-- (CGFloat)zoomedItemW {
-    return self.itemW * self.newPinScale * self.oldPinScale;
+- (CGFloat)zoomedItemH {
+    return self.itemH * self.newPinScale * self.oldPinScale;
 }
-- (CGFloat)yAxisUnitH {
-    return LineChartHeight/(_yNegativeSegmentNum + _yPostiveSegmentNum);
+- (CGFloat)xAxisUnitW {
+    return ChartWidth/(_xNegativeSegmentNum + _xPostiveSegmentNum);
 }
 - (CGFloat)oldPinScale {
     if (_oldPinScale == 0) {
@@ -597,8 +600,8 @@ static const float GroupSpace = 5;
 }
 - (NSArray *)lineColors {
     if (!_lineColors) {
-        NSMutableArray *colors = [NSMutableArray arrayWithCapacity:self.yValues.count];
-        for (NSUInteger i=0; i<self.yValues.count; i++) {
+        NSMutableArray *colors = [NSMutableArray arrayWithCapacity:self.xValues.count];
+        for (NSUInteger i=0; i<self.xValues.count; i++) {
             UIColor *color = [UIColor colorWithRed:arc4random_uniform(256)/255.0 green:arc4random_uniform(256)/255.0 blue:arc4random_uniform(256)/255.0 alpha:1];
             [colors addObject:color];
         }
@@ -606,11 +609,11 @@ static const float GroupSpace = 5;
     }
     return _lineColors;
 }
-- (CGFloat)scrollContentSizeWidth {
+- (CGFloat)scrollContentSizeHeight {
     if (self.chartType == BarChartTypeGroup) {
-        return (self.yValues.count*self.zoomedItemW + GroupSpace) * [self.yValues[0] count];
+        return (self.xValues.count*self.zoomedItemH + GroupSpace) * [self.xValues[0] count];
     }
-    return (self.zoomedItemW + GroupSpace) * [self.yValues[0] count];
+    return (self.zoomedItemH + GroupSpace) * [self.xValues[0] count];
 }
 
 @end

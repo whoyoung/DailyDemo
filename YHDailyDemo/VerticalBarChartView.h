@@ -13,6 +13,6 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     BarChartTypeStack = 2
 };
 @interface VerticalBarChartView : UIView
-@property (nonatomic, assign) BOOL showYAxisDashLine;
+@property (nonatomic, assign) BOOL showXAxisDashLine;
 @property (nonatomic, assign) BarChartType chartType;
 @end
