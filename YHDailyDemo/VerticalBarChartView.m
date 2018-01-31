@@ -77,13 +77,19 @@ static const float GroupSpace = 5;
         
         UIPinchGestureRecognizer *pinGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(chartDidZooming:)];
         [_gestureScroll addGestureRecognizer:pinGesture];
+        
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chartDidTaping:)];
+        tapGesture.numberOfTapsRequired = 1;
+        [_gestureScroll addGestureRecognizer:tapGesture];
     }
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self removeTipView];
     [self redraw];
 }
 
 - (void)chartDidZooming:(UIPinchGestureRecognizer *)pinGesture {
+    [self removeTipView];
     switch (pinGesture.state) {
         case UIGestureRecognizerStateBegan: {
             CGPoint pinCenterContainer = [pinGesture locationInView:self.containerView];
@@ -124,6 +130,18 @@ static const float GroupSpace = 5;
         default:
             break;
     }
+}
+- (void)chartDidTaping:(UITapGestureRecognizer *)tapGesture {
+    [self removeTipView];
+    CGPoint tapP = [tapGesture locationInView:self.gestureScroll];
+    UIView *tipView = [[UIView alloc] initWithFrame:CGRectMake(tapP.x, tapP.y, 50, 50)];
+    tipView.backgroundColor = [UIColor  redColor];
+    tipView.tag = 101;
+    [self.gestureScroll addSubview:tipView];
+}
+- (void)removeTipView {
+    UIView *existedV = [self.gestureScroll viewWithTag:101];
+    [existedV removeFromSuperview];
 }
 - (void)adjustScroll {
     self.gestureScroll.contentSize = CGSizeMake(self.scrollContentSizeWidth, LineChartHeight);
