@@ -405,7 +405,7 @@ static const float GroupSpace = 5;
             break;
         case BarChartTypeGroup: {
             CGFloat offsetY = self.gestureScroll.contentOffset.y;
-            CGFloat zeroX = _xPostiveSegmentNum * self.xAxisUnitW;
+            CGFloat zeroX = _xNegativeSegmentNum * self.xAxisUnitW;
             if (self.beginItemIndex >= self.xValues.count) break;
             NSUInteger rightLoopIndex = self.endItemIndex;
             if (self.endItemIndex >= self.xValues.count) {
@@ -424,9 +424,10 @@ static const float GroupSpace = 5;
                 for (NSUInteger j=0; j<self.xValues.count; j++) {
                     NSArray *array = self.xValues[j];
                     CAShapeLayer *xValueLayer = [CAShapeLayer layer];
-                    CGFloat xPoint = zeroX - [array[i] floatValue] * _xItemUnitW;
+                    
+                    CGFloat xPoint = zeroX;
                     if ([array[i] floatValue] < 0) {
-                        xPoint = zeroX;
+                        xPoint = zeroX + [array[i] floatValue] * _xItemUnitW;
                     }
                     UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemH*self.xValues.count+GroupSpace)+j*self.zoomedItemH-offsetY, fabs([array[i] floatValue]) * _xItemUnitW, self.zoomedItemH)];
                     xValueLayer.path = xValueBezier.CGPath;
@@ -444,16 +445,16 @@ static const float GroupSpace = 5;
     }
 }
 - (void)drawBeginAndEndItemLayer:(NSInteger)leftIndex rightIndex:(NSInteger)rightIndex isBegin:(BOOL)isBegin containerView:(UIView *)subContainerV {
-    CGFloat zeroX = _xPostiveSegmentNum * self.xAxisUnitW;
+    CGFloat zeroX = _xNegativeSegmentNum * self.xAxisUnitW;
     CGFloat offsetY = self.gestureScroll.contentOffset.y;
     
     for (NSUInteger i=leftIndex; i<=rightIndex; i++) {
         NSArray *array = self.xValues[i];
         CAShapeLayer *xValueLayer = [CAShapeLayer layer];
         CGFloat itemValue = isBegin ? [array[self.beginGroupIndex] floatValue] :  [array[self.endGroupIndex] floatValue];
-        CGFloat xPoint = zeroX - itemValue * _xItemUnitW;
+        CGFloat xPoint = zeroX;
         if (itemValue < 0) {
-            xPoint = zeroX;
+            xPoint = zeroX + itemValue * _xItemUnitW;
         }
         NSUInteger leftIndex = isBegin ? self.beginGroupIndex : self.endGroupIndex;
         CGFloat y = leftIndex *(self.zoomedItemH*self.xValues.count+GroupSpace)+i*self.zoomedItemH-offsetY;
