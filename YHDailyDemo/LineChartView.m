@@ -245,7 +245,7 @@ static const float YTextWidth = 45;
 - (void)addXAxisLayer {
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
     for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
-        if (self.zoomedItemW*i-offsetX-self.zoomedItemW/2.0 < 0) continue;
+        if (self.zoomedItemW*i-offsetX < 0) continue;
         CGRect textFrame = CGRectMake(LeftEdge + self.zoomedItemW*i-offsetX-self.zoomedItemW/2.0, self.bounds.size.height-XTextHeight, self.zoomedItemW, XTextHeight);
         CATextLayer *text = [self getTextLayerWithString:self.xAxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
         [self.containerView.layer addSublayer:text];
