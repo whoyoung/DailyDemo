@@ -235,7 +235,8 @@ static const float YTextWidth = 45;
 - (void)addXAxisLayer {
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
     for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
-        CGRect textFrame = CGRectMake(LeftEdge-self.zoomedItemW/2.0 + self.zoomedItemW*i - offsetX, self.bounds.size.height-XTextHeight, self.zoomedItemW, XTextHeight);
+        if (self.zoomedItemW*i-offsetX-self.zoomedItemW/2.0 < 0) continue;
+        CGRect textFrame = CGRectMake(LeftEdge + self.zoomedItemW*i-offsetX-self.zoomedItemW/2.0, self.bounds.size.height-XTextHeight, self.zoomedItemW, XTextHeight);
         CATextLayer *text = [self getTextLayerWithString:self.xAxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
         [self.containerView.layer addSublayer:text];
     }
@@ -248,6 +249,7 @@ static const float YTextWidth = 45;
     
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
     for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
+        if (self.zoomedItemW*i - offsetX < 0) continue;
         [xScaleBezier moveToPoint:CGPointMake(LeftEdge + self.zoomedItemW*i - offsetX, self.bounds.size.height-BottomEdge)];
         [xScaleBezier addLineToPoint:CGPointMake(LeftEdge + self.zoomedItemW*i - offsetX, self.bounds.size.height-BottomEdge+5)];
     }
@@ -261,6 +263,7 @@ static const float YTextWidth = 45;
         CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
         UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
         for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
+            if (self.zoomedItemW*i - offsetX < 0) continue;
             [dashLineBezier moveToPoint:CGPointMake(LeftEdge + self.zoomedItemW*i - offsetX, self.bounds.size.height-BottomEdge-1)];
             [dashLineBezier addLineToPoint:CGPointMake(LeftEdge + self.zoomedItemW*i - offsetX, TopEdge)];
         }
