@@ -21,6 +21,8 @@
 		77714A2B201EB312004DD6EB /* LineChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A2A201EB312004DD6EB /* LineChartViewController.m */; };
 		77714A3220200B6E004DD6EB /* HorizontalBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A3120200B6E004DD6EB /* HorizontalBarChartViewController.m */; };
 		77714A3520200B94004DD6EB /* HorizontalBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A3420200B94004DD6EB /* HorizontalBarChartView.m */; };
+		77714A3A202158FB004DD6EB /* VerticalBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A39202158FB004DD6EB /* VerticalBarChartView.m */; };
+		77714A3D20215909004DD6EB /* VerticalBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A3C20215909004DD6EB /* VerticalBarChartViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +52,10 @@
 		77714A3120200B6E004DD6EB /* HorizontalBarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HorizontalBarChartViewController.m; sourceTree = "<group>"; };
 		77714A3320200B94004DD6EB /* HorizontalBarChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HorizontalBarChartView.h; sourceTree = "<group>"; };
 		77714A3420200B94004DD6EB /* HorizontalBarChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HorizontalBarChartView.m; sourceTree = "<group>"; };
+		77714A38202158FB004DD6EB /* VerticalBarChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerticalBarChartView.h; sourceTree = "<group>"; };
+		77714A39202158FB004DD6EB /* VerticalBarChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerticalBarChartView.m; sourceTree = "<group>"; };
+		77714A3B20215909004DD6EB /* VerticalBarChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerticalBarChartViewController.h; sourceTree = "<group>"; };
+		77714A3C20215909004DD6EB /* VerticalBarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerticalBarChartViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +92,7 @@
 				776FC1A62011F08200CDF3E6 /* RootTableViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				77714A37202158C8004DD6EB /* VerticalBarChar */,
 				77714A2F20200B31004DD6EB /* HorizontalBarChart */,
 				77714A25201B46F4004DD6EB /* LineChart */,
 				77714A24201B4691004DD6EB /* FindMaxAndMinNumber */,
@@ -141,6 +148,17 @@
 				77714A3420200B94004DD6EB /* HorizontalBarChartView.m */,
 			);
 			name = HorizontalBarChart;
+			sourceTree = "<group>";
+		};
+		77714A37202158C8004DD6EB /* VerticalBarChar */ = {
+			isa = PBXGroup;
+			children = (
+				77714A38202158FB004DD6EB /* VerticalBarChartView.h */,
+				77714A39202158FB004DD6EB /* VerticalBarChartView.m */,
+				77714A3B20215909004DD6EB /* VerticalBarChartViewController.h */,
+				77714A3C20215909004DD6EB /* VerticalBarChartViewController.m */,
+			);
+			name = VerticalBarChar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -223,6 +241,8 @@
 				776FC19F2011F04100CDF3E6 /* main.m in Sources */,
 				776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */,
 				77714A3220200B6E004DD6EB /* HorizontalBarChartViewController.m in Sources */,
+				77714A3D20215909004DD6EB /* VerticalBarChartViewController.m in Sources */,
+				77714A3A202158FB004DD6EB /* VerticalBarChartView.m in Sources */,
 				776FC1A72011F08200CDF3E6 /* RootTableViewController.m in Sources */,
 				77714A28201B4725004DD6EB /* LineChartView.m in Sources */,
 			);
