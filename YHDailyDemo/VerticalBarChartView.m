@@ -54,7 +54,7 @@ static const float GroupSpace = 5;
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self addGestureScroll];
-    self.chartType = BarChartTypeGroup;
+    self.chartType = BarChartTypeStack;
     self.gestureScroll.contentSize = CGSizeMake(ChartWidth, self.scrollContentSizeHeight);
     if (!_containerView) {
         [self redraw];
@@ -357,12 +357,12 @@ static const float GroupSpace = 5;
         case BarChartTypeSingle: {
             NSArray *array = self.xValues[0];
             CGFloat offsetY = self.gestureScroll.contentOffset.y;
-            CGFloat zeroX = _xPostiveSegmentNum * self.xAxisUnitW;
+            CGFloat zeroX = _xNegativeSegmentNum * self.xAxisUnitW;
             for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
                 CAShapeLayer *xValueLayer = [CAShapeLayer layer];
-                CGFloat xPoint = zeroX - [array[i] floatValue] * _xItemUnitW;
+                CGFloat xPoint = zeroX;
                 if ([array[i] floatValue] < 0) {
-                    xPoint = zeroX;
+                    xPoint = zeroX + [array[i] floatValue] * _xItemUnitW;
                 }
                 UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemH+GroupSpace)-offsetY, fabs([array[i] floatValue]) * _xItemUnitW, self.zoomedItemH)];
                 xValueLayer.path = xValueBezier.CGPath;
@@ -375,17 +375,17 @@ static const float GroupSpace = 5;
             break;
         case BarChartTypeStack: {
             CGFloat offsetY = self.gestureScroll.contentOffset.y;
-            CGFloat zeroX = _xPostiveSegmentNum * self.xAxisUnitW;
+            CGFloat zeroX = _xNegativeSegmentNum * self.xAxisUnitW;
             for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
                 CGFloat positiveX = zeroX, negativeX = zeroX, xPoint = zeroX;
                 for (NSUInteger j=0; j<self.xValues.count; j++) {
                     NSArray *array = self.xValues[j];
                     CAShapeLayer *xValueLayer = [CAShapeLayer layer];
-                    if ([array[i] floatValue] >= 0) {
-                        positiveX -= [array[i] floatValue] * _xItemUnitW;
-                        xPoint = positiveX;
+                    if ([array[i] floatValue] < 0) {
+                        negativeX += [array[i] floatValue] * _xItemUnitW;
+                        xPoint = negativeX;
                     }
-                    if ([array[i] floatValue] < 0 && 0 <= xPoint && xPoint < zeroX) {
+                    if ([array[i] floatValue] >= 0 && xPoint < zeroX) {
                         xPoint = zeroX;
                     }
                     UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemH+GroupSpace)-offsetY, fabs([array[i] floatValue]) * _xItemUnitW, self.zoomedItemH)];
@@ -395,9 +395,9 @@ static const float GroupSpace = 5;
                     xValueLayer.fillColor = [self.lineColors[j] CGColor];
                     [subContainerV.layer addSublayer:xValueLayer];
                     
-                    if ([array[i] floatValue] < 0) {
-                        negativeX -= [array[i] floatValue] * _xItemUnitW;
-                        xPoint = negativeX;
+                    if ([array[i] floatValue] >= 0) {
+                        positiveX += [array[i] floatValue] * _xItemUnitW;
+                        xPoint = positiveX;
                     }
                 }
             }
