@@ -72,6 +72,10 @@ static const float YTextWidth = 45;
         
         UIPinchGestureRecognizer *pinGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(chartDidZooming:)];
         [_gestureScroll addGestureRecognizer:pinGesture];
+        
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chartDidTapping:)];
+        tapGesture.numberOfTapsRequired = 1;
+        [_gestureScroll addGestureRecognizer:tapGesture];
     }
 }
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -122,6 +126,18 @@ static const float YTextWidth = 45;
         offsetX = 0;
     }
     self.gestureScroll.contentOffset = CGPointMake(offsetX, 0);
+}
+- (void)chartDidTapping:(UITapGestureRecognizer *)tapGesture {
+    [self removeTipView];
+    CGPoint tapP = [tapGesture locationInView:self.gestureScroll];
+    UIView *tipView = [[UIView alloc] initWithFrame:CGRectMake(tapP.x, tapP.y, 50, 50)];
+    tipView.backgroundColor = [UIColor  redColor];
+    tipView.tag = 101;
+    [self.gestureScroll addSubview:tipView];
+}
+- (void)removeTipView {
+    UIView *existedV = [self.gestureScroll viewWithTag:101];
+    [existedV removeFromSuperview];
 }
 - (void)redraw {
     [_containerView removeFromSuperview];

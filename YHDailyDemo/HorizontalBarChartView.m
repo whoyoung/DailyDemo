@@ -77,7 +77,7 @@ static const float GroupSpace = 5;
         UIPinchGestureRecognizer *pinGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(chartDidZooming:)];
         [_gestureScroll addGestureRecognizer:pinGesture];
         
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chartDidTaping:)];
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chartDidTapping:)];
         tapGesture.numberOfTapsRequired = 1;
         [_gestureScroll addGestureRecognizer:tapGesture];
     }
@@ -133,7 +133,7 @@ static const float GroupSpace = 5;
             break;
     }
 }
-- (void)chartDidTaping:(UITapGestureRecognizer *)tapGesture {
+- (void)chartDidTapping:(UITapGestureRecognizer *)tapGesture {
     [self removeTipView];
     CGPoint tapP = [tapGesture locationInView:self.gestureScroll];
     UIView *tipView = [[UIView alloc] initWithFrame:CGRectMake(tapP.x, tapP.y, 50, 50)];
