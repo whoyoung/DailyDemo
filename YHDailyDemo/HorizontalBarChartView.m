@@ -452,7 +452,7 @@ static const float GroupSpace = 5;
     for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
         CGRect textFrame = CGRectMake((self.zoomedItemW+GroupSpace)*i - offsetX, 0, self.zoomedItemW, XTextHeight);
         if (self.chartType == BarChartTypeGroup) {
-            textFrame = CGRectMake((self.yValues.count*self.zoomedItemW+GroupSpace)*i - offsetX, 0, self.zoomedItemW, XTextHeight);
+            textFrame = CGRectMake((self.yValues.count*self.zoomedItemW+GroupSpace)*i - offsetX, 0, self.yValues.count*self.zoomedItemW, XTextHeight);
         }
         CATextLayer *text = [self getTextLayerWithString:self.xAxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
         [xAxisContainer.layer addSublayer:text];
