@@ -208,15 +208,18 @@ static const float YTextWidth = 45;
 }
 
 - (void)drawYValuePoint {
+    UIView *subContainerV = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, LineChartWidth, LineChartHeight)];
+    subContainerV.layer.masksToBounds = YES;
+    [self.containerView addSubview:subContainerV];
     for (NSUInteger i=0;i<self.yValues.count;i++) {
         NSArray *values = self.yValues[i];
         CAShapeLayer *yValueLayer = [CAShapeLayer layer];
         UIBezierPath *yValueBezier = [UIBezierPath bezierPath];
         CGFloat offsetX = self.gestureScroll.contentOffset.x;
-        CGFloat zeroY = TopEdge + _yPostiveSegmentNum * self.yAxisUnitH;
+        CGFloat zeroY = _yPostiveSegmentNum * self.yAxisUnitH;
         for (NSUInteger i=self.beginIndex; i<self.endIndex+1; i++) {
             CGFloat yPoint = zeroY - [values[i] floatValue] * _yItemUnitH;
-            CGPoint p = CGPointMake(i*self.zoomedItemW-offsetX+LeftEdge, yPoint);
+            CGPoint p = CGPointMake(i*self.zoomedItemW-offsetX, yPoint);
             if (i == self.beginIndex) {
                 [yValueBezier moveToPoint:p];
             } else {
@@ -227,7 +230,7 @@ static const float YTextWidth = 45;
         yValueLayer.lineWidth = 1;
         yValueLayer.strokeColor = [self.lineColors[i] CGColor];
         yValueLayer.fillColor = [UIColor clearColor].CGColor;
-        [self.containerView.layer addSublayer:yValueLayer];
+        [subContainerV.layer addSublayer:yValueLayer];
     }
     
 }
