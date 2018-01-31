@@ -216,7 +216,7 @@ static const float YTextWidth = 45;
         CGFloat zeroY = TopEdge + _yPostiveSegmentNum * self.yAxisUnitH;
         for (NSUInteger i=self.beginIndex; i<self.endIndex+1; i++) {
             CGFloat yPoint = zeroY - [values[i] floatValue] * _yItemUnitH;
-            CGPoint p = CGPointMake((i+1)*self.zoomedItemW-offsetX+LeftEdge, yPoint);
+            CGPoint p = CGPointMake(i*self.zoomedItemW-offsetX+LeftEdge, yPoint);
             if (i == self.beginIndex) {
                 [yValueBezier moveToPoint:p];
             } else {
@@ -235,7 +235,7 @@ static const float YTextWidth = 45;
 - (void)addXAxisLayer {
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
     for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
-        CGRect textFrame = CGRectMake(LeftEdge+self.zoomedItemW/2.0 + self.zoomedItemW*i - offsetX, self.bounds.size.height-XTextHeight, self.zoomedItemW, XTextHeight);
+        CGRect textFrame = CGRectMake(LeftEdge-self.zoomedItemW/2.0 + self.zoomedItemW*i - offsetX, self.bounds.size.height-XTextHeight, self.zoomedItemW, XTextHeight);
         CATextLayer *text = [self getTextLayerWithString:self.xAxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
         [self.containerView.layer addSublayer:text];
     }
@@ -248,8 +248,8 @@ static const float YTextWidth = 45;
     
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
     for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
-        [xScaleBezier moveToPoint:CGPointMake(LeftEdge + self.zoomedItemW*(i+1) - offsetX, self.bounds.size.height-BottomEdge-1)];
-        [xScaleBezier addLineToPoint:CGPointMake(LeftEdge + self.zoomedItemW*(i+1) - offsetX, self.bounds.size.height-BottomEdge+5)];
+        [xScaleBezier moveToPoint:CGPointMake(LeftEdge + self.zoomedItemW*i - offsetX, self.bounds.size.height-BottomEdge)];
+        [xScaleBezier addLineToPoint:CGPointMake(LeftEdge + self.zoomedItemW*i - offsetX, self.bounds.size.height-BottomEdge+5)];
     }
     xScaleLayer.path = xScaleBezier.CGPath;
     xScaleLayer.lineWidth = 1;
@@ -261,8 +261,8 @@ static const float YTextWidth = 45;
         CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
         UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
         for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
-            [dashLineBezier moveToPoint:CGPointMake(LeftEdge + self.zoomedItemW*(i+1) - offsetX, self.bounds.size.height-BottomEdge-1)];
-            [dashLineBezier addLineToPoint:CGPointMake(LeftEdge + self.zoomedItemW*(i+1) - offsetX, TopEdge)];
+            [dashLineBezier moveToPoint:CGPointMake(LeftEdge + self.zoomedItemW*i - offsetX, self.bounds.size.height-BottomEdge-1)];
+            [dashLineBezier addLineToPoint:CGPointMake(LeftEdge + self.zoomedItemW*i - offsetX, TopEdge)];
         }
         dashLineLayer.path = dashLineBezier.CGPath;
         [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
@@ -287,12 +287,12 @@ static const float YTextWidth = 45;
 - (void)addYScaleLayer {
     CAShapeLayer *yScaleLayer = [CAShapeLayer layer];
     UIBezierPath *yScaleBezier = [UIBezierPath bezierPath];
-    [yScaleBezier moveToPoint:CGPointMake(LeftEdge+1, TopEdge)];
-    [yScaleBezier addLineToPoint:CGPointMake(LeftEdge+1, self.bounds.size.height-BottomEdge)];
+    [yScaleBezier moveToPoint:CGPointMake(LeftEdge, TopEdge)];
+    [yScaleBezier addLineToPoint:CGPointMake(LeftEdge, self.bounds.size.height-BottomEdge)];
     
     for (NSUInteger i=0; i<=_yNegativeSegmentNum+_yPostiveSegmentNum+1; i++) {
         [yScaleBezier moveToPoint:CGPointMake(LeftEdge-5, TopEdge+i*self.yAxisUnitH)];
-        [yScaleBezier addLineToPoint:CGPointMake(LeftEdge+1, TopEdge+i*self.yAxisUnitH)];
+        [yScaleBezier addLineToPoint:CGPointMake(LeftEdge, TopEdge+i*self.yAxisUnitH)];
     }
     yScaleLayer.path = yScaleBezier.CGPath;
     yScaleLayer.backgroundColor = [UIColor blueColor].CGColor;
@@ -305,7 +305,7 @@ static const float YTextWidth = 45;
         CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
         UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
         for (NSUInteger i=0; i<=_yNegativeSegmentNum+_yPostiveSegmentNum; i++) {
-            [dashLineBezier moveToPoint:CGPointMake(LeftEdge+1, TopEdge+i*self.yAxisUnitH)];
+            [dashLineBezier moveToPoint:CGPointMake(LeftEdge, TopEdge+i*self.yAxisUnitH)];
             [dashLineBezier addLineToPoint:CGPointMake(self.bounds.size.width, TopEdge+i*self.yAxisUnitH)];
         }
         dashLineLayer.path = dashLineBezier.CGPath;
