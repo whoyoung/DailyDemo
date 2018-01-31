@@ -358,21 +358,33 @@ static const float GroupSpace = 5;
 - (void)calculateYAxisSegment {
     if (self.minYValue >= 0) {
         self.yPostiveSegmentNum = 4;
+        if(self.maxYValue < 1) {
+            self.yPostiveSegmentNum = 1;
+        }
         self.yNegativeSegmentNum = 0;
         self.itemH = ceil(self.maxYValue/self.yPostiveSegmentNum);
         self.yItemUnitH = ChartHeight/(self.itemH * self.yPostiveSegmentNum);
     } else if (self.maxYValue < 0) {
         self.yPostiveSegmentNum = 0;
         self.yNegativeSegmentNum = 4;
+        if(fabs(self.minYValue) < 1) {
+            self.yNegativeSegmentNum = 1;
+        }
         self.itemH = ceil(fabs(self.minYValue)/self.yNegativeSegmentNum);
         self.yItemUnitH = ChartHeight/(self.itemH * self.yNegativeSegmentNum);
     } else if (self.maxYValue >= fabs(self.minYValue)) {
         self.yPostiveSegmentNum = 4;
+        if(self.maxYValue < 1) {
+            self.yPostiveSegmentNum = 1;
+        }
         self.itemH = ceil(self.maxYValue/self.yPostiveSegmentNum);
         self.yNegativeSegmentNum = ceil(fabs(self.minYValue)/self.itemH);
         self.yItemUnitH = ChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
     } else {
         self.yNegativeSegmentNum = 4;
+        if(fabs(self.minYValue) < 1) {
+            self.yNegativeSegmentNum = 1;
+        }
         self.itemH = ceil(fabs(self.minYValue)/self.yNegativeSegmentNum);
         self.yPostiveSegmentNum = ceil(self.maxYValue/self.itemH);
         self.yItemUnitH = ChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
@@ -593,8 +605,8 @@ static const float GroupSpace = 5;
 - (NSArray *)yValues {
     if (!_yValues) {
         _yValues = @[
-                     @[@"1",@"2",@"3",@"-4",@"5",@"6",@"-7"],
-                     @[@"5",@"6",@"-7",@"9",@"12",@"13",@"-14"]
+                     @[@"0.1",@"0.2",@"0.3",@"-0.4",@"0.5",@"0.6",@"-0.7"],
+                     @[@"0.5",@"0.6",@"-0.7",@"0.9",@"0.12",@"0.13",@"-0.14"]
                      ];
     }
     return _yValues;

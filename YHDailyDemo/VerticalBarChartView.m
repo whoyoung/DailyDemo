@@ -47,6 +47,7 @@ static const float GroupSpace = 5;
 @property (nonatomic, assign) CGFloat scrollContentSizeHeight;
 @property (nonatomic, assign) NSInteger beginGroupIndex;
 @property (nonatomic, assign) NSInteger endGroupIndex;
+
 @end
 
 @implementation VerticalBarChartView
@@ -358,21 +359,33 @@ static const float GroupSpace = 5;
 - (void)calculateXAxisSegment {
     if (self.minXValue >= 0) {
         self.xPostiveSegmentNum = 4;
+        if(self.maxXValue < 1) {
+            self.xPostiveSegmentNum = 1;
+        }
         self.xNegativeSegmentNum = 0;
         self.itemW = ceil(self.maxXValue/self.xPostiveSegmentNum);
         self.xItemUnitW = ChartWidth/(self.itemW * self.xPostiveSegmentNum);
     } else if (self.maxXValue < 0) {
         self.xPostiveSegmentNum = 0;
         self.xNegativeSegmentNum = 4;
+        if(fabs(self.minXValue) < 1) {
+            self.xNegativeSegmentNum = 1;
+        }
         self.itemW = ceil(fabs(self.minXValue)/self.xNegativeSegmentNum);
         self.xItemUnitW = ChartWidth/(self.itemW * self.xNegativeSegmentNum);
     } else if (self.maxXValue >= fabs(self.minXValue)) {
         self.xPostiveSegmentNum = 4;
+        if(self.maxXValue < 1) {
+            self.xPostiveSegmentNum = 1;
+        }
         self.itemW = ceil(self.maxXValue/self.xPostiveSegmentNum);
         self.xNegativeSegmentNum = ceil(fabs(self.minXValue)/self.itemW);
         self.xItemUnitW = ChartWidth/(self.itemW * (self.xPostiveSegmentNum+self.xNegativeSegmentNum));
     } else {
         self.xNegativeSegmentNum = 4;
+        if(fabs(self.minXValue) < 1) {
+            self.xNegativeSegmentNum = 1;
+        }
         self.itemW = ceil(fabs(self.minXValue)/self.xNegativeSegmentNum);
         self.xPostiveSegmentNum = ceil(self.maxXValue/self.itemW);
         self.xItemUnitW = ChartWidth/(self.itemW * (self.xPostiveSegmentNum+self.xNegativeSegmentNum));
@@ -594,8 +607,8 @@ static const float GroupSpace = 5;
 - (NSArray *)xValues {
     if (!_xValues) {
         _xValues = @[
-                     @[@"1",@"2",@"3",@"-4",@"5",@"6",@"-7"],
-                     @[@"5",@"6",@"-7",@"9",@"12",@"13",@"-14"]
+                     @[@"0.1",@"0.2",@"0.3",@"-0.4",@"0.5",@"0.6",@"-0.7"],
+                     @[@"0.5",@"0.6",@"-0.7",@"0.9",@"0.12",@"0.13",@"-0.14"]
                      ];
     }
     return _xValues;
