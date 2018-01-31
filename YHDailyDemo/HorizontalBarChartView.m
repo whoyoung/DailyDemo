@@ -13,8 +13,8 @@ static const float minItemWidth = 20;
 static const float XTextHeight = 15;
 static const float YTextWidth = 45;
 static const float GroupSpace = 5;
-#define LineChartWidth (self.bounds.size.width-LeftEdge-RightEdge)
-#define LineChartHeight (self.bounds.size.height-TopEdge-BottomEdge)
+#define ChartWidth (self.bounds.size.width-LeftEdge-RightEdge)
+#define ChartHeight (self.bounds.size.height-TopEdge-BottomEdge)
 
 #import "HorizontalBarChartView.h"
 @interface HorizontalBarChartView()<UIScrollViewDelegate>
@@ -55,7 +55,7 @@ static const float GroupSpace = 5;
     [super layoutSubviews];
     [self addGestureScroll];
     self.chartType = BarChartTypeGroup;
-    self.gestureScroll.contentSize = CGSizeMake(self.scrollContentSizeWidth, LineChartHeight);
+    self.gestureScroll.contentSize = CGSizeMake(self.scrollContentSizeWidth, ChartHeight);
     if (!_containerView) {
         [self redraw];
     }
@@ -63,7 +63,7 @@ static const float GroupSpace = 5;
 
 - (void)addGestureScroll {
     if (!_gestureScroll) {
-        UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, LineChartWidth, LineChartHeight)];
+        UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, ChartWidth, ChartHeight)];
         scroll.showsVerticalScrollIndicator = NO;
         scroll.showsHorizontalScrollIndicator = NO;
         scroll.minimumZoomScale = 1.0;
@@ -99,11 +99,11 @@ static const float GroupSpace = 5;
                 } else {
                     testZoomedWidth = (self.itemW*self.oldPinScale*pinGesture.scale + GroupSpace) * [self.yValues[0] count];
                 }
-                if (testZoomedWidth < LineChartWidth) {
+                if (testZoomedWidth < ChartWidth) {
                     if (self.chartType == BarChartTypeGroup) {
-                        _newPinScale = (LineChartWidth/[self.yValues[0] count] - GroupSpace)/self.yValues.count/self.itemW/self.oldPinScale;
+                        _newPinScale = (ChartWidth/[self.yValues[0] count] - GroupSpace)/self.yValues.count/self.itemW/self.oldPinScale;
                     } else {
-                        _newPinScale = (LineChartWidth/[self.yValues[0] count] - GroupSpace)/self.itemW/self.oldPinScale;
+                        _newPinScale = (ChartWidth/[self.yValues[0] count] - GroupSpace)/self.itemW/self.oldPinScale;
                     }
                 } else {
                     _newPinScale = pinGesture.scale;
@@ -125,14 +125,14 @@ static const float GroupSpace = 5;
     }
 }
 - (void)adjustScroll {
-    self.gestureScroll.contentSize = CGSizeMake(self.scrollContentSizeWidth, LineChartHeight);
+    self.gestureScroll.contentSize = CGSizeMake(self.scrollContentSizeWidth, ChartHeight);
     CGFloat offsetX = self.gestureScroll.contentSize.width * self.pinCenterRatio - self.pinCenterToLeftDistance;
     if (offsetX < 0) {
         offsetX = 0;
     }
-    if (self.gestureScroll.contentSize.width > LineChartWidth) {
-        if (offsetX > self.gestureScroll.contentSize.width - LineChartWidth) {
-            offsetX = self.gestureScroll.contentSize.width - LineChartWidth;
+    if (self.gestureScroll.contentSize.width > ChartWidth) {
+        if (offsetX > self.gestureScroll.contentSize.width - ChartWidth) {
+            offsetX = self.gestureScroll.contentSize.width - ChartWidth;
         }
     } else {
         offsetX = 0;
@@ -167,11 +167,11 @@ static const float GroupSpace = 5;
             self.beginItemIndex = self.yValues.count - 1;
         }
         
-        self.endGroupIndex = floor((offset.x+LineChartWidth)/(self.zoomedItemW*self.yValues.count + GroupSpace));
+        self.endGroupIndex = floor((offset.x+ChartWidth)/(self.zoomedItemW*self.yValues.count + GroupSpace));
         if (self.endGroupIndex >= [self.yValues[0] count]) {
             self.endGroupIndex = [self.yValues[0] count] - 1;
         }
-        CGFloat itemEndOffsetX = offset.x+LineChartWidth - self.endGroupIndex * (self.zoomedItemW*self.yValues.count + GroupSpace);
+        CGFloat itemEndOffsetX = offset.x+ChartWidth - self.endGroupIndex * (self.zoomedItemW*self.yValues.count + GroupSpace);
         if (floor(itemEndOffsetX/self.zoomedItemW) < self.yValues.count) {
             self.endItemIndex = floor(itemEndOffsetX/self.zoomedItemW);
         } else {
@@ -179,7 +179,7 @@ static const float GroupSpace = 5;
         }
     } else {
         self.beginGroupIndex = floor(offset.x/(self.zoomedItemW + GroupSpace));
-        self.endGroupIndex = floor((offset.x+LineChartWidth)/(self.zoomedItemW + GroupSpace));
+        self.endGroupIndex = floor((offset.x+ChartWidth)/(self.zoomedItemW + GroupSpace));
     }
     
     if (self.beginGroupIndex < 0) {
@@ -308,27 +308,27 @@ static const float GroupSpace = 5;
         self.yPostiveSegmentNum = 4;
         self.yNegativeSegmentNum = 0;
         self.itemH = ceil(self.maxYValue/self.yPostiveSegmentNum);
-        self.yItemUnitH = LineChartHeight/(self.itemH * self.yPostiveSegmentNum);
+        self.yItemUnitH = ChartHeight/(self.itemH * self.yPostiveSegmentNum);
     } else if (self.maxYValue < 0) {
         self.yPostiveSegmentNum = 0;
         self.yNegativeSegmentNum = 4;
         self.itemH = ceil(fabs(self.minYValue)/self.yNegativeSegmentNum);
-        self.yItemUnitH = LineChartHeight/(self.itemH * self.yNegativeSegmentNum);
+        self.yItemUnitH = ChartHeight/(self.itemH * self.yNegativeSegmentNum);
     } else if (self.maxYValue >= fabs(self.minYValue)) {
         self.yPostiveSegmentNum = 4;
         self.itemH = ceil(self.maxYValue/self.yPostiveSegmentNum);
         self.yNegativeSegmentNum = ceil(fabs(self.minYValue)/self.itemH);
-        self.yItemUnitH = LineChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
+        self.yItemUnitH = ChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
     } else {
         self.yNegativeSegmentNum = 4;
         self.itemH = ceil(fabs(self.minYValue)/self.yNegativeSegmentNum);
         self.yPostiveSegmentNum = ceil(self.maxYValue/self.itemH);
-        self.yItemUnitH = LineChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
+        self.yItemUnitH = ChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
     }
 }
 
 - (void)drawYValuePoint {
-    UIView *subContainerV = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, LineChartWidth, LineChartHeight)];
+    UIView *subContainerV = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, ChartWidth, ChartHeight)];
     subContainerV.layer.masksToBounds = YES;
     [self.containerView addSubview:subContainerV];
     switch (self.chartType) {
@@ -445,7 +445,7 @@ static const float GroupSpace = 5;
 }
 
 - (void)addXAxisLayer {
-    UIView *xAxisContainer = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, self.bounds.size.height - XTextHeight, LineChartWidth, XTextHeight)];
+    UIView *xAxisContainer = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, self.bounds.size.height - XTextHeight, ChartWidth, XTextHeight)];
     xAxisContainer.layer.masksToBounds = YES;
     [self.containerView addSubview:xAxisContainer];
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
@@ -550,10 +550,10 @@ static const float GroupSpace = 5;
 - (CGFloat)itemW {
     if (_itemW == 0) {
         if (self.chartType == BarChartTypeGroup) {
-            CGFloat w = (LineChartWidth-[self.yValues[0] count]*GroupSpace)/[self.yValues[0] count]/self.yValues.count;
+            CGFloat w = (ChartWidth-[self.yValues[0] count]*GroupSpace)/[self.yValues[0] count]/self.yValues.count;
             _itemW = w > minItemWidth ? w : minItemWidth;
         } else {
-            _itemW = (LineChartWidth/[self.yValues[0] count] - GroupSpace) > minItemWidth ? (LineChartWidth/[self.yValues[0] count] - GroupSpace) : minItemWidth;
+            _itemW = (ChartWidth/[self.yValues[0] count] - GroupSpace) > minItemWidth ? (ChartWidth/[self.yValues[0] count] - GroupSpace) : minItemWidth;
         }
     }
     return _itemW;
@@ -562,7 +562,7 @@ static const float GroupSpace = 5;
     return self.itemW * self.newPinScale * self.oldPinScale;
 }
 - (CGFloat)yAxisUnitH {
-    return LineChartHeight/(_yNegativeSegmentNum + _yPostiveSegmentNum);
+    return ChartHeight/(_yNegativeSegmentNum + _yPostiveSegmentNum);
 }
 - (CGFloat)oldPinScale {
     if (_oldPinScale == 0) {
