@@ -509,17 +509,18 @@ static const float GroupSpace = 5;
 }
 
 - (void)addXAxisLayer {
-    UIView *xAxisContainer = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, self.bounds.size.height - XTextHeight, ChartWidth, XTextHeight)];
-    xAxisContainer.layer.masksToBounds = YES;
-    [self.containerView addSubview:xAxisContainer];
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
     for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
-        CGRect textFrame = CGRectMake((self.zoomedItemW+GroupSpace)*i - offsetX, 0, self.zoomedItemW, XTextHeight);
+        CGRect textFrame;
         if (self.chartType == BarChartTypeGroup) {
-            textFrame = CGRectMake((self.yValues.count*self.zoomedItemW+GroupSpace)*i - offsetX, 0, self.yValues.count*self.zoomedItemW, XTextHeight);
+            if ((self.yValues.count*self.zoomedItemW+GroupSpace)*i - offsetX < 0) continue;
+            textFrame = CGRectMake(LeftEdge+(self.yValues.count*self.zoomedItemW+GroupSpace)*i - offsetX, self.bounds.size.height - XTextHeight, self.yValues.count*self.zoomedItemW, XTextHeight);
+        } else {
+            if ((self.zoomedItemW+GroupSpace)*i - offsetX < 0) continue;
+            textFrame = CGRectMake((LeftEdge+self.zoomedItemW+GroupSpace)*i - offsetX, self.bounds.size.height - XTextHeight, self.zoomedItemW, XTextHeight);
         }
         CATextLayer *text = [self getTextLayerWithString:self.xAxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
-        [xAxisContainer.layer addSublayer:text];
+        [self.containerView.layer addSublayer:text];
     }
 }
 - (void)addXScaleLayer {
