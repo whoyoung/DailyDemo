@@ -74,6 +74,9 @@ static const float YTextWidth = 45;
         [_gestureScroll addGestureRecognizer:pinGesture];
     }
 }
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    self.newPinScale = 1.0;
+}
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [self redraw];
 }
