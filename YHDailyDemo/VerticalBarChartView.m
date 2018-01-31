@@ -54,7 +54,7 @@ static const float GroupSpace = 5;
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self addGestureScroll];
-    self.chartType = BarChartTypeStack;
+    self.chartType = BarChartTypeGroup;
     self.gestureScroll.contentSize = CGSizeMake(ChartWidth, self.scrollContentSizeHeight);
     if (!_containerView) {
         [self redraw];
@@ -286,14 +286,44 @@ static const float GroupSpace = 5;
         }
             break;
         case BarChartTypeGroup: {
-            self.minXValue = [[self.xValues[0] objectAtIndex:self.beginGroupIndex] floatValue];
-            self.maxXValue = self.minXValue;
-            [self campareMaxAndMinValue:self.beginGroupIndex rightIndex:self.endGroupIndex];
+            if (self.beginGroupIndex == self.endGroupIndex) {
+                if (self.beginItemIndex > self.endItemIndex) {
+                    self.beginItemIndex = self.endItemIndex;
+                }
+                self.minXValue = [[self.xValues[self.beginItemIndex] objectAtIndex:self.beginGroupIndex] floatValue];
+                self.maxXValue = self.minXValue;
+                for (NSUInteger i=self.beginItemIndex+1; i<=self.endItemIndex; i++) {
+                    CGFloat tempValue = [[self.xValues[i] objectAtIndex:self.beginGroupIndex] floatValue];
+                    self.minXValue = MIN(self.minXValue, tempValue);
+                    self.maxXValue = MAX(self.maxXValue, tempValue);
+                }
+            } else if (self.beginGroupIndex == self.endGroupIndex - 1) {
+                self.minXValue = [[self.xValues[self.beginItemIndex] objectAtIndex:self.beginGroupIndex] floatValue];
+                self.maxXValue = self.minXValue;
+                
+                [self compareBeginAndEndItemValue:self.beginItemIndex+1 endItem:self.xValues.count-1 isBeginGroup:YES];
+                [self compareBeginAndEndItemValue:0 endItem:self.endItemIndex isBeginGroup:NO];
+            } else {
+                self.minXValue = [[self.xValues[self.beginItemIndex] objectAtIndex:self.beginGroupIndex] floatValue];
+                self.maxXValue = self.minXValue;
+                
+                [self compareBeginAndEndItemValue:self.beginItemIndex+1 endItem:self.xValues.count-1 isBeginGroup:YES];
+                [self compareBeginAndEndItemValue:0 endItem:self.endItemIndex isBeginGroup:NO];
+                [self campareMaxAndMinValue:self.beginGroupIndex+1 rightIndex:self.endGroupIndex-1];
+            }
         }
             break;
             
         default:
             break;
+    }
+}
+- (void)compareBeginAndEndItemValue:(NSUInteger)beginItem endItem:(NSUInteger)endItem isBeginGroup:(BOOL)isBeginGroup {
+    for (NSUInteger i=beginItem; i<=endItem; i++) {
+        NSUInteger index = isBeginGroup ? self.beginGroupIndex : self.endGroupIndex;
+        CGFloat tempValue = [[self.xValues[i] objectAtIndex:index] floatValue];
+        self.minXValue = MIN(self.minXValue, tempValue);
+        self.maxXValue = MAX(self.maxXValue, tempValue);
     }
 }
 - (void)campareMaxAndMinValue:(NSUInteger)leftIndex rightIndex:(NSUInteger)rightIndex {
