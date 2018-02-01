@@ -562,13 +562,16 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
         CGRect textFrame;
         if (self.chartType == BarChartTypeGroup) {
-            if ((self.yValues.count*self.zoomedItemW+self.groupSpace)*i - offsetX < 0) continue;
+            if ((self.yValues.count*self.zoomedItemW+self.groupSpace)*(i+0.5) - offsetX < 0) continue;
             textFrame = CGRectMake(LeftEdge+(self.yValues.count*self.zoomedItemW+self.groupSpace)*i - offsetX, self.bounds.size.height - XTextHeight, self.yValues.count*self.zoomedItemW, XTextHeight);
         } else {
-            if ((self.zoomedItemW+self.groupSpace)*i - offsetX < 0) continue;
-            textFrame = CGRectMake((LeftEdge+self.zoomedItemW+self.groupSpace)*i - offsetX, self.bounds.size.height - XTextHeight, self.zoomedItemW, XTextHeight);
+            if ((self.zoomedItemW+self.groupSpace)*(i+0.5) - offsetX < 0) continue;
+            textFrame = CGRectMake(LeftEdge+(self.zoomedItemW+self.groupSpace)*i - offsetX, self.bounds.size.height - XTextHeight, self.zoomedItemW, XTextHeight);
         }
-        CATextLayer *text = [self getTextLayerWithString:self.xAxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        CATextLayer *text = [self getTextLayerWithString:self.xAxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor blueColor] frame:textFrame];
+        text.anchorPoint = CGPointMake(1, 1);
+        text.transform = CATransform3DMakeRotation(-M_PI_4/2,0,0,1);
+
         [self.containerView.layer addSublayer:text];
     }
 }
