@@ -45,7 +45,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 @property (nonatomic, assign) NSInteger beginItemIndex;
 @property (nonatomic, assign) NSInteger endItemIndex;
 @property (nonatomic, assign) CGFloat itemW;
-@property (nonatomic, assign) CGFloat itemH;
+@property (nonatomic, assign) NSInteger itemH;
 @property (nonatomic, assign) CGFloat maxYValue;
 @property (nonatomic, assign) CGFloat minYValue;
 
@@ -589,12 +589,12 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 - (void)addYAxisLayer {
     for (NSUInteger i=0; i<_yNegativeSegmentNum; i++) {
         CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-i*self.yAxisUnitH, YTextWidth, BottomEdge);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%.2f",(_yNegativeSegmentNum-i)*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%ld",(_yNegativeSegmentNum-i)*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
         [self.containerView.layer addSublayer:text];
     }
     for (NSInteger i=0; i<=_yPostiveSegmentNum+1; i++) {
         CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-(_yNegativeSegmentNum+i)*self.yAxisUnitH, YTextWidth, BottomEdge);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%.0f",i*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%ld",i*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
         [self.containerView.layer addSublayer:text];
     }
 }
