@@ -83,7 +83,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     self.dataTitles = [dict objectForKey:@"dataTitles"];
     self.barColors = [dict objectForKey:@"colors"];
     if (!self.barColors) {
-        [self generateColors];
+        [self defaultColors];
     }
     self.chartType = [[dict objectForKey:@"displayType"] integerValue];
     self.valueInterval = [[dict objectForKey:@"valueInterval"] integerValue];
@@ -674,13 +674,13 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     }
     return _newPinScale;
 }
-- (void)generateColors {
-    NSMutableArray *colors = [NSMutableArray arrayWithCapacity:self.yValues.count];
+- (void)defaultColors {
+    NSArray *colors = @[@"45abff",@"6be6c1",@"ffa51f",@"ffd64e",@"3fd183",@"6ea7c7",@"5b7cf4",@"00bfd5",@"8bc7ff",@"f48784",@"d25537"];
+    NSMutableArray *tempColors = [NSMutableArray arrayWithCapacity:self.yValues.count];
     for (NSUInteger i=0; i<self.yValues.count; i++) {
-        UIColor *color = [UIColor colorWithRed:arc4random_uniform(256)/255.0 green:arc4random_uniform(256)/255.0 blue:arc4random_uniform(256)/255.0 alpha:1];
-        [colors addObject:color];
+       [tempColors addObject:colors[i%colors.count]];
     }
-    self.barColors = [colors copy];
+    self.barColors = [tempColors copy];
 }
 - (CGFloat)scrollContentSizeWidth {
     if (self.chartType == BarChartTypeGroup) {

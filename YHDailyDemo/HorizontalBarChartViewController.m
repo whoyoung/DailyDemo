@@ -26,7 +26,7 @@
                            @"groupMembers":@[@"zhang",@"yang"],
                            @"axisTitle":@"星期",
                            @"dataTitle":@"成交量",
-                           @"colors":@[@"aaddcc",@"338822"],
+//                           @"colors":@[@"aaddcc",@"338822"],
                            @"displayType":@"2",
                            @"valueInterval": @"3",
                            @"styles": @{
