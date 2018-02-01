@@ -37,6 +37,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 @property (nonatomic, assign) BarChartType chartType;
 @property (nonatomic, assign) CGFloat minBarWidth;
 @property (nonatomic, assign) CGFloat groupSpace;
+@property (nonatomic, assign) NSUInteger valueInterval;
 @property (nonatomic, assign) BOOL showYAxisDashLine;
 
 @property (nonatomic, assign) NSInteger beginGroupIndex;
@@ -85,6 +86,10 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
         [self generateColors];
     }
     self.chartType = [[dict objectForKey:@"displayType"] integerValue];
+    self.valueInterval = [[dict objectForKey:@"valueInterval"] integerValue];
+    if (self.valueInterval == 0) {
+        self.valueInterval = 4;
+    }
     NSDictionary *styleDict = [dict objectForKey:@"styles"];
     NSDictionary *barStyle = [styleDict objectForKey:@"barStyle"];
     self.minBarWidth = [barStyle objectForKey:@"minBarWidth"] ? [[barStyle objectForKey:@"minBarWidth"] floatValue] : 20;
@@ -401,7 +406,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 
 - (void)calculateYAxisSegment {
     if (self.minYValue >= 0) {
-        self.yPostiveSegmentNum = 4;
+        self.yPostiveSegmentNum = self.valueInterval;
         if(self.maxYValue < 1) {
             self.yPostiveSegmentNum = 1;
         }
@@ -410,14 +415,14 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
         self.yItemUnitH = ChartHeight/(self.itemH * self.yPostiveSegmentNum);
     } else if (self.maxYValue < 0) {
         self.yPostiveSegmentNum = 0;
-        self.yNegativeSegmentNum = 4;
+        self.yNegativeSegmentNum = self.valueInterval;
         if(fabs(self.minYValue) < 1) {
             self.yNegativeSegmentNum = 1;
         }
         self.itemH = ceil(fabs(self.minYValue)/self.yNegativeSegmentNum);
         self.yItemUnitH = ChartHeight/(self.itemH * self.yNegativeSegmentNum);
     } else if (self.maxYValue >= fabs(self.minYValue)) {
-        self.yPostiveSegmentNum = 4;
+        self.yPostiveSegmentNum = self.valueInterval;
         if(self.maxYValue < 1) {
             self.yPostiveSegmentNum = 1;
         }
@@ -425,7 +430,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
         self.yNegativeSegmentNum = ceil(fabs(self.minYValue)/self.itemH);
         self.yItemUnitH = ChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
     } else {
-        self.yNegativeSegmentNum = 4;
+        self.yNegativeSegmentNum = self.valueInterval;
         if(fabs(self.minYValue) < 1) {
             self.yNegativeSegmentNum = 1;
         }
