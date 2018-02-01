@@ -45,7 +45,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 @property (nonatomic, assign) NSInteger beginItemIndex;
 @property (nonatomic, assign) NSInteger endItemIndex;
 @property (nonatomic, assign) CGFloat itemW;
-@property (nonatomic, assign) NSInteger itemH;
+@property (nonatomic, assign) NSUInteger itemH;
 @property (nonatomic, assign) CGFloat maxYValue;
 @property (nonatomic, assign) CGFloat minYValue;
 
@@ -411,35 +411,40 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             self.yPostiveSegmentNum = 1;
         }
         self.yNegativeSegmentNum = 0;
-        self.itemH = ceil(self.maxYValue/self.yPostiveSegmentNum);
-        self.yItemUnitH = ChartHeight/(self.itemH * self.yPostiveSegmentNum);
+        self.itemH = ceil([self absoluteMaxValue:self.maxYValue]/self.yPostiveSegmentNum);
     } else if (self.maxYValue < 0) {
         self.yPostiveSegmentNum = 0;
         self.yNegativeSegmentNum = self.valueInterval;
         if(fabs(self.minYValue) < 1) {
             self.yNegativeSegmentNum = 1;
         }
-        self.itemH = ceil(fabs(self.minYValue)/self.yNegativeSegmentNum);
-        self.yItemUnitH = ChartHeight/(self.itemH * self.yNegativeSegmentNum);
+        self.itemH = ceil([self absoluteMaxValue:self.minYValue]/self.yNegativeSegmentNum);
     } else if (self.maxYValue >= fabs(self.minYValue)) {
         self.yPostiveSegmentNum = self.valueInterval;
         if(self.maxYValue < 1) {
             self.yPostiveSegmentNum = 1;
         }
-        self.itemH = ceil(self.maxYValue/self.yPostiveSegmentNum);
+        self.itemH = ceil([self absoluteMaxValue:self.maxYValue]/self.yPostiveSegmentNum);
         self.yNegativeSegmentNum = ceil(fabs(self.minYValue)/self.itemH);
-        self.yItemUnitH = ChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
     } else {
         self.yNegativeSegmentNum = self.valueInterval;
         if(fabs(self.minYValue) < 1) {
             self.yNegativeSegmentNum = 1;
         }
-        self.itemH = ceil(fabs(self.minYValue)/self.yNegativeSegmentNum);
+        self.itemH = ceil([self absoluteMaxValue:self.minYValue]/self.yNegativeSegmentNum);
         self.yPostiveSegmentNum = ceil(self.maxYValue/self.itemH);
-        self.yItemUnitH = ChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
     }
+    self.yItemUnitH = ChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
 }
-
+- (NSUInteger)absoluteMaxValue:(CGFloat)value {
+    CGFloat maxNum = fabs(value);
+    NSString *str = [NSString stringWithFormat:@"%.0f",floorf(maxNum)];
+    NSUInteger tenCube = 1;
+    if (str.length > 2) {
+        tenCube = pow(10, str.length - 2);
+    }
+    return ceil(ceil(maxNum / tenCube) / self.valueInterval) * self.valueInterval * tenCube;
+}
 - (void)drawYValuePoint {
     UIView *subContainerV = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, ChartWidth, ChartHeight)];
     subContainerV.layer.masksToBounds = YES;
@@ -589,14 +594,34 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 - (void)addYAxisLayer {
     for (NSUInteger i=0; i<_yNegativeSegmentNum; i++) {
         CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-i*self.yAxisUnitH, YTextWidth, BottomEdge);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%ld",(_yNegativeSegmentNum-i)*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        NSString *str = [NSString stringWithFormat:@"-%@",[self adjustScaleValue:(_yNegativeSegmentNum-i)*_itemH]];
+        CATextLayer *text = [self getTextLayerWithString:str textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
         [self.containerView.layer addSublayer:text];
     }
     for (NSInteger i=0; i<=_yPostiveSegmentNum+1; i++) {
         CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-(_yNegativeSegmentNum+i)*self.yAxisUnitH, YTextWidth, BottomEdge);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%ld",i*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        NSString *str = [NSString stringWithFormat:@"%@",[self adjustScaleValue:i*_itemH]];
+        CATextLayer *text = [self getTextLayerWithString:str textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
         [self.containerView.layer addSublayer:text];
     }
+}
+- (NSString *)adjustScaleValue:(NSUInteger)scaleValue {
+    NSString *tempStr = [NSString stringWithFormat:@"%lu",scaleValue];
+    NSUInteger length = tempStr.length;
+    if (3 < length && length < 7) {
+        if ([[tempStr substringWithRange:NSMakeRange(length-3, 3)] isEqualToString:@"000"]) {
+            return [NSString stringWithFormat:@"%@K",[tempStr substringToIndex:length-3]];
+        }
+    } else if (length > 6 && length < 10) {
+        if ([[tempStr substringWithRange:NSMakeRange(length-6, 6)] isEqualToString:@"000000"]) {
+            return [NSString stringWithFormat:@"%@M",[tempStr substringToIndex:length-6]];
+        }
+    } else if (length > 9) {
+        if ([[tempStr substringWithRange:NSMakeRange(length-9, 9)] isEqualToString:@"000000000"]) {
+            return [NSString stringWithFormat:@"%@B",[tempStr substringToIndex:length-9]];
+        }
+    }
+    return tempStr;
 }
 - (void)addYScaleLayer {
     CAShapeLayer *yScaleLayer = [CAShapeLayer layer];
