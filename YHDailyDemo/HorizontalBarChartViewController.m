@@ -17,7 +17,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    HorizontalBarChartView *chartView = [[HorizontalBarChartView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64)];
+    NSDictionary *dict = @{
+                           @"axis":@[@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun"],
+                           @"datas":@[
+                                     @[@"0.1",@"0.2",@"0.3",@"-0.4",@"0.5",@"0.6",@"-0.7"],
+                                     @[@"0.5",@"0.6",@"-0.7",@"0.9",@"0.12",@"0.13",@"-0.14"]
+                                    ],
+                           @"groupMembers":@[@"zhang",@"yang"],
+                           @"axisTitle":@"星期",
+                           @"dataTitle":@"成交量",
+                           @"colors":@[@"aaddcc",@"338822"],
+                           @"displayType":@"2",
+                           @"styles": @{
+                                   @"barStyle": @{
+                                   @"minBarWidth":@"5",
+                                   @"barGroupSpace":@"5"
+                               },
+                               @"lineStyle": @{
+                                   @"lineWidth":@"1"
+                               }
+                           }
+                        };
+    HorizontalBarChartView *chartView = [[HorizontalBarChartView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64) configure:dict];
     [self.view addSubview:chartView];
 }
 

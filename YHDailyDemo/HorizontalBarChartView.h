@@ -8,13 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSUInteger,BarChartType) {
-    BarChartTypeSingle = 0,
-    BarChartTypeGroup = 1,
-    BarChartTypeStack = 2
-};
-
 @interface HorizontalBarChartView : UIView
-@property (nonatomic, assign) BOOL showYAxisDashLine;
-@property (nonatomic, assign) BarChartType chartType;
+- (id)initWithFrame:(CGRect)frame configure:(NSDictionary *)configureDict;
 @end
+
+

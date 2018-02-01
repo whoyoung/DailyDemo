@@ -23,6 +23,7 @@
 		77714A3520200B94004DD6EB /* HorizontalBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A3420200B94004DD6EB /* HorizontalBarChartView.m */; };
 		77714A3A202158FB004DD6EB /* VerticalBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A39202158FB004DD6EB /* VerticalBarChartView.m */; };
 		77714A3D20215909004DD6EB /* VerticalBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A3C20215909004DD6EB /* VerticalBarChartViewController.m */; };
+		77E4ABE72022EE5800568AFA /* UIColor+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,8 @@
 		77714A39202158FB004DD6EB /* VerticalBarChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerticalBarChartView.m; sourceTree = "<group>"; };
 		77714A3B20215909004DD6EB /* VerticalBarChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerticalBarChartViewController.h; sourceTree = "<group>"; };
 		77714A3C20215909004DD6EB /* VerticalBarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerticalBarChartViewController.m; sourceTree = "<group>"; };
+		77E4ABE52022EE5800568AFA /* UIColor+HexColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColor.h"; sourceTree = "<group>"; };
+		77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColor.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +95,8 @@
 				776FC1A62011F08200CDF3E6 /* RootTableViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				77E4ABE52022EE5800568AFA /* UIColor+HexColor.h */,
+				77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */,
 				77714A37202158C8004DD6EB /* VerticalBarChar */,
 				77714A2F20200B31004DD6EB /* HorizontalBarChart */,
 				77714A25201B46F4004DD6EB /* LineChart */,
@@ -239,6 +244,7 @@
 				776FC1AD2011F69600CDF3E6 /* CoreGraphicDrawView.m in Sources */,
 				776FC1B02012204400CDF3E6 /* CoreAnimationDrawView.m in Sources */,
 				776FC19F2011F04100CDF3E6 /* main.m in Sources */,
+				77E4ABE72022EE5800568AFA /* UIColor+HexColor.m in Sources */,
 				776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */,
 				77714A3220200B6E004DD6EB /* HorizontalBarChartViewController.m in Sources */,
 				77714A3D20215909004DD6EB /* VerticalBarChartViewController.m in Sources */,
