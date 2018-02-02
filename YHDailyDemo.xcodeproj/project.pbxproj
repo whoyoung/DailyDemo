@@ -59,6 +59,7 @@
 		77714A3C20215909004DD6EB /* VerticalBarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerticalBarChartViewController.m; sourceTree = "<group>"; };
 		77E4ABE52022EE5800568AFA /* UIColor+HexColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColor.h"; sourceTree = "<group>"; };
 		77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColor.m"; sourceTree = "<group>"; };
+		77E4ABFC202478FE00568AFA /* CommonChartViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonChartViewDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +98,7 @@
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
 				77E4ABE52022EE5800568AFA /* UIColor+HexColor.h */,
 				77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */,
+				77E4ABFB2024789C00568AFA /* ChartViewCommon */,
 				77714A37202158C8004DD6EB /* VerticalBarChar */,
 				77714A2F20200B31004DD6EB /* HorizontalBarChart */,
 				77714A25201B46F4004DD6EB /* LineChart */,
@@ -164,6 +166,14 @@
 				77714A3C20215909004DD6EB /* VerticalBarChartViewController.m */,
 			);
 			name = VerticalBarChar;
+			sourceTree = "<group>";
+		};
+		77E4ABFB2024789C00568AFA /* ChartViewCommon */ = {
+			isa = PBXGroup;
+			children = (
+				77E4ABFC202478FE00568AFA /* CommonChartViewDelegate.h */,
+			);
+			name = ChartViewCommon;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

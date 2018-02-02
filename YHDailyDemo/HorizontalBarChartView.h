@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommonChartViewDelegate.h"
 
 @interface HorizontalBarChartView : UIView
+@property (nonatomic, weak) id<CommonChartViewDelegate> delegate;
+
 - (id)initWithFrame:(CGRect)frame configure:(NSDictionary *)configureDict;
 @end
 

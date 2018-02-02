@@ -8,7 +8,7 @@
 
 #import "HorizontalBarChartViewController.h"
 #import "HorizontalBarChartView.h"
-@interface HorizontalBarChartViewController ()
+@interface HorizontalBarChartViewController ()<CommonChartViewDelegate>
 
 @end
 
@@ -39,9 +39,12 @@
                            }
                         };
     HorizontalBarChartView *chartView = [[HorizontalBarChartView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64) configure:dict];
+    chartView.delegate = self;
     [self.view addSubview:chartView];
 }
-
+- (void)didTapChart:(id)chart group:(NSUInteger)group item:(NSUInteger)item {
+    NSLog(@"group=%ld, item=%ld",group,item);
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

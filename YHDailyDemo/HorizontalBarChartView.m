@@ -190,6 +190,48 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     tipView.backgroundColor = [UIColor  redColor];
     tipView.tag = 101;
     [self.gestureScroll addSubview:tipView];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didTapChart:group:item:)]) {
+        NSUInteger group = 0, item = 0;
+        if (self.chartType == BarChartTypeGroup) {
+            group = floorf(tapP.x / (self.yValues.count * self.zoomedItemW + self.groupSpace));
+            item =
+            floorf((tapP.x - group * (self.yValues.count * self.zoomedItemW + self.groupSpace)) / self.zoomedItemW);
+            if (item > self.yValues.count - 1) {
+                item = self.yValues.count - 1;
+            }
+        } else if (self.chartType == BarChartTypeSingle) {
+            group = floorf(tapP.x / (self.zoomedItemW + self.groupSpace));
+            item = 0;
+        } else { // BarChartTypeStack
+            group = floorf(tapP.x / (self.zoomedItemW + self.groupSpace));
+            CGFloat zeroY = _yPostiveSegmentNum * self.yAxisUnitH;
+            CGFloat tempY = zeroY;
+            for (NSUInteger i = 0; i < self.yValues.count; i++) {
+                CGFloat h = [[self.yValues[i] objectAtIndex:group] floatValue] * self.yItemUnitH;
+                if (tapP.y > zeroY) {
+                    if (h < 0) {
+                        if (tapP.y <= (tempY - h) || i == self.yValues.count - 1) {
+                            item = i;
+                            break;
+                        } else {
+                            tempY -= h;
+                        }
+                    }
+                } else {
+                    if (h >= 0) {
+                        if (tapP.y >= (tempY - h) || i == self.yValues.count - 1) {
+                            item = i;
+                            break;
+                        } else {
+                            tempY -= h;
+                        }
+                    }
+                }
+            }
+        }
+        [self.delegate didTapChart:self group:group item:item];
+    }
 }
 - (void)removeTipView {
     UIView *existedV = [self.gestureScroll viewWithTag:101];
