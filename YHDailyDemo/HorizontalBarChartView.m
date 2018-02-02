@@ -598,7 +598,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
         CATextLayer *text = [self getTextLayerWithString:str textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
         [self.containerView.layer addSublayer:text];
     }
-    for (NSInteger i=0; i<=_yPostiveSegmentNum+1; i++) {
+    for (NSInteger i=0; i<=_yPostiveSegmentNum; i++) {
         CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-(_yNegativeSegmentNum+i)*self.yAxisUnitH, YTextWidth, BottomEdge);
         NSString *str = [NSString stringWithFormat:@"%@",[self adjustScaleValue:i*_itemH]];
         CATextLayer *text = [self getTextLayerWithString:str textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
