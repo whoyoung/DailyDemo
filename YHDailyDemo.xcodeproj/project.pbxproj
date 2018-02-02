@@ -24,6 +24,7 @@
 		77714A3A202158FB004DD6EB /* VerticalBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A39202158FB004DD6EB /* VerticalBarChartView.m */; };
 		77714A3D20215909004DD6EB /* VerticalBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A3C20215909004DD6EB /* VerticalBarChartViewController.m */; };
 		77E4ABE72022EE5800568AFA /* UIColor+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */; };
+		77E4ABFF2024836A00568AFA /* BaseChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4ABFE2024836A00568AFA /* BaseChartView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,8 @@
 		77E4ABE52022EE5800568AFA /* UIColor+HexColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColor.h"; sourceTree = "<group>"; };
 		77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColor.m"; sourceTree = "<group>"; };
 		77E4ABFC202478FE00568AFA /* CommonChartViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonChartViewDelegate.h; sourceTree = "<group>"; };
+		77E4ABFD2024836A00568AFA /* BaseChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseChartView.h; sourceTree = "<group>"; };
+		77E4ABFE2024836A00568AFA /* BaseChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseChartView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +175,8 @@
 			isa = PBXGroup;
 			children = (
 				77E4ABFC202478FE00568AFA /* CommonChartViewDelegate.h */,
+				77E4ABFD2024836A00568AFA /* BaseChartView.h */,
+				77E4ABFE2024836A00568AFA /* BaseChartView.m */,
 			);
 			name = ChartViewCommon;
 			sourceTree = "<group>";
@@ -253,6 +258,7 @@
 				77714A3520200B94004DD6EB /* HorizontalBarChartView.m in Sources */,
 				776FC1AD2011F69600CDF3E6 /* CoreGraphicDrawView.m in Sources */,
 				776FC1B02012204400CDF3E6 /* CoreAnimationDrawView.m in Sources */,
+				77E4ABFF2024836A00568AFA /* BaseChartView.m in Sources */,
 				776FC19F2011F04100CDF3E6 /* main.m in Sources */,
 				77E4ABE72022EE5800568AFA /* UIColor+HexColor.m in Sources */,
 				776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */,
