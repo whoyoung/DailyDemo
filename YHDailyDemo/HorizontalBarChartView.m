@@ -16,6 +16,7 @@ static const float TextWidth = 45;
 
 #import "HorizontalBarChartView.h"
 #import "UIColor+HexColor.h"
+#import "NSString+Extra.h"
 
 typedef NS_ENUM(NSUInteger,BarChartType) {
     BarChartTypeSingle = 0,
@@ -32,7 +33,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 @property (nonatomic, strong) NSArray<NSArray *> *Datas;
 @property (nonatomic, strong) NSArray *groupMembers;
 @property (nonatomic, copy) NSString *axisTitle;
-@property (nonatomic, copy) NSString *dataTitles;
+@property (nonatomic, copy) NSString *dataTitle;
 @property (nonatomic, strong) NSArray *barColors;
 @property (nonatomic, assign) BarChartType chartType;
 @property (nonatomic, assign) CGFloat minBarWidth;
@@ -82,7 +83,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     
     self.groupMembers = [dict objectForKey:@"groupMembers"];
     self.axisTitle = [dict objectForKey:@"axisTitle"];
-    self.dataTitles = [dict objectForKey:@"dataTitles"];
+    self.dataTitle = [dict objectForKey:@"dataTitle"];
     self.barColors = [dict objectForKey:@"colors"];
     if (!self.barColors) {
         [self defaultColors];
@@ -194,55 +195,121 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 - (void)chartDidTapping:(UITapGestureRecognizer *)tapGesture {
     [self removeTipView];
     CGPoint tapP = [tapGesture locationInView:self.gestureScroll];
-    UIView *tipView = [[UIView alloc] initWithFrame:CGRectMake(tapP.x, tapP.y, 50, 50)];
-    tipView.backgroundColor = [UIColor  redColor];
-    tipView.tag = 101;
-    [self.gestureScroll addSubview:tipView];
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didTapChart:group:item:)]) {
-        NSUInteger group = 0, item = 0;
-        if (self.chartType == BarChartTypeGroup) {
-            group = floorf(tapP.x / (self.Datas.count * self.zoomedItemW + self.groupSpace));
-            item =
-            floorf((tapP.x - group * (self.Datas.count * self.zoomedItemW + self.groupSpace)) / self.zoomedItemW);
-            if (item > self.Datas.count - 1) {
-                item = self.Datas.count - 1;
-            }
-        } else if (self.chartType == BarChartTypeSingle) {
-            group = floorf(tapP.x / (self.zoomedItemW + self.groupSpace));
-            item = 0;
-        } else { // BarChartTypeStack
-            group = floorf(tapP.x / (self.zoomedItemW + self.groupSpace));
-            CGFloat zeroY = _dataPostiveSegmentNum * self.yAxisUnitH;
-            CGFloat tempY = zeroY;
-            for (NSUInteger i = 0; i < self.Datas.count; i++) {
-                CGFloat h = [[self.Datas[i] objectAtIndex:group] floatValue] * self.dataItemUnitH;
-                if (tapP.y > zeroY) {
-                    if (h < 0) {
-                        if (tapP.y <= (tempY - h) || i == self.Datas.count - 1) {
-                            item = i;
-                            break;
-                        } else {
-                            tempY -= h;
-                        }
+    NSUInteger group = 0, item = 0;
+    if (self.chartType == BarChartTypeGroup) {
+        group = floorf(tapP.x / (self.Datas.count * self.zoomedItemW + self.groupSpace));
+        item =
+        floorf((tapP.x - group * (self.Datas.count * self.zoomedItemW + self.groupSpace)) / self.zoomedItemW);
+        if (item > self.Datas.count - 1) {
+            item = self.Datas.count - 1;
+        }
+    } else if (self.chartType == BarChartTypeSingle) {
+        group = floorf(tapP.x / (self.zoomedItemW + self.groupSpace));
+        item = 0;
+    } else { // BarChartTypeStack
+        group = floorf(tapP.x / (self.zoomedItemW + self.groupSpace));
+        CGFloat zeroY = _dataPostiveSegmentNum * self.yAxisUnitH;
+        CGFloat tempY = zeroY;
+        for (NSUInteger i = 0; i < self.Datas.count; i++) {
+            CGFloat h = [[self.Datas[i] objectAtIndex:group] floatValue] * self.dataItemUnitH;
+            if (tapP.y > zeroY) {
+                if (h < 0) {
+                    if (tapP.y <= (tempY - h) || i == self.Datas.count - 1) {
+                        item = i;
+                        break;
+                    } else {
+                        tempY -= h;
                     }
-                } else {
-                    if (h >= 0) {
-                        if (tapP.y >= (tempY - h) || i == self.Datas.count - 1) {
-                            item = i;
-                            break;
-                        } else {
-                            tempY -= h;
-                        }
+                }
+            } else {
+                if (h >= 0) {
+                    if (tapP.y >= (tempY - h) || i == self.Datas.count - 1) {
+                        item = i;
+                        break;
+                    } else {
+                        tempY -= h;
                     }
                 }
             }
         }
+    }
+    CGPoint containerP = [tapGesture locationInView:self.containerView];
+    [self updateTipLayer:group item:item containerPoint:containerP];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didTapChart:group:item:)]) {
         [self.delegate didTapChart:self group:group item:item];
     }
 }
+- (void)updateTipLayer:(NSUInteger)group item:(NSUInteger)item containerPoint:(CGPoint)point {
+    NSString *axisStr;
+    NSString *dataStr = [NSString stringWithFormat:@"%@: %@",self.dataTitle,[self.Datas[item] objectAtIndex:group]];
+    if (self.chartType == BarChartTypeSingle) {
+        dataStr = [NSString stringWithFormat:@"%@: %@",self.AxisArray[group],[self.Datas[item] objectAtIndex:group]];
+    } else {
+        axisStr = [NSString stringWithFormat:@"%@: %@",self.axisTitle,self.AxisArray[group]];
+        dataStr = [NSString stringWithFormat:@"%@: %@",self.groupMembers[item],[self.Datas[item] objectAtIndex:group]];
+    }
+    CGFloat tipTextH = 11;
+    CGFloat tipH = 10 + tipTextH + 5;
+    CGFloat tipMaxW = [dataStr measureTextWidth:[UIFont systemFontOfSize:9]];
+    if (axisStr) {
+        tipMaxW = MAX(tipMaxW, [axisStr measureTextWidth:[UIFont systemFontOfSize:9]]);
+        tipH += tipTextH;
+    }
+    tipMaxW += 10;
+    
+    NSUInteger arrowP = 2;
+    CGFloat originX = point.x - tipMaxW/2.0;
+    if (originX < LeftEdge) {
+        originX = point.x;
+        arrowP = 1;
+    } else if (point.x + tipMaxW/2.0 > ChartWidth + LeftEdge) {
+        originX = point.x - tipMaxW;
+        arrowP = 3;
+    }
+    
+    CGFloat originY = point.y - tipH;
+    if (originY < TopEdge) {
+        originY = point.y;
+        arrowP += 10;
+    }
+    
+    UIView *tipView = [[UIView alloc] initWithFrame:CGRectMake(originX, originY, tipMaxW, tipH)];
+    tipView.backgroundColor = [UIColor  clearColor];
+    tipView.tag = 101;
+    [self.containerView addSubview:tipView];
+    
+    CAShapeLayer *rectLayer = [CAShapeLayer layer];
+    UIBezierPath *rectPath;
+    if (arrowP > 10) {
+        rectPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, 5, tipMaxW, tipH-5)];
+    } else {
+        rectPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, tipMaxW, tipH-5)];
+    }
+    rectLayer.path = rectPath.CGPath;
+    rectLayer.fillColor = [UIColor hexChangeFloat:@"0D2940"].CGColor;
+    [tipView.layer addSublayer:rectLayer];
+    
+    CGRect textFrame = CGRectZero;
+    CGFloat startY = 0;
+    if (arrowP > 10) {
+        startY = 10;
+    }
+    if (axisStr) {
+        textFrame = CGRectMake(5, startY, tipMaxW-10, tipTextH);
+        CATextLayer *text = [self getTextLayerWithString:axisStr textColor:[UIColor whiteColor] fontSize:9 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentLeft];
+        [tipView.layer addSublayer:text];
+    }
+    if (textFrame.origin.x > 0) {
+        CATextLayer *text = [self getTextLayerWithString:dataStr textColor:[UIColor whiteColor] fontSize:9 backgroundColor:[UIColor clearColor] frame:CGRectMake(5, CGRectGetMaxY(textFrame), tipMaxW-10, tipTextH) alignmentMode:kCAAlignmentLeft];
+        [tipView.layer addSublayer:text];
+    } else {
+        CATextLayer *text = [self getTextLayerWithString:axisStr textColor:[UIColor whiteColor] fontSize:9 backgroundColor:[UIColor clearColor] frame:CGRectMake(5, startY, tipMaxW-10, tipTextH) alignmentMode:kCAAlignmentLeft];
+        [tipView.layer addSublayer:text];
+    }
+}
 - (void)removeTipView {
-    UIView *existedV = [self.gestureScroll viewWithTag:101];
+    UIView *existedV = [self.containerView viewWithTag:101];
     [existedV removeFromSuperview];
 }
 - (void)adjustScroll {
