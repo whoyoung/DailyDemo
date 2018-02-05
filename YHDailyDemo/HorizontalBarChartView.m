@@ -76,7 +76,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 - (void)dealChartConfigure:(NSDictionary *)dict {
     self.AxisArray = [dict objectForKey:@"axis"];
     self.Datas = [dict objectForKey:@"datas"];
-    self.isDataError = !self.AxisArray || ![self.AxisArray isKindOfClass:[NSArray class]] || !self.Datas || ![self.Datas isKindOfClass:[NSArray class]];
+    self.isDataError = !self.AxisArray || ![self.AxisArray isKindOfClass:[NSArray class]] || !self.AxisArray.count || !self.Datas || ![self.Datas isKindOfClass:[NSArray class]] || !self.Datas.count;
     
     self.groupMembers = [dict objectForKey:@"groupMembers"];
     self.axisTitle = [dict objectForKey:@"axisTitle"];
@@ -85,10 +85,17 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     if (!self.barColors) {
         [self defaultColors];
     }
-    self.chartType = [[dict objectForKey:@"displayType"] integerValue];
+    BOOL isStack = [dict objectForKey:@"stack"];
+    if (isStack) {
+        self.chartType = BarChartTypeStack;
+    } else if (self.Datas.count > 1) {
+        self.chartType = BarChartTypeGroup;
+    } else {
+        self.chartType = BarChartTypeSingle;
+    }
     self.valueInterval = [[dict objectForKey:@"valueInterval"] integerValue];
     if (self.valueInterval == 0) {
-        self.valueInterval = 4;
+        self.valueInterval = 3;
     }
     NSDictionary *styleDict = [dict objectForKey:@"styles"];
     NSDictionary *barStyle = [styleDict objectForKey:@"barStyle"];
