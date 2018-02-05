@@ -648,19 +648,25 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     }
 }
 - (NSString *)adjustScaleValue:(NSUInteger)scaleValue {
-    NSString *tempStr = [NSString stringWithFormat:@"%lu",scaleValue];
+    NSString *tempStr = [NSString stringWithFormat:@"%lu", scaleValue];
     NSUInteger length = tempStr.length;
     if (3 < length && length < 7) {
-        if ([[tempStr substringWithRange:NSMakeRange(length-3, 3)] isEqualToString:@"000"]) {
-            return [NSString stringWithFormat:@"%@K",[tempStr substringToIndex:length-3]];
+        if ([[tempStr substringWithRange:NSMakeRange(length - 3, 3)] isEqualToString:@"000"]) {
+            return [NSString stringWithFormat:@"%@K", [tempStr substringToIndex:length - 3]];
         }
     } else if (length > 6 && length < 10) {
-        if ([[tempStr substringWithRange:NSMakeRange(length-6, 6)] isEqualToString:@"000000"]) {
-            return [NSString stringWithFormat:@"%@M",[tempStr substringToIndex:length-6]];
+        if ([[tempStr substringWithRange:NSMakeRange(length - 6, 6)] isEqualToString:@"000000"]) {
+            return [NSString stringWithFormat:@"%@M", [tempStr substringToIndex:length - 6]];
+        } else if ([[tempStr substringWithRange:NSMakeRange(length - 3, 3)] isEqualToString:@"000"]) {
+            return [NSString stringWithFormat:@"%@K", [tempStr substringToIndex:length - 3]];
         }
     } else if (length > 9) {
-        if ([[tempStr substringWithRange:NSMakeRange(length-9, 9)] isEqualToString:@"000000000"]) {
-            return [NSString stringWithFormat:@"%@B",[tempStr substringToIndex:length-9]];
+        if ([[tempStr substringWithRange:NSMakeRange(length - 9, 9)] isEqualToString:@"000000000"]) {
+            return [NSString stringWithFormat:@"%@B", [tempStr substringToIndex:length - 9]];
+        } else if ([[tempStr substringWithRange:NSMakeRange(length - 6, 6)] isEqualToString:@"000000"]) {
+            return [NSString stringWithFormat:@"%@M", [tempStr substringToIndex:length - 6]];
+        } else if ([[tempStr substringWithRange:NSMakeRange(length - 3, 3)] isEqualToString:@"000"]) {
+            return [NSString stringWithFormat:@"%@K", [tempStr substringToIndex:length - 3]];
         }
     }
     return tempStr;
