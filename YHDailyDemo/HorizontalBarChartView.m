@@ -39,7 +39,8 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 @property (nonatomic, assign) CGFloat groupSpace;
 @property (nonatomic, assign) NSUInteger valueInterval;
 @property (nonatomic, assign) BOOL showDataDashLine;
-@property (nonatomic, assign) BOOL showDataReferenceLine;
+@property (nonatomic, assign) BOOL hideDataReferenceLine;
+@property (nonatomic, assign) BOOL showDataEdgeLine;
 
 @property (nonatomic, assign) NSInteger beginGroupIndex;
 @property (nonatomic, assign) NSInteger endGroupIndex;
@@ -269,11 +270,12 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     [self findBeginAndEndIndex];
     [self calculateMaxAndMinValue];
     [self calculateYAxisSegment];
-    [self drawYValuePoint];
     [self addXAxisLayer];
     [self addXScaleLayer];
     [self addYAxisLayer];
     [self addYScaleLayer];
+    [self drawYValuePoint];
+
 }
 
 - (void)findBeginAndEndIndex {
@@ -623,8 +625,8 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             if ((self.zoomedItemW+self.groupSpace)*(i+0.5) - offsetX < 0) continue;
             textFrame = CGRectMake(LeftEdge+(self.zoomedItemW+self.groupSpace)*i - offsetX, self.bounds.size.height - TextHeight, self.zoomedItemW, TextHeight);
         }
-        CATextLayer *text = [self getTextLayerWithString:self.AxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
-        text.transform = CATransform3DMakeRotation(-M_PI_4/2,0,0,1);
+        CATextLayer *text = [self getTextLayerWithString:self.AxisArray[i] textColor:[UIColor hexChangeFloat:@"292F33"] fontSize:9 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
+//        text.transform = CATransform3DMakeRotation(-M_PI_4/2,0,0,1);
 
         [self.containerView.layer addSublayer:text];
     }
@@ -635,8 +637,8 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     [xScaleBezier moveToPoint:CGPointMake(LeftEdge, self.bounds.size.height-BottomEdge)];
     [xScaleBezier addLineToPoint:CGPointMake(self.bounds.size.width, self.bounds.size.height-BottomEdge)];
     xScaleLayer.path = xScaleBezier.CGPath;
-    xScaleLayer.lineWidth = 1;
-    xScaleLayer.strokeColor = [UIColor blackColor].CGColor;
+    xScaleLayer.lineWidth = 2;
+    xScaleLayer.strokeColor = [UIColor hexChangeFloat:@"EEEEEE"].CGColor;
     xScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:xScaleLayer];
 }
@@ -644,7 +646,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     for (NSUInteger i=0; i<_dataNegativeSegmentNum; i++) {
         CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-i*self.yAxisUnitH, TextWidth, BottomEdge);
         NSString *str = [NSString stringWithFormat:@"-%@",[self adjustScaleValue:(_dataNegativeSegmentNum-i)*_itemH]];
-        CATextLayer *text = [self getTextLayerWithString:str textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
+        CATextLayer *text = [self getTextLayerWithString:str textColor:[UIColor hexChangeFloat:@"8FA1B2"] fontSize:8 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
         [self.containerView.layer addSublayer:text];
     }
     for (NSInteger i=0; i<=_dataPostiveSegmentNum; i++) {
@@ -679,35 +681,37 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     return tempStr;
 }
 - (void)addYScaleLayer {
-    CAShapeLayer *yScaleLayer = [CAShapeLayer layer];
-    UIBezierPath *yScaleBezier = [UIBezierPath bezierPath];
-    [yScaleBezier moveToPoint:CGPointMake(LeftEdge+1, TopEdge)];
-    [yScaleBezier addLineToPoint:CGPointMake(LeftEdge+1, self.bounds.size.height-BottomEdge)];
-    
-    for (NSUInteger i=0; i<=_dataNegativeSegmentNum+_dataPostiveSegmentNum+1; i++) {
-        [yScaleBezier moveToPoint:CGPointMake(LeftEdge-5, TopEdge+i*self.yAxisUnitH)];
-        [yScaleBezier addLineToPoint:CGPointMake(LeftEdge+1, TopEdge+i*self.yAxisUnitH)];
+    if (_showDataEdgeLine) {
+        CAShapeLayer *yScaleLayer = [CAShapeLayer layer];
+        UIBezierPath *yScaleBezier = [UIBezierPath bezierPath];
+        [yScaleBezier moveToPoint:CGPointMake(LeftEdge+1, TopEdge)];
+        [yScaleBezier addLineToPoint:CGPointMake(LeftEdge+1, self.bounds.size.height-BottomEdge)];
+        
+        for (NSUInteger i=0; i<=_dataNegativeSegmentNum+_dataPostiveSegmentNum+1; i++) {
+            [yScaleBezier moveToPoint:CGPointMake(LeftEdge-5, TopEdge+i*self.yAxisUnitH)];
+            [yScaleBezier addLineToPoint:CGPointMake(LeftEdge, TopEdge+i*self.yAxisUnitH)];
+        }
+        yScaleLayer.path = yScaleBezier.CGPath;
+        yScaleLayer.backgroundColor = [UIColor blueColor].CGColor;
+        yScaleLayer.lineWidth = 2;
+        yScaleLayer.strokeColor = [UIColor hexChangeFloat:@"EEEEEE"].CGColor;
+        yScaleLayer.fillColor = [UIColor clearColor].CGColor;
+        [self.containerView.layer addSublayer:yScaleLayer];
     }
-    yScaleLayer.path = yScaleBezier.CGPath;
-    yScaleLayer.backgroundColor = [UIColor blueColor].CGColor;
-    yScaleLayer.lineWidth = 1;
-    yScaleLayer.strokeColor = [UIColor blackColor].CGColor;
-    yScaleLayer.fillColor = [UIColor clearColor].CGColor;
-    [self.containerView.layer addSublayer:yScaleLayer];
     
-    if (_showDataDashLine || _showDataReferenceLine) {
+    if (_showDataDashLine || !_hideDataReferenceLine) {
         CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
         UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
-        for (NSUInteger i=0; i<=_dataNegativeSegmentNum+_dataPostiveSegmentNum; i++) {
-            [dashLineBezier moveToPoint:CGPointMake(LeftEdge+1, TopEdge+i*self.yAxisUnitH)];
+        for (NSUInteger i=0; i<_dataNegativeSegmentNum+_dataPostiveSegmentNum; i++) {
+            [dashLineBezier moveToPoint:CGPointMake(LeftEdge, TopEdge+i*self.yAxisUnitH)];
             [dashLineBezier addLineToPoint:CGPointMake(self.bounds.size.width, TopEdge+i*self.yAxisUnitH)];
         }
         dashLineLayer.path = dashLineBezier.CGPath;
         if (_showDataDashLine) {
             [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
         }
-        dashLineLayer.lineWidth = 1;
-        dashLineLayer.strokeColor = [UIColor blackColor].CGColor;
+        dashLineLayer.lineWidth = 2;
+        dashLineLayer.strokeColor = [UIColor hexChangeFloat:@"EEEEEE"].CGColor;
         dashLineLayer.fillColor = [UIColor clearColor].CGColor;
         [self.containerView.layer addSublayer:dashLineLayer];
     }
