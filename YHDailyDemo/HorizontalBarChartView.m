@@ -9,7 +9,7 @@ static const float TopEdge = 10;
 static const float LeftEdge = 50;
 static const float RightEdge = 10;
 static const float BottomEdge = 20;
-static const float TextHeight = 15;
+static const float TextHeight = 11;
 static const float TextWidth = 45;
 #define ChartWidth (self.bounds.size.width-LeftEdge-RightEdge)
 #define ChartHeight (self.bounds.size.height-TopEdge-BottomEdge)
@@ -39,6 +39,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 @property (nonatomic, assign) CGFloat groupSpace;
 @property (nonatomic, assign) NSUInteger valueInterval;
 @property (nonatomic, assign) BOOL showDataDashLine;
+@property (nonatomic, assign) BOOL showDataReferenceLine;
 
 @property (nonatomic, assign) NSInteger beginGroupIndex;
 @property (nonatomic, assign) NSInteger endGroupIndex;
@@ -623,7 +624,6 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             textFrame = CGRectMake(LeftEdge+(self.zoomedItemW+self.groupSpace)*i - offsetX, self.bounds.size.height - TextHeight, self.zoomedItemW, TextHeight);
         }
         CATextLayer *text = [self getTextLayerWithString:self.AxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
-        text.anchorPoint = CGPointMake(1, 1);
         text.transform = CATransform3DMakeRotation(-M_PI_4/2,0,0,1);
 
         [self.containerView.layer addSublayer:text];
@@ -650,7 +650,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     for (NSInteger i=0; i<=_dataPostiveSegmentNum; i++) {
         CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-(_dataNegativeSegmentNum+i)*self.yAxisUnitH, TextWidth, BottomEdge);
         NSString *str = [NSString stringWithFormat:@"%@",[self adjustScaleValue:i*_itemH]];
-        CATextLayer *text = [self getTextLayerWithString:str textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
+        CATextLayer *text = [self getTextLayerWithString:str textColor:[UIColor hexChangeFloat:@"8FA1B2"] fontSize:8 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
         [self.containerView.layer addSublayer:text];
     }
 }
@@ -695,7 +695,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     yScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:yScaleLayer];
     
-    if (_showDataDashLine) {
+    if (_showDataDashLine || _showDataReferenceLine) {
         CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
         UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
         for (NSUInteger i=0; i<=_dataNegativeSegmentNum+_dataPostiveSegmentNum; i++) {
@@ -703,7 +703,9 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             [dashLineBezier addLineToPoint:CGPointMake(self.bounds.size.width, TopEdge+i*self.yAxisUnitH)];
         }
         dashLineLayer.path = dashLineBezier.CGPath;
-        [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
+        if (_showDataDashLine) {
+            [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
+        }
         dashLineLayer.lineWidth = 1;
         dashLineLayer.strokeColor = [UIColor blackColor].CGColor;
         dashLineLayer.fillColor = [UIColor clearColor].CGColor;
@@ -724,6 +726,9 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     textLayer.backgroundColor = bgColor.CGColor;
     textLayer.alignmentMode = alignmentMode;
     textLayer.wrapped = YES;
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9) {
+        textLayer.font = (__bridge CFTypeRef _Nullable)(@"PingFangSC-Regular");
+    }
     //设置分辨率
     textLayer.contentsScale = [UIScreen mainScreen].scale;
     return textLayer;
