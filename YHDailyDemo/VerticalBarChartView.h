@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-typedef NS_ENUM(NSUInteger,BarChartType) {
-    BarChartTypeSingle = 0,
-    BarChartTypeGroup = 1,
-    BarChartTypeStack = 2
-};
+#import "CommonChartViewDelegate.h"
+
 @interface VerticalBarChartView : UIView
-@property (nonatomic, assign) BOOL showXAxisDashLine;
-@property (nonatomic, assign) BarChartType chartType;
+@property (nonatomic, weak) id<CommonChartViewDelegate> delegate;
+
+- (id)initWithFrame:(CGRect)frame configure:(NSDictionary *)configureDict;
 @end

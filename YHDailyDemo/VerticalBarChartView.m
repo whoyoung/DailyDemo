@@ -16,10 +16,16 @@ static const float GroupSpace = 5;
 #define ChartHeight (self.bounds.size.height-TopEdge-BottomEdge)
 
 #import "VerticalBarChartView.h"
+#import "UIColor+HexColor.h"
+typedef NS_ENUM(NSUInteger,BarChartType) {
+    BarChartTypeSingle = 0,
+    BarChartTypeGroup = 1,
+    BarChartTypeStack = 2
+};
 
 @interface VerticalBarChartView()<UIScrollViewDelegate>
 @property (nonatomic, weak) UIScrollView *gestureScroll;
-@property (nonatomic, strong) NSMutableArray *yAxisArray;
+@property (nonatomic, strong) NSMutableArray *AxisArray;
 
 @property (nonatomic, assign) NSInteger beginItemIndex;
 @property (nonatomic, assign) NSInteger endItemIndex;
@@ -41,17 +47,62 @@ static const float GroupSpace = 5;
 @property (nonatomic, assign) CGFloat pinCenterToTopDistance;
 @property (nonatomic, assign) CGFloat pinCenterRatio;
 @property (nonatomic, assign) CGFloat zoomedItemH;
-@property (nonatomic, strong) NSArray *xValues;
-@property (nonatomic, strong) NSArray *lineColors;
+@property (nonatomic, strong) NSArray *Datas;
 
 @property (nonatomic, assign) CGFloat scrollContentSizeHeight;
 @property (nonatomic, assign) NSInteger beginGroupIndex;
 @property (nonatomic, assign) NSInteger endGroupIndex;
 
+@property (nonatomic, assign) BOOL isDataError;
+@property (nonatomic, strong) NSArray *groupMembers;
+@property (nonatomic, copy) NSString *axisTitle;
+@property (nonatomic, copy) NSString *dataTitle;
+@property (nonatomic, strong) NSArray *barColors;
+@property (nonatomic, assign) BarChartType chartType;
+@property (nonatomic, assign) NSUInteger valueInterval;
+@property (nonatomic, assign) CGFloat minBarWidth;
+@property (nonatomic, assign) CGFloat groupSpace;
 @end
 
 @implementation VerticalBarChartView
-
+- (id)initWithFrame:(CGRect)frame configure:(NSDictionary *)configureDict {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.backgroundColor = [UIColor whiteColor];
+        [self dealChartConfigure:configureDict];
+        self.layer.masksToBounds = YES;
+    }
+    return self;
+}
+- (void)dealChartConfigure:(NSDictionary *)dict {
+    self.AxisArray = [dict objectForKey:@"axis"];
+    self.Datas = [dict objectForKey:@"datas"];
+    self.isDataError = !self.AxisArray || ![self.AxisArray isKindOfClass:[NSArray class]] || !self.AxisArray.count || !self.Datas || ![self.Datas isKindOfClass:[NSArray class]] || !self.Datas.count;
+    
+    self.groupMembers = [dict objectForKey:@"groupMembers"];
+    self.axisTitle = [dict objectForKey:@"axisTitle"];
+    self.dataTitle = [dict objectForKey:@"dataTitle"];
+    self.barColors = [dict objectForKey:@"colors"];
+    if (!self.barColors) {
+        [self defaultColors];
+    }
+    BOOL isStack = [dict objectForKey:@"stack"];
+    if (isStack) {
+        self.chartType = BarChartTypeStack;
+    } else if (self.Datas.count > 1) {
+        self.chartType = BarChartTypeGroup;
+    } else {
+        self.chartType = BarChartTypeSingle;
+    }
+    self.valueInterval = [[dict objectForKey:@"valueInterval"] integerValue];
+    if (self.valueInterval == 0) {
+        self.valueInterval = 3;
+    }
+    NSDictionary *styleDict = [dict objectForKey:@"styles"];
+    NSDictionary *barStyle = [styleDict objectForKey:@"barStyle"];
+    self.minBarWidth = [barStyle objectForKey:@"minBarWidth"] ? [[barStyle objectForKey:@"minBarWidth"] floatValue] : 20;
+    self.groupSpace = [barStyle objectForKey:@"groupSpace"] ? [[barStyle objectForKey:@"groupSpace"] floatValue] : 5;
+}
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self addGestureScroll];
@@ -105,15 +156,15 @@ static const float GroupSpace = 5;
             if (pinGesture.scale < 1){
                 CGFloat testZoomedHeight = 0;
                 if (self.chartType == BarChartTypeGroup) {
-                    testZoomedHeight = ([self.xValues count]*self.itemH*self.oldPinScale*pinGesture.scale + GroupSpace) * [self.xValues[0] count];
+                    testZoomedHeight = ([self.Datas count]*self.itemH*self.oldPinScale*pinGesture.scale + GroupSpace) * [self.Datas[0] count];
                 } else {
-                    testZoomedHeight = (self.itemH*self.oldPinScale*pinGesture.scale + GroupSpace) * [self.xValues[0] count];
+                    testZoomedHeight = (self.itemH*self.oldPinScale*pinGesture.scale + GroupSpace) * [self.Datas[0] count];
                 }
                 if (testZoomedHeight < ChartHeight) {
                     if (self.chartType == BarChartTypeGroup) {
-                        _newPinScale = (ChartHeight/[self.xValues[0] count] - GroupSpace)/self.xValues.count/self.itemH/self.oldPinScale;
+                        _newPinScale = (ChartHeight/[self.Datas[0] count] - GroupSpace)/self.Datas.count/self.itemH/self.oldPinScale;
                     } else {
-                        _newPinScale = (ChartHeight/[self.xValues[0] count] - GroupSpace)/self.itemH/self.oldPinScale;
+                        _newPinScale = (ChartHeight/[self.Datas[0] count] - GroupSpace)/self.itemH/self.oldPinScale;
                     }
                 } else {
                     _newPinScale = pinGesture.scale;
@@ -182,23 +233,23 @@ static const float GroupSpace = 5;
 - (void)findBeginAndEndIndex {
     CGPoint offset = self.gestureScroll.contentOffset;
     if (self.chartType == BarChartTypeGroup) {
-        self.beginGroupIndex = floor(offset.y/(self.zoomedItemH*self.xValues.count + GroupSpace));
-        CGFloat itemBeginOffsetY = offset.y - self.beginGroupIndex * (self.zoomedItemH*self.xValues.count + GroupSpace);
-        if (floor(itemBeginOffsetY/self.zoomedItemH) < self.xValues.count) {
+        self.beginGroupIndex = floor(offset.y/(self.zoomedItemH*self.Datas.count + GroupSpace));
+        CGFloat itemBeginOffsetY = offset.y - self.beginGroupIndex * (self.zoomedItemH*self.Datas.count + GroupSpace);
+        if (floor(itemBeginOffsetY/self.zoomedItemH) < self.Datas.count) {
             self.beginItemIndex = floor(itemBeginOffsetY/self.zoomedItemH);
         } else {
-            self.beginItemIndex = self.xValues.count - 1;
+            self.beginItemIndex = self.Datas.count - 1;
         }
         
-        self.endGroupIndex = floor((offset.y+ChartHeight)/(self.zoomedItemH*self.xValues.count + GroupSpace));
-        if (self.endGroupIndex >= [self.xValues[0] count]) {
-            self.endGroupIndex = [self.xValues[0] count] - 1;
+        self.endGroupIndex = floor((offset.y+ChartHeight)/(self.zoomedItemH*self.Datas.count + GroupSpace));
+        if (self.endGroupIndex >= [self.Datas[0] count]) {
+            self.endGroupIndex = [self.Datas[0] count] - 1;
         }
-        CGFloat itemEndOffsetY = offset.y+ChartHeight - self.endGroupIndex * (self.zoomedItemH*self.xValues.count + GroupSpace);
-        if (floor(itemEndOffsetY/self.zoomedItemH) < self.xValues.count) {
+        CGFloat itemEndOffsetY = offset.y+ChartHeight - self.endGroupIndex * (self.zoomedItemH*self.Datas.count + GroupSpace);
+        if (floor(itemEndOffsetY/self.zoomedItemH) < self.Datas.count) {
             self.endItemIndex = floor(itemEndOffsetY/self.zoomedItemH);
         } else {
-            self.endItemIndex = self.xValues.count - 1;
+            self.endItemIndex = self.Datas.count - 1;
         }
     } else {
         self.beginGroupIndex = floor(offset.y/(self.zoomedItemH + GroupSpace));
@@ -211,18 +262,18 @@ static const float GroupSpace = 5;
     if (self.beginItemIndex < 0) {
         self.beginItemIndex = 0;
     }
-    if (self.beginItemIndex > self.xValues.count) {
-        self.beginItemIndex = self.xValues.count - 1;
+    if (self.beginItemIndex > self.Datas.count) {
+        self.beginItemIndex = self.Datas.count - 1;
     }
     if (self.endItemIndex < 0) {
         self.endItemIndex = 0;
     }
-    if (self.endItemIndex > self.xValues.count) {
-        self.endItemIndex = self.xValues.count - 1;
+    if (self.endItemIndex > self.Datas.count) {
+        self.endItemIndex = self.Datas.count - 1;
     }
     
-    if (self.endGroupIndex > [self.xValues[0] count] - 1) {
-        self.endGroupIndex = [self.xValues[0] count] - 1;
+    if (self.endGroupIndex > [self.Datas[0] count] - 1) {
+        self.endGroupIndex = [self.Datas[0] count] - 1;
     }
     if (self.beginGroupIndex > self.endGroupIndex) {
         self.beginGroupIndex = self.endGroupIndex;
@@ -233,12 +284,12 @@ static const float GroupSpace = 5;
     switch (self.chartType) {
         case BarChartTypeSingle: {
             if (self.beginGroupIndex == self.endGroupIndex) {
-                self.minXValue = [[(NSArray *)self.xValues[0] objectAtIndex:self.beginGroupIndex] floatValue];
+                self.minXValue = [[(NSArray *)self.Datas[0] objectAtIndex:self.beginGroupIndex] floatValue];
                 self.maxXValue = self.minXValue;
             } else {
                 NSMutableArray *array = [NSMutableArray arrayWithCapacity:(self.endGroupIndex - self.beginGroupIndex + 1)];
                 for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
-                    [array addObject:[(NSArray *)self.xValues[0] objectAtIndex:i]];
+                    [array addObject:[(NSArray *)self.Datas[0] objectAtIndex:i]];
                 }
                 self.minXValue = [array[0] floatValue];
                 self.maxXValue = self.minXValue;
@@ -249,8 +300,8 @@ static const float GroupSpace = 5;
         case BarChartTypeStack: {
             if (self.beginGroupIndex == self.endGroupIndex) {
                 self.minXValue = 0; self.maxXValue = 0;
-                for (NSUInteger i=0; i<self.xValues.count; i++) {
-                    CGFloat x = [[self.xValues[i] objectAtIndex:self.beginGroupIndex] floatValue];
+                for (NSUInteger i=0; i<self.Datas.count; i++) {
+                    CGFloat x = [[self.Datas[i] objectAtIndex:self.beginGroupIndex] floatValue];
                     if (x < 0) {
                         self.minXValue += x;
                     } else {
@@ -264,8 +315,8 @@ static const float GroupSpace = 5;
                 
                 for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
                     CGFloat tempMinXValue = 0, tempMaxXValue = 0;
-                    for (NSUInteger j=0;j<self.xValues.count;j++) {
-                        CGFloat x = [[self.xValues[j] objectAtIndex:i] floatValue];
+                    for (NSUInteger j=0;j<self.Datas.count;j++) {
+                        CGFloat x = [[self.Datas[j] objectAtIndex:i] floatValue];
                         if (x< 0) {
                             tempMinXValue += x;
                         } else {
@@ -291,24 +342,24 @@ static const float GroupSpace = 5;
                 if (self.beginItemIndex > self.endItemIndex) {
                     self.beginItemIndex = self.endItemIndex;
                 }
-                self.minXValue = [[self.xValues[self.beginItemIndex] objectAtIndex:self.beginGroupIndex] floatValue];
+                self.minXValue = [[self.Datas[self.beginItemIndex] objectAtIndex:self.beginGroupIndex] floatValue];
                 self.maxXValue = self.minXValue;
                 for (NSUInteger i=self.beginItemIndex+1; i<=self.endItemIndex; i++) {
-                    CGFloat tempValue = [[self.xValues[i] objectAtIndex:self.beginGroupIndex] floatValue];
+                    CGFloat tempValue = [[self.Datas[i] objectAtIndex:self.beginGroupIndex] floatValue];
                     self.minXValue = MIN(self.minXValue, tempValue);
                     self.maxXValue = MAX(self.maxXValue, tempValue);
                 }
             } else if (self.beginGroupIndex == self.endGroupIndex - 1) {
-                self.minXValue = [[self.xValues[self.beginItemIndex] objectAtIndex:self.beginGroupIndex] floatValue];
+                self.minXValue = [[self.Datas[self.beginItemIndex] objectAtIndex:self.beginGroupIndex] floatValue];
                 self.maxXValue = self.minXValue;
                 
-                [self compareBeginAndEndItemValue:self.beginItemIndex+1 endItem:self.xValues.count-1 isBeginGroup:YES];
+                [self compareBeginAndEndItemValue:self.beginItemIndex+1 endItem:self.Datas.count-1 isBeginGroup:YES];
                 [self compareBeginAndEndItemValue:0 endItem:self.endItemIndex isBeginGroup:NO];
             } else {
-                self.minXValue = [[self.xValues[self.beginItemIndex] objectAtIndex:self.beginGroupIndex] floatValue];
+                self.minXValue = [[self.Datas[self.beginItemIndex] objectAtIndex:self.beginGroupIndex] floatValue];
                 self.maxXValue = self.minXValue;
                 
-                [self compareBeginAndEndItemValue:self.beginItemIndex+1 endItem:self.xValues.count-1 isBeginGroup:YES];
+                [self compareBeginAndEndItemValue:self.beginItemIndex+1 endItem:self.Datas.count-1 isBeginGroup:YES];
                 [self compareBeginAndEndItemValue:0 endItem:self.endItemIndex isBeginGroup:NO];
                 [self campareMaxAndMinValue:self.beginGroupIndex+1 rightIndex:self.endGroupIndex-1];
             }
@@ -322,13 +373,13 @@ static const float GroupSpace = 5;
 - (void)compareBeginAndEndItemValue:(NSUInteger)beginItem endItem:(NSUInteger)endItem isBeginGroup:(BOOL)isBeginGroup {
     for (NSUInteger i=beginItem; i<=endItem; i++) {
         NSUInteger index = isBeginGroup ? self.beginGroupIndex : self.endGroupIndex;
-        CGFloat tempValue = [[self.xValues[i] objectAtIndex:index] floatValue];
+        CGFloat tempValue = [[self.Datas[i] objectAtIndex:index] floatValue];
         self.minXValue = MIN(self.minXValue, tempValue);
         self.maxXValue = MAX(self.maxXValue, tempValue);
     }
 }
 - (void)campareMaxAndMinValue:(NSUInteger)leftIndex rightIndex:(NSUInteger)rightIndex {
-    for (NSArray *values in self.xValues) {
+    for (NSArray *values in self.Datas) {
         [self findMaxAndMinValue:leftIndex rightIndex:rightIndex compareA:values];
     }
 }
@@ -398,7 +449,7 @@ static const float GroupSpace = 5;
     [self.containerView addSubview:subContainerV];
     switch (self.chartType) {
         case BarChartTypeSingle: {
-            NSArray *array = self.xValues[0];
+            NSArray *array = self.Datas[0];
             CGFloat offsetY = self.gestureScroll.contentOffset.y;
             CGFloat zeroX = _xNegativeSegmentNum * self.xAxisUnitW;
             for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
@@ -410,8 +461,8 @@ static const float GroupSpace = 5;
                 UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemH+GroupSpace)-offsetY, fabs([array[i] floatValue]) * _xItemUnitW, self.zoomedItemH)];
                 xValueLayer.path = xValueBezier.CGPath;
                 xValueLayer.lineWidth = 1;
-                xValueLayer.strokeColor = [self.lineColors[0] CGColor];
-                xValueLayer.fillColor = [self.lineColors[0] CGColor];
+                xValueLayer.strokeColor = [self.barColors[0] CGColor];
+                xValueLayer.fillColor = [self.barColors[0] CGColor];
                 [subContainerV.layer addSublayer:xValueLayer];
             }
         }
@@ -421,8 +472,8 @@ static const float GroupSpace = 5;
             CGFloat zeroX = _xNegativeSegmentNum * self.xAxisUnitW;
             for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
                 CGFloat positiveX = zeroX, negativeX = zeroX, xPoint = zeroX;
-                for (NSUInteger j=0; j<self.xValues.count; j++) {
-                    NSArray *array = self.xValues[j];
+                for (NSUInteger j=0; j<self.Datas.count; j++) {
+                    NSArray *array = self.Datas[j];
                     CAShapeLayer *xValueLayer = [CAShapeLayer layer];
                     if ([array[i] floatValue] < 0) {
                         negativeX += [array[i] floatValue] * _xItemUnitW;
@@ -434,8 +485,8 @@ static const float GroupSpace = 5;
                     UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemH+GroupSpace)-offsetY, fabs([array[i] floatValue]) * _xItemUnitW, self.zoomedItemH)];
                     xValueLayer.path = xValueBezier.CGPath;
                     xValueLayer.lineWidth = 1;
-                    xValueLayer.strokeColor = [self.lineColors[j] CGColor];
-                    xValueLayer.fillColor = [self.lineColors[j] CGColor];
+                    xValueLayer.strokeColor = [[UIColor hexChangeFloat:self.barColors[j]] CGColor];
+                    xValueLayer.fillColor = [[UIColor hexChangeFloat:self.barColors[j]] CGColor];
                     [subContainerV.layer addSublayer:xValueLayer];
                     
                     if ([array[i] floatValue] >= 0) {
@@ -449,10 +500,10 @@ static const float GroupSpace = 5;
         case BarChartTypeGroup: {
             CGFloat offsetY = self.gestureScroll.contentOffset.y;
             CGFloat zeroX = _xNegativeSegmentNum * self.xAxisUnitW;
-            if (self.beginItemIndex >= self.xValues.count) break;
+            if (self.beginItemIndex >= self.Datas.count) break;
             NSUInteger rightLoopIndex = self.endItemIndex;
-            if (self.endItemIndex >= self.xValues.count) {
-                rightLoopIndex = self.xValues.count - 1;
+            if (self.endItemIndex >= self.Datas.count) {
+                rightLoopIndex = self.Datas.count - 1;
             }
             if (self.beginGroupIndex == self.endGroupIndex) {
                 if (self.beginItemIndex>self.endItemIndex) break;
@@ -460,23 +511,23 @@ static const float GroupSpace = 5;
                 break;
             }
             
-            [self drawBeginAndEndItemLayer:self.beginItemIndex rightIndex:self.xValues.count-1 isBegin:YES containerView:subContainerV];
+            [self drawBeginAndEndItemLayer:self.beginItemIndex rightIndex:self.Datas.count-1 isBegin:YES containerView:subContainerV];
             [self drawBeginAndEndItemLayer:0 rightIndex:rightLoopIndex isBegin:NO containerView:subContainerV];
             
             for (NSUInteger i=self.beginGroupIndex+1; i<self.endGroupIndex; i++) {
-                for (NSUInteger j=0; j<self.xValues.count; j++) {
-                    NSArray *array = self.xValues[j];
+                for (NSUInteger j=0; j<self.Datas.count; j++) {
+                    NSArray *array = self.Datas[j];
                     CAShapeLayer *xValueLayer = [CAShapeLayer layer];
                     
                     CGFloat xPoint = zeroX;
                     if ([array[i] floatValue] < 0) {
                         xPoint = zeroX + [array[i] floatValue] * _xItemUnitW;
                     }
-                    UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemH*self.xValues.count+GroupSpace)+j*self.zoomedItemH-offsetY, fabs([array[i] floatValue]) * _xItemUnitW, self.zoomedItemH)];
+                    UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemH*self.Datas.count+GroupSpace)+j*self.zoomedItemH-offsetY, fabs([array[i] floatValue]) * _xItemUnitW, self.zoomedItemH)];
                     xValueLayer.path = xValueBezier.CGPath;
                     xValueLayer.lineWidth = 1;
-                    xValueLayer.strokeColor = [self.lineColors[j] CGColor];
-                    xValueLayer.fillColor = [self.lineColors[j] CGColor];
+                    xValueLayer.strokeColor = [[UIColor hexChangeFloat:self.barColors[j]] CGColor];
+                    xValueLayer.fillColor = [[UIColor hexChangeFloat:self.barColors[j]] CGColor];
                     [subContainerV.layer addSublayer:xValueLayer];
                 }
             }
@@ -492,7 +543,7 @@ static const float GroupSpace = 5;
     CGFloat offsetY = self.gestureScroll.contentOffset.y;
     
     for (NSUInteger i=leftIndex; i<=rightIndex; i++) {
-        NSArray *array = self.xValues[i];
+        NSArray *array = self.Datas[i];
         CAShapeLayer *xValueLayer = [CAShapeLayer layer];
         CGFloat itemValue = isBegin ? [array[self.beginGroupIndex] floatValue] :  [array[self.endGroupIndex] floatValue];
         CGFloat xPoint = zeroX;
@@ -500,12 +551,12 @@ static const float GroupSpace = 5;
             xPoint = zeroX + itemValue * _xItemUnitW;
         }
         NSUInteger leftIndex = isBegin ? self.beginGroupIndex : self.endGroupIndex;
-        CGFloat y = leftIndex *(self.zoomedItemH*self.xValues.count+GroupSpace)+i*self.zoomedItemH-offsetY;
+        CGFloat y = leftIndex *(self.zoomedItemH*self.Datas.count+GroupSpace)+i*self.zoomedItemH-offsetY;
         UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, y, fabs(itemValue) * _xItemUnitW, self.zoomedItemH)];
         xValueLayer.path = xValueBezier.CGPath;
         xValueLayer.lineWidth = 1;
-        xValueLayer.strokeColor = [self.lineColors[i] CGColor];
-        xValueLayer.fillColor = [self.lineColors[i] CGColor];
+        xValueLayer.strokeColor = [[UIColor hexChangeFloat:self.barColors[i]] CGColor];
+        xValueLayer.fillColor = [[UIColor hexChangeFloat:self.barColors[i]] CGColor];
         [subContainerV.layer addSublayer:xValueLayer];
     }
 }
@@ -515,13 +566,13 @@ static const float GroupSpace = 5;
     for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
         CGRect textFrame;
         if (self.chartType == BarChartTypeGroup) {
-            if ((self.xValues.count*self.zoomedItemH+GroupSpace)*i - offsetY + (self.xValues.count*self.zoomedItemH-TextHeight)/2.0 < 0) continue;
-            textFrame = CGRectMake(0, TopEdge+(self.xValues.count*self.zoomedItemH+GroupSpace)*i - offsetY + (self.xValues.count*self.zoomedItemH-TextHeight)/2.0, LeftEdge, TextHeight);
+            if ((self.Datas.count*self.zoomedItemH+GroupSpace)*i - offsetY + (self.Datas.count*self.zoomedItemH-TextHeight)/2.0 < 0) continue;
+            textFrame = CGRectMake(0, TopEdge+(self.Datas.count*self.zoomedItemH+GroupSpace)*i - offsetY + (self.Datas.count*self.zoomedItemH-TextHeight)/2.0, LeftEdge, TextHeight);
         } else {
             if ((self.zoomedItemH+GroupSpace)*i - offsetY + (self.zoomedItemH-TextHeight)/2.0 < 0) continue;
             textFrame = CGRectMake(0, TopEdge+(self.zoomedItemH+GroupSpace)*i - offsetY + (self.zoomedItemH-TextHeight)/2.0, LeftEdge, TextHeight);
         }
-        CATextLayer *text = [self getTextLayerWithString:self.yAxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        CATextLayer *text = [self getTextLayerWithString:self.AxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
         [self.containerView.layer addSublayer:text];
     }
 }
@@ -598,29 +649,13 @@ static const float GroupSpace = 5;
     return textLayer;
 }
 
-- (NSMutableArray *)yAxisArray {
-    if (!_yAxisArray) {
-        _yAxisArray = [NSMutableArray arrayWithObjects:@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun", nil];
-    }
-    return _yAxisArray;
-}
-
-- (NSArray *)xValues {
-    if (!_xValues) {
-        _xValues = @[
-                     @[@"0.1",@"0.2",@"0.3",@"-0.4",@"0.5",@"0.6",@"-0.7"],
-                     @[@"0.5",@"0.6",@"-0.7",@"0.9",@"0.12",@"0.13",@"-0.14"]
-                     ];
-    }
-    return _xValues;
-}
 - (CGFloat)itemH {
     if (_itemH == 0) {
         if (self.chartType == BarChartTypeGroup) {
-            CGFloat h = (ChartHeight-[self.xValues[0] count]*GroupSpace)/[self.xValues[0] count]/self.xValues.count;
+            CGFloat h = (ChartHeight-[self.Datas[0] count]*GroupSpace)/[self.Datas[0] count]/self.Datas.count;
             _itemH = h > minItemHeight ? h : minItemHeight;
         } else {
-            _itemH = (ChartHeight/[self.xValues[0] count] - GroupSpace) > minItemHeight ? (ChartHeight/[self.xValues[0] count] - GroupSpace) : minItemHeight;
+            _itemH = (ChartHeight/[self.Datas[0] count] - GroupSpace) > minItemHeight ? (ChartHeight/[self.Datas[0] count] - GroupSpace) : minItemHeight;
         }
     }
     return _itemH;
@@ -643,22 +678,19 @@ static const float GroupSpace = 5;
     }
     return _newPinScale;
 }
-- (NSArray *)lineColors {
-    if (!_lineColors) {
-        NSMutableArray *colors = [NSMutableArray arrayWithCapacity:self.xValues.count];
-        for (NSUInteger i=0; i<self.xValues.count; i++) {
-            UIColor *color = [UIColor colorWithRed:arc4random_uniform(256)/255.0 green:arc4random_uniform(256)/255.0 blue:arc4random_uniform(256)/255.0 alpha:1];
-            [colors addObject:color];
-        }
-        _lineColors = [colors copy];
+- (void)defaultColors {
+    NSArray *colors = @[@"45abff",@"6be6c1",@"ffa51f",@"ffd64e",@"3fd183",@"6ea7c7",@"5b7cf4",@"00bfd5",@"8bc7ff",@"f48784",@"d25537"];
+    NSMutableArray *tempColors = [NSMutableArray arrayWithCapacity:self.Datas.count];
+    for (NSUInteger i=0; i<self.Datas.count; i++) {
+        [tempColors addObject:colors[i%colors.count]];
     }
-    return _lineColors;
+    self.barColors = [tempColors copy];
 }
 - (CGFloat)scrollContentSizeHeight {
     if (self.chartType == BarChartTypeGroup) {
-        return (self.xValues.count*self.zoomedItemH + GroupSpace) * [self.xValues[0] count];
+        return (self.Datas.count*self.zoomedItemH + GroupSpace) * [self.Datas[0] count];
     }
-    return (self.zoomedItemH + GroupSpace) * [self.xValues[0] count];
+    return (self.zoomedItemH + GroupSpace) * [self.Datas[0] count];
 }
 
 @end
