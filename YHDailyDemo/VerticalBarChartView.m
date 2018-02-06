@@ -105,6 +105,12 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 }
 - (void)layoutSubviews {
     [super layoutSubviews];
+    if (self.isDataError) {
+        CGRect textFrame = CGRectMake(0,( ChartHeight-TextHeight)/2.0, ChartWidth, TextHeight);
+        CATextLayer *text = [self getTextLayerWithString:@"数据格式有误" textColor:[UIColor lightGrayColor] fontSize:14 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
+        [self.layer addSublayer:text];
+        return;
+    }
     [self addGestureScroll];
     self.chartType = BarChartTypeGroup;
     self.gestureScroll.contentSize = CGSizeMake(ChartWidth, self.scrollContentSizeHeight);
@@ -572,7 +578,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             if ((self.zoomedItemH+GroupSpace)*i - offsetY + (self.zoomedItemH-TextHeight)/2.0 < 0) continue;
             textFrame = CGRectMake(0, TopEdge+(self.zoomedItemH+GroupSpace)*i - offsetY + (self.zoomedItemH-TextHeight)/2.0, LeftEdge, TextHeight);
         }
-        CATextLayer *text = [self getTextLayerWithString:self.AxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        CATextLayer *text = [self getTextLayerWithString:self.AxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
         [self.containerView.layer addSublayer:text];
     }
 }
@@ -590,12 +596,12 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 - (void)addXAxisLayer {
     for (NSUInteger i=0; i<_xNegativeSegmentNum; i++) {
         CGRect textFrame = CGRectMake((i-0.5)*self.xAxisUnitW+LeftEdge, self.bounds.size.height-TextHeight, self.xAxisUnitW, TextHeight);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%.2f",(_xNegativeSegmentNum-i)*_itemW] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%.2f",(_xNegativeSegmentNum-i)*_itemW] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
         [self.containerView.layer addSublayer:text];
     }
     for (NSInteger i=0; i<=_xPostiveSegmentNum+1; i++) {
         CGRect textFrame = CGRectMake((_xNegativeSegmentNum+i-0.5)*self.xAxisUnitW+LeftEdge, self.bounds.size.height-TextHeight, self.xAxisUnitW, TextHeight);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%.0f",i*_itemW] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%.0f",i*_itemW] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
         [self.containerView.layer addSublayer:text];
     }
 }
@@ -635,15 +641,19 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
                               textColor:(UIColor *)textColor
                                fontSize:(NSInteger)fontSize
                         backgroundColor:(UIColor *)bgColor
-                                  frame:(CGRect)frame {
+                                  frame:(CGRect)frame
+                          alignmentMode:(NSString *)alignmentMode {
     CATextLayer *textLayer = [CATextLayer layer];
     textLayer.frame = frame;
     textLayer.string = text;
     textLayer.fontSize = fontSize;
     textLayer.foregroundColor = textColor.CGColor;
     textLayer.backgroundColor = bgColor.CGColor;
-    textLayer.alignmentMode = kCAAlignmentCenter;
+    textLayer.alignmentMode = alignmentMode;
     textLayer.wrapped = YES;
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9) {
+        textLayer.font = (__bridge CFTypeRef _Nullable)(@"PingFangSC-Regular");
+    }
     //设置分辨率
     textLayer.contentsScale = [UIScreen mainScreen].scale;
     return textLayer;
