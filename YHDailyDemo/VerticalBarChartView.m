@@ -122,7 +122,6 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
         return;
     }
     [self addGestureScroll];
-    self.chartType = BarChartTypeGroup;
     self.gestureScroll.contentSize = CGSizeMake(ChartWidth, self.scrollContentSizeHeight);
     if (!_containerView) {
         [self redraw];
