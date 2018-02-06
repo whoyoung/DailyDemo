@@ -421,12 +421,13 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     [self insertSubview:_containerView belowSubview:_gestureScroll];
     [self findBeginAndEndIndex];
     [self calculateMaxAndMinValue];
-    [self calculateXAxisSegment];
-    [self drawXValuePoint];
-    [self addXAxisLayer];
-    [self addXScaleLayer];
-    [self addYAxisLayer];
-    [self addYScaleLayer];
+    [self calculateDataSegment];
+    [self addDataLayer];
+    [self addDataScaleLayer];
+    [self addAxisLayer];
+    [self addAxisScaleLayer];
+    [self drawDataPoint];
+
 }
 
 - (void)findBeginAndEndIndex {
@@ -606,43 +607,40 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     [self findMaxAndMinValue:mid + 1 rightIndex:rightIndex compareA:compareA];
 }
 
-- (void)calculateXAxisSegment {
+- (void)calculateDataSegment {
     if (self.minDataValue >= 0) {
-        self.dataPostiveSegmentNum = 4;
+        self.dataPostiveSegmentNum = self.valueInterval;
         if(self.maxDataValue < 1) {
             self.dataPostiveSegmentNum = 1;
         }
         self.dataNegativeSegmentNum = 0;
         self.itemDataScale = ceil(self.maxDataValue/self.dataPostiveSegmentNum);
-        self.dataItemUnitScale = ChartWidth/(self.itemDataScale * self.dataPostiveSegmentNum);
     } else if (self.maxDataValue < 0) {
         self.dataPostiveSegmentNum = 0;
-        self.dataNegativeSegmentNum = 4;
+        self.dataNegativeSegmentNum = self.valueInterval;
         if(fabs(self.minDataValue) < 1) {
             self.dataNegativeSegmentNum = 1;
         }
         self.itemDataScale = ceil(fabs(self.minDataValue)/self.dataNegativeSegmentNum);
-        self.dataItemUnitScale = ChartWidth/(self.itemDataScale * self.dataNegativeSegmentNum);
     } else if (self.maxDataValue >= fabs(self.minDataValue)) {
-        self.dataPostiveSegmentNum = 4;
+        self.dataPostiveSegmentNum = self.valueInterval;
         if(self.maxDataValue < 1) {
             self.dataPostiveSegmentNum = 1;
         }
         self.itemDataScale = ceil(self.maxDataValue/self.dataPostiveSegmentNum);
         self.dataNegativeSegmentNum = ceil(fabs(self.minDataValue)/self.itemDataScale);
-        self.dataItemUnitScale = ChartWidth/(self.itemDataScale * (self.dataPostiveSegmentNum+self.dataNegativeSegmentNum));
     } else {
-        self.dataNegativeSegmentNum = 4;
+        self.dataNegativeSegmentNum = self.valueInterval;
         if(fabs(self.minDataValue) < 1) {
             self.dataNegativeSegmentNum = 1;
         }
         self.itemDataScale = ceil(fabs(self.minDataValue)/self.dataNegativeSegmentNum);
         self.dataPostiveSegmentNum = ceil(self.maxDataValue/self.itemDataScale);
-        self.dataItemUnitScale = ChartWidth/(self.itemDataScale * (self.dataPostiveSegmentNum+self.dataNegativeSegmentNum));
     }
+    self.dataItemUnitScale = ChartWidth/(self.itemDataScale * (self.dataPostiveSegmentNum+self.dataNegativeSegmentNum));
 }
 
-- (void)drawXValuePoint {
+- (void)drawDataPoint {
     UIView *subContainerV = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, ChartWidth, ChartHeight)];
     subContainerV.layer.masksToBounds = YES;
     [self.containerView addSubview:subContainerV];
@@ -756,7 +754,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     }
 }
 
-- (void)addYAxisLayer {
+- (void)addAxisLayer {
     CGFloat offsetY = self.gestureScroll.contentOffset.y;
     for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
         CGRect textFrame;
@@ -771,7 +769,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
         [self.containerView.layer addSublayer:text];
     }
 }
-- (void)addYScaleLayer {
+- (void)addAxisScaleLayer {
     CAShapeLayer *yScaleLayer = [CAShapeLayer layer];
     UIBezierPath *yScaleBezier = [UIBezierPath bezierPath];
     [yScaleBezier moveToPoint:CGPointMake(LeftEdge, TopEdge)];
@@ -782,7 +780,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     yScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:yScaleLayer];
 }
-- (void)addXAxisLayer {
+- (void)addDataLayer {
     for (NSUInteger i=0; i<_dataNegativeSegmentNum; i++) {
         CGRect textFrame = CGRectMake((i-0.5)*[self axisUnitScale]+LeftEdge, self.bounds.size.height-TextHeight, [self axisUnitScale], TextHeight);
         CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%.2f",(_dataNegativeSegmentNum-i)*_itemDataScale] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
@@ -794,7 +792,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
         [self.containerView.layer addSublayer:text];
     }
 }
-- (void)addXScaleLayer {
+- (void)addDataScaleLayer {
     CAShapeLayer *xScaleLayer = [CAShapeLayer layer];
     UIBezierPath *xScaleBezier = [UIBezierPath bezierPath];
     [xScaleBezier moveToPoint:CGPointMake(LeftEdge, self.bounds.size.height-BottomEdge)];
