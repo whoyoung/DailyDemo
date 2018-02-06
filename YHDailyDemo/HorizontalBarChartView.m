@@ -72,6 +72,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 - (id)initWithFrame:(CGRect)frame configure:(NSDictionary *)configureDict {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = [UIColor whiteColor];
         [self dealChartConfigure:configureDict];
         self.layer.masksToBounds = YES;
     }
@@ -186,6 +187,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             break;
         case UIGestureRecognizerStateEnded: {
             _oldPinScale *= _newPinScale;
+            _newPinScale = 1.0;
         }
             break;
             
@@ -211,7 +213,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     } else { // BarChartTypeStack
         group = floorf(tapP.x / (self.zoomedItemW + self.groupSpace));
         _zeroY = _dataPostiveSegmentNum * [self axisUnitH];
-        CGFloat tempY = _zeroY;
+        CGFloat tempY = _zeroY + TopEdge;;
         for (NSUInteger i = 0; i < self.Datas.count; i++) {
             CGFloat h = [[self.Datas[i] objectAtIndex:group] floatValue] * self.dataItemUnitH;
             if (tapP.y > _zeroY) {
@@ -298,20 +300,20 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     }
     tipMaxW += 10;
     
-    NSUInteger arrowP = 2;
+    NSUInteger arrowP = 2; //箭头在中间位置
     CGFloat originX = tempP.x - tipMaxW/2.0;
     if (originX < LeftEdge) {
         originX = tempP.x;
-        arrowP = 1;
+        arrowP = 1; //箭头在左边位置
     } else if (tempP.x + tipMaxW/2.0 > ChartWidth + LeftEdge) {
         originX = tempP.x - tipMaxW;
-        arrowP = 3;
+        arrowP = 3; //箭头在右边位置
     }
     
     CGFloat originY = tempP.y - tipH;
     if (originY < TopEdge) {
         originY = tempP.y;
-        arrowP += 10;
+        arrowP += 10; //箭头在弹窗上方
     }
     
     UIView *tipView = [[UIView alloc] initWithFrame:CGRectMake(originX, originY, tipMaxW, tipH)];
@@ -325,6 +327,38 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
         rectPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, 5, tipMaxW, tipH-5)];
     } else {
         rectPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, tipMaxW, tipH-5)];
+    }
+    CGSize cornerRadii = CGSizeMake(5, 5);
+    CGRect topRect = CGRectMake(0, 0, tipMaxW, tipH-5);
+    CGRect bottomRect = CGRectMake(0, 5, tipMaxW, tipH-5);
+    switch (arrowP) {
+        case 1: {
+           rectPath = [UIBezierPath bezierPathWithRoundedRect:topRect byRoundingCorners:UIRectCornerTopLeft|UIRectCornerTopRight|UIRectCornerBottomRight cornerRadii:cornerRadii];
+        }
+            break;
+        case 2: {
+            rectPath = [UIBezierPath bezierPathWithRoundedRect:topRect byRoundingCorners:UIRectCornerAllCorners cornerRadii:cornerRadii];
+        }
+            break;
+        case 3: {
+            rectPath = [UIBezierPath bezierPathWithRoundedRect:topRect byRoundingCorners:UIRectCornerTopLeft|UIRectCornerTopRight|UIRectCornerBottomLeft cornerRadii:cornerRadii];
+        }
+            break;
+        case 11: {
+            rectPath = [UIBezierPath bezierPathWithRoundedRect:bottomRect byRoundingCorners:UIRectCornerBottomLeft|UIRectCornerTopRight|UIRectCornerBottomRight cornerRadii:cornerRadii];
+        }
+            break;
+        case 12: {
+            rectPath = [UIBezierPath bezierPathWithRoundedRect:bottomRect byRoundingCorners:UIRectCornerAllCorners cornerRadii:cornerRadii];
+        }
+            break;
+        case 13: {
+            rectPath = [UIBezierPath bezierPathWithRoundedRect:bottomRect byRoundingCorners:UIRectCornerTopLeft|UIRectCornerBottomLeft|UIRectCornerBottomRight cornerRadii:cornerRadii];
+        }
+            break;
+            
+        default:
+            break;
     }
     rectLayer.path = rectPath.CGPath;
     rectLayer.fillColor = [UIColor hexChangeFloat:@"0D2940"].CGColor;
