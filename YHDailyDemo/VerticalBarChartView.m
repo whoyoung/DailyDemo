@@ -30,7 +30,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 
 @property (nonatomic, assign) NSInteger beginItemIndex;
 @property (nonatomic, assign) NSInteger endItemIndex;
-@property (nonatomic, assign) CGFloat itemDataScale;
+@property (nonatomic, assign) NSUInteger itemDataScale;
 @property (nonatomic, assign) CGFloat itemAxisScale;
 @property (nonatomic, assign) CGFloat maxDataValue;
 @property (nonatomic, assign) CGFloat minDataValue;
@@ -63,6 +63,8 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 @property (nonatomic, assign) CGFloat minBarWidth;
 @property (nonatomic, assign) CGFloat groupSpace;
 @property (nonatomic, assign) CGFloat zeroLine;
+@property (nonatomic, assign) BOOL showDataDashLine;
+@property (nonatomic, assign) BOOL hideDataHardLine;
 @end
 
 @implementation VerticalBarChartView
@@ -614,32 +616,40 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             self.dataPostiveSegmentNum = 1;
         }
         self.dataNegativeSegmentNum = 0;
-        self.itemDataScale = ceil(self.maxDataValue/self.dataPostiveSegmentNum);
+        self.itemDataScale = ceil([self absoluteMaxValue:self.maxDataValue]/self.dataPostiveSegmentNum);
     } else if (self.maxDataValue < 0) {
         self.dataPostiveSegmentNum = 0;
         self.dataNegativeSegmentNum = self.valueInterval;
         if(fabs(self.minDataValue) < 1) {
             self.dataNegativeSegmentNum = 1;
         }
-        self.itemDataScale = ceil(fabs(self.minDataValue)/self.dataNegativeSegmentNum);
+        self.itemDataScale = ceil([self absoluteMaxValue:self.minDataValue]/self.dataNegativeSegmentNum);
     } else if (self.maxDataValue >= fabs(self.minDataValue)) {
         self.dataPostiveSegmentNum = self.valueInterval;
         if(self.maxDataValue < 1) {
             self.dataPostiveSegmentNum = 1;
         }
-        self.itemDataScale = ceil(self.maxDataValue/self.dataPostiveSegmentNum);
+        self.itemDataScale = ceil([self absoluteMaxValue:self.maxDataValue]/self.dataPostiveSegmentNum);
         self.dataNegativeSegmentNum = ceil(fabs(self.minDataValue)/self.itemDataScale);
     } else {
         self.dataNegativeSegmentNum = self.valueInterval;
         if(fabs(self.minDataValue) < 1) {
             self.dataNegativeSegmentNum = 1;
         }
-        self.itemDataScale = ceil(fabs(self.minDataValue)/self.dataNegativeSegmentNum);
+        self.itemDataScale = ceil([self absoluteMaxValue:self.minDataValue]/self.dataNegativeSegmentNum);
         self.dataPostiveSegmentNum = ceil(self.maxDataValue/self.itemDataScale);
     }
     self.dataItemUnitScale = ChartWidth/(self.itemDataScale * (self.dataPostiveSegmentNum+self.dataNegativeSegmentNum));
 }
-
+- (NSUInteger)absoluteMaxValue:(CGFloat)value {
+    CGFloat maxNum = fabs(value);
+    NSString *str = [NSString stringWithFormat:@"%.0f",floorf(maxNum)];
+    NSUInteger tenCube = 1;
+    if (str.length > 2) {
+        tenCube = pow(10, str.length - 2);
+    }
+    return ceil(ceil(maxNum / tenCube) / self.valueInterval) * self.valueInterval * tenCube;
+}
 - (void)drawDataPoint {
     UIView *subContainerV = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, ChartWidth, ChartHeight)];
     subContainerV.layer.masksToBounds = YES;
@@ -783,12 +793,12 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 - (void)addDataLayer {
     for (NSUInteger i=0; i<_dataNegativeSegmentNum; i++) {
         CGRect textFrame = CGRectMake((i-0.5)*[self axisUnitScale]+LeftEdge, self.bounds.size.height-TextHeight, [self axisUnitScale], TextHeight);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%.2f",(_dataNegativeSegmentNum-i)*_itemDataScale] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%ld",(_dataNegativeSegmentNum-i)*_itemDataScale] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
         [self.containerView.layer addSublayer:text];
     }
     for (NSInteger i=0; i<=_dataPostiveSegmentNum+1; i++) {
         CGRect textFrame = CGRectMake((_dataNegativeSegmentNum+i-0.5)*[self axisUnitScale]+LeftEdge, self.bounds.size.height-TextHeight, [self axisUnitScale], TextHeight);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%.0f",i*_itemDataScale] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%ld",i*_itemDataScale] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
         [self.containerView.layer addSublayer:text];
     }
 }
@@ -809,15 +819,17 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     xScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:xScaleLayer];
     
-    if (YES) {
+    if (_showDataDashLine || !_hideDataHardLine) {
         CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
         UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
-        for (NSUInteger i=0; i<=_dataNegativeSegmentNum+_dataPostiveSegmentNum; i++) {
+        for (NSUInteger i=1; i<=_dataNegativeSegmentNum+_dataPostiveSegmentNum; i++) {
             [dashLineBezier moveToPoint:CGPointMake(LeftEdge+i*[self axisUnitScale], self.bounds.size.height-BottomEdge)];
             [dashLineBezier addLineToPoint:CGPointMake(LeftEdge+i*[self axisUnitScale], TopEdge)];
         }
         dashLineLayer.path = dashLineBezier.CGPath;
-        [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
+        if (_showDataDashLine) {
+            [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
+        }
         dashLineLayer.lineWidth = 1;
         dashLineLayer.strokeColor = [UIColor blackColor].CGColor;
         dashLineLayer.fillColor = [UIColor clearColor].CGColor;
