@@ -9,11 +9,17 @@ static const float TopEdge = 10;
 static const float LeftEdge = 50;
 static const float RightEdge = 10;
 static const float BottomEdge = 20;
-static const float minItemHeight = 20;
-static const float TextHeight = 15;
-static const float GroupSpace = 5;
+static const float TextHeight = 11;
+static const float AxistTextFont = 9;
+static const float DataTextFont = 8;
+static const float TipTextFont = 9;
+
 #define ChartWidth (self.bounds.size.width-LeftEdge-RightEdge)
 #define ChartHeight (self.bounds.size.height-TopEdge-BottomEdge)
+#define AxisTextColor [UIColor hexChangeFloat:@"292F33"]
+#define AxisScaleColor [UIColor hexChangeFloat:@"EEEEEE"]
+#define DataTextColor [UIColor hexChangeFloat:@"8FA1B2"]
+#define TipTextColor [UIColor whiteColor]
 
 #import "VerticalBarChartView.h"
 #import "UIColor+HexColor.h"
@@ -26,7 +32,8 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 
 @interface VerticalBarChartView()<UIScrollViewDelegate>
 @property (nonatomic, weak) UIScrollView *gestureScroll;
-@property (nonatomic, strong) NSMutableArray *AxisArray;
+@property (nonatomic, strong) NSMutableArray<NSString *> *AxisArray;
+@property (nonatomic, strong) NSArray<NSArray *> *Datas;
 
 @property (nonatomic, assign) NSInteger beginItemIndex;
 @property (nonatomic, assign) NSInteger endItemIndex;
@@ -47,7 +54,6 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 @property (nonatomic, assign) CGFloat pinCenterToTopDistance;
 @property (nonatomic, assign) CGFloat pinCenterRatio;
 @property (nonatomic, assign) CGFloat zoomedItemAxis;
-@property (nonatomic, strong) NSArray *Datas;
 
 @property (nonatomic, assign) CGFloat scrollContentSizeHeight;
 @property (nonatomic, assign) NSInteger beginGroupIndex;
@@ -65,6 +71,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 @property (nonatomic, assign) CGFloat zeroLine;
 @property (nonatomic, assign) BOOL showDataDashLine;
 @property (nonatomic, assign) BOOL hideDataHardLine;
+
 @end
 
 @implementation VerticalBarChartView
@@ -165,15 +172,15 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             if (pinGesture.scale < 1){
                 CGFloat testZoomedHeight = 0;
                 if (self.chartType == BarChartTypeGroup) {
-                    testZoomedHeight = ([self.Datas count]*self.itemAxisScale*self.oldPinScale*pinGesture.scale + GroupSpace) * [self.Datas[0] count];
+                    testZoomedHeight = ([self.Datas count]*self.itemAxisScale*self.oldPinScale*pinGesture.scale + self.groupSpace) * [self.Datas[0] count];
                 } else {
-                    testZoomedHeight = (self.itemAxisScale*self.oldPinScale*pinGesture.scale + GroupSpace) * [self.Datas[0] count];
+                    testZoomedHeight = (self.itemAxisScale*self.oldPinScale*pinGesture.scale + self.groupSpace) * [self.Datas[0] count];
                 }
                 if (testZoomedHeight < ChartHeight) {
                     if (self.chartType == BarChartTypeGroup) {
-                        _newPinScale = (ChartHeight/[self.Datas[0] count] - GroupSpace)/self.Datas.count/self.itemAxisScale/self.oldPinScale;
+                        _newPinScale = (ChartHeight/[self.Datas[0] count] - self.groupSpace)/self.Datas.count/self.itemAxisScale/self.oldPinScale;
                     } else {
-                        _newPinScale = (ChartHeight/[self.Datas[0] count] - GroupSpace)/self.itemAxisScale/self.oldPinScale;
+                        _newPinScale = (ChartHeight/[self.Datas[0] count] - self.groupSpace)/self.itemAxisScale/self.oldPinScale;
                     }
                 } else {
                     _newPinScale = pinGesture.scale;
@@ -393,14 +400,14 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     }
     if (axisStr) {
         textFrame = CGRectMake(5, startY, tipMaxW-10, tipTextH);
-        CATextLayer *text = [self getTextLayerWithString:axisStr textColor:[UIColor whiteColor] fontSize:9 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentLeft];
+        CATextLayer *text = [self getTextLayerWithString:axisStr textColor:TipTextColor fontSize:TipTextFont backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentLeft];
         [tipView.layer addSublayer:text];
     }
     if (textFrame.origin.x > 0) {
-        CATextLayer *text = [self getTextLayerWithString:dataStr textColor:[UIColor whiteColor] fontSize:9 backgroundColor:[UIColor clearColor] frame:CGRectMake(5, CGRectGetMaxY(textFrame), tipMaxW-10, tipTextH) alignmentMode:kCAAlignmentLeft];
+        CATextLayer *text = [self getTextLayerWithString:dataStr textColor:TipTextColor fontSize:TipTextFont backgroundColor:[UIColor clearColor] frame:CGRectMake(5, CGRectGetMaxY(textFrame), tipMaxW-10, tipTextH) alignmentMode:kCAAlignmentLeft];
         [tipView.layer addSublayer:text];
     } else {
-        CATextLayer *text = [self getTextLayerWithString:axisStr textColor:[UIColor whiteColor] fontSize:9 backgroundColor:[UIColor clearColor] frame:CGRectMake(5, startY, tipMaxW-10, tipTextH) alignmentMode:kCAAlignmentLeft];
+        CATextLayer *text = [self getTextLayerWithString:axisStr textColor:TipTextColor fontSize:TipTextFont backgroundColor:[UIColor clearColor] frame:CGRectMake(5, startY, tipMaxW-10, tipTextH) alignmentMode:kCAAlignmentLeft];
         [tipView.layer addSublayer:text];
     }
 }
@@ -435,27 +442,27 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 - (void)findBeginAndEndIndex {
     CGPoint offset = self.gestureScroll.contentOffset;
     if (self.chartType == BarChartTypeGroup) {
-        self.beginGroupIndex = floor(offset.y/(self.zoomedItemAxis*self.Datas.count + GroupSpace));
-        CGFloat itemBeginOffsetY = offset.y - self.beginGroupIndex * (self.zoomedItemAxis*self.Datas.count + GroupSpace);
+        self.beginGroupIndex = floor(offset.y/(self.zoomedItemAxis*self.Datas.count + self.groupSpace));
+        CGFloat itemBeginOffsetY = offset.y - self.beginGroupIndex * (self.zoomedItemAxis*self.Datas.count + self.groupSpace);
         if (floor(itemBeginOffsetY/self.zoomedItemAxis) < self.Datas.count) {
             self.beginItemIndex = floor(itemBeginOffsetY/self.zoomedItemAxis);
         } else {
             self.beginItemIndex = self.Datas.count - 1;
         }
         
-        self.endGroupIndex = floor((offset.y+ChartHeight)/(self.zoomedItemAxis*self.Datas.count + GroupSpace));
+        self.endGroupIndex = floor((offset.y+ChartHeight)/(self.zoomedItemAxis*self.Datas.count + self.groupSpace));
         if (self.endGroupIndex >= [self.Datas[0] count]) {
             self.endGroupIndex = [self.Datas[0] count] - 1;
         }
-        CGFloat itemEndOffsetY = offset.y+ChartHeight - self.endGroupIndex * (self.zoomedItemAxis*self.Datas.count + GroupSpace);
+        CGFloat itemEndOffsetY = offset.y+ChartHeight - self.endGroupIndex * (self.zoomedItemAxis*self.Datas.count + self.groupSpace);
         if (floor(itemEndOffsetY/self.zoomedItemAxis) < self.Datas.count) {
             self.endItemIndex = floor(itemEndOffsetY/self.zoomedItemAxis);
         } else {
             self.endItemIndex = self.Datas.count - 1;
         }
     } else {
-        self.beginGroupIndex = floor(offset.y/(self.zoomedItemAxis + GroupSpace));
-        self.endGroupIndex = floor((offset.y+ChartHeight)/(self.zoomedItemAxis + GroupSpace));
+        self.beginGroupIndex = floor(offset.y/(self.zoomedItemAxis + self.groupSpace));
+        self.endGroupIndex = floor((offset.y+ChartHeight)/(self.zoomedItemAxis + self.groupSpace));
     }
     
     if (self.beginGroupIndex < 0) {
@@ -664,7 +671,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
                 if ([array[i] floatValue] < 0) {
                     xPoint = self.zeroLine + [array[i] floatValue] * _dataItemUnitScale;
                 }
-                UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemAxis+GroupSpace)-offsetY, fabs([array[i] floatValue]) * _dataItemUnitScale, self.zoomedItemAxis)];
+                UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemAxis+self.groupSpace)-offsetY, fabs([array[i] floatValue]) * _dataItemUnitScale, self.zoomedItemAxis)];
                 xValueLayer.path = xValueBezier.CGPath;
                 xValueLayer.lineWidth = 1;
                 xValueLayer.strokeColor = [self.barColors[0] CGColor];
@@ -687,7 +694,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
                     if ([array[i] floatValue] >= 0 && xPoint < self.zeroLine) {
                         xPoint = self.zeroLine;
                     }
-                    UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemAxis+GroupSpace)-offsetY, fabs([array[i] floatValue]) * _dataItemUnitScale, self.zoomedItemAxis)];
+                    UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemAxis+self.groupSpace)-offsetY, fabs([array[i] floatValue]) * _dataItemUnitScale, self.zoomedItemAxis)];
                     xValueLayer.path = xValueBezier.CGPath;
                     xValueLayer.lineWidth = 1;
                     xValueLayer.strokeColor = [[UIColor hexChangeFloat:self.barColors[j]] CGColor];
@@ -727,7 +734,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
                     if ([array[i] floatValue] < 0) {
                         xPoint = self.zeroLine + [array[i] floatValue] * _dataItemUnitScale;
                     }
-                    UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemAxis*self.Datas.count+GroupSpace)+j*self.zoomedItemAxis-offsetY, fabs([array[i] floatValue]) * _dataItemUnitScale, self.zoomedItemAxis)];
+                    UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemAxis*self.Datas.count+self.groupSpace)+j*self.zoomedItemAxis-offsetY, fabs([array[i] floatValue]) * _dataItemUnitScale, self.zoomedItemAxis)];
                     xValueLayer.path = xValueBezier.CGPath;
                     xValueLayer.lineWidth = 1;
                     xValueLayer.strokeColor = [[UIColor hexChangeFloat:self.barColors[j]] CGColor];
@@ -754,7 +761,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             xPoint = self.zeroLine + itemValue * _dataItemUnitScale;
         }
         NSUInteger leftIndex = isBegin ? self.beginGroupIndex : self.endGroupIndex;
-        CGFloat y = leftIndex *(self.zoomedItemAxis*self.Datas.count+GroupSpace)+i*self.zoomedItemAxis-offsetY;
+        CGFloat y = leftIndex *(self.zoomedItemAxis*self.Datas.count+self.groupSpace)+i*self.zoomedItemAxis-offsetY;
         UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, y, fabs(itemValue) * _dataItemUnitScale, self.zoomedItemAxis)];
         xValueLayer.path = xValueBezier.CGPath;
         xValueLayer.lineWidth = 1;
@@ -769,13 +776,13 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
         CGRect textFrame;
         if (self.chartType == BarChartTypeGroup) {
-            if ((self.Datas.count*self.zoomedItemAxis+GroupSpace)*i - offsetY + (self.Datas.count*self.zoomedItemAxis-TextHeight)/2.0 < 0) continue;
-            textFrame = CGRectMake(0, TopEdge+(self.Datas.count*self.zoomedItemAxis+GroupSpace)*i - offsetY + (self.Datas.count*self.zoomedItemAxis-TextHeight)/2.0, LeftEdge, TextHeight);
+            if ((self.Datas.count*self.zoomedItemAxis+self.groupSpace)*i - offsetY + (self.Datas.count*self.zoomedItemAxis-TextHeight)/2.0 < 0) continue;
+            textFrame = CGRectMake(0, TopEdge+(self.Datas.count*self.zoomedItemAxis+self.groupSpace)*i - offsetY + (self.Datas.count*self.zoomedItemAxis-TextHeight)/2.0, LeftEdge, TextHeight);
         } else {
-            if ((self.zoomedItemAxis+GroupSpace)*i - offsetY + (self.zoomedItemAxis-TextHeight)/2.0 < 0) continue;
-            textFrame = CGRectMake(0, TopEdge+(self.zoomedItemAxis+GroupSpace)*i - offsetY + (self.zoomedItemAxis-TextHeight)/2.0, LeftEdge, TextHeight);
+            if ((self.zoomedItemAxis+self.groupSpace)*i - offsetY + (self.zoomedItemAxis-TextHeight)/2.0 < 0) continue;
+            textFrame = CGRectMake(0, TopEdge+(self.zoomedItemAxis+self.groupSpace)*i - offsetY + (self.zoomedItemAxis-TextHeight)/2.0, LeftEdge, TextHeight);
         }
-        CATextLayer *text = [self getTextLayerWithString:self.AxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
+        CATextLayer *text = [self getTextLayerWithString:self.AxisArray[i] textColor:AxisTextColor fontSize:AxistTextFont backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
         [self.containerView.layer addSublayer:text];
     }
 }
@@ -786,21 +793,45 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     [yScaleBezier addLineToPoint:CGPointMake(LeftEdge, self.bounds.size.height-BottomEdge)];
     yScaleLayer.path = yScaleBezier.CGPath;
     yScaleLayer.lineWidth = 1;
-    yScaleLayer.strokeColor = [UIColor blackColor].CGColor;
+    yScaleLayer.strokeColor = AxisScaleColor.CGColor;
     yScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:yScaleLayer];
 }
 - (void)addDataLayer {
     for (NSUInteger i=0; i<_dataNegativeSegmentNum; i++) {
         CGRect textFrame = CGRectMake((i-0.5)*[self axisUnitScale]+LeftEdge, self.bounds.size.height-TextHeight, [self axisUnitScale], TextHeight);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%ld",(_dataNegativeSegmentNum-i)*_itemDataScale] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%@",[self adjustScaleValue:(_dataNegativeSegmentNum-i)*_itemDataScale]] textColor:DataTextColor fontSize:DataTextFont backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
         [self.containerView.layer addSublayer:text];
     }
     for (NSInteger i=0; i<=_dataPostiveSegmentNum+1; i++) {
         CGRect textFrame = CGRectMake((_dataNegativeSegmentNum+i-0.5)*[self axisUnitScale]+LeftEdge, self.bounds.size.height-TextHeight, [self axisUnitScale], TextHeight);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%ld",i*_itemDataScale] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%@",[self adjustScaleValue:i*_itemDataScale]] textColor:DataTextColor fontSize:DataTextFont backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
         [self.containerView.layer addSublayer:text];
     }
+}
+- (NSString *)adjustScaleValue:(NSUInteger)scaleValue {
+    NSString *tempStr = [NSString stringWithFormat:@"%lu", scaleValue];
+    NSUInteger length = tempStr.length;
+    if (3 < length && length < 7) {
+        if ([[tempStr substringWithRange:NSMakeRange(length - 3, 3)] isEqualToString:@"000"]) {
+            return [NSString stringWithFormat:@"%@K", [tempStr substringToIndex:length - 3]];
+        }
+    } else if (length > 6 && length < 10) {
+        if ([[tempStr substringWithRange:NSMakeRange(length - 6, 6)] isEqualToString:@"000000"]) {
+            return [NSString stringWithFormat:@"%@M", [tempStr substringToIndex:length - 6]];
+        } else if ([[tempStr substringWithRange:NSMakeRange(length - 3, 3)] isEqualToString:@"000"]) {
+            return [NSString stringWithFormat:@"%@K", [tempStr substringToIndex:length - 3]];
+        }
+    } else if (length > 9) {
+        if ([[tempStr substringWithRange:NSMakeRange(length - 9, 9)] isEqualToString:@"000000000"]) {
+            return [NSString stringWithFormat:@"%@B", [tempStr substringToIndex:length - 9]];
+        } else if ([[tempStr substringWithRange:NSMakeRange(length - 6, 6)] isEqualToString:@"000000"]) {
+            return [NSString stringWithFormat:@"%@M", [tempStr substringToIndex:length - 6]];
+        } else if ([[tempStr substringWithRange:NSMakeRange(length - 3, 3)] isEqualToString:@"000"]) {
+            return [NSString stringWithFormat:@"%@K", [tempStr substringToIndex:length - 3]];
+        }
+    }
+    return tempStr;
 }
 - (void)addDataScaleLayer {
     CAShapeLayer *xScaleLayer = [CAShapeLayer layer];
@@ -813,9 +844,8 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
         [xScaleBezier addLineToPoint:CGPointMake(LeftEdge+i*[self axisUnitScale], self.bounds.size.height-BottomEdge+5)];
     }
     xScaleLayer.path = xScaleBezier.CGPath;
-    xScaleLayer.backgroundColor = [UIColor blueColor].CGColor;
     xScaleLayer.lineWidth = 1;
-    xScaleLayer.strokeColor = [UIColor blackColor].CGColor;
+    xScaleLayer.strokeColor = AxisScaleColor.CGColor;
     xScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:xScaleLayer];
     
@@ -831,7 +861,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
         }
         dashLineLayer.lineWidth = 1;
-        dashLineLayer.strokeColor = [UIColor blackColor].CGColor;
+        dashLineLayer.strokeColor = AxisScaleColor.CGColor;
         dashLineLayer.fillColor = [UIColor clearColor].CGColor;
         [self.containerView.layer addSublayer:dashLineLayer];
     }
@@ -861,10 +891,10 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 - (CGFloat)itemAxisScale {
     if (_itemAxisScale == 0) {
         if (self.chartType == BarChartTypeGroup) {
-            CGFloat h = (ChartHeight-[self.Datas[0] count]*GroupSpace)/[self.Datas[0] count]/self.Datas.count;
-            _itemAxisScale = h > minItemHeight ? h : minItemHeight;
+            CGFloat h = (ChartHeight-[self.Datas[0] count]*self.groupSpace)/[self.Datas[0] count]/self.Datas.count;
+            _itemAxisScale = h > self.minBarWidth ? h : self.minBarWidth;
         } else {
-            _itemAxisScale = (ChartHeight/[self.Datas[0] count] - GroupSpace) > minItemHeight ? (ChartHeight/[self.Datas[0] count] - GroupSpace) : minItemHeight;
+            _itemAxisScale = (ChartHeight/[self.Datas[0] count] - self.groupSpace) > self.minBarWidth ? (ChartHeight/[self.Datas[0] count] - self.groupSpace) : self.minBarWidth;
         }
     }
     return _itemAxisScale;
@@ -897,9 +927,9 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 }
 - (CGFloat)scrollContentSizeHeight {
     if (self.chartType == BarChartTypeGroup) {
-        return (self.Datas.count*self.zoomedItemAxis + GroupSpace) * [self.Datas[0] count];
+        return (self.Datas.count*self.zoomedItemAxis + self.groupSpace) * [self.Datas[0] count];
     }
-    return (self.zoomedItemAxis + GroupSpace) * [self.Datas[0] count];
+    return (self.zoomedItemAxis + self.groupSpace) * [self.Datas[0] count];
 }
 - (CGFloat)zeroLine {
     return self.dataNegativeSegmentNum * [self axisUnitScale];

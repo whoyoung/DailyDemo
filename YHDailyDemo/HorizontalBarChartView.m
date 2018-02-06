@@ -13,12 +13,14 @@ static const float TextHeight = 11;
 static const float TextWidth = 45;
 static const float AxistTextFont = 9;
 static const float DataTextFont = 8;
+static const float TipTextFont = 9;
 
 #define ChartWidth (self.bounds.size.width-LeftEdge-RightEdge)
 #define ChartHeight (self.bounds.size.height-TopEdge-BottomEdge)
 #define AxisTextColor [UIColor hexChangeFloat:@"292F33"]
 #define AxisScaleColor [UIColor hexChangeFloat:@"EEEEEE"]
 #define DataTextColor [UIColor hexChangeFloat:@"8FA1B2"]
+#define TipTextColor [UIColor whiteColor]
 
 #import "HorizontalBarChartView.h"
 #import "UIColor+HexColor.h"
@@ -382,14 +384,14 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     }
     if (axisStr) {
         textFrame = CGRectMake(5, startY, tipMaxW-10, tipTextH);
-        CATextLayer *text = [self getTextLayerWithString:axisStr textColor:[UIColor whiteColor] fontSize:9 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentLeft];
+        CATextLayer *text = [self getTextLayerWithString:axisStr textColor:TipTextColor fontSize:TipTextFont backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentLeft];
         [tipView.layer addSublayer:text];
     }
     if (textFrame.origin.x > 0) {
-        CATextLayer *text = [self getTextLayerWithString:dataStr textColor:[UIColor whiteColor] fontSize:9 backgroundColor:[UIColor clearColor] frame:CGRectMake(5, CGRectGetMaxY(textFrame), tipMaxW-10, tipTextH) alignmentMode:kCAAlignmentLeft];
+        CATextLayer *text = [self getTextLayerWithString:dataStr textColor:TipTextColor fontSize:TipTextFont backgroundColor:[UIColor clearColor] frame:CGRectMake(5, CGRectGetMaxY(textFrame), tipMaxW-10, tipTextH) alignmentMode:kCAAlignmentLeft];
         [tipView.layer addSublayer:text];
     } else {
-        CATextLayer *text = [self getTextLayerWithString:axisStr textColor:[UIColor whiteColor] fontSize:9 backgroundColor:[UIColor clearColor] frame:CGRectMake(5, startY, tipMaxW-10, tipTextH) alignmentMode:kCAAlignmentLeft];
+        CATextLayer *text = [self getTextLayerWithString:axisStr textColor:TipTextColor fontSize:TipTextFont backgroundColor:[UIColor clearColor] frame:CGRectMake(5, startY, tipMaxW-10, tipTextH) alignmentMode:kCAAlignmentLeft];
         [tipView.layer addSublayer:text];
     }
 }
@@ -845,7 +847,6 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             [yScaleBezier addLineToPoint:CGPointMake(LeftEdge, TopEdge+i*[self axisUnitScale])];
         }
         yScaleLayer.path = yScaleBezier.CGPath;
-        yScaleLayer.backgroundColor = [UIColor blueColor].CGColor;
         yScaleLayer.lineWidth = 2;
         yScaleLayer.strokeColor = AxisScaleColor.CGColor;
         yScaleLayer.fillColor = [UIColor clearColor].CGColor;
