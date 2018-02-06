@@ -184,6 +184,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             break;
         case UIGestureRecognizerStateEnded: {
             _oldPinScale *= _newPinScale;
+            _newPinScale = 1.0;
         }
             break;
             
