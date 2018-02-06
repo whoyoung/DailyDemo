@@ -47,15 +47,15 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 @property (nonatomic, assign) NSInteger endGroupIndex;
 @property (nonatomic, assign) NSInteger beginItemIndex;
 @property (nonatomic, assign) NSInteger endItemIndex;
-@property (nonatomic, assign) CGFloat itemW;
-@property (nonatomic, assign) NSUInteger itemH;
+@property (nonatomic, assign) CGFloat itemAxisScale;
+@property (nonatomic, assign) NSUInteger itemDataScale;
 @property (nonatomic, assign) CGFloat maxDataValue;
 @property (nonatomic, assign) CGFloat minDataValue;
 
 @property (nonatomic, assign) NSUInteger dataPostiveSegmentNum;
 @property (nonatomic, assign) NSUInteger dataNegativeSegmentNum;
 
-@property (nonatomic, assign) CGFloat dataItemUnitH;
+@property (nonatomic, assign) CGFloat dataItemUnitScale;
 
 @property (nonatomic, assign) CGFloat oldPinScale;
 @property (nonatomic, assign) CGFloat newPinScale;
@@ -64,7 +64,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 @property (nonatomic, assign) CGFloat zoomedItemW;
 
 @property (nonatomic, assign) BOOL isDataError;
-@property (nonatomic, assign) CGFloat zeroY;
+@property (nonatomic, assign) CGFloat zeroLine;
 @end
 
 @implementation HorizontalBarChartView
@@ -165,15 +165,15 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             if (pinGesture.scale < 1){
                 CGFloat testZoomedWidth = 0;
                 if (self.chartType == BarChartTypeGroup) {
-                    testZoomedWidth = ([self.Datas count]*self.itemW*self.oldPinScale*pinGesture.scale + self.groupSpace) * [self.Datas[0] count];
+                    testZoomedWidth = ([self.Datas count]*self.itemAxisScale*self.oldPinScale*pinGesture.scale + self.groupSpace) * [self.Datas[0] count];
                 } else {
-                    testZoomedWidth = (self.itemW*self.oldPinScale*pinGesture.scale + self.groupSpace) * [self.Datas[0] count];
+                    testZoomedWidth = (self.itemAxisScale*self.oldPinScale*pinGesture.scale + self.groupSpace) * [self.Datas[0] count];
                 }
                 if (testZoomedWidth < ChartWidth) {
                     if (self.chartType == BarChartTypeGroup) {
-                        _newPinScale = (ChartWidth/[self.Datas[0] count] - self.groupSpace)/self.Datas.count/self.itemW/self.oldPinScale;
+                        _newPinScale = (ChartWidth/[self.Datas[0] count] - self.groupSpace)/self.Datas.count/self.itemAxisScale/self.oldPinScale;
                     } else {
-                        _newPinScale = (ChartWidth/[self.Datas[0] count] - self.groupSpace)/self.itemW/self.oldPinScale;
+                        _newPinScale = (ChartWidth/[self.Datas[0] count] - self.groupSpace)/self.itemAxisScale/self.oldPinScale;
                     }
                 } else {
                     _newPinScale = pinGesture.scale;
@@ -212,11 +212,10 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
         item = 0;
     } else { // BarChartTypeStack
         group = floorf(tapP.x / (self.zoomedItemW + self.groupSpace));
-        _zeroY = _dataPostiveSegmentNum * [self axisUnitH];
-        CGFloat tempY = _zeroY + TopEdge;;
+        CGFloat tempY = self.zeroLine;
         for (NSUInteger i = 0; i < self.Datas.count; i++) {
-            CGFloat h = [[self.Datas[i] objectAtIndex:group] floatValue] * self.dataItemUnitH;
-            if (tapP.y > _zeroY) {
+            CGFloat h = [[self.Datas[i] objectAtIndex:group] floatValue] * self.dataItemUnitScale;
+            if (tapP.y > self.zeroLine) {
                 if (h < 0) {
                     if (tapP.y <= (tempY - h) || i == self.Datas.count - 1) {
                         item = i;
@@ -245,40 +244,40 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 }
 - (void)updateTipLayer:(NSUInteger)group item:(NSUInteger)item containerPoint:(CGPoint)point {
     CGPoint tempP = point;
-    CGFloat absoluteZeroY = _zeroY + TopEdge;
+    CGFloat absoluteZeroLine = self.zeroLine + TopEdge;
     if (self.chartType == BarChartTypeStack) {
-        CGFloat tempY = absoluteZeroY;
-        if (tempP.y > absoluteZeroY) {
+        CGFloat tempZeroLine = absoluteZeroLine;
+        if (tempP.y > absoluteZeroLine) {
             for (NSUInteger i=0; i<=item; i++) {
                 if ([[self.Datas[i] objectAtIndex:group] floatValue] < 0) {
-                    tempY -= [[self.Datas[i] objectAtIndex:group] floatValue] * _dataItemUnitH;
+                    tempZeroLine -= [[self.Datas[i] objectAtIndex:group] floatValue] * _dataItemUnitScale;
                 }
             }
-            if (tempP.y > tempY) {
-                tempP = CGPointMake(tempP.x, tempY);
+            if (tempP.y > tempZeroLine) {
+                tempP = CGPointMake(tempP.x, tempZeroLine);
             }
         } else {
             for (NSUInteger i=0; i<=item; i++) {
                 if ([[self.Datas[i] objectAtIndex:group] floatValue] > 0) {
-                    tempY -= [[self.Datas[i] objectAtIndex:group] floatValue] * _dataItemUnitH;
+                    tempZeroLine -= [[self.Datas[i] objectAtIndex:group] floatValue] * _dataItemUnitScale;
                 }
             }
-            if (tempP.y < tempY) {
-                tempP = CGPointMake(tempP.x, tempY);
+            if (tempP.y < tempZeroLine) {
+                tempP = CGPointMake(tempP.x, tempZeroLine);
             }
         }
     } else {
-        if (tempP.y > absoluteZeroY) {
+        if (tempP.y > absoluteZeroLine) {
             if ([[self.Datas[item] objectAtIndex:group] floatValue] >= 0) {
-                tempP = CGPointMake(tempP.x, absoluteZeroY);
-            } else if (tempP.y > (absoluteZeroY - [[self.Datas[item] objectAtIndex:group] floatValue] * _dataItemUnitH)) {
-                tempP.y = absoluteZeroY - [[self.Datas[item] objectAtIndex:group] floatValue] * _dataItemUnitH;
+                tempP = CGPointMake(tempP.x, absoluteZeroLine);
+            } else if (tempP.y > (absoluteZeroLine - [[self.Datas[item] objectAtIndex:group] floatValue] * _dataItemUnitScale)) {
+                tempP.y = absoluteZeroLine - [[self.Datas[item] objectAtIndex:group] floatValue] * _dataItemUnitScale;
             }
         } else {
             if ([[self.Datas[item] objectAtIndex:group] floatValue] < 0) {
-                tempP = CGPointMake(tempP.x, absoluteZeroY);
-            } else if (tempP.y < (absoluteZeroY - [[self.Datas[item] objectAtIndex:group] floatValue] * _dataItemUnitH)) {
-                tempP.y = absoluteZeroY - [[self.Datas[item] objectAtIndex:group] floatValue] * _dataItemUnitH;
+                tempP = CGPointMake(tempP.x, absoluteZeroLine);
+            } else if (tempP.y < (absoluteZeroLine - [[self.Datas[item] objectAtIndex:group] floatValue] * _dataItemUnitScale)) {
+                tempP.y = absoluteZeroLine - [[self.Datas[item] objectAtIndex:group] floatValue] * _dataItemUnitScale;
             }
         }
     }
@@ -615,30 +614,30 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             self.dataPostiveSegmentNum = 1;
         }
         self.dataNegativeSegmentNum = 0;
-        self.itemH = ceil([self absoluteMaxValue:self.maxDataValue]/self.dataPostiveSegmentNum);
+        self.itemDataScale = ceil([self absoluteMaxValue:self.maxDataValue]/self.dataPostiveSegmentNum);
     } else if (self.maxDataValue < 0) {
         self.dataPostiveSegmentNum = 0;
         self.dataNegativeSegmentNum = self.valueInterval;
         if(fabs(self.minDataValue) < 1) {
             self.dataNegativeSegmentNum = 1;
         }
-        self.itemH = ceil([self absoluteMaxValue:self.minDataValue]/self.dataNegativeSegmentNum);
+        self.itemDataScale = ceil([self absoluteMaxValue:self.minDataValue]/self.dataNegativeSegmentNum);
     } else if (self.maxDataValue >= fabs(self.minDataValue)) {
         self.dataPostiveSegmentNum = self.valueInterval;
         if(self.maxDataValue < 1) {
             self.dataPostiveSegmentNum = 1;
         }
-        self.itemH = ceil([self absoluteMaxValue:self.maxDataValue]/self.dataPostiveSegmentNum);
-        self.dataNegativeSegmentNum = ceil(fabs(self.minDataValue)/self.itemH);
+        self.itemDataScale = ceil([self absoluteMaxValue:self.maxDataValue]/self.dataPostiveSegmentNum);
+        self.dataNegativeSegmentNum = ceil(fabs(self.minDataValue)/self.itemDataScale);
     } else {
         self.dataNegativeSegmentNum = self.valueInterval;
         if(fabs(self.minDataValue) < 1) {
             self.dataNegativeSegmentNum = 1;
         }
-        self.itemH = ceil([self absoluteMaxValue:self.minDataValue]/self.dataNegativeSegmentNum);
-        self.dataPostiveSegmentNum = ceil(self.maxDataValue/self.itemH);
+        self.itemDataScale = ceil([self absoluteMaxValue:self.minDataValue]/self.dataNegativeSegmentNum);
+        self.dataPostiveSegmentNum = ceil(self.maxDataValue/self.itemDataScale);
     }
-    self.dataItemUnitH = ChartHeight/(self.itemH * (self.dataPostiveSegmentNum+self.dataNegativeSegmentNum));
+    self.dataItemUnitScale = ChartHeight/(self.itemDataScale * (self.dataPostiveSegmentNum+self.dataNegativeSegmentNum));
 }
 - (NSUInteger)absoluteMaxValue:(CGFloat)value {
     CGFloat maxNum = fabs(value);
@@ -657,14 +656,13 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
         case BarChartTypeSingle: {
             NSArray *array = self.Datas[0];
             CGFloat offsetX = self.gestureScroll.contentOffset.x;
-            _zeroY = _dataPostiveSegmentNum * [self axisUnitH];
             for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
                 CAShapeLayer *yValueLayer = [CAShapeLayer layer];
-                CGFloat yPoint = _zeroY - [array[i] floatValue] * _dataItemUnitH;
+                CGFloat yPoint = self.zeroLine - [array[i] floatValue] * _dataItemUnitScale;
                 if ([array[i] floatValue] < 0) {
-                    yPoint = _zeroY;
+                    yPoint = self.zeroLine;
                 }
-                UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(i*(self.zoomedItemW+self.groupSpace)-offsetX, yPoint, self.zoomedItemW, fabs([array[i] floatValue]) * _dataItemUnitH)];
+                UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(i*(self.zoomedItemW+self.groupSpace)-offsetX, yPoint, self.zoomedItemW, fabs([array[i] floatValue]) * _dataItemUnitScale)];
                 yValueLayer.path = yValueBezier.CGPath;
                 yValueLayer.lineWidth = 1;
                 yValueLayer.strokeColor = [self.barColors[0] CGColor];
@@ -675,20 +673,19 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             break;
         case BarChartTypeStack: {
             CGFloat offsetX = self.gestureScroll.contentOffset.x;
-            _zeroY = _dataPostiveSegmentNum * [self axisUnitH];
             for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
-                CGFloat positiveY = _zeroY, negativeY = _zeroY, yPoint = _zeroY;
+                CGFloat positiveY = self.zeroLine, negativeY = self.zeroLine, yPoint = self.zeroLine;
                 for (NSUInteger j=0; j<self.Datas.count; j++) {
                     NSArray *array = self.Datas[j];
                     CAShapeLayer *yValueLayer = [CAShapeLayer layer];
                     if ([array[i] floatValue] >= 0) {
-                        positiveY -= [array[i] floatValue] * _dataItemUnitH;
+                        positiveY -= [array[i] floatValue] * _dataItemUnitScale;
                         yPoint = positiveY;
                     }
-                    if ([array[i] floatValue] < 0 && 0 <= yPoint && yPoint < _zeroY) {
-                        yPoint = _zeroY;
+                    if ([array[i] floatValue] < 0 && 0 <= yPoint && yPoint < self.zeroLine) {
+                        yPoint = self.zeroLine;
                     }
-                    UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(i*(self.zoomedItemW+self.groupSpace)-offsetX, yPoint, self.zoomedItemW, fabs([array[i] floatValue]) * _dataItemUnitH)];
+                    UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(i*(self.zoomedItemW+self.groupSpace)-offsetX, yPoint, self.zoomedItemW, fabs([array[i] floatValue]) * _dataItemUnitScale)];
                     yValueLayer.path = yValueBezier.CGPath;
                     yValueLayer.lineWidth = 1;
                     yValueLayer.strokeColor = [[UIColor hexChangeFloat:self.barColors[j]] CGColor];
@@ -696,7 +693,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
                     [subContainerV.layer addSublayer:yValueLayer];
                     
                     if ([array[i] floatValue] < 0) {
-                        negativeY -= [array[i] floatValue] * _dataItemUnitH;
+                        negativeY -= [array[i] floatValue] * _dataItemUnitScale;
                         yPoint = negativeY;
                     }
                 }
@@ -705,7 +702,6 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             break;
         case BarChartTypeGroup: {
             CGFloat offsetX = self.gestureScroll.contentOffset.x;
-            _zeroY = _dataPostiveSegmentNum * [self axisUnitH];
             if (self.beginItemIndex >= self.Datas.count) break;
             NSUInteger rightLoopIndex = self.endItemIndex;
             if (self.endItemIndex >= self.Datas.count) {
@@ -724,11 +720,11 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
                 for (NSUInteger j=0; j<self.Datas.count; j++) {
                     NSArray *array = self.Datas[j];
                     CAShapeLayer *yValueLayer = [CAShapeLayer layer];
-                    CGFloat yPoint = _zeroY - [array[i] floatValue] * _dataItemUnitH;
+                    CGFloat yPoint = self.zeroLine - [array[i] floatValue] * _dataItemUnitScale;
                     if ([array[i] floatValue] < 0) {
-                        yPoint = _zeroY;
+                        yPoint = self.zeroLine;
                     }
-                    UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(i*(self.zoomedItemW*self.Datas.count+self.groupSpace)+j*self.zoomedItemW-offsetX, yPoint, self.zoomedItemW, fabs([array[i] floatValue]) * _dataItemUnitH)];
+                    UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(i*(self.zoomedItemW*self.Datas.count+self.groupSpace)+j*self.zoomedItemW-offsetX, yPoint, self.zoomedItemW, fabs([array[i] floatValue]) * _dataItemUnitScale)];
                     yValueLayer.path = yValueBezier.CGPath;
                     yValueLayer.lineWidth = 1;
                     yValueLayer.strokeColor = [[UIColor hexChangeFloat:self.barColors[j]] CGColor];
@@ -744,20 +740,19 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     }
 }
 - (void)drawBeginAndEndItemLayer:(NSInteger)leftIndex rightIndex:(NSInteger)rightIndex isBegin:(BOOL)isBegin containerView:(UIView *)subContainerV {
-    _zeroY = _dataPostiveSegmentNum * [self axisUnitH];
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
     
     for (NSUInteger i=leftIndex; i<=rightIndex; i++) {
         NSArray *array = self.Datas[i];
         CAShapeLayer *yValueLayer = [CAShapeLayer layer];
         CGFloat itemValue = isBegin ? [array[self.beginGroupIndex] floatValue] :  [array[self.endGroupIndex] floatValue];
-        CGFloat yPoint = _zeroY - itemValue * _dataItemUnitH;
+        CGFloat yPoint = self.zeroLine - itemValue * _dataItemUnitScale;
         if (itemValue < 0) {
-            yPoint = _zeroY;
+            yPoint = self.zeroLine;
         }
         NSUInteger leftIndex = isBegin ? self.beginGroupIndex : self.endGroupIndex;
         CGFloat x = leftIndex *(self.zoomedItemW*self.Datas.count+self.groupSpace)+i*self.zoomedItemW-offsetX;
-        UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(x, yPoint, self.zoomedItemW, fabs(itemValue) * _dataItemUnitH)];
+        UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(x, yPoint, self.zoomedItemW, fabs(itemValue) * _dataItemUnitScale)];
         yValueLayer.path = yValueBezier.CGPath;
         yValueLayer.lineWidth = 1;
         yValueLayer.strokeColor = [[UIColor hexChangeFloat:self.barColors[i]] CGColor];
@@ -796,14 +791,14 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 }
 - (void)addDataLayer {
     for (NSUInteger i=0; i<_dataNegativeSegmentNum; i++) {
-        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-i*[self axisUnitH], TextWidth, BottomEdge);
-        NSString *str = [NSString stringWithFormat:@"-%@",[self adjustScaleValue:(_dataNegativeSegmentNum-i)*_itemH]];
+        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-i*[self axisUnitScale], TextWidth, BottomEdge);
+        NSString *str = [NSString stringWithFormat:@"-%@",[self adjustScaleValue:(_dataNegativeSegmentNum-i)*_itemDataScale]];
         CATextLayer *text = [self getTextLayerWithString:str textColor:[UIColor hexChangeFloat:@"8FA1B2"] fontSize:8 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
         [self.containerView.layer addSublayer:text];
     }
     for (NSInteger i=0; i<=_dataPostiveSegmentNum; i++) {
-        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-(_dataNegativeSegmentNum+i)*[self axisUnitH], TextWidth, BottomEdge);
-        NSString *str = [NSString stringWithFormat:@"%@",[self adjustScaleValue:i*_itemH]];
+        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-(_dataNegativeSegmentNum+i)*[self axisUnitScale], TextWidth, BottomEdge);
+        NSString *str = [NSString stringWithFormat:@"%@",[self adjustScaleValue:i*_itemDataScale]];
         CATextLayer *text = [self getTextLayerWithString:str textColor:[UIColor hexChangeFloat:@"8FA1B2"] fontSize:8 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
         [self.containerView.layer addSublayer:text];
     }
@@ -840,8 +835,8 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
         [yScaleBezier addLineToPoint:CGPointMake(LeftEdge+1, self.bounds.size.height-BottomEdge)];
         
         for (NSUInteger i=0; i<=_dataNegativeSegmentNum+_dataPostiveSegmentNum+1; i++) {
-            [yScaleBezier moveToPoint:CGPointMake(LeftEdge-5, TopEdge+i*[self axisUnitH])];
-            [yScaleBezier addLineToPoint:CGPointMake(LeftEdge, TopEdge+i*[self axisUnitH])];
+            [yScaleBezier moveToPoint:CGPointMake(LeftEdge-5, TopEdge+i*[self axisUnitScale])];
+            [yScaleBezier addLineToPoint:CGPointMake(LeftEdge, TopEdge+i*[self axisUnitScale])];
         }
         yScaleLayer.path = yScaleBezier.CGPath;
         yScaleLayer.backgroundColor = [UIColor blueColor].CGColor;
@@ -855,8 +850,8 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
         CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
         UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
         for (NSUInteger i=0; i<_dataNegativeSegmentNum+_dataPostiveSegmentNum; i++) {
-            [dashLineBezier moveToPoint:CGPointMake(LeftEdge, TopEdge+i*[self axisUnitH])];
-            [dashLineBezier addLineToPoint:CGPointMake(self.bounds.size.width, TopEdge+i*[self axisUnitH])];
+            [dashLineBezier moveToPoint:CGPointMake(LeftEdge, TopEdge+i*[self axisUnitScale])];
+            [dashLineBezier addLineToPoint:CGPointMake(self.bounds.size.width, TopEdge+i*[self axisUnitScale])];
         }
         dashLineLayer.path = dashLineBezier.CGPath;
         if (_showDataDashLine) {
@@ -890,21 +885,21 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     return textLayer;
 }
 
-- (CGFloat)itemW {
-    if (_itemW == 0) {
+- (CGFloat)itemAxisScale {
+    if (_itemAxisScale == 0) {
         if (self.chartType == BarChartTypeGroup) {
             CGFloat w = (ChartWidth-[self.Datas[0] count]*self.groupSpace)/[self.Datas[0] count]/self.Datas.count;
-            _itemW = w > self.minBarWidth ? w : self.minBarWidth;
+            _itemAxisScale = w > self.minBarWidth ? w : self.minBarWidth;
         } else {
-            _itemW = (ChartWidth/[self.Datas[0] count] - self.groupSpace) > self.minBarWidth ? (ChartWidth/[self.Datas[0] count] - self.groupSpace) : self.minBarWidth;
+            _itemAxisScale = (ChartWidth/[self.Datas[0] count] - self.groupSpace) > self.minBarWidth ? (ChartWidth/[self.Datas[0] count] - self.groupSpace) : self.minBarWidth;
         }
     }
-    return _itemW;
+    return _itemAxisScale;
 }
 - (CGFloat)zoomedItemW {
-    return self.itemW * self.newPinScale * self.oldPinScale;
+    return self.itemAxisScale * self.newPinScale * self.oldPinScale;
 }
-- (CGFloat)axisUnitH {
+- (CGFloat)axisUnitScale {
     return ChartHeight/(_dataNegativeSegmentNum + _dataPostiveSegmentNum);
 }
 - (CGFloat)oldPinScale {
@@ -933,5 +928,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     }
     return (self.zoomedItemW + self.groupSpace) * [self.Datas[0] count];
 }
-
+- (CGFloat)zeroLine {
+    return self.dataPostiveSegmentNum * [self axisUnitScale];
+}
 @end
