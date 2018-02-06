@@ -332,28 +332,34 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     CGRect topRect = CGRectMake(0, 0, tipMaxW, tipH-5);
     CGRect bottomRect = CGRectMake(0, 5, tipMaxW, tipH-5);
     switch (arrowP) {
-        case 1: {
+        case 1: { //左下箭头
            rectPath = [UIBezierPath bezierPathWithRoundedRect:topRect byRoundingCorners:UIRectCornerTopLeft|UIRectCornerTopRight|UIRectCornerBottomRight cornerRadii:cornerRadii];
+            [self drawArrow:rectPath startP:CGPointMake(0, tipH-5) middleP:CGPointMake(0, tipH) endP:CGPointMake(2.5, tipH-5)];
         }
             break;
-        case 2: {
+        case 2: { //中下箭头
             rectPath = [UIBezierPath bezierPathWithRoundedRect:topRect byRoundingCorners:UIRectCornerAllCorners cornerRadii:cornerRadii];
+            [self drawArrow:rectPath startP:CGPointMake(tipMaxW/2-2.5, tipH-5) middleP:CGPointMake(tipMaxW/2, tipH) endP:CGPointMake(tipMaxW/2+2.5, tipH-5)];
         }
             break;
-        case 3: {
+        case 3: { //右下箭头
             rectPath = [UIBezierPath bezierPathWithRoundedRect:topRect byRoundingCorners:UIRectCornerTopLeft|UIRectCornerTopRight|UIRectCornerBottomLeft cornerRadii:cornerRadii];
+            [self drawArrow:rectPath startP:CGPointMake(tipMaxW-2.5, tipH-5) middleP:CGPointMake(tipMaxW, tipH) endP:CGPointMake(tipMaxW, tipH-5)];
         }
             break;
-        case 11: {
+        case 11: { //左上箭头
             rectPath = [UIBezierPath bezierPathWithRoundedRect:bottomRect byRoundingCorners:UIRectCornerBottomLeft|UIRectCornerTopRight|UIRectCornerBottomRight cornerRadii:cornerRadii];
+            [self drawArrow:rectPath startP:CGPointMake(0, 5) middleP:CGPointMake(0, 0) endP:CGPointMake(2.5, 5)];
         }
             break;
-        case 12: {
+        case 12: { //中上箭头
             rectPath = [UIBezierPath bezierPathWithRoundedRect:bottomRect byRoundingCorners:UIRectCornerAllCorners cornerRadii:cornerRadii];
+            [self drawArrow:rectPath startP:CGPointMake(tipMaxW/2-2.5, 5) middleP:CGPointMake(tipMaxW/2, 0) endP:CGPointMake(tipMaxW/2+2.5, 5)];
         }
             break;
-        case 13: {
+        case 13: { //右上箭头
             rectPath = [UIBezierPath bezierPathWithRoundedRect:bottomRect byRoundingCorners:UIRectCornerTopLeft|UIRectCornerBottomLeft|UIRectCornerBottomRight cornerRadii:cornerRadii];
+            [self drawArrow:rectPath startP:CGPointMake(tipMaxW-2.5, 5) middleP:CGPointMake(tipMaxW, 0) endP:CGPointMake(tipMaxW, 5)];
         }
             break;
             
@@ -381,6 +387,11 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
         CATextLayer *text = [self getTextLayerWithString:axisStr textColor:[UIColor whiteColor] fontSize:9 backgroundColor:[UIColor clearColor] frame:CGRectMake(5, startY, tipMaxW-10, tipTextH) alignmentMode:kCAAlignmentLeft];
         [tipView.layer addSublayer:text];
     }
+}
+- (void)drawArrow:(UIBezierPath *)path startP:(CGPoint)startP middleP:(CGPoint)middleP endP:(CGPoint)endP {
+    [path moveToPoint:startP];
+    [path addLineToPoint:middleP];
+    [path addLineToPoint:endP];
 }
 - (void)removeTipView {
     UIView *existedV = [self.containerView viewWithTag:101];
