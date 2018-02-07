@@ -403,26 +403,34 @@ static const float ReferenceLineWidth = 1;
         self.dataPostiveSegmentNum = 4;
         if(self.maxDataValue < 1) self.dataPostiveSegmentNum = 1;
         self.dataNegativeSegmentNum = 0;
-        self.itemDataScale = ceil(self.maxDataValue/self.dataPostiveSegmentNum);
+        self.itemDataScale = ceil([self absoluteMaxValue:self.maxDataValue]/self.dataPostiveSegmentNum);
     } else if (self.maxDataValue < 0) {
         self.dataPostiveSegmentNum = 0;
         self.dataNegativeSegmentNum = 4;
         if(fabs(self.minDataValue) < 1) self.dataNegativeSegmentNum = 1;
-        self.itemDataScale = ceil(fabs(self.minDataValue)/self.dataNegativeSegmentNum);
+        self.itemDataScale = ceil([self absoluteMaxValue:self.minDataValue]/self.dataNegativeSegmentNum);
     } else if (self.maxDataValue >= fabs(self.minDataValue)) {
         self.dataPostiveSegmentNum = 4;
         if(self.maxDataValue < 1) self.dataPostiveSegmentNum = 1;
-        self.itemDataScale = ceil(self.maxDataValue/self.dataPostiveSegmentNum);
+        self.itemDataScale = ceil([self absoluteMaxValue:self.maxDataValue]/self.dataPostiveSegmentNum);
         self.dataNegativeSegmentNum = ceil(fabs(self.minDataValue)/self.itemDataScale);
     } else {
         self.dataNegativeSegmentNum = 4;
         if(fabs(self.minDataValue) < 1) self.dataNegativeSegmentNum = 1;
-        self.itemDataScale = ceil(fabs(self.minDataValue)/self.dataNegativeSegmentNum);
+        self.itemDataScale = ceil([self absoluteMaxValue:self.minDataValue] /self.dataNegativeSegmentNum);
         self.dataPostiveSegmentNum = ceil(self.maxDataValue/self.itemDataScale);
     }
     self.dataItemUnitScale = ChartHeight/(self.itemDataScale * (self.dataPostiveSegmentNum+self.dataNegativeSegmentNum));
 }
-
+- (NSUInteger)absoluteMaxValue:(CGFloat)value {
+    CGFloat maxNum = fabs(value);
+    NSString *str = [NSString stringWithFormat:@"%.0f", floorf(maxNum)];
+    NSUInteger tenCube = 1;
+    if (str.length > 2) {
+        tenCube = pow(10, str.length - 2);
+    }
+    return ceil(ceil(maxNum / tenCube) / self.valueInterval) * self.valueInterval * tenCube;
+}
 - (void)drawDataPoint {
     UIView *subContainerV = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, ChartWidth, ChartHeight)];
     subContainerV.layer.masksToBounds = YES;
@@ -499,14 +507,38 @@ static const float ReferenceLineWidth = 1;
 - (void)addDataLayer {
     for (NSUInteger i=0; i<_dataNegativeSegmentNum; i++) {
         CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-i*[self axisUnitScale], TextWidth, BottomEdge);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%ld",(_dataNegativeSegmentNum-i)*_itemDataScale] textColor:DataTextColor fontSize:DataTextFont backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%@",[self adjustScaleValue:(_dataNegativeSegmentNum-i)*_itemDataScale]] textColor:DataTextColor fontSize:DataTextFont backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
         [self.containerView.layer addSublayer:text];
     }
     for (NSInteger i=0; i<=_dataPostiveSegmentNum+1; i++) {
         CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-(_dataNegativeSegmentNum+i)*[self axisUnitScale], TextWidth, BottomEdge);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%ld",i*_itemDataScale] textColor:DataTextColor fontSize:DataTextFont backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%@",[self adjustScaleValue:i*_itemDataScale]] textColor:DataTextColor fontSize:DataTextFont backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
         [self.containerView.layer addSublayer:text];
     }
+}
+- (NSString *)adjustScaleValue:(NSUInteger)scaleValue {
+    NSString *tempStr = [NSString stringWithFormat:@"%lu", scaleValue];
+    NSUInteger length = tempStr.length;
+    if (3 < length && length < 7) {
+        if ([[tempStr substringWithRange:NSMakeRange(length - 3, 3)] isEqualToString:@"000"]) {
+            return [NSString stringWithFormat:@"%@K", [tempStr substringToIndex:length - 3]];
+        }
+    } else if (length > 6 && length < 10) {
+        if ([[tempStr substringWithRange:NSMakeRange(length - 6, 6)] isEqualToString:@"000000"]) {
+            return [NSString stringWithFormat:@"%@M", [tempStr substringToIndex:length - 6]];
+        } else if ([[tempStr substringWithRange:NSMakeRange(length - 3, 3)] isEqualToString:@"000"]) {
+            return [NSString stringWithFormat:@"%@K", [tempStr substringToIndex:length - 3]];
+        }
+    } else if (length > 9) {
+        if ([[tempStr substringWithRange:NSMakeRange(length - 9, 9)] isEqualToString:@"000000000"]) {
+            return [NSString stringWithFormat:@"%@B", [tempStr substringToIndex:length - 9]];
+        } else if ([[tempStr substringWithRange:NSMakeRange(length - 6, 6)] isEqualToString:@"000000"]) {
+            return [NSString stringWithFormat:@"%@M", [tempStr substringToIndex:length - 6]];
+        } else if ([[tempStr substringWithRange:NSMakeRange(length - 3, 3)] isEqualToString:@"000"]) {
+            return [NSString stringWithFormat:@"%@K", [tempStr substringToIndex:length - 3]];
+        }
+    }
+    return tempStr;
 }
 - (void)addDataScaleLayer {
     if (_showDataEdgeLine) {
