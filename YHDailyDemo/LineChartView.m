@@ -60,7 +60,9 @@ static const float ReferenceLineWidth = 1;
 @property (nonatomic, assign) NSUInteger valueInterval;
 @property (nonatomic, assign) CGFloat zeroLine;
 @property (nonatomic, assign) BOOL showDataDashLine;
-@property (nonatomic, assign) BOOL hideDataHardLine;
+@property (nonatomic, assign) BOOL showDataHardLine;
+@property (nonatomic, assign) BOOL showAxisDashLine;
+@property (nonatomic, assign) BOOL showAxisHardLine;
 @property (nonatomic, assign) BOOL showDataEdgeLine;
 @property (nonatomic, assign) CGFloat minItemWidth;
 
@@ -96,6 +98,10 @@ static const float ReferenceLineWidth = 1;
     NSDictionary *styleDict = [dict objectForKey:@"styles"];
     NSDictionary *lineStyle = [styleDict objectForKey:@"lineStyle"];
     self.minItemWidth = [lineStyle objectForKey:@"minItemWidth"] ? [[lineStyle objectForKey:@"minItemWidth"] floatValue] : 20;
+    self.showAxisDashLine = [lineStyle objectForKey:@"showAxisDashLine"] ? [[lineStyle objectForKey:@"showAxisDashLine"] boolValue] : NO;
+    self.showAxisHardLine = [lineStyle objectForKey:@"showAxisHardLine"] ? [[lineStyle objectForKey:@"showAxisHardLine"] boolValue] : NO;
+    self.showDataDashLine = [lineStyle objectForKey:@"showDataDashLine"] ? [[lineStyle objectForKey:@"showDataDashLine"] boolValue] : NO;
+    self.showDataHardLine = [lineStyle objectForKey:@"showDataHardLine"] ? [[lineStyle objectForKey:@"showDataHardLine"] boolValue] : YES;
 
 }
 
@@ -486,7 +492,7 @@ static const float ReferenceLineWidth = 1;
     xScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:xScaleLayer];
     
-    if (_showDataDashLine || !_hideDataHardLine) {
+    if (_showAxisDashLine || _showAxisHardLine) {
         CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
         UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
         for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
@@ -495,7 +501,7 @@ static const float ReferenceLineWidth = 1;
             [dashLineBezier addLineToPoint:CGPointMake(LeftEdge + self.zoomedItemAxis*i - offsetX, TopEdge)];
         }
         dashLineLayer.path = dashLineBezier.CGPath;
-        if (_showDataDashLine) {
+        if (_showAxisDashLine) {
             [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
         }
         dashLineLayer.lineWidth = ReferenceLineWidth;
@@ -559,7 +565,7 @@ static const float ReferenceLineWidth = 1;
         [self.containerView.layer addSublayer:yScaleLayer];
     }
     
-    if (_showDataDashLine || !_hideDataHardLine) {
+    if (_showDataDashLine || _showDataHardLine) {
         CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
         UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
         for (NSUInteger i=0; i<=_dataNegativeSegmentNum+_dataPostiveSegmentNum; i++) {

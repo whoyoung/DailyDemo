@@ -71,7 +71,9 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 @property (nonatomic, assign) CGFloat groupSpace;
 @property (nonatomic, assign) CGFloat zeroLine;
 @property (nonatomic, assign) BOOL showDataDashLine;
-@property (nonatomic, assign) BOOL hideDataHardLine;
+@property (nonatomic, assign) BOOL showDataHardLine;
+@property (nonatomic, assign) BOOL showAxisDashLine;
+@property (nonatomic, assign) BOOL showAxisHardLine;;
 
 @end
 
@@ -113,6 +115,10 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     NSDictionary *barStyle = [styleDict objectForKey:@"barStyle"];
     self.minItemWidth = [barStyle objectForKey:@"minItemWidth"] ? [[barStyle objectForKey:@"minItemWidth"] floatValue] : 20;
     self.groupSpace = [barStyle objectForKey:@"groupSpace"] ? [[barStyle objectForKey:@"groupSpace"] floatValue] : 5;
+    self.showAxisDashLine = [barStyle objectForKey:@"showAxisDashLine"] ? [[barStyle objectForKey:@"showAxisDashLine"] boolValue] : NO;
+    self.showAxisHardLine = [barStyle objectForKey:@"showAxisHardLine"] ? [[barStyle objectForKey:@"showAxisHardLine"] boolValue] : NO;
+    self.showDataDashLine = [barStyle objectForKey:@"showDataDashLine"] ? [[barStyle objectForKey:@"showDataDashLine"] boolValue] : NO;
+    self.showDataHardLine = [barStyle objectForKey:@"showDataHardLine"] ? [[barStyle objectForKey:@"showDataHardLine"] boolValue] : YES;
 }
 - (void)layoutSubviews {
     [super layoutSubviews];
@@ -849,7 +855,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     xScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:xScaleLayer];
     
-    if (_showDataDashLine || !_hideDataHardLine) {
+    if (_showDataDashLine || _showDataHardLine) {
         CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
         UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
         for (NSUInteger i=1; i<=_dataNegativeSegmentNum+_dataPostiveSegmentNum; i++) {
