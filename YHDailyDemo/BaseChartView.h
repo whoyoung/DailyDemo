@@ -21,12 +21,15 @@
 - (NSDictionary *)prepareTipViewData:(NSUInteger)group item:(NSUInteger)item containerPoint:(CGPoint)point;
 - (CGSize)gestureScrollContentSize;
 
-- (void)findBeginAndEndIndex;
+- (void)findGroupAndItemIndex;
 - (void)calculateMaxAndMinValue;
-- (void)calculateDataSegment;
+- (CGFloat)dataItemUnitScale;
 - (void)addAxisLayer;
 - (void)addAxisScaleLayer;
 - (void)addDataLayer;
 - (void)addDataScaleLayer;
 - (void)drawDataPoint;
+
+- (CGFloat)itemAxisScale;
+- (CGFloat)axisUnitScale;
 @end
