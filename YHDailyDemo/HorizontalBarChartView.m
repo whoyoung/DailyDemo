@@ -17,7 +17,7 @@ static const float TipTextFont = 9;
 
 #define ChartWidth (self.bounds.size.width-LeftEdge-RightEdge)
 #define ChartHeight (self.bounds.size.height-TopEdge-BottomEdge)
-#define AxisTextColor [UIColor hexChangeFloat:@"292F33"]
+#define AxisTextColor [UIColor hexChangeFloat:@"8899A6"]
 #define AxisScaleColor [UIColor hexChangeFloat:@"EEEEEE"]
 #define DataTextColor [UIColor hexChangeFloat:@"8FA1B2"]
 #define TipTextColor [UIColor whiteColor]
