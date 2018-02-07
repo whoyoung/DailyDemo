@@ -456,7 +456,7 @@ static const float ReferenceLineWidth = 1;
     for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
         if (self.zoomedItemAxis*i-offsetX < 0) continue;
         CGRect textFrame = CGRectMake(LeftEdge + self.zoomedItemAxis*i-offsetX-self.zoomedItemAxis/2.0, self.bounds.size.height-TextHeight, self.zoomedItemAxis, TextHeight);
-        CATextLayer *text = [self getTextLayerWithString:self.AxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
+        CATextLayer *text = [self getTextLayerWithString:self.AxisArray[i] textColor:AxisTextColor fontSize:AxistTextFont backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
         [self.containerView.layer addSublayer:text];
     }
 }
@@ -474,7 +474,7 @@ static const float ReferenceLineWidth = 1;
     }
     xScaleLayer.path = xScaleBezier.CGPath;
     xScaleLayer.lineWidth = ReferenceLineWidth;
-    xScaleLayer.strokeColor = [UIColor blackColor].CGColor;
+    xScaleLayer.strokeColor = AxisScaleColor.CGColor;
     xScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:xScaleLayer];
     
@@ -491,7 +491,7 @@ static const float ReferenceLineWidth = 1;
             [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
         }
         dashLineLayer.lineWidth = ReferenceLineWidth;
-        dashLineLayer.strokeColor = [UIColor blackColor].CGColor;
+        dashLineLayer.strokeColor = AxisScaleColor.CGColor;
         dashLineLayer.fillColor = [UIColor clearColor].CGColor;
         [self.containerView.layer addSublayer:dashLineLayer];
     }
@@ -499,12 +499,12 @@ static const float ReferenceLineWidth = 1;
 - (void)addDataLayer {
     for (NSUInteger i=0; i<_dataNegativeSegmentNum; i++) {
         CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-i*[self axisUnitScale], TextWidth, BottomEdge);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%ld",(_dataNegativeSegmentNum-i)*_itemDataScale] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%ld",(_dataNegativeSegmentNum-i)*_itemDataScale] textColor:DataTextColor fontSize:DataTextFont backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
         [self.containerView.layer addSublayer:text];
     }
     for (NSInteger i=0; i<=_dataPostiveSegmentNum+1; i++) {
         CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-(_dataNegativeSegmentNum+i)*[self axisUnitScale], TextWidth, BottomEdge);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%ld",i*_itemDataScale] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%ld",i*_itemDataScale] textColor:DataTextColor fontSize:DataTextFont backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
         [self.containerView.layer addSublayer:text];
     }
 }
@@ -522,7 +522,7 @@ static const float ReferenceLineWidth = 1;
         yScaleLayer.path = yScaleBezier.CGPath;
         yScaleLayer.backgroundColor = [UIColor blueColor].CGColor;
         yScaleLayer.lineWidth = ReferenceLineWidth;
-        yScaleLayer.strokeColor = [UIColor blackColor].CGColor;
+        yScaleLayer.strokeColor = AxisScaleColor.CGColor;
         yScaleLayer.fillColor = [UIColor clearColor].CGColor;
         [self.containerView.layer addSublayer:yScaleLayer];
     }
@@ -539,7 +539,7 @@ static const float ReferenceLineWidth = 1;
             [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
         }
         dashLineLayer.lineWidth = ReferenceLineWidth;
-        dashLineLayer.strokeColor = [UIColor blackColor].CGColor;
+        dashLineLayer.strokeColor = AxisScaleColor.CGColor;
         dashLineLayer.fillColor = [UIColor clearColor].CGColor;
         [self.containerView.layer addSublayer:dashLineLayer];
     }
