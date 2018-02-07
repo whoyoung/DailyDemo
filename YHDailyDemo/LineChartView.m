@@ -349,10 +349,9 @@ static const float ReferenceLineWidth = 1;
     
     [self insertSubview:_containerView belowSubview:_gestureScroll];
     [self findBeginAndEndIndex];
-    self.minDataValue = [self.Datas[0][_beginIndex] floatValue];
-    self.maxDataValue = self.minDataValue;
-    [self campareMaxAndMinValue:_beginIndex rightIndex:_endIndex];
-    [self calculateYAxisSegment];
+    
+    [self campareMaxAndMinValue];
+    [self calculateDataSegment];
     [self addAxisLayer];
     [self addAxisScaleLayer];
     [self addDataLayer];
@@ -375,9 +374,11 @@ static const float ReferenceLineWidth = 1;
     }
 }
 
-- (void)campareMaxAndMinValue:(NSUInteger)leftIndex rightIndex:(NSUInteger)rightIndex {
+- (void)campareMaxAndMinValue {
+    self.minDataValue = [self.Datas[0][_beginIndex] floatValue];
+    self.maxDataValue = self.minDataValue;
     for (NSArray *values in self.Datas) {
-        [self findMaxAndMinValue:leftIndex rightIndex:rightIndex compareA:values];
+        [self findMaxAndMinValue:self.beginIndex rightIndex:self.endIndex compareA:values];
     }
 }
 - (void)findMaxAndMinValue:(NSUInteger)leftIndex rightIndex:(NSUInteger)rightIndex compareA:(NSArray *)compareA {
@@ -404,7 +405,7 @@ static const float ReferenceLineWidth = 1;
     [self findMaxAndMinValue:mid + 1 rightIndex:rightIndex compareA:compareA];
 }
 
-- (void)calculateYAxisSegment {
+- (void)calculateDataSegment {
     if (self.minDataValue >= 0) {
         self.dataPostiveSegmentNum = 4;
         if(self.maxDataValue < 1) self.dataPostiveSegmentNum = 1;

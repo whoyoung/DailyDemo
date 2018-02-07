@@ -12,7 +12,21 @@
 @interface BaseChartView : UIView
 @property (nonatomic, weak) id<CommonChartViewDelegate> delegate;
 
-@property (nonatomic, assign) CGFloat scrollContentSizeWidth;
-
 - (id)initWithFrame:(CGRect)frame configure:(NSDictionary *)configureDict;
+
+- (void)dealStyleDict:(NSDictionary *)styleDict;
+- (void)chartDidZooming:(UIPinchGestureRecognizer *)pinGesture;
+- (void)chartDidTapping:(UITapGestureRecognizer *)tapGesture;
+- (NSDictionary *)tappedGroupAndItem:(CGPoint)tapP;
+- (NSDictionary *)prepareTipViewData:(NSUInteger)group item:(NSUInteger)item containerPoint:(CGPoint)point;
+- (CGSize)gestureScrollContentSize;
+
+- (void)findBeginAndEndIndex;
+- (void)calculateMaxAndMinValue;
+- (void)calculateDataSegment;
+- (void)addAxisLayer;
+- (void)addAxisScaleLayer;
+- (void)addDataLayer;
+- (void)addDataScaleLayer;
+- (void)drawDataPoint;
 @end
