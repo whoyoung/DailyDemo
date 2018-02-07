@@ -25,6 +25,7 @@ static const float TipTextFont = 9;
 
 #import "LineChartView.h"
 #import "UIColor+HexColor.h"
+#import "NSString+Extra.h"
 @interface LineChartView()<UIScrollViewDelegate>
 @property (nonatomic, weak) UIScrollView *gestureScroll;
 @property (nonatomic, strong) NSMutableArray<NSString *> *AxisArray;
@@ -32,16 +33,15 @@ static const float TipTextFont = 9;
 
 @property (nonatomic, assign) NSInteger beginIndex;
 @property (nonatomic, assign) NSInteger endIndex;
-@property (nonatomic, assign) CGFloat itemW;
-@property (nonatomic, assign) CGFloat itemH;
-@property (nonatomic, assign) CGFloat maxYValue;
-@property (nonatomic, assign) CGFloat minYValue;
+@property (nonatomic, assign) CGFloat itemAxisScale;
+@property (nonatomic, assign) NSUInteger itemDataScale;
+@property (nonatomic, assign) CGFloat maxDataValue;
+@property (nonatomic, assign) CGFloat minDataValue;
 
-@property (nonatomic, assign) NSUInteger yPostiveSegmentNum;
-@property (nonatomic, assign) NSUInteger yNegativeSegmentNum;
+@property (nonatomic, assign) NSUInteger dataPostiveSegmentNum;
+@property (nonatomic, assign) NSUInteger dataNegativeSegmentNum;
 
-@property (nonatomic, assign) CGFloat yItemUnitH;
-@property (nonatomic, assign) CGFloat xItemUnitW;
+@property (nonatomic, assign) CGFloat dataItemUnitScale;
 
 @property (nonatomic, strong) UIView *containerView;
 
@@ -49,7 +49,7 @@ static const float TipTextFont = 9;
 @property (nonatomic, assign) CGFloat newPinScale;
 @property (nonatomic, assign) CGFloat pinCenterToLeftDistance;
 @property (nonatomic, assign) CGFloat pinCenterRatio;
-@property (nonatomic, assign) CGFloat zoomedItemW;
+@property (nonatomic, assign) CGFloat zoomedItemAxis;
 
 @property (nonatomic, assign) BOOL isDataError;
 @property (nonatomic, strong) NSArray *groupMembers;
@@ -106,7 +106,7 @@ static const float TipTextFont = 9;
         return;
     }
     [self addGestureScroll];
-    self.gestureScroll.contentSize = CGSizeMake([self.Datas[0] count]*self.zoomedItemW, ChartHeight);
+    self.gestureScroll.contentSize = CGSizeMake([self.Datas[0] count]*self.zoomedItemAxis, ChartHeight);
     if (!_containerView) {
         [self redraw];
     }
@@ -149,8 +149,8 @@ static const float TipTextFont = 9;
         }
             break;
         case UIGestureRecognizerStateChanged: {
-            if (pinGesture.scale < 1 && [self.Datas[0] count]*self.itemW*_oldPinScale*pinGesture.scale <= ChartWidth) {
-                _newPinScale = ChartWidth/([self.Datas[0] count]*self.itemW*_oldPinScale);
+            if (pinGesture.scale < 1 && [self.Datas[0] count]*self.itemAxisScale*_oldPinScale*pinGesture.scale <= ChartWidth) {
+                _newPinScale = ChartWidth/([self.Datas[0] count]*self.itemAxisScale*_oldPinScale);
             } else {
                 _newPinScale = pinGesture.scale;
             }
@@ -160,6 +160,7 @@ static const float TipTextFont = 9;
             break;
         case UIGestureRecognizerStateEnded: {
             _oldPinScale *= _newPinScale;
+            _newPinScale = 1.0;
         }
             break;
             
@@ -168,7 +169,7 @@ static const float TipTextFont = 9;
     }
 }
 - (void)adjustScroll {
-    self.gestureScroll.contentSize = CGSizeMake([self.Datas[0] count]*self.zoomedItemW, ChartHeight);
+    self.gestureScroll.contentSize = CGSizeMake([self.Datas[0] count]*self.zoomedItemAxis, ChartHeight);
     CGFloat offsetX = self.gestureScroll.contentSize.width * self.pinCenterRatio - self.pinCenterToLeftDistance;
     if (offsetX < 0) {
         offsetX = 0;
@@ -185,13 +186,151 @@ static const float TipTextFont = 9;
 - (void)chartDidTapping:(UITapGestureRecognizer *)tapGesture {
     [self removeTipView];
     CGPoint tapP = [tapGesture locationInView:self.gestureScroll];
-    UIView *tipView = [[UIView alloc] initWithFrame:CGRectMake(tapP.x, tapP.y, 50, 50)];
-    tipView.backgroundColor = [UIColor  redColor];
+    
+    NSUInteger group = 0, item = 0;
+    group = floorf(tapP.x / self.zoomedItemAxis);
+    if ((tapP.x - group * self.zoomedItemAxis) > self.zoomedItemAxis/2.0 && group <  self.Datas[0].count - 1) {
+        group += 1;
+    }
+    if (self.Datas.count > 1) {
+        CGFloat actualY = self.zeroLine - [[self.Datas[0] objectAtIndex:group] floatValue] * _dataItemUnitScale;
+        CGFloat minDistance = fabs(tapP.y - actualY);
+        for (NSUInteger i=1; i<self.Datas.count; i++) {
+            CGFloat tempActualY = self.zeroLine - [[self.Datas[i] objectAtIndex:group] floatValue] * _dataItemUnitScale;
+            if (minDistance > fabs(tapP.y - tempActualY)) {
+                minDistance = fabs(tapP.y - tempActualY);
+                item = i;
+            }
+        }
+    }
+    if (item > self.Datas.count - 1) {
+        item = self.Datas.count - 1;
+    }
+    
+    CGPoint containerP = [tapGesture locationInView:self.containerView];
+    [self updateTipLayer:group item:item containerPoint:containerP];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didTapChart:group:item:)]) {
+        [self.delegate didTapChart:self group:group item:item];
+    }
+}
+- (void)updateTipLayer:(NSUInteger)group item:(NSUInteger)item containerPoint:(CGPoint)point {
+    CGPoint tempP = point;
+    CGFloat absoluteZeroLine = self.zeroLine + TopEdge;
+    tempP.x = group * self.zoomedItemAxis + LeftEdge;
+    tempP.y = absoluteZeroLine - [[self.Datas[item] objectAtIndex:group] floatValue] * _dataItemUnitScale;
+    
+    NSString *axisStr;
+    NSString *dataStr = [NSString stringWithFormat:@"%@: %@",self.dataTitle,[self.Datas[item] objectAtIndex:group]];
+    if (self.Datas.count < 2) {
+        dataStr = [NSString stringWithFormat:@"%@: %@",self.AxisArray[group],[self.Datas[item] objectAtIndex:group]];
+    } else {
+        axisStr = [NSString stringWithFormat:@"%@: %@",self.axisTitle,self.AxisArray[group]];
+        dataStr = [NSString stringWithFormat:@"%@: %@",self.groupMembers[item],[self.Datas[item] objectAtIndex:group]];
+    }
+    CGFloat tipTextH = 11;
+    CGFloat tipH = 10 + tipTextH + 5;
+    CGFloat tipMaxW = [dataStr measureTextWidth:[UIFont systemFontOfSize:TipTextFont]];
+    if (axisStr) {
+        tipMaxW = MAX(tipMaxW, [axisStr measureTextWidth:[UIFont systemFontOfSize:TipTextFont]]);
+        tipH += tipTextH;
+    }
+    tipMaxW += 10;
+    
+    NSUInteger arrowP = 2; //箭头在中间位置
+    CGFloat originX = tempP.x - tipMaxW/2.0;
+    if (originX < LeftEdge) {
+        originX = tempP.x;
+        arrowP = 1; //箭头在左边位置
+    } else if (tempP.x + tipMaxW/2.0 > ChartWidth + LeftEdge) {
+        originX = tempP.x - tipMaxW;
+        arrowP = 3; //箭头在右边位置
+    }
+    
+    CGFloat originY = tempP.y - tipH;
+    if (originY < TopEdge) {
+        originY = tempP.y;
+        arrowP += 10; //箭头在弹窗上方
+    }
+    
+    UIView *tipView = [[UIView alloc] initWithFrame:CGRectMake(originX, originY, tipMaxW, tipH)];
+    tipView.backgroundColor = [UIColor  clearColor];
     tipView.tag = 101;
-    [self.gestureScroll addSubview:tipView];
+    [self.containerView addSubview:tipView];
+    
+    CAShapeLayer *rectLayer = [CAShapeLayer layer];
+    UIBezierPath *rectPath;
+    if (arrowP > 10) {
+        rectPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, 5, tipMaxW, tipH-5)];
+    } else {
+        rectPath = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, tipMaxW, tipH-5)];
+    }
+    CGSize cornerRadii = CGSizeMake(5, 5);
+    CGRect topRect = CGRectMake(0, 0, tipMaxW, tipH-5);
+    CGRect bottomRect = CGRectMake(0, 5, tipMaxW, tipH-5);
+    switch (arrowP) {
+        case 1: { //左下箭头
+            rectPath = [UIBezierPath bezierPathWithRoundedRect:topRect byRoundingCorners:UIRectCornerTopLeft|UIRectCornerTopRight|UIRectCornerBottomRight cornerRadii:cornerRadii];
+            [self drawArrow:rectPath startP:CGPointMake(0, tipH-5) middleP:CGPointMake(0, tipH) endP:CGPointMake(2.5, tipH-5)];
+        }
+            break;
+        case 2: { //中下箭头
+            rectPath = [UIBezierPath bezierPathWithRoundedRect:topRect byRoundingCorners:UIRectCornerAllCorners cornerRadii:cornerRadii];
+            [self drawArrow:rectPath startP:CGPointMake(tipMaxW/2-2.5, tipH-5) middleP:CGPointMake(tipMaxW/2, tipH) endP:CGPointMake(tipMaxW/2+2.5, tipH-5)];
+        }
+            break;
+        case 3: { //右下箭头
+            rectPath = [UIBezierPath bezierPathWithRoundedRect:topRect byRoundingCorners:UIRectCornerTopLeft|UIRectCornerTopRight|UIRectCornerBottomLeft cornerRadii:cornerRadii];
+            [self drawArrow:rectPath startP:CGPointMake(tipMaxW-2.5, tipH-5) middleP:CGPointMake(tipMaxW, tipH) endP:CGPointMake(tipMaxW, tipH-5)];
+        }
+            break;
+        case 11: { //左上箭头
+            rectPath = [UIBezierPath bezierPathWithRoundedRect:bottomRect byRoundingCorners:UIRectCornerBottomLeft|UIRectCornerTopRight|UIRectCornerBottomRight cornerRadii:cornerRadii];
+            [self drawArrow:rectPath startP:CGPointMake(0, 5) middleP:CGPointMake(0, 0) endP:CGPointMake(2.5, 5)];
+        }
+            break;
+        case 12: { //中上箭头
+            rectPath = [UIBezierPath bezierPathWithRoundedRect:bottomRect byRoundingCorners:UIRectCornerAllCorners cornerRadii:cornerRadii];
+            [self drawArrow:rectPath startP:CGPointMake(tipMaxW/2-2.5, 5) middleP:CGPointMake(tipMaxW/2, 0) endP:CGPointMake(tipMaxW/2+2.5, 5)];
+        }
+            break;
+        case 13: { //右上箭头
+            rectPath = [UIBezierPath bezierPathWithRoundedRect:bottomRect byRoundingCorners:UIRectCornerTopLeft|UIRectCornerBottomLeft|UIRectCornerBottomRight cornerRadii:cornerRadii];
+            [self drawArrow:rectPath startP:CGPointMake(tipMaxW-2.5, 5) middleP:CGPointMake(tipMaxW, 0) endP:CGPointMake(tipMaxW, 5)];
+        }
+            break;
+            
+        default:
+            break;
+    }
+    rectLayer.path = rectPath.CGPath;
+    rectLayer.fillColor = [UIColor hexChangeFloat:@"0D2940"].CGColor;
+    [tipView.layer addSublayer:rectLayer];
+    
+    CGRect textFrame = CGRectZero;
+    CGFloat startY = 5;
+    if (arrowP > 10) {
+        startY = 10;
+    }
+    if (axisStr) {
+        textFrame = CGRectMake(5, startY, tipMaxW-10, tipTextH);
+        CATextLayer *text = [self getTextLayerWithString:axisStr textColor:TipTextColor fontSize:TipTextFont backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentLeft];
+        [tipView.layer addSublayer:text];
+    }
+    if (textFrame.origin.x > 0) {
+        CATextLayer *text = [self getTextLayerWithString:dataStr textColor:TipTextColor fontSize:TipTextFont backgroundColor:[UIColor clearColor] frame:CGRectMake(5, CGRectGetMaxY(textFrame), tipMaxW-10, tipTextH) alignmentMode:kCAAlignmentLeft];
+        [tipView.layer addSublayer:text];
+    } else {
+        CATextLayer *text = [self getTextLayerWithString:axisStr textColor:TipTextColor fontSize:TipTextFont backgroundColor:[UIColor clearColor] frame:CGRectMake(5, startY, tipMaxW-10, tipTextH) alignmentMode:kCAAlignmentLeft];
+        [tipView.layer addSublayer:text];
+    }
+}
+- (void)drawArrow:(UIBezierPath *)path startP:(CGPoint)startP middleP:(CGPoint)middleP endP:(CGPoint)endP {
+    [path moveToPoint:startP];
+    [path addLineToPoint:middleP];
+    [path addLineToPoint:endP];
 }
 - (void)removeTipView {
-    UIView *existedV = [self.gestureScroll viewWithTag:101];
+    UIView *existedV = [self.containerView viewWithTag:101];
     [existedV removeFromSuperview];
 }
 - (void)redraw {
@@ -202,8 +341,8 @@ static const float TipTextFont = 9;
     
     [self insertSubview:_containerView belowSubview:_gestureScroll];
     [self findBeginAndEndIndex];
-    self.minYValue = [self.Datas[0][_beginIndex] floatValue];
-    self.maxYValue = self.minYValue;
+    self.minDataValue = [self.Datas[0][_beginIndex] floatValue];
+    self.maxDataValue = self.minDataValue;
     [self campareMaxAndMinValue:_beginIndex rightIndex:_endIndex];
     [self calculateYAxisSegment];
     [self drawYValuePoint];
@@ -215,8 +354,8 @@ static const float TipTextFont = 9;
 
 - (void)findBeginAndEndIndex {
     CGPoint offset = self.gestureScroll.contentOffset;
-    self.beginIndex = floor(offset.x/self.zoomedItemW);
-    self.endIndex = ceil((offset.x+ChartWidth)/self.zoomedItemW);
+    self.beginIndex = floor(offset.x/self.zoomedItemAxis);
+    self.endIndex = ceil((offset.x+ChartWidth)/self.zoomedItemAxis);
     if (self.beginIndex < 0) {
         self.beginIndex = 0;
     }
@@ -238,17 +377,17 @@ static const float TipTextFont = 9;
         leftIndex = rightIndex;
     }
     if (leftIndex == rightIndex) {
-        self.minYValue = MIN([compareA[leftIndex] floatValue], self.minYValue);
-        self.maxYValue = MAX([compareA[leftIndex] floatValue], self.maxYValue);
+        self.minDataValue = MIN([compareA[leftIndex] floatValue], self.minDataValue);
+        self.maxDataValue = MAX([compareA[leftIndex] floatValue], self.maxDataValue);
         return;
     } else if(leftIndex == rightIndex-1) {
         if ([compareA[leftIndex] floatValue] < [compareA[rightIndex] floatValue]) {
-            self.minYValue = MIN([compareA[leftIndex] floatValue], self.minYValue);
-            self.maxYValue = MAX([compareA[rightIndex] floatValue], self.maxYValue);
+            self.minDataValue = MIN([compareA[leftIndex] floatValue], self.minDataValue);
+            self.maxDataValue = MAX([compareA[rightIndex] floatValue], self.maxDataValue);
             return;
         } else {
-            self.minYValue = MIN([compareA[rightIndex] floatValue], self.minYValue);
-            self.maxYValue = MAX([compareA[leftIndex] floatValue], self.maxYValue);
+            self.minDataValue = MIN([compareA[rightIndex] floatValue], self.minDataValue);
+            self.maxDataValue = MAX([compareA[leftIndex] floatValue], self.maxDataValue);
             return;
         }
     }
@@ -258,31 +397,28 @@ static const float TipTextFont = 9;
 }
 
 - (void)calculateYAxisSegment {
-    if (self.minYValue >= 0) {
-        self.yPostiveSegmentNum = 4;
-        if(self.maxYValue < 1) self.yPostiveSegmentNum = 1;
-        self.yNegativeSegmentNum = 0;
-        self.itemH = ceil(self.maxYValue/self.yPostiveSegmentNum);
-        self.yItemUnitH = ChartHeight/(self.itemH * self.yPostiveSegmentNum);
-    } else if (self.maxYValue < 0) {
-        self.yPostiveSegmentNum = 0;
-        self.yNegativeSegmentNum = 4;
-        if(fabs(self.minYValue) < 1) self.yNegativeSegmentNum = 1;
-        self.itemH = ceil(fabs(self.minYValue)/self.yNegativeSegmentNum);
-        self.yItemUnitH = ChartHeight/(self.itemH * self.yNegativeSegmentNum);
-    } else if (self.maxYValue >= fabs(self.minYValue)) {
-        self.yPostiveSegmentNum = 4;
-        if(self.maxYValue < 1) self.yPostiveSegmentNum = 1;
-        self.itemH = ceil(self.maxYValue/self.yPostiveSegmentNum);
-        self.yNegativeSegmentNum = ceil(fabs(self.minYValue)/self.itemH);
-        self.yItemUnitH = ChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
+    if (self.minDataValue >= 0) {
+        self.dataPostiveSegmentNum = 4;
+        if(self.maxDataValue < 1) self.dataPostiveSegmentNum = 1;
+        self.dataNegativeSegmentNum = 0;
+        self.itemDataScale = ceil(self.maxDataValue/self.dataPostiveSegmentNum);
+    } else if (self.maxDataValue < 0) {
+        self.dataPostiveSegmentNum = 0;
+        self.dataNegativeSegmentNum = 4;
+        if(fabs(self.minDataValue) < 1) self.dataNegativeSegmentNum = 1;
+        self.itemDataScale = ceil(fabs(self.minDataValue)/self.dataNegativeSegmentNum);
+    } else if (self.maxDataValue >= fabs(self.minDataValue)) {
+        self.dataPostiveSegmentNum = 4;
+        if(self.maxDataValue < 1) self.dataPostiveSegmentNum = 1;
+        self.itemDataScale = ceil(self.maxDataValue/self.dataPostiveSegmentNum);
+        self.dataNegativeSegmentNum = ceil(fabs(self.minDataValue)/self.itemDataScale);
     } else {
-        self.yNegativeSegmentNum = 4;
-        if(fabs(self.minYValue) < 1) self.yNegativeSegmentNum = 1;
-        self.itemH = ceil(fabs(self.minYValue)/self.yNegativeSegmentNum);
-        self.yPostiveSegmentNum = ceil(self.maxYValue/self.itemH);
-        self.yItemUnitH = ChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
+        self.dataNegativeSegmentNum = 4;
+        if(fabs(self.minDataValue) < 1) self.dataNegativeSegmentNum = 1;
+        self.itemDataScale = ceil(fabs(self.minDataValue)/self.dataNegativeSegmentNum);
+        self.dataPostiveSegmentNum = ceil(self.maxDataValue/self.itemDataScale);
     }
+    self.dataItemUnitScale = ChartHeight/(self.itemDataScale * (self.dataPostiveSegmentNum+self.dataNegativeSegmentNum));
 }
 
 - (void)drawYValuePoint {
@@ -294,10 +430,10 @@ static const float TipTextFont = 9;
         CAShapeLayer *yValueLayer = [CAShapeLayer layer];
         UIBezierPath *yValueBezier = [UIBezierPath bezierPath];
         CGFloat offsetX = self.gestureScroll.contentOffset.x;
-        CGFloat zeroY = _yPostiveSegmentNum * self.yAxisUnitH;
+        CGFloat zeroY = _dataPostiveSegmentNum * [self axisUnitScale];
         for (NSUInteger i=self.beginIndex; i<self.endIndex+1; i++) {
-            CGFloat yPoint = zeroY - [values[i] floatValue] * _yItemUnitH;
-            CGPoint p = CGPointMake(i*self.zoomedItemW-offsetX, yPoint);
+            CGFloat yPoint = zeroY - [values[i] floatValue] * _dataItemUnitScale;
+            CGPoint p = CGPointMake(i*self.zoomedItemAxis-offsetX, yPoint);
             if (i == self.beginIndex) {
                 [yValueBezier moveToPoint:p];
             } else {
@@ -316,8 +452,8 @@ static const float TipTextFont = 9;
 - (void)addXAxisLayer {
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
     for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
-        if (self.zoomedItemW*i-offsetX < 0) continue;
-        CGRect textFrame = CGRectMake(LeftEdge + self.zoomedItemW*i-offsetX-self.zoomedItemW/2.0, self.bounds.size.height-TextHeight, self.zoomedItemW, TextHeight);
+        if (self.zoomedItemAxis*i-offsetX < 0) continue;
+        CGRect textFrame = CGRectMake(LeftEdge + self.zoomedItemAxis*i-offsetX-self.zoomedItemAxis/2.0, self.bounds.size.height-TextHeight, self.zoomedItemAxis, TextHeight);
         CATextLayer *text = [self getTextLayerWithString:self.AxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
         [self.containerView.layer addSublayer:text];
     }
@@ -330,9 +466,9 @@ static const float TipTextFont = 9;
     
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
     for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
-        if (self.zoomedItemW*i - offsetX < 0) continue;
-        [xScaleBezier moveToPoint:CGPointMake(LeftEdge + self.zoomedItemW*i - offsetX, self.bounds.size.height-BottomEdge)];
-        [xScaleBezier addLineToPoint:CGPointMake(LeftEdge + self.zoomedItemW*i - offsetX, self.bounds.size.height-BottomEdge+5)];
+        if (self.zoomedItemAxis*i - offsetX < 0) continue;
+        [xScaleBezier moveToPoint:CGPointMake(LeftEdge + self.zoomedItemAxis*i - offsetX, self.bounds.size.height-BottomEdge)];
+        [xScaleBezier addLineToPoint:CGPointMake(LeftEdge + self.zoomedItemAxis*i - offsetX, self.bounds.size.height-BottomEdge+5)];
     }
     xScaleLayer.path = xScaleBezier.CGPath;
     xScaleLayer.lineWidth = 1;
@@ -344,9 +480,9 @@ static const float TipTextFont = 9;
         CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
         UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
         for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
-            if (self.zoomedItemW*i - offsetX < 0) continue;
-            [dashLineBezier moveToPoint:CGPointMake(LeftEdge + self.zoomedItemW*i - offsetX, self.bounds.size.height-BottomEdge-1)];
-            [dashLineBezier addLineToPoint:CGPointMake(LeftEdge + self.zoomedItemW*i - offsetX, TopEdge)];
+            if (self.zoomedItemAxis*i - offsetX < 0) continue;
+            [dashLineBezier moveToPoint:CGPointMake(LeftEdge + self.zoomedItemAxis*i - offsetX, self.bounds.size.height-BottomEdge-1)];
+            [dashLineBezier addLineToPoint:CGPointMake(LeftEdge + self.zoomedItemAxis*i - offsetX, TopEdge)];
         }
         dashLineLayer.path = dashLineBezier.CGPath;
         [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
@@ -357,14 +493,14 @@ static const float TipTextFont = 9;
     }
 }
 - (void)addYAxisLayer {
-    for (NSUInteger i=0; i<_yNegativeSegmentNum; i++) {
-        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-i*self.yAxisUnitH, TextWidth, BottomEdge);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%.2f",(_yNegativeSegmentNum-i)*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
+    for (NSUInteger i=0; i<_dataNegativeSegmentNum; i++) {
+        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-i*[self axisUnitScale], TextWidth, BottomEdge);
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%ld",(_dataNegativeSegmentNum-i)*_itemDataScale] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
         [self.containerView.layer addSublayer:text];
     }
-    for (NSInteger i=0; i<=_yPostiveSegmentNum+1; i++) {
-        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-(_yNegativeSegmentNum+i)*self.yAxisUnitH, TextWidth, BottomEdge);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%.2f",i*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
+    for (NSInteger i=0; i<=_dataPostiveSegmentNum+1; i++) {
+        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-(_dataNegativeSegmentNum+i)*[self axisUnitScale], TextWidth, BottomEdge);
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%ld",i*_itemDataScale] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
         [self.containerView.layer addSublayer:text];
     }
 }
@@ -374,9 +510,9 @@ static const float TipTextFont = 9;
     [yScaleBezier moveToPoint:CGPointMake(LeftEdge, TopEdge)];
     [yScaleBezier addLineToPoint:CGPointMake(LeftEdge, self.bounds.size.height-BottomEdge)];
     
-    for (NSUInteger i=0; i<=_yNegativeSegmentNum+_yPostiveSegmentNum+1; i++) {
-        [yScaleBezier moveToPoint:CGPointMake(LeftEdge-5, TopEdge+i*self.yAxisUnitH)];
-        [yScaleBezier addLineToPoint:CGPointMake(LeftEdge, TopEdge+i*self.yAxisUnitH)];
+    for (NSUInteger i=0; i<=_dataNegativeSegmentNum+_dataPostiveSegmentNum+1; i++) {
+        [yScaleBezier moveToPoint:CGPointMake(LeftEdge-5, TopEdge+i*[self axisUnitScale])];
+        [yScaleBezier addLineToPoint:CGPointMake(LeftEdge, TopEdge+i*[self axisUnitScale])];
     }
     yScaleLayer.path = yScaleBezier.CGPath;
     yScaleLayer.backgroundColor = [UIColor blueColor].CGColor;
@@ -388,9 +524,9 @@ static const float TipTextFont = 9;
     if (_showDataDashLine) {
         CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
         UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
-        for (NSUInteger i=0; i<=_yNegativeSegmentNum+_yPostiveSegmentNum; i++) {
-            [dashLineBezier moveToPoint:CGPointMake(LeftEdge, TopEdge+i*self.yAxisUnitH)];
-            [dashLineBezier addLineToPoint:CGPointMake(self.bounds.size.width, TopEdge+i*self.yAxisUnitH)];
+        for (NSUInteger i=0; i<=_dataNegativeSegmentNum+_dataPostiveSegmentNum; i++) {
+            [dashLineBezier moveToPoint:CGPointMake(LeftEdge, TopEdge+i*[self axisUnitScale])];
+            [dashLineBezier addLineToPoint:CGPointMake(self.bounds.size.width, TopEdge+i*[self axisUnitScale])];
         }
         dashLineLayer.path = dashLineBezier.CGPath;
         [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
@@ -422,17 +558,17 @@ static const float TipTextFont = 9;
     return textLayer;
 }
 
-- (CGFloat)itemW {
-    if (_itemW == 0) {
-        _itemW = ChartWidth/[self.Datas[0] count] > self.minItemWidth ? (ChartWidth/[self.Datas[0] count]) : self.minItemWidth;
+- (CGFloat)itemAxisScale {
+    if (_itemAxisScale == 0) {
+        _itemAxisScale = ChartWidth/[self.Datas[0] count] > self.minItemWidth ? (ChartWidth/[self.Datas[0] count]) : self.minItemWidth;
     }
-    return _itemW;
+    return _itemAxisScale;
 }
-- (CGFloat)zoomedItemW {
-    return self.itemW * self.newPinScale * self.oldPinScale;
+- (CGFloat)zoomedItemAxis {
+    return self.itemAxisScale * self.newPinScale * self.oldPinScale;
 }
-- (CGFloat)yAxisUnitH {
-    return ChartHeight/(_yNegativeSegmentNum + _yPostiveSegmentNum);
+- (CGFloat)axisUnitScale {
+    return ChartHeight/(_dataNegativeSegmentNum + _dataPostiveSegmentNum);
 }
 - (CGFloat)oldPinScale {
     if (_oldPinScale == 0) {
@@ -453,5 +589,8 @@ static const float TipTextFont = 9;
         [tempColors addObject:colors[i%colors.count]];
     }
     self.itemColors = [tempColors copy];
+}
+- (CGFloat)zeroLine {
+    return self.dataPostiveSegmentNum * [self axisUnitScale];
 }
 @end

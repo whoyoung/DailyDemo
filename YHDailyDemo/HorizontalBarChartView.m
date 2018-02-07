@@ -259,6 +259,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             for (NSUInteger i=0; i<=item; i++) {
                 if ([[self.Datas[i] objectAtIndex:group] floatValue] < 0) {
                     tempZeroLine -= [[self.Datas[i] objectAtIndex:group] floatValue] * _dataItemUnitScale;
+                    if (tempZeroLine >= tempP.y) break;
                 }
             }
             if (tempP.y > tempZeroLine) {
@@ -268,6 +269,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
             for (NSUInteger i=0; i<=item; i++) {
                 if ([[self.Datas[i] objectAtIndex:group] floatValue] > 0) {
                     tempZeroLine -= [[self.Datas[i] objectAtIndex:group] floatValue] * _dataItemUnitScale;
+                    if (tempZeroLine <= tempP.y) break;
                 }
             }
             if (tempP.y < tempZeroLine) {
