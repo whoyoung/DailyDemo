@@ -60,6 +60,7 @@ static const float TipTextFont = 9;
 @property (nonatomic, assign) CGFloat zeroLine;
 @property (nonatomic, assign) BOOL showDataDashLine;
 @property (nonatomic, assign) BOOL hideDataHardLine;
+@property (nonatomic, assign) BOOL showDataEdgeLine;
 @property (nonatomic, assign) CGFloat minItemWidth;
 
 @end
@@ -101,7 +102,7 @@ static const float TipTextFont = 9;
     [super layoutSubviews];
     if (self.isDataError) {
         CGRect textFrame = CGRectMake(0,( ChartHeight-TextHeight)/2.0, ChartWidth, TextHeight);
-        CATextLayer *text = [self getTextLayerWithString:@"数据格式有误" textColor:[UIColor lightGrayColor] fontSize:14 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
+        CATextLayer *text = [self getTextLayerWithString:@"数据格式有误" textColor:[UIColor lightGrayColor] fontSize:TipTextFont backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
         [self.layer addSublayer:text];
         return;
     }
@@ -345,11 +346,11 @@ static const float TipTextFont = 9;
     self.maxDataValue = self.minDataValue;
     [self campareMaxAndMinValue:_beginIndex rightIndex:_endIndex];
     [self calculateYAxisSegment];
-    [self drawYValuePoint];
-    [self addXAxisLayer];
-    [self addXScaleLayer];
-    [self addYAxisLayer];
-    [self addYScaleLayer];
+    [self addAxisLayer];
+    [self addAxisScaleLayer];
+    [self addDataLayer];
+    [self addDataScaleLayer];
+    [self drawDataPoint];
 }
 
 - (void)findBeginAndEndIndex {
@@ -421,7 +422,7 @@ static const float TipTextFont = 9;
     self.dataItemUnitScale = ChartHeight/(self.itemDataScale * (self.dataPostiveSegmentNum+self.dataNegativeSegmentNum));
 }
 
-- (void)drawYValuePoint {
+- (void)drawDataPoint {
     UIView *subContainerV = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, ChartWidth, ChartHeight)];
     subContainerV.layer.masksToBounds = YES;
     [self.containerView addSubview:subContainerV];
@@ -449,7 +450,7 @@ static const float TipTextFont = 9;
     
 }
 
-- (void)addXAxisLayer {
+- (void)addAxisLayer {
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
     for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
         if (self.zoomedItemAxis*i-offsetX < 0) continue;
@@ -458,7 +459,7 @@ static const float TipTextFont = 9;
         [self.containerView.layer addSublayer:text];
     }
 }
-- (void)addXScaleLayer {
+- (void)addAxisScaleLayer {
     CAShapeLayer *xScaleLayer = [CAShapeLayer layer];
     UIBezierPath *xScaleBezier = [UIBezierPath bezierPath];
     [xScaleBezier moveToPoint:CGPointMake(LeftEdge, self.bounds.size.height-BottomEdge)];
@@ -476,7 +477,7 @@ static const float TipTextFont = 9;
     xScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:xScaleLayer];
     
-    if (_showDataDashLine) {
+    if (_showDataDashLine || !_hideDataHardLine) {
         CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
         UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
         for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
@@ -485,14 +486,16 @@ static const float TipTextFont = 9;
             [dashLineBezier addLineToPoint:CGPointMake(LeftEdge + self.zoomedItemAxis*i - offsetX, TopEdge)];
         }
         dashLineLayer.path = dashLineBezier.CGPath;
-        [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
+        if (_showDataDashLine) {
+            [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
+        }
         dashLineLayer.lineWidth = 1;
         dashLineLayer.strokeColor = [UIColor blackColor].CGColor;
         dashLineLayer.fillColor = [UIColor clearColor].CGColor;
         [self.containerView.layer addSublayer:dashLineLayer];
     }
 }
-- (void)addYAxisLayer {
+- (void)addDataLayer {
     for (NSUInteger i=0; i<_dataNegativeSegmentNum; i++) {
         CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-i*[self axisUnitScale], TextWidth, BottomEdge);
         CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%ld",(_dataNegativeSegmentNum-i)*_itemDataScale] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
@@ -504,24 +507,26 @@ static const float TipTextFont = 9;
         [self.containerView.layer addSublayer:text];
     }
 }
-- (void)addYScaleLayer {
-    CAShapeLayer *yScaleLayer = [CAShapeLayer layer];
-    UIBezierPath *yScaleBezier = [UIBezierPath bezierPath];
-    [yScaleBezier moveToPoint:CGPointMake(LeftEdge, TopEdge)];
-    [yScaleBezier addLineToPoint:CGPointMake(LeftEdge, self.bounds.size.height-BottomEdge)];
-    
-    for (NSUInteger i=0; i<=_dataNegativeSegmentNum+_dataPostiveSegmentNum+1; i++) {
-        [yScaleBezier moveToPoint:CGPointMake(LeftEdge-5, TopEdge+i*[self axisUnitScale])];
-        [yScaleBezier addLineToPoint:CGPointMake(LeftEdge, TopEdge+i*[self axisUnitScale])];
+- (void)addDataScaleLayer {
+    if (_showDataEdgeLine) {
+        CAShapeLayer *yScaleLayer = [CAShapeLayer layer];
+        UIBezierPath *yScaleBezier = [UIBezierPath bezierPath];
+        [yScaleBezier moveToPoint:CGPointMake(LeftEdge, TopEdge)];
+        [yScaleBezier addLineToPoint:CGPointMake(LeftEdge, self.bounds.size.height-BottomEdge)];
+        
+        for (NSUInteger i=0; i<=_dataNegativeSegmentNum+_dataPostiveSegmentNum+1; i++) {
+            [yScaleBezier moveToPoint:CGPointMake(LeftEdge-5, TopEdge+i*[self axisUnitScale])];
+            [yScaleBezier addLineToPoint:CGPointMake(LeftEdge, TopEdge+i*[self axisUnitScale])];
+        }
+        yScaleLayer.path = yScaleBezier.CGPath;
+        yScaleLayer.backgroundColor = [UIColor blueColor].CGColor;
+        yScaleLayer.lineWidth = 1;
+        yScaleLayer.strokeColor = [UIColor blackColor].CGColor;
+        yScaleLayer.fillColor = [UIColor clearColor].CGColor;
+        [self.containerView.layer addSublayer:yScaleLayer];
     }
-    yScaleLayer.path = yScaleBezier.CGPath;
-    yScaleLayer.backgroundColor = [UIColor blueColor].CGColor;
-    yScaleLayer.lineWidth = 1;
-    yScaleLayer.strokeColor = [UIColor blackColor].CGColor;
-    yScaleLayer.fillColor = [UIColor clearColor].CGColor;
-    [self.containerView.layer addSublayer:yScaleLayer];
     
-    if (_showDataDashLine) {
+    if (_showDataDashLine || !_hideDataHardLine) {
         CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
         UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
         for (NSUInteger i=0; i<=_dataNegativeSegmentNum+_dataPostiveSegmentNum; i++) {
@@ -529,7 +534,9 @@ static const float TipTextFont = 9;
             [dashLineBezier addLineToPoint:CGPointMake(self.bounds.size.width, TopEdge+i*[self axisUnitScale])];
         }
         dashLineLayer.path = dashLineBezier.CGPath;
-        [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
+        if (_showDataDashLine) {
+            [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
+        }
         dashLineLayer.lineWidth = 1;
         dashLineLayer.strokeColor = [UIColor blackColor].CGColor;
         dashLineLayer.fillColor = [UIColor clearColor].CGColor;
