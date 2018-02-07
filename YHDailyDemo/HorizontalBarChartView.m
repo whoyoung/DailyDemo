@@ -42,7 +42,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 @property (nonatomic, strong) NSArray *groupMembers;
 @property (nonatomic, copy) NSString *axisTitle;
 @property (nonatomic, copy) NSString *dataTitle;
-@property (nonatomic, strong) NSArray *barColors;
+@property (nonatomic, strong) NSArray *itemColors;
 @property (nonatomic, assign) BarChartType chartType;
 @property (nonatomic, assign) CGFloat minBarWidth;
 @property (nonatomic, assign) CGFloat groupSpace;
@@ -94,8 +94,8 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     self.groupMembers = [dict objectForKey:@"groupMembers"];
     self.axisTitle = [dict objectForKey:@"axisTitle"];
     self.dataTitle = [dict objectForKey:@"dataTitle"];
-    self.barColors = [dict objectForKey:@"colors"];
-    if (!self.barColors) {
+    self.itemColors = [dict objectForKey:@"colors"];
+    if (!self.itemColors) {
         [self defaultColors];
     }
     BOOL isStack = [dict objectForKey:@"stack"];
@@ -673,8 +673,8 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
                 UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(i*(self.zoomedItemAxis+self.groupSpace)-offsetX, yPoint, self.zoomedItemAxis, fabs([array[i] floatValue]) * _dataItemUnitScale)];
                 yValueLayer.path = yValueBezier.CGPath;
                 yValueLayer.lineWidth = 1;
-                yValueLayer.strokeColor = [self.barColors[0] CGColor];
-                yValueLayer.fillColor = [self.barColors[0] CGColor];
+                yValueLayer.strokeColor = [self.itemColors[0] CGColor];
+                yValueLayer.fillColor = [self.itemColors[0] CGColor];
                 [subContainerV.layer addSublayer:yValueLayer];
             }
         }
@@ -696,8 +696,8 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
                     UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(i*(self.zoomedItemAxis+self.groupSpace)-offsetX, yPoint, self.zoomedItemAxis, fabs([array[i] floatValue]) * _dataItemUnitScale)];
                     yValueLayer.path = yValueBezier.CGPath;
                     yValueLayer.lineWidth = 1;
-                    yValueLayer.strokeColor = [[UIColor hexChangeFloat:self.barColors[j]] CGColor];
-                    yValueLayer.fillColor = [[UIColor hexChangeFloat:self.barColors[j]] CGColor];
+                    yValueLayer.strokeColor = [[UIColor hexChangeFloat:self.itemColors[j]] CGColor];
+                    yValueLayer.fillColor = [[UIColor hexChangeFloat:self.itemColors[j]] CGColor];
                     [subContainerV.layer addSublayer:yValueLayer];
                     
                     if ([array[i] floatValue] < 0) {
@@ -735,8 +735,8 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
                     UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(i*(self.zoomedItemAxis*self.Datas.count+self.groupSpace)+j*self.zoomedItemAxis-offsetX, yPoint, self.zoomedItemAxis, fabs([array[i] floatValue]) * _dataItemUnitScale)];
                     yValueLayer.path = yValueBezier.CGPath;
                     yValueLayer.lineWidth = 1;
-                    yValueLayer.strokeColor = [[UIColor hexChangeFloat:self.barColors[j]] CGColor];
-                    yValueLayer.fillColor = [[UIColor hexChangeFloat:self.barColors[j]] CGColor];
+                    yValueLayer.strokeColor = [[UIColor hexChangeFloat:self.itemColors[j]] CGColor];
+                    yValueLayer.fillColor = [[UIColor hexChangeFloat:self.itemColors[j]] CGColor];
                     [subContainerV.layer addSublayer:yValueLayer];
                 }
             }
@@ -763,8 +763,8 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
         UIBezierPath *yValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(x, yPoint, self.zoomedItemAxis, fabs(itemValue) * _dataItemUnitScale)];
         yValueLayer.path = yValueBezier.CGPath;
         yValueLayer.lineWidth = 1;
-        yValueLayer.strokeColor = [[UIColor hexChangeFloat:self.barColors[i]] CGColor];
-        yValueLayer.fillColor = [[UIColor hexChangeFloat:self.barColors[i]] CGColor];
+        yValueLayer.strokeColor = [[UIColor hexChangeFloat:self.itemColors[i]] CGColor];
+        yValueLayer.fillColor = [[UIColor hexChangeFloat:self.itemColors[i]] CGColor];
         [subContainerV.layer addSublayer:yValueLayer];
     }
 }
@@ -927,7 +927,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     for (NSUInteger i=0; i<self.Datas.count; i++) {
        [tempColors addObject:colors[i%colors.count]];
     }
-    self.barColors = [tempColors copy];
+    self.itemColors = [tempColors copy];
 }
 - (CGFloat)scrollContentSizeWidth {
     if (self.chartType == BarChartTypeGroup) {

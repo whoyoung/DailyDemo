@@ -9,9 +9,10 @@
 
 
 #import <UIKit/UIKit.h>
+#import "CommonChartViewDelegate.h"
 
 @interface LineChartView : UIView
-@property (nonatomic, assign) BOOL showXAxisDashLine;
-@property (nonatomic, assign) BOOL showYAxisDashLine;
+@property (nonatomic, weak) id<CommonChartViewDelegate> delegate;
 
+- (id)initWithFrame:(CGRect)frame configure:(NSDictionary *)configureDict;
 @end

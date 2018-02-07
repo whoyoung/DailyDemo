@@ -18,9 +18,11 @@ static const float YTextWidth = 45;
 #define LineChartHeight (self.bounds.size.height-TopEdge-BottomEdge)
 
 #import "LineChartView.h"
+#import "UIColor+HexColor.h"
 @interface LineChartView()<UIScrollViewDelegate>
 @property (nonatomic, weak) UIScrollView *gestureScroll;
-@property (nonatomic, strong) NSMutableArray *xAxisArray;
+@property (nonatomic, strong) NSMutableArray<NSString *> *AxisArray;
+@property (nonatomic, strong) NSArray<NSArray *> *Datas;
 
 @property (nonatomic, assign) NSInteger beginIndex;
 @property (nonatomic, assign) NSInteger endIndex;
@@ -42,16 +44,52 @@ static const float YTextWidth = 45;
 @property (nonatomic, assign) CGFloat pinCenterToLeftDistance;
 @property (nonatomic, assign) CGFloat pinCenterRatio;
 @property (nonatomic, assign) CGFloat zoomedItemW;
-@property (nonatomic, strong) NSArray *yValues;
-@property (nonatomic, strong) NSArray *lineColors;
+
+@property (nonatomic, assign) BOOL isDataError;
+@property (nonatomic, strong) NSArray *groupMembers;
+@property (nonatomic, copy) NSString *axisTitle;
+@property (nonatomic, copy) NSString *dataTitle;
+@property (nonatomic, strong) NSArray *itemColors;
+@property (nonatomic, assign) NSUInteger valueInterval;
+@property (nonatomic, assign) CGFloat zeroLine;
+@property (nonatomic, assign) BOOL showDataDashLine;
+@property (nonatomic, assign) BOOL hideDataHardLine;
 @end
 
 @implementation LineChartView
 
+- (id)initWithFrame:(CGRect)frame configure:(NSDictionary *)configureDict {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.backgroundColor = [UIColor whiteColor];
+        [self dealChartConfigure:configureDict];
+        self.layer.masksToBounds = YES;
+    }
+    return self;
+}
+- (void)dealChartConfigure:(NSDictionary *)dict {
+    self.AxisArray = [dict objectForKey:@"axis"];
+    self.Datas = [dict objectForKey:@"datas"];
+    self.isDataError = !self.AxisArray || ![self.AxisArray isKindOfClass:[NSArray class]] || !self.AxisArray.count || !self.Datas || ![self.Datas isKindOfClass:[NSArray class]] || !self.Datas.count;
+    
+    self.groupMembers = [dict objectForKey:@"groupMembers"];
+    self.axisTitle = [dict objectForKey:@"axisTitle"];
+    self.dataTitle = [dict objectForKey:@"dataTitle"];
+    self.itemColors = [dict objectForKey:@"colors"];
+    if (!self.itemColors) {
+        [self defaultColors];
+    }
+    self.valueInterval = [[dict objectForKey:@"valueInterval"] integerValue];
+    if (self.valueInterval == 0) {
+        self.valueInterval = 3;
+    }
+//    NSDictionary *styleDict = [dict objectForKey:@"styles"];
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self addGestureScroll];
-    self.gestureScroll.contentSize = CGSizeMake([self.yValues[0] count]*self.zoomedItemW, LineChartHeight);
+    self.gestureScroll.contentSize = CGSizeMake([self.Datas[0] count]*self.zoomedItemW, LineChartHeight);
     if (!_containerView) {
         [self redraw];
     }
@@ -94,8 +132,8 @@ static const float YTextWidth = 45;
         }
             break;
         case UIGestureRecognizerStateChanged: {
-            if (pinGesture.scale < 1 && [self.yValues[0] count]*self.itemW*_oldPinScale*pinGesture.scale <= LineChartWidth) {
-                _newPinScale = LineChartWidth/([self.yValues[0] count]*self.itemW*_oldPinScale);
+            if (pinGesture.scale < 1 && [self.Datas[0] count]*self.itemW*_oldPinScale*pinGesture.scale <= LineChartWidth) {
+                _newPinScale = LineChartWidth/([self.Datas[0] count]*self.itemW*_oldPinScale);
             } else {
                 _newPinScale = pinGesture.scale;
             }
@@ -113,7 +151,7 @@ static const float YTextWidth = 45;
     }
 }
 - (void)adjustScroll {
-    self.gestureScroll.contentSize = CGSizeMake([self.yValues[0] count]*self.zoomedItemW, LineChartHeight);
+    self.gestureScroll.contentSize = CGSizeMake([self.Datas[0] count]*self.zoomedItemW, LineChartHeight);
     CGFloat offsetX = self.gestureScroll.contentSize.width * self.pinCenterRatio - self.pinCenterToLeftDistance;
     if (offsetX < 0) {
         offsetX = 0;
@@ -147,7 +185,7 @@ static const float YTextWidth = 45;
     
     [self insertSubview:_containerView belowSubview:_gestureScroll];
     [self findBeginAndEndIndex];
-    self.minYValue = [self.yValues[0][_beginIndex] floatValue];
+    self.minYValue = [self.Datas[0][_beginIndex] floatValue];
     self.maxYValue = self.minYValue;
     [self campareMaxAndMinValue:_beginIndex rightIndex:_endIndex];
     [self calculateYAxisSegment];
@@ -165,8 +203,8 @@ static const float YTextWidth = 45;
     if (self.beginIndex < 0) {
         self.beginIndex = 0;
     }
-    if (self.endIndex > [self.yValues[0] count] - 1) {
-        self.endIndex = [self.yValues[0] count] - 1;
+    if (self.endIndex > [self.Datas[0] count] - 1) {
+        self.endIndex = [self.Datas[0] count] - 1;
     }
     if (self.beginIndex > self.endIndex) {
         self.beginIndex = self.endIndex;
@@ -174,7 +212,7 @@ static const float YTextWidth = 45;
 }
 
 - (void)campareMaxAndMinValue:(NSUInteger)leftIndex rightIndex:(NSUInteger)rightIndex {
-    for (NSArray *values in self.yValues) {
+    for (NSArray *values in self.Datas) {
         [self findMaxAndMinValue:leftIndex rightIndex:rightIndex compareA:values];
     }
 }
@@ -234,8 +272,8 @@ static const float YTextWidth = 45;
     UIView *subContainerV = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, LineChartWidth, LineChartHeight)];
     subContainerV.layer.masksToBounds = YES;
     [self.containerView addSubview:subContainerV];
-    for (NSUInteger i=0;i<self.yValues.count;i++) {
-        NSArray *values = self.yValues[i];
+    for (NSUInteger i=0;i<self.Datas.count;i++) {
+        NSArray *values = self.Datas[i];
         CAShapeLayer *yValueLayer = [CAShapeLayer layer];
         UIBezierPath *yValueBezier = [UIBezierPath bezierPath];
         CGFloat offsetX = self.gestureScroll.contentOffset.x;
@@ -251,7 +289,7 @@ static const float YTextWidth = 45;
         }
         yValueLayer.path = yValueBezier.CGPath;
         yValueLayer.lineWidth = 1;
-        yValueLayer.strokeColor = [self.lineColors[i] CGColor];
+        yValueLayer.strokeColor = [[UIColor hexChangeFloat:self.itemColors[i]] CGColor];
         yValueLayer.fillColor = [UIColor clearColor].CGColor;
         [subContainerV.layer addSublayer:yValueLayer];
     }
@@ -263,7 +301,7 @@ static const float YTextWidth = 45;
     for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
         if (self.zoomedItemW*i-offsetX < 0) continue;
         CGRect textFrame = CGRectMake(LeftEdge + self.zoomedItemW*i-offsetX-self.zoomedItemW/2.0, self.bounds.size.height-XTextHeight, self.zoomedItemW, XTextHeight);
-        CATextLayer *text = [self getTextLayerWithString:self.xAxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        CATextLayer *text = [self getTextLayerWithString:self.AxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
         [self.containerView.layer addSublayer:text];
     }
 }
@@ -285,7 +323,7 @@ static const float YTextWidth = 45;
     xScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:xScaleLayer];
     
-    if (_showXAxisDashLine) {
+    if (_showDataDashLine) {
         CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
         UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
         for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
@@ -330,7 +368,7 @@ static const float YTextWidth = 45;
     yScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:yScaleLayer];
     
-    if (_showYAxisDashLine) {
+    if (_showDataDashLine) {
         CAShapeLayer *dashLineLayer = [CAShapeLayer layer];
         UIBezierPath *dashLineBezier = [UIBezierPath bezierPath];
         for (NSUInteger i=0; i<=_yNegativeSegmentNum+_yPostiveSegmentNum; i++) {
@@ -363,26 +401,9 @@ static const float YTextWidth = 45;
     return textLayer;
 }
 
-- (NSMutableArray *)xAxisArray {
-    if (!_xAxisArray) {
-        _xAxisArray = [NSMutableArray arrayWithObjects:@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun",@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun", nil];
-    }
-    return _xAxisArray;
-}
-
-- (NSArray *)yValues {
-    if (!_yValues) {
-        _yValues = @[
-  @[@"-1",@"4",@"-5",@"55",@"44",@"33",@"55",@"66",@"333",@"3",@"55",@"5",@"111",@"112",@"333",@"133",@"25",@"326",@"266",@"-666",@"111",@"1",@"33",@"444",@"323",@"54",@"-16",@"51",@"86",@"46",@"-80",@"88",@"36",@"5",@"55",@"44",@"33",@"-55",@"66",@"-333",@"3",@"55",@"5",@"3",@"55",@"5",@"111",@"-112",@"333",@"133",@"25",@"326",@"-266",@"666",@"111",@"1"],
-  @[@"333",@"3",@"55",@"5",@"111",@"-112",@"86",@"46",@"80",@"-88",@"36",@"333",@"133",@"25",@"326",@"1",@"33",@"444",@"323",@"54",@"16",@"51",@"266",@"666",@"111",@"5",@"-55",@"44",@"33",@"55",@"-66",@"333",@"-3",@"55",@"5",@"3",@"55",@"5",@"-111",@"112",@"333",@"133",@"25",@"326",@"266",@"666",@"111",@"-1",@"4",@"-5",@"55",@"44",@"33",@"55",@"66",@"1"],
-  @[@"-111",@"1",@"33",@"444",@"-1",@"4",@"55",@"-66",@"-333",@"-3",@"55",@"5",@"111",@"112",@"333",@"133",@"55",@"-5",@"111",@"112",@"-333",@"25",@"326",@"-266",@"666",@"-323",@"54",@"16",@"51",@"-86",@"46",@"-80",@"88",@"36",@"5",@"55",@"44",@"-33",@"55",@"66",@"-333",@"5",@"-55",@"44",@"33",@"-3",@"55",@"5",@"3",@"-133",@"25",@"326",@"-266",@"666",@"111",@"1"],
-                     ];
-    }
-    return _yValues;
-}
 - (CGFloat)itemW {
     if (_itemW == 0) {
-        _itemW = LineChartWidth/[self.yValues[0] count] > minItemWidth ? (LineChartWidth/[self.yValues[0] count]) : minItemWidth;
+        _itemW = LineChartWidth/[self.Datas[0] count] > minItemWidth ? (LineChartWidth/[self.Datas[0] count]) : minItemWidth;
     }
     return _itemW;
 }
@@ -404,15 +425,12 @@ static const float YTextWidth = 45;
     }
     return _newPinScale;
 }
-- (NSArray *)lineColors {
-    if (!_lineColors) {
-        NSMutableArray *colors = [NSMutableArray arrayWithCapacity:self.yValues.count];
-        for (NSUInteger i=0; i<self.yValues.count; i++) {
-            UIColor *color = [UIColor colorWithRed:arc4random_uniform(256)/255.0 green:arc4random_uniform(256)/255.0 blue:arc4random_uniform(256)/255.0 alpha:1];
-            [colors addObject:color];
-        }
-        _lineColors = [colors copy];
+- (void)defaultColors {
+    NSArray *colors = @[@"45abff",@"6be6c1",@"ffa51f",@"ffd64e",@"3fd183",@"6ea7c7",@"5b7cf4",@"00bfd5",@"8bc7ff",@"f48784",@"d25537"];
+    NSMutableArray *tempColors = [NSMutableArray arrayWithCapacity:self.Datas.count];
+    for (NSUInteger i=0; i<self.Datas.count; i++) {
+        [tempColors addObject:colors[i%colors.count]];
     }
-    return _lineColors;
+    self.itemColors = [tempColors copy];
 }
 @end
