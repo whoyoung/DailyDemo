@@ -15,6 +15,7 @@ static const float TextWidth = 45;
 static const float AxistTextFont = 9;
 static const float DataTextFont = 8;
 static const float TipTextFont = 9;
+static const float ReferenceLineWidth = 1;
 
 #define ChartWidth (self.bounds.size.width-LeftEdge-RightEdge)
 #define ChartHeight (self.bounds.size.height-TopEdge-BottomEdge)
@@ -472,7 +473,7 @@ static const float TipTextFont = 9;
         [xScaleBezier addLineToPoint:CGPointMake(LeftEdge + self.zoomedItemAxis*i - offsetX, self.bounds.size.height-BottomEdge+5)];
     }
     xScaleLayer.path = xScaleBezier.CGPath;
-    xScaleLayer.lineWidth = 1;
+    xScaleLayer.lineWidth = ReferenceLineWidth;
     xScaleLayer.strokeColor = [UIColor blackColor].CGColor;
     xScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:xScaleLayer];
@@ -489,7 +490,7 @@ static const float TipTextFont = 9;
         if (_showDataDashLine) {
             [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
         }
-        dashLineLayer.lineWidth = 1;
+        dashLineLayer.lineWidth = ReferenceLineWidth;
         dashLineLayer.strokeColor = [UIColor blackColor].CGColor;
         dashLineLayer.fillColor = [UIColor clearColor].CGColor;
         [self.containerView.layer addSublayer:dashLineLayer];
@@ -520,7 +521,7 @@ static const float TipTextFont = 9;
         }
         yScaleLayer.path = yScaleBezier.CGPath;
         yScaleLayer.backgroundColor = [UIColor blueColor].CGColor;
-        yScaleLayer.lineWidth = 1;
+        yScaleLayer.lineWidth = ReferenceLineWidth;
         yScaleLayer.strokeColor = [UIColor blackColor].CGColor;
         yScaleLayer.fillColor = [UIColor clearColor].CGColor;
         [self.containerView.layer addSublayer:yScaleLayer];
@@ -537,7 +538,7 @@ static const float TipTextFont = 9;
         if (_showDataDashLine) {
             [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
         }
-        dashLineLayer.lineWidth = 1;
+        dashLineLayer.lineWidth = ReferenceLineWidth;
         dashLineLayer.strokeColor = [UIColor blackColor].CGColor;
         dashLineLayer.fillColor = [UIColor clearColor].CGColor;
         [self.containerView.layer addSublayer:dashLineLayer];

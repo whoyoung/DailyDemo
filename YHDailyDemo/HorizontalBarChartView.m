@@ -14,6 +14,7 @@ static const float TextWidth = 45;
 static const float AxistTextFont = 9;
 static const float DataTextFont = 8;
 static const float TipTextFont = 9;
+static const float ReferenceLineWidth = 1;
 
 #define ChartWidth (self.bounds.size.width - LeftEdge - RightEdge)
 #define ChartHeight (self.bounds.size.height - TopEdge - BottomEdge)
@@ -877,7 +878,7 @@ typedef NS_ENUM(NSUInteger, BarChartType) { BarChartTypeSingle = 0, BarChartType
     [xScaleBezier moveToPoint:CGPointMake(LeftEdge, self.bounds.size.height - BottomEdge)];
     [xScaleBezier addLineToPoint:CGPointMake(self.bounds.size.width, self.bounds.size.height - BottomEdge)];
     xScaleLayer.path = xScaleBezier.CGPath;
-    xScaleLayer.lineWidth = 2;
+    xScaleLayer.lineWidth = ReferenceLineWidth;
     xScaleLayer.strokeColor = AxisScaleColor.CGColor;
     xScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:xScaleLayer];
@@ -946,7 +947,7 @@ typedef NS_ENUM(NSUInteger, BarChartType) { BarChartTypeSingle = 0, BarChartType
             [yScaleBezier addLineToPoint:CGPointMake(LeftEdge, TopEdge + i * [self axisUnitScale])];
         }
         yScaleLayer.path = yScaleBezier.CGPath;
-        yScaleLayer.lineWidth = 2;
+        yScaleLayer.lineWidth = ReferenceLineWidth;
         yScaleLayer.strokeColor = AxisScaleColor.CGColor;
         yScaleLayer.fillColor = [UIColor clearColor].CGColor;
         [self.containerView.layer addSublayer:yScaleLayer];
@@ -964,7 +965,7 @@ typedef NS_ENUM(NSUInteger, BarChartType) { BarChartTypeSingle = 0, BarChartType
             [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5],
                                                                         [NSNumber numberWithInt:5], nil]];
         }
-        dashLineLayer.lineWidth = 2;
+        dashLineLayer.lineWidth = ReferenceLineWidth;
         dashLineLayer.strokeColor = AxisScaleColor.CGColor;
         dashLineLayer.fillColor = [UIColor clearColor].CGColor;
         [self.containerView.layer addSublayer:dashLineLayer];

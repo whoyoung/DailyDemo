@@ -13,6 +13,7 @@ static const float TextHeight = 11;
 static const float AxistTextFont = 9;
 static const float DataTextFont = 8;
 static const float TipTextFont = 9;
+static const float ReferenceLineWidth = 1;
 
 #define ChartWidth (self.bounds.size.width-LeftEdge-RightEdge)
 #define ChartHeight (self.bounds.size.height-TopEdge-BottomEdge)
@@ -791,7 +792,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     [yScaleBezier moveToPoint:CGPointMake(LeftEdge, TopEdge)];
     [yScaleBezier addLineToPoint:CGPointMake(LeftEdge, self.bounds.size.height-BottomEdge)];
     yScaleLayer.path = yScaleBezier.CGPath;
-    yScaleLayer.lineWidth = 1;
+    yScaleLayer.lineWidth = ReferenceLineWidth;
     yScaleLayer.strokeColor = AxisScaleColor.CGColor;
     yScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:yScaleLayer];
@@ -843,7 +844,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
         [xScaleBezier addLineToPoint:CGPointMake(LeftEdge+i*[self axisUnitScale], self.bounds.size.height-BottomEdge+5)];
     }
     xScaleLayer.path = xScaleBezier.CGPath;
-    xScaleLayer.lineWidth = 1;
+    xScaleLayer.lineWidth = ReferenceLineWidth;
     xScaleLayer.strokeColor = AxisScaleColor.CGColor;
     xScaleLayer.fillColor = [UIColor clearColor].CGColor;
     [self.containerView.layer addSublayer:xScaleLayer];
@@ -859,7 +860,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
         if (_showDataDashLine) {
             [dashLineLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:5], [NSNumber numberWithInt:5], nil]];
         }
-        dashLineLayer.lineWidth = 1;
+        dashLineLayer.lineWidth = ReferenceLineWidth;
         dashLineLayer.strokeColor = AxisScaleColor.CGColor;
         dashLineLayer.fillColor = [UIColor clearColor].CGColor;
         [self.containerView.layer addSublayer:dashLineLayer];
