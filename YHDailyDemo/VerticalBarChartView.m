@@ -66,7 +66,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 @property (nonatomic, strong) NSArray *itemColors;
 @property (nonatomic, assign) BarChartType chartType;
 @property (nonatomic, assign) NSUInteger valueInterval;
-@property (nonatomic, assign) CGFloat minBarWidth;
+@property (nonatomic, assign) CGFloat minItemWidth;
 @property (nonatomic, assign) CGFloat groupSpace;
 @property (nonatomic, assign) CGFloat zeroLine;
 @property (nonatomic, assign) BOOL showDataDashLine;
@@ -110,7 +110,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     }
     NSDictionary *styleDict = [dict objectForKey:@"styles"];
     NSDictionary *barStyle = [styleDict objectForKey:@"barStyle"];
-    self.minBarWidth = [barStyle objectForKey:@"minBarWidth"] ? [[barStyle objectForKey:@"minBarWidth"] floatValue] : 20;
+    self.minItemWidth = [barStyle objectForKey:@"minItemWidth"] ? [[barStyle objectForKey:@"minItemWidth"] floatValue] : 20;
     self.groupSpace = [barStyle objectForKey:@"groupSpace"] ? [[barStyle objectForKey:@"groupSpace"] floatValue] : 5;
 }
 - (void)layoutSubviews {
@@ -891,9 +891,9 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     if (_itemAxisScale == 0) {
         if (self.chartType == BarChartTypeGroup) {
             CGFloat h = (ChartHeight-[self.Datas[0] count]*self.groupSpace)/[self.Datas[0] count]/self.Datas.count;
-            _itemAxisScale = h > self.minBarWidth ? h : self.minBarWidth;
+            _itemAxisScale = h > self.minItemWidth ? h : self.minItemWidth;
         } else {
-            _itemAxisScale = (ChartHeight/[self.Datas[0] count] - self.groupSpace) > self.minBarWidth ? (ChartHeight/[self.Datas[0] count] - self.groupSpace) : self.minBarWidth;
+            _itemAxisScale = (ChartHeight/[self.Datas[0] count] - self.groupSpace) > self.minItemWidth ? (ChartHeight/[self.Datas[0] count] - self.groupSpace) : self.minItemWidth;
         }
     }
     return _itemAxisScale;

@@ -10,12 +10,18 @@ static const float TopEdge = 10;
 static const float LeftEdge = 50;
 static const float RightEdge = 10;
 static const float BottomEdge = 20;
-static const float minItemWidth = 20;
-static const float XTextHeight = 15;
-static const float YTextWidth = 45;
+static const float TextHeight = 11;
+static const float TextWidth = 45;
+static const float AxistTextFont = 9;
+static const float DataTextFont = 8;
+static const float TipTextFont = 9;
 
-#define LineChartWidth (self.bounds.size.width-LeftEdge-RightEdge)
-#define LineChartHeight (self.bounds.size.height-TopEdge-BottomEdge)
+#define ChartWidth (self.bounds.size.width-LeftEdge-RightEdge)
+#define ChartHeight (self.bounds.size.height-TopEdge-BottomEdge)
+#define AxisTextColor [UIColor hexChangeFloat:@"8899A6"]
+#define AxisScaleColor [UIColor hexChangeFloat:@"EEEEEE"]
+#define DataTextColor [UIColor hexChangeFloat:@"8FA1B2"]
+#define TipTextColor [UIColor whiteColor]
 
 #import "LineChartView.h"
 #import "UIColor+HexColor.h"
@@ -54,6 +60,8 @@ static const float YTextWidth = 45;
 @property (nonatomic, assign) CGFloat zeroLine;
 @property (nonatomic, assign) BOOL showDataDashLine;
 @property (nonatomic, assign) BOOL hideDataHardLine;
+@property (nonatomic, assign) CGFloat minItemWidth;
+
 @end
 
 @implementation LineChartView
@@ -83,13 +91,22 @@ static const float YTextWidth = 45;
     if (self.valueInterval == 0) {
         self.valueInterval = 3;
     }
-//    NSDictionary *styleDict = [dict objectForKey:@"styles"];
+    NSDictionary *styleDict = [dict objectForKey:@"styles"];
+    NSDictionary *lineStyle = [styleDict objectForKey:@"lineStyle"];
+    self.minItemWidth = [lineStyle objectForKey:@"minItemWidth"] ? [[lineStyle objectForKey:@"minItemWidth"] floatValue] : 20;
+
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    if (self.isDataError) {
+        CGRect textFrame = CGRectMake(0,( ChartHeight-TextHeight)/2.0, ChartWidth, TextHeight);
+        CATextLayer *text = [self getTextLayerWithString:@"数据格式有误" textColor:[UIColor lightGrayColor] fontSize:14 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
+        [self.layer addSublayer:text];
+        return;
+    }
     [self addGestureScroll];
-    self.gestureScroll.contentSize = CGSizeMake([self.Datas[0] count]*self.zoomedItemW, LineChartHeight);
+    self.gestureScroll.contentSize = CGSizeMake([self.Datas[0] count]*self.zoomedItemW, ChartHeight);
     if (!_containerView) {
         [self redraw];
     }
@@ -97,7 +114,7 @@ static const float YTextWidth = 45;
 
 - (void)addGestureScroll {
     if (!_gestureScroll) {
-        UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, LineChartWidth, LineChartHeight)];
+        UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, ChartWidth, ChartHeight)];
         scroll.showsVerticalScrollIndicator = NO;
         scroll.showsHorizontalScrollIndicator = NO;
         scroll.minimumZoomScale = 1.0;
@@ -132,8 +149,8 @@ static const float YTextWidth = 45;
         }
             break;
         case UIGestureRecognizerStateChanged: {
-            if (pinGesture.scale < 1 && [self.Datas[0] count]*self.itemW*_oldPinScale*pinGesture.scale <= LineChartWidth) {
-                _newPinScale = LineChartWidth/([self.Datas[0] count]*self.itemW*_oldPinScale);
+            if (pinGesture.scale < 1 && [self.Datas[0] count]*self.itemW*_oldPinScale*pinGesture.scale <= ChartWidth) {
+                _newPinScale = ChartWidth/([self.Datas[0] count]*self.itemW*_oldPinScale);
             } else {
                 _newPinScale = pinGesture.scale;
             }
@@ -151,14 +168,14 @@ static const float YTextWidth = 45;
     }
 }
 - (void)adjustScroll {
-    self.gestureScroll.contentSize = CGSizeMake([self.Datas[0] count]*self.zoomedItemW, LineChartHeight);
+    self.gestureScroll.contentSize = CGSizeMake([self.Datas[0] count]*self.zoomedItemW, ChartHeight);
     CGFloat offsetX = self.gestureScroll.contentSize.width * self.pinCenterRatio - self.pinCenterToLeftDistance;
     if (offsetX < 0) {
         offsetX = 0;
     }
-    if (self.gestureScroll.contentSize.width > LineChartWidth) {
-        if (offsetX > self.gestureScroll.contentSize.width - LineChartWidth) {
-            offsetX = self.gestureScroll.contentSize.width - LineChartWidth;
+    if (self.gestureScroll.contentSize.width > ChartWidth) {
+        if (offsetX > self.gestureScroll.contentSize.width - ChartWidth) {
+            offsetX = self.gestureScroll.contentSize.width - ChartWidth;
         }
     } else {
         offsetX = 0;
@@ -199,7 +216,7 @@ static const float YTextWidth = 45;
 - (void)findBeginAndEndIndex {
     CGPoint offset = self.gestureScroll.contentOffset;
     self.beginIndex = floor(offset.x/self.zoomedItemW);
-    self.endIndex = ceil((offset.x+LineChartWidth)/self.zoomedItemW);
+    self.endIndex = ceil((offset.x+ChartWidth)/self.zoomedItemW);
     if (self.beginIndex < 0) {
         self.beginIndex = 0;
     }
@@ -246,30 +263,30 @@ static const float YTextWidth = 45;
         if(self.maxYValue < 1) self.yPostiveSegmentNum = 1;
         self.yNegativeSegmentNum = 0;
         self.itemH = ceil(self.maxYValue/self.yPostiveSegmentNum);
-        self.yItemUnitH = LineChartHeight/(self.itemH * self.yPostiveSegmentNum);
+        self.yItemUnitH = ChartHeight/(self.itemH * self.yPostiveSegmentNum);
     } else if (self.maxYValue < 0) {
         self.yPostiveSegmentNum = 0;
         self.yNegativeSegmentNum = 4;
         if(fabs(self.minYValue) < 1) self.yNegativeSegmentNum = 1;
         self.itemH = ceil(fabs(self.minYValue)/self.yNegativeSegmentNum);
-        self.yItemUnitH = LineChartHeight/(self.itemH * self.yNegativeSegmentNum);
+        self.yItemUnitH = ChartHeight/(self.itemH * self.yNegativeSegmentNum);
     } else if (self.maxYValue >= fabs(self.minYValue)) {
         self.yPostiveSegmentNum = 4;
         if(self.maxYValue < 1) self.yPostiveSegmentNum = 1;
         self.itemH = ceil(self.maxYValue/self.yPostiveSegmentNum);
         self.yNegativeSegmentNum = ceil(fabs(self.minYValue)/self.itemH);
-        self.yItemUnitH = LineChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
+        self.yItemUnitH = ChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
     } else {
         self.yNegativeSegmentNum = 4;
         if(fabs(self.minYValue) < 1) self.yNegativeSegmentNum = 1;
         self.itemH = ceil(fabs(self.minYValue)/self.yNegativeSegmentNum);
         self.yPostiveSegmentNum = ceil(self.maxYValue/self.itemH);
-        self.yItemUnitH = LineChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
+        self.yItemUnitH = ChartHeight/(self.itemH * (self.yPostiveSegmentNum+self.yNegativeSegmentNum));
     }
 }
 
 - (void)drawYValuePoint {
-    UIView *subContainerV = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, LineChartWidth, LineChartHeight)];
+    UIView *subContainerV = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, ChartWidth, ChartHeight)];
     subContainerV.layer.masksToBounds = YES;
     [self.containerView addSubview:subContainerV];
     for (NSUInteger i=0;i<self.Datas.count;i++) {
@@ -300,8 +317,8 @@ static const float YTextWidth = 45;
     CGFloat offsetX = self.gestureScroll.contentOffset.x;
     for (NSUInteger i=_beginIndex; i<=_endIndex; i++) {
         if (self.zoomedItemW*i-offsetX < 0) continue;
-        CGRect textFrame = CGRectMake(LeftEdge + self.zoomedItemW*i-offsetX-self.zoomedItemW/2.0, self.bounds.size.height-XTextHeight, self.zoomedItemW, XTextHeight);
-        CATextLayer *text = [self getTextLayerWithString:self.AxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        CGRect textFrame = CGRectMake(LeftEdge + self.zoomedItemW*i-offsetX-self.zoomedItemW/2.0, self.bounds.size.height-TextHeight, self.zoomedItemW, TextHeight);
+        CATextLayer *text = [self getTextLayerWithString:self.AxisArray[i] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentCenter];
         [self.containerView.layer addSublayer:text];
     }
 }
@@ -341,13 +358,13 @@ static const float YTextWidth = 45;
 }
 - (void)addYAxisLayer {
     for (NSUInteger i=0; i<_yNegativeSegmentNum; i++) {
-        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-i*self.yAxisUnitH, YTextWidth, BottomEdge);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%.2f",(_yNegativeSegmentNum-i)*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-i*self.yAxisUnitH, TextWidth, BottomEdge);
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"-%.2f",(_yNegativeSegmentNum-i)*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
         [self.containerView.layer addSublayer:text];
     }
     for (NSInteger i=0; i<=_yPostiveSegmentNum+1; i++) {
-        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-(_yNegativeSegmentNum+i)*self.yAxisUnitH, YTextWidth, BottomEdge);
-        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%.2f",i*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame];
+        CGRect textFrame = CGRectMake(0, self.bounds.size.height-1.5*BottomEdge-(_yNegativeSegmentNum+i)*self.yAxisUnitH, TextWidth, BottomEdge);
+        CATextLayer *text = [self getTextLayerWithString:[NSString stringWithFormat:@"%.2f",i*_itemH] textColor:[UIColor blackColor] fontSize:12 backgroundColor:[UIColor clearColor] frame:textFrame alignmentMode:kCAAlignmentRight];
         [self.containerView.layer addSublayer:text];
     }
 }
@@ -387,15 +404,19 @@ static const float YTextWidth = 45;
                               textColor:(UIColor *)textColor
                                fontSize:(NSInteger)fontSize
                         backgroundColor:(UIColor *)bgColor
-                                  frame:(CGRect)frame {
+                                  frame:(CGRect)frame
+                          alignmentMode:(NSString *)alignmentMode {
     CATextLayer *textLayer = [CATextLayer layer];
     textLayer.frame = frame;
     textLayer.string = text;
     textLayer.fontSize = fontSize;
     textLayer.foregroundColor = textColor.CGColor;
     textLayer.backgroundColor = bgColor.CGColor;
-    textLayer.alignmentMode = kCAAlignmentCenter;
+    textLayer.alignmentMode = alignmentMode;
     textLayer.wrapped = YES;
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9) {
+        textLayer.font = (__bridge CFTypeRef _Nullable)(@"PingFangSC-Regular");
+    }
     //设置分辨率
     textLayer.contentsScale = [UIScreen mainScreen].scale;
     return textLayer;
@@ -403,7 +424,7 @@ static const float YTextWidth = 45;
 
 - (CGFloat)itemW {
     if (_itemW == 0) {
-        _itemW = LineChartWidth/[self.Datas[0] count] > minItemWidth ? (LineChartWidth/[self.Datas[0] count]) : minItemWidth;
+        _itemW = ChartWidth/[self.Datas[0] count] > self.minItemWidth ? (ChartWidth/[self.Datas[0] count]) : self.minItemWidth;
     }
     return _itemW;
 }
@@ -411,7 +432,7 @@ static const float YTextWidth = 45;
     return self.itemW * self.newPinScale * self.oldPinScale;
 }
 - (CGFloat)yAxisUnitH {
-    return LineChartHeight/(_yNegativeSegmentNum + _yPostiveSegmentNum);
+    return ChartHeight/(_yNegativeSegmentNum + _yPostiveSegmentNum);
 }
 - (CGFloat)oldPinScale {
     if (_oldPinScale == 0) {
