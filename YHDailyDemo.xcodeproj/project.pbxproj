@@ -30,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		7721C3DB202B0A7F00859A67 /* CommonHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonHeader.h; sourceTree = "<group>"; };
+		7721C3DC202BEE8400859A67 /* BaseChartMethodProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseChartMethodProtocol.h; sourceTree = "<group>"; };
 		776FC18C2011F04100CDF3E6 /* YHDailyDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YHDailyDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		776FC18F2011F04100CDF3E6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		776FC1902011F04100CDF3E6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -184,6 +185,7 @@
 				77E4ABFD2024836A00568AFA /* BaseChartView.h */,
 				77E4ABFE2024836A00568AFA /* BaseChartView.m */,
 				7721C3DB202B0A7F00859A67 /* CommonHeader.h */,
+				7721C3DC202BEE8400859A67 /* BaseChartMethodProtocol.h */,
 			);
 			name = ChartViewCommon;
 			sourceTree = "<group>";

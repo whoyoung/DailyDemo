@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CommonChartViewDelegate.h"
 #import "CommonHeader.h"
+#import "BaseChartMethodProtocol.h"
 
 typedef NS_ENUM(NSUInteger,BarChartType) {
     BarChartTypeSingle = 0,
@@ -16,7 +17,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     BarChartTypeStack = 2
 };
 
-@interface BaseChartView : UIView 
+@interface BaseChartView : UIView <BaseChartMethodProtocol>
 
 @property (nonatomic, weak) id<CommonChartViewDelegate> delegate;
 @property (nonatomic, weak, readonly) UIScrollView *gestureScroll;
@@ -59,23 +60,6 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 @property (nonatomic, assign) CGFloat newPinScale;
 @property (nonatomic, assign) CGFloat pinCenterToLeftDistance;
 @property (nonatomic, assign) CGFloat pinCenterRatio;
-
-- (id)initWithFrame:(CGRect)frame configure:(NSDictionary *)configureDict;
-
-- (void)dealStyleDict:(NSDictionary *)styleDict;
-- (CGSize)gestureScrollContentSize;
-- (void)chartDidZooming:(UIPinchGestureRecognizer *)pinGesture;
-- (NSDictionary *)tappedGroupAndItem:(CGPoint)tapP;
-- (NSDictionary *)prepareTipViewData:(NSUInteger)group item:(NSUInteger)item containerPoint:(CGPoint)point;
-
-- (void)findGroupAndItemIndex;
-- (void)calculateMaxAndMinValue;
-- (CGFloat)dataItemUnitScale;
-- (void)addAxisLayer;
-- (void)addAxisScaleLayer;
-- (void)addDataLayer;
-- (void)addDataScaleLayer;
-- (void)drawDataPoint;
 
 - (void)redraw;
 - (void)compareBeginAndEndItemValue:(NSUInteger)beginItem endItem:(NSUInteger)endItem isBeginGroup:(BOOL)isBeginGroup;
