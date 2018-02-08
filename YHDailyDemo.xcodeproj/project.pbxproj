@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7721C3E8202C2A9100859A67 /* BaseChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7721C3E7202C2A9100859A67 /* BaseChartView.m */; };
 		776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1902011F04100CDF3E6 /* AppDelegate.m */; };
 		776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1932011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m */; };
 		776FC1972011F04100CDF3E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 776FC1952011F04100CDF3E6 /* Main.storyboard */; };
@@ -24,13 +25,15 @@
 		77714A3A202158FB004DD6EB /* VerticalBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A39202158FB004DD6EB /* VerticalBarChartView.m */; };
 		77714A3D20215909004DD6EB /* VerticalBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A3C20215909004DD6EB /* VerticalBarChartViewController.m */; };
 		77E4ABE72022EE5800568AFA /* UIColor+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */; };
-		77E4ABFF2024836A00568AFA /* BaseChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4ABFE2024836A00568AFA /* BaseChartView.m */; };
 		77E4AC06202862D500568AFA /* NSString+Extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4AC05202862D500568AFA /* NSString+Extra.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7721C3DB202B0A7F00859A67 /* CommonHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonHeader.h; sourceTree = "<group>"; };
-		7721C3DC202BEE8400859A67 /* BaseChartMethodProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseChartMethodProtocol.h; sourceTree = "<group>"; };
+		7721C3E3202C2A9000859A67 /* CommonChartViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonChartViewDelegate.h; sourceTree = "<group>"; };
+		7721C3E4202C2A9000859A67 /* CommonHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonHeader.h; sourceTree = "<group>"; };
+		7721C3E5202C2A9000859A67 /* BaseChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseChartView.h; sourceTree = "<group>"; };
+		7721C3E6202C2A9000859A67 /* BaseChartMethodProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseChartMethodProtocol.h; sourceTree = "<group>"; };
+		7721C3E7202C2A9100859A67 /* BaseChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseChartView.m; sourceTree = "<group>"; };
 		776FC18C2011F04100CDF3E6 /* YHDailyDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YHDailyDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		776FC18F2011F04100CDF3E6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		776FC1902011F04100CDF3E6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -63,9 +66,6 @@
 		77714A3C20215909004DD6EB /* VerticalBarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerticalBarChartViewController.m; sourceTree = "<group>"; };
 		77E4ABE52022EE5800568AFA /* UIColor+HexColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColor.h"; sourceTree = "<group>"; };
 		77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColor.m"; sourceTree = "<group>"; };
-		77E4ABFC202478FE00568AFA /* CommonChartViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonChartViewDelegate.h; sourceTree = "<group>"; };
-		77E4ABFD2024836A00568AFA /* BaseChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseChartView.h; sourceTree = "<group>"; };
-		77E4ABFE2024836A00568AFA /* BaseChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseChartView.m; sourceTree = "<group>"; };
 		77E4AC04202862D500568AFA /* NSString+Extra.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Extra.h"; sourceTree = "<group>"; };
 		77E4AC05202862D500568AFA /* NSString+Extra.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extra.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -104,10 +104,6 @@
 				776FC1A62011F08200CDF3E6 /* RootTableViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
-				77E4ABE52022EE5800568AFA /* UIColor+HexColor.h */,
-				77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */,
-				77E4AC04202862D500568AFA /* NSString+Extra.h */,
-				77E4AC05202862D500568AFA /* NSString+Extra.m */,
 				77E4ABFB2024789C00568AFA /* ChartViewCommon */,
 				77714A37202158C8004DD6EB /* VerticalBarChar */,
 				77714A2F20200B31004DD6EB /* HorizontalBarChart */,
@@ -181,13 +177,17 @@
 		77E4ABFB2024789C00568AFA /* ChartViewCommon */ = {
 			isa = PBXGroup;
 			children = (
-				77E4ABFC202478FE00568AFA /* CommonChartViewDelegate.h */,
-				77E4ABFD2024836A00568AFA /* BaseChartView.h */,
-				77E4ABFE2024836A00568AFA /* BaseChartView.m */,
-				7721C3DB202B0A7F00859A67 /* CommonHeader.h */,
-				7721C3DC202BEE8400859A67 /* BaseChartMethodProtocol.h */,
+				7721C3E6202C2A9000859A67 /* BaseChartMethodProtocol.h */,
+				7721C3E5202C2A9000859A67 /* BaseChartView.h */,
+				7721C3E7202C2A9100859A67 /* BaseChartView.m */,
+				7721C3E3202C2A9000859A67 /* CommonChartViewDelegate.h */,
+				7721C3E4202C2A9000859A67 /* CommonHeader.h */,
+				77E4ABE52022EE5800568AFA /* UIColor+HexColor.h */,
+				77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */,
+				77E4AC04202862D500568AFA /* NSString+Extra.h */,
+				77E4AC05202862D500568AFA /* NSString+Extra.m */,
 			);
-			name = ChartViewCommon;
+			path = ChartViewCommon;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,12 +263,12 @@
 			files = (
 				776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */,
 				776FC1AA2011F53000CDF3E6 /* DrawViewController.m in Sources */,
+				7721C3E8202C2A9100859A67 /* BaseChartView.m in Sources */,
 				77E4AC06202862D500568AFA /* NSString+Extra.m in Sources */,
 				77714A2B201EB312004DD6EB /* LineChartViewController.m in Sources */,
 				77714A3520200B94004DD6EB /* HorizontalBarChartView.m in Sources */,
 				776FC1AD2011F69600CDF3E6 /* CoreGraphicDrawView.m in Sources */,
 				776FC1B02012204400CDF3E6 /* CoreAnimationDrawView.m in Sources */,
-				77E4ABFF2024836A00568AFA /* BaseChartView.m in Sources */,
 				776FC19F2011F04100CDF3E6 /* main.m in Sources */,
 				77E4ABE72022EE5800568AFA /* UIColor+HexColor.m in Sources */,
 				776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */,
