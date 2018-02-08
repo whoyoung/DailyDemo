@@ -45,15 +45,15 @@
             if (pinGesture.scale < 1){
                 CGFloat testZoomedHeight = 0;
                 if (self.chartType == BarChartTypeGroup) {
-                    testZoomedHeight = ([self.Datas count]*self.itemAxisScale*self.oldPinScale*pinGesture.scale + self.groupSpace) * [self.Datas[0] count];
+                    testZoomedHeight = ([self.Datas count]*[self calculateItemAxisScale]*self.oldPinScale*pinGesture.scale + self.groupSpace) * [self.Datas[0] count];
                 } else {
-                    testZoomedHeight = (self.itemAxisScale*self.oldPinScale*pinGesture.scale + self.groupSpace) * [self.Datas[0] count];
+                    testZoomedHeight = ([self calculateItemAxisScale]*self.oldPinScale*pinGesture.scale + self.groupSpace) * [self.Datas[0] count];
                 }
                 if (testZoomedHeight < ChartHeight) {
                     if (self.chartType == BarChartTypeGroup) {
-                        self.newPinScale = (ChartHeight/[self.Datas[0] count] - self.groupSpace)/self.Datas.count/self.itemAxisScale/self.oldPinScale;
+                        self.newPinScale = (ChartHeight/[self.Datas[0] count] - self.groupSpace)/self.Datas.count/[self calculateItemAxisScale]/self.oldPinScale;
                     } else {
-                        self.newPinScale = (ChartHeight/[self.Datas[0] count] - self.groupSpace)/self.itemAxisScale/self.oldPinScale;
+                        self.newPinScale = (ChartHeight/[self.Datas[0] count] - self.groupSpace)/[self calculateItemAxisScale]/self.oldPinScale;
                     }
                 } else {
                     self.newPinScale = pinGesture.scale;

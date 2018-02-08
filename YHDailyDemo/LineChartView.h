@@ -9,10 +9,7 @@
 
 
 #import <UIKit/UIKit.h>
-#import "CommonChartViewDelegate.h"
+#import "BaseChartView.h"
 
-@interface LineChartView : UIView
-@property (nonatomic, weak) id<CommonChartViewDelegate> delegate;
-
-- (id)initWithFrame:(CGRect)frame configure:(NSDictionary *)configureDict;
+@interface LineChartView : BaseChartView
 @end
