@@ -73,4 +73,5 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
                                   frame:(CGRect)frame
                           alignmentMode:(NSString *)alignmentMode;
 - (CGFloat)zoomedItemAxis;
+- (void)removeTipView;
 @end

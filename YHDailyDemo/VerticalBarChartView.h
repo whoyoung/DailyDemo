@@ -7,10 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CommonChartViewDelegate.h"
-
-@interface VerticalBarChartView : UIView
-@property (nonatomic, weak) id<CommonChartViewDelegate> delegate;
-
-- (id)initWithFrame:(CGRect)frame configure:(NSDictionary *)configureDict;
+#import "BaseChartView.h"
+@interface VerticalBarChartView : BaseChartView
 @end
