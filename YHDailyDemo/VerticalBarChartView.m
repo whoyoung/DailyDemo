@@ -209,19 +209,19 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     }
 }
 - (void)adjustScroll {
-    self.gestureScroll.contentSize = CGSizeMake(self.scrollContentSizeHeight, ChartHeight);
-    CGFloat offsetY = self.gestureScroll.contentSize.width * self.pinCenterRatio - self.pinCenterToTopDistance;
+    self.gestureScroll.contentSize = CGSizeMake(ChartWidth, self.scrollContentSizeHeight);
+    CGFloat offsetY = self.gestureScroll.contentSize.height * self.pinCenterRatio - self.pinCenterToTopDistance;
     if (offsetY < 0) {
         offsetY = 0;
     }
-    if (self.gestureScroll.contentSize.width > ChartWidth) {
-        if (offsetY > self.gestureScroll.contentSize.width - ChartWidth) {
-            offsetY = self.gestureScroll.contentSize.width - ChartWidth;
+    if (self.gestureScroll.contentSize.height > ChartHeight) {
+        if (offsetY > self.gestureScroll.contentSize.height - ChartHeight) {
+            offsetY = self.gestureScroll.contentSize.height - ChartHeight;
         }
     } else {
         offsetY = 0;
     }
-    self.gestureScroll.contentOffset = CGPointMake(offsetY, 0);
+    self.gestureScroll.contentOffset = CGPointMake(0, offsetY);
 }
 - (void)chartDidTapping:(UITapGestureRecognizer *)tapGesture {
     [self removeTipView];
