@@ -6,11 +6,8 @@
 //  Copyright © 2018年 杨虎. All rights reserved.
 //
 
-#import "CommonChartViewDelegate.h"
 #import <UIKit/UIKit.h>
+#import "BaseChartView.h"
 
-@interface HorizontalBarChartView : UIView
-@property (nonatomic, weak) id<CommonChartViewDelegate> delegate;
-
-- (id)initWithFrame:(CGRect)frame configure:(NSDictionary *)configureDict;
+@interface HorizontalBarChartView : BaseChartView
 @end

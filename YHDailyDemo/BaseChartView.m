@@ -7,59 +7,13 @@
 //
 
 #import "BaseChartView.h"
-#import "CommonHeader.h"
-
-typedef NS_ENUM(NSUInteger,BarChartType) {
-    BarChartTypeSingle = 0,
-    BarChartTypeGroup = 1,
-    BarChartTypeStack = 2
-};
 
 @interface BaseChartView()<UIScrollViewDelegate>
-@property (nonatomic, weak) UIScrollView *gestureScroll;
-@property (nonatomic, strong) UIView *containerView;
 
-@property (nonatomic, strong) NSMutableArray<NSString *> *AxisArray;
-@property (nonatomic, strong) NSArray<NSArray *> *Datas;
-@property (nonatomic, strong) NSArray *groupMembers;
-@property (nonatomic, copy) NSString *axisTitle;
-@property (nonatomic, copy) NSString *dataTitle;
-@property (nonatomic, strong) NSArray *itemColors;
-@property (nonatomic, assign) BarChartType chartType;
-@property (nonatomic, assign) CGFloat minItemWidth;
-@property (nonatomic, assign) CGFloat groupSpace;
-@property (nonatomic, assign) NSUInteger valueInterval;
-@property (nonatomic, assign) BOOL showDataDashLine;
-@property (nonatomic, assign) BOOL showDataHardLine;
-@property (nonatomic, assign) BOOL showAxisDashLine;
-@property (nonatomic, assign) BOOL showAxisHardLine;
-@property (nonatomic, assign) BOOL showDataEdgeLine;
-
-@property (nonatomic, assign) NSInteger beginGroupIndex;
-@property (nonatomic, assign) NSInteger endGroupIndex;
-@property (nonatomic, assign) NSInteger beginItemIndex;
-@property (nonatomic, assign) NSInteger endItemIndex;
-@property (nonatomic, assign) CGFloat itemAxisScale;
-@property (nonatomic, assign) NSUInteger itemDataScale;
-@property (nonatomic, assign) CGFloat maxDataValue;
-@property (nonatomic, assign) CGFloat minDataValue;
-
-@property (nonatomic, assign) NSUInteger dataPostiveSegmentNum;
-@property (nonatomic, assign) NSUInteger dataNegativeSegmentNum;
-
-@property (nonatomic, assign) CGFloat dataItemUnitScale;
-
-@property (nonatomic, assign) CGFloat oldPinScale;
-@property (nonatomic, assign) CGFloat newPinScale;
-@property (nonatomic, assign) CGFloat pinCenterToLeftDistance;
-@property (nonatomic, assign) CGFloat pinCenterRatio;
-@property (nonatomic, assign) CGFloat zoomedItemAxis;
-
-@property (nonatomic, assign) BOOL isDataError;
-@property (nonatomic, assign) CGFloat zeroLine;
 @end
 
 @implementation BaseChartView
+
 - (id)initWithFrame:(CGRect)frame configure:(NSDictionary *)configureDict {
     self = [super initWithFrame:frame];
     if (self) {
@@ -70,36 +24,36 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     return self;
 }
 - (void)dealChartConfigure:(NSDictionary *)dict {
-    self.AxisArray = [dict objectForKey:@"axis"];
-    self.Datas = [dict objectForKey:@"datas"];
-    self.isDataError = !self.AxisArray || ![self.AxisArray isKindOfClass:[NSArray class]] || !self.AxisArray.count ||
+    _AxisArray = [dict objectForKey:@"axis"];
+    _Datas = [dict objectForKey:@"datas"];
+    _isDataError = !self.AxisArray || ![self.AxisArray isKindOfClass:[NSArray class]] || !self.AxisArray.count ||
     !self.Datas || ![self.Datas isKindOfClass:[NSArray class]] || !self.Datas.count;
     
-    self.groupMembers = [dict objectForKey:@"groupMembers"];
-    self.axisTitle = [dict objectForKey:@"axisTitle"];
-    self.dataTitle = [dict objectForKey:@"dataTitle"];
-    self.itemColors = [dict objectForKey:@"colors"];
+    _groupMembers = [dict objectForKey:@"groupMembers"];
+    _axisTitle = [dict objectForKey:@"axisTitle"];
+    _dataTitle = [dict objectForKey:@"dataTitle"];
+    _itemColors = [dict objectForKey:@"colors"];
     if (!self.itemColors) {
         [self defaultColors];
     }
     BOOL isStack = [dict objectForKey:@"stack"];
     if (isStack) {
-        self.chartType = BarChartTypeStack;
+        _chartType = BarChartTypeStack;
     } else if (self.Datas.count > 1) {
-        self.chartType = BarChartTypeGroup;
+        _chartType = BarChartTypeGroup;
     } else {
-        self.chartType = BarChartTypeSingle;
+        _chartType = BarChartTypeSingle;
     }
-    self.valueInterval = [[dict objectForKey:@"valueInterval"] integerValue];
+    _valueInterval = [[dict objectForKey:@"valueInterval"] integerValue];
     if (self.valueInterval == 0) {
-        self.valueInterval = 3;
+        _valueInterval = 3;
     }
     NSDictionary *styleDict = [dict objectForKey:@"styles"];
     [self dealStyleDict:styleDict];
 }
 - (void)dealStyleDict:(NSDictionary *)styleDict {
-    self.minItemWidth = 20;
-    self.groupSpace = 5;
+    _minItemWidth = 20;
+    _groupSpace = 5;
     self.showAxisDashLine = NO;
     self.showAxisHardLine = NO;
     self.showDataDashLine = NO;
@@ -166,7 +120,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 - (void)redraw {
     [_containerView removeFromSuperview];
     _containerView = nil;
-    _containerView = [[UIView alloc] initWithFrame:self.bounds];
+    _containerView= [[UIView alloc] initWithFrame:self.bounds];
     _containerView.backgroundColor = [UIColor clearColor];
     
     [self insertSubview:_containerView belowSubview:_gestureScroll];
@@ -440,33 +394,33 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
 
 - (void)calculateDataSegment {
     if (self.minDataValue >= 0) {
-        self.dataPostiveSegmentNum = self.valueInterval;
+        _dataPostiveSegmentNum = self.valueInterval;
         if (self.maxDataValue < 1) {
-            self.dataPostiveSegmentNum = 1;
+            _dataPostiveSegmentNum = 1;
         }
-        self.dataNegativeSegmentNum = 0;
-        self.itemDataScale = ceil([self absoluteMaxValue:self.maxDataValue] / self.dataPostiveSegmentNum);
+        _dataNegativeSegmentNum = 0;
+        self.itemDataScale = ceil([self absoluteMaxValue:self.maxDataValue] / _dataPostiveSegmentNum);
     } else if (self.maxDataValue < 0) {
-        self.dataPostiveSegmentNum = 0;
-        self.dataNegativeSegmentNum = self.valueInterval;
+        _dataPostiveSegmentNum = 0;
+        _dataNegativeSegmentNum = self.valueInterval;
         if (fabs(self.minDataValue) < 1) {
-            self.dataNegativeSegmentNum = 1;
+            _dataNegativeSegmentNum = 1;
         }
-        self.itemDataScale = ceil([self absoluteMaxValue:self.minDataValue] / self.dataNegativeSegmentNum);
+        self.itemDataScale = ceil([self absoluteMaxValue:self.minDataValue] / _dataNegativeSegmentNum);
     } else if (self.maxDataValue >= fabs(self.minDataValue)) {
-        self.dataPostiveSegmentNum = self.valueInterval;
+        _dataPostiveSegmentNum = self.valueInterval;
         if (self.maxDataValue < 1) {
-            self.dataPostiveSegmentNum = 1;
+            _dataPostiveSegmentNum = 1;
         }
-        self.itemDataScale = ceil([self absoluteMaxValue:self.maxDataValue] / self.dataPostiveSegmentNum);
-        self.dataNegativeSegmentNum = ceil(fabs(self.minDataValue) / self.itemDataScale);
+        self.itemDataScale = ceil([self absoluteMaxValue:self.maxDataValue] / _dataPostiveSegmentNum);
+        _dataNegativeSegmentNum = ceil(fabs(self.minDataValue) / self.itemDataScale);
     } else {
-        self.dataNegativeSegmentNum = self.valueInterval;
+        _dataNegativeSegmentNum = self.valueInterval;
         if (fabs(self.minDataValue) < 1) {
-            self.dataNegativeSegmentNum = 1;
+            _dataNegativeSegmentNum = 1;
         }
-        self.itemDataScale = ceil([self absoluteMaxValue:self.minDataValue] / self.dataNegativeSegmentNum);
-        self.dataPostiveSegmentNum = ceil(self.maxDataValue / self.itemDataScale);
+        self.itemDataScale = ceil([self absoluteMaxValue:self.minDataValue] / _dataNegativeSegmentNum);
+        _dataPostiveSegmentNum = ceil(self.maxDataValue / self.itemDataScale);
     }
 }
 - (NSUInteger)absoluteMaxValue:(CGFloat)value {
@@ -479,10 +433,7 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     return ceil(ceil(maxNum / tenCube) / self.valueInterval) * self.valueInterval * tenCube;
 }
 - (void)drawDataPoint {
-    UIView *subContainerV = [[UIView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, ChartWidth, ChartHeight)];
-    subContainerV.layer.masksToBounds = YES;
-    [self.containerView addSubview:subContainerV];
-    
+   
 }
 
 - (void)addAxisLayer {
@@ -543,15 +494,13 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     return textLayer;
 }
 
-- (CGFloat)itemAxisScale {
+- (CGFloat)calculateItemAxisScale {
     return 0;
 }
 - (CGFloat)zoomedItemAxis {
-    return self.itemAxisScale * self.newPinScale * self.oldPinScale;
+    return [self calculateItemAxisScale] * self.newPinScale * self.oldPinScale;
 }
-- (CGFloat)axisUnitScale {
-    return 0;
-}
+
 - (CGFloat)oldPinScale {
     if (_oldPinScale == 0) {
         _oldPinScale = 1.0;
@@ -573,12 +522,9 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     for (NSUInteger i = 0; i < self.Datas.count; i++) {
         [tempColors addObject:colors[i % colors.count]];
     }
-    self.itemColors = [tempColors copy];
+    _itemColors = [tempColors copy];
 }
 
-- (CGFloat)zeroLine {
-    return self.dataPostiveSegmentNum * [self axisUnitScale];
-}
 - (CGFloat)dataItemUnitScale {
     return 0;
 }
