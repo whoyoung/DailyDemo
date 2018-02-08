@@ -1,13 +1,13 @@
 //
-//  CommonHeader.h
+//  YHCommonHeader.h
 //  YHDailyDemo
 //
 //  Created by 杨虎 on 2018/2/7.
 //  Copyright © 2018年 杨虎. All rights reserved.
 //
 
-#ifndef CommonHeader_h
-#define CommonHeader_h
+#ifndef YHCommonHeader_h
+#define YHCommonHeader_h
 
 static const float TopEdge = 10;
 static const float LeftEdge = 50;
@@ -30,4 +30,4 @@ static const float ReferenceLineWidth = 0.5;
 #import "UIColor+HexColor.h"
 #import "NSString+Extra.h"
 
-#endif /* CommonHeader_h */
+#endif /* YHCommonHeader_h */

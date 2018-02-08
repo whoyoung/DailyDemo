@@ -7,8 +7,8 @@
 //
 
 #import "LineChartViewController.h"
-#import "LineChartView.h"
-@interface LineChartViewController ()<CommonChartViewDelegate>
+#import "YHLineChartView.h"
+@interface LineChartViewController ()<YHCommonChartViewDelegate>
 
 @end
 
@@ -33,7 +33,7 @@
                                            }
                                    }
                            };
-    LineChartView *chartView = [[LineChartView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64) configure:dict];
+    YHLineChartView *chartView = [[YHLineChartView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64) configure:dict];
     chartView.delegate = self;
     [self.view addSubview:chartView];
 }

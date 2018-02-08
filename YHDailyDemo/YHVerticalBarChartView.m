@@ -1,20 +1,20 @@
 //
-//  VerticalBarChartView.m
+//  YHVerticalBarChartView.m
 //  YHDailyDemo
 //
 //  Created by 杨虎 on 2018/1/31.
 //  Copyright © 2018年 杨虎. All rights reserved.
 //
 
-#import "VerticalBarChartView.h"
+#import "YHVerticalBarChartView.h"
 
-@interface VerticalBarChartView()
+@interface YHVerticalBarChartView()
 @property (nonatomic, assign) CGFloat scrollContentSizeHeight;
 @property (nonatomic, assign) CGFloat pinCenterToTopDistance;
 
 @end
 
-@implementation VerticalBarChartView
+@implementation YHVerticalBarChartView
 
 - (void)dealStyleDict:(NSDictionary *)styleDict {
     NSDictionary *barStyle = [styleDict objectForKey:@"barStyle"];

@@ -1,5 +1,5 @@
 //
-//  BaseChartView.h
+//  YHBaseChartView.h
 //  YHDailyDemo
 //
 //  Created by 杨虎 on 2018/2/2.
@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CommonChartViewDelegate.h"
-#import "CommonHeader.h"
-#import "BaseChartMethodProtocol.h"
+#import "YHCommonChartViewDelegate.h"
+#import "YHCommonHeader.h"
+#import "YHBaseChartMethodProtocol.h"
 
 typedef NS_ENUM(NSUInteger,BarChartType) {
     BarChartTypeSingle = 0,
@@ -17,9 +17,9 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
     BarChartTypeStack = 2
 };
 
-@interface BaseChartView : UIView <BaseChartMethodProtocol>
+@interface YHBaseChartView : UIView <YHBaseChartMethodProtocol>
 
-@property (nonatomic, weak) id<CommonChartViewDelegate> delegate;
+@property (nonatomic, weak) id<YHCommonChartViewDelegate> delegate;
 @property (nonatomic, weak, readonly) UIScrollView *gestureScroll;
 @property (nonatomic, strong, readonly) UIView *containerView;
 

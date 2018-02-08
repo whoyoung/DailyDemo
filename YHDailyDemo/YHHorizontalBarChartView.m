@@ -1,18 +1,18 @@
 //
-//  HorizontalBarChartView.m
+//  YHHorizontalBarChartView.m
 //  YHDailyDemo
 //
 //  Created by 杨虎 on 2018/1/30.
 //  Copyright © 2018年 杨虎. All rights reserved.
 //
 
-#import "HorizontalBarChartView.h"
+#import "YHHorizontalBarChartView.h"
 
-@interface HorizontalBarChartView ()
+@interface YHHorizontalBarChartView ()
 @property (nonatomic, assign) CGFloat scrollContentSizeWidth;
 @end
 
-@implementation HorizontalBarChartView
+@implementation YHHorizontalBarChartView
 
 - (void)dealStyleDict:(NSDictionary *)styleDict {
     NSDictionary *barStyle = [styleDict objectForKey:@"barStyle"];

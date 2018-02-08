@@ -1,5 +1,5 @@
 //
-//  LineChartView.h
+//  YHLineChartView.h
 //  YHDailyDemo
 //
 //  Created by 杨虎 on 2018/1/26.
@@ -9,7 +9,7 @@
 
 
 #import <UIKit/UIKit.h>
-#import "BaseChartView.h"
+#import "YHBaseChartView.h"
 
-@interface LineChartView : BaseChartView
+@interface YHLineChartView : YHBaseChartView
 @end

@@ -7,8 +7,8 @@
 //
 
 #import "VerticalBarChartViewController.h"
-#import "VerticalBarChartView.h"
-@interface VerticalBarChartViewController ()<CommonChartViewDelegate>
+#import "YHVerticalBarChartView.h"
+@interface VerticalBarChartViewController ()<YHCommonChartViewDelegate>
 
 @end
 
@@ -38,7 +38,7 @@
                                            }
                                    }
                            };
-    VerticalBarChartView *chartView = [[VerticalBarChartView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64) configure:dict];
+    YHVerticalBarChartView *chartView = [[YHVerticalBarChartView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64) configure:dict];
     chartView.delegate = self;
     [self.view addSubview:chartView];
 }

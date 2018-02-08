@@ -7,8 +7,8 @@
 //
 
 #import "HorizontalBarChartViewController.h"
-#import "HorizontalBarChartView.h"
-@interface HorizontalBarChartViewController ()<CommonChartViewDelegate>
+#import "YHHorizontalBarChartView.h"
+@interface HorizontalBarChartViewController ()<YHCommonChartViewDelegate>
 
 @end
 
@@ -38,7 +38,7 @@
                                }
                            }
                         };
-    HorizontalBarChartView *chartView = [[HorizontalBarChartView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64) configure:dict];
+    YHHorizontalBarChartView *chartView = [[YHHorizontalBarChartView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64) configure:dict];
     chartView.delegate = self;
     [self.view addSubview:chartView];
 }

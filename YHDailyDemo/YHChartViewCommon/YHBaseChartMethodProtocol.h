@@ -1,5 +1,5 @@
 //
-//  BaseChartMethodProtocol.h
+//  YHBaseChartMethodProtocol.h
 //  YHDailyDemo
 //
 //  Created by 杨虎 on 2018/2/8.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol BaseChartMethodProtocol <NSObject>
+@protocol YHBaseChartMethodProtocol <NSObject>
 @required
 - (id)initWithFrame:(CGRect)frame configure:(NSDictionary *)configureDict;
 

@@ -1,5 +1,5 @@
 //
-//  CommonChartViewDelegate.h
+//  YHCommonChartViewDelegate.h
 //  ingage
 //
 //  Created by 杨虎 on 2018/2/2.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol CommonChartViewDelegate <NSObject>
+@protocol YHCommonChartViewDelegate <NSObject>
 @optional
 - (void)didTapChart:(id)chart group:(NSUInteger)group item:(NSUInteger)item;
 @end

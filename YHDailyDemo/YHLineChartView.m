@@ -1,18 +1,18 @@
 //
-//  LineChartView.m
+//  YHLineChartView.m
 //  YHDailyDemo
 //
 //  Created by 杨虎 on 2018/1/26.
 //  Copyright © 2018年 杨虎. All rights reserved.
 //
 
-#import "LineChartView.h"
+#import "YHLineChartView.h"
 
-@interface LineChartView()
+@interface YHLineChartView()
 
 @end
 
-@implementation LineChartView
+@implementation YHLineChartView
 
 - (void)dealStyleDict:(NSDictionary *)styleDict {
     NSDictionary *lineStyle = [styleDict objectForKey:@"lineStyle"];

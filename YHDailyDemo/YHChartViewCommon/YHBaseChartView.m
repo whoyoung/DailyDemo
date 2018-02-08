@@ -1,18 +1,18 @@
 //
-//  BaseChartView.m
+//  YHBaseChartView.m
 //  YHDailyDemo
 //
 //  Created by 杨虎 on 2018/2/2.
 //  Copyright © 2018年 杨虎. All rights reserved.
 //
 
-#import "BaseChartView.h"
+#import "YHBaseChartView.h"
 
-@interface BaseChartView()<UIScrollViewDelegate>
+@interface YHBaseChartView()<UIScrollViewDelegate>
 
 @end
 
-@implementation BaseChartView
+@implementation YHBaseChartView
 
 - (id)initWithFrame:(CGRect)frame configure:(NSDictionary *)configureDict {
     self = [super initWithFrame:frame];

@@ -1,5 +1,5 @@
 //
-//  VerticalBarChartView.h
+//  YHVerticalBarChartView.h
 //  YHDailyDemo
 //
 //  Created by 杨虎 on 2018/1/31.
@@ -7,6 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BaseChartView.h"
-@interface VerticalBarChartView : BaseChartView
+#import "YHBaseChartView.h"
+@interface YHVerticalBarChartView : YHBaseChartView
 @end
