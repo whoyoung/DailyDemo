@@ -8,7 +8,7 @@
 
 #import "YHBaseChartView.h"
 
-@interface YHBaseChartView()<UIScrollViewDelegate>
+@interface YHBaseChartView () <UIScrollViewDelegate>
 
 @end
 
@@ -23,12 +23,17 @@
     }
     return self;
 }
+- (void)updateChartFrame:(CGRect)frame {
+    self.frame = frame;
+    self.gestureScroll.frame = CGRectMake(LeftEdge, RightEdge, [self gestureScrollContentSize].width, ChartHeight);
+    [self redraw];
+}
 - (void)dealChartConfigure:(NSDictionary *)dict {
     _AxisArray = [dict objectForKey:@"axis"];
     _Datas = [dict objectForKey:@"datas"];
     _isDataError = !self.AxisArray || ![self.AxisArray isKindOfClass:[NSArray class]] || !self.AxisArray.count ||
-    !self.Datas || ![self.Datas isKindOfClass:[NSArray class]] || !self.Datas.count;
-    
+                   !self.Datas || ![self.Datas isKindOfClass:[NSArray class]] || !self.Datas.count;
+
     _groupMembers = [dict objectForKey:@"groupMembers"];
     _axisTitle = [dict objectForKey:@"axisTitle"];
     _dataTitle = [dict objectForKey:@"dataTitle"];
@@ -84,7 +89,7 @@
 - (void)addGestureScroll {
     if (!_gestureScroll) {
         UIScrollView *scroll =
-        [[UIScrollView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, ChartWidth, ChartHeight)];
+            [[UIScrollView alloc] initWithFrame:CGRectMake(LeftEdge, TopEdge, ChartWidth, ChartHeight)];
         scroll.showsVerticalScrollIndicator = NO;
         scroll.showsHorizontalScrollIndicator = NO;
         scroll.minimumZoomScale = 1.0;
@@ -94,13 +99,13 @@
         scroll.backgroundColor = [UIColor clearColor];
         _gestureScroll = scroll;
         [self addSubview:scroll];
-        
+
         UIPinchGestureRecognizer *pinGesture =
-        [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(chartDidZooming:)];
+            [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(chartDidZooming:)];
         [_gestureScroll addGestureRecognizer:pinGesture];
-        
+
         UITapGestureRecognizer *tapGesture =
-        [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chartDidTapping:)];
+            [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(chartDidTapping:)];
         tapGesture.numberOfTapsRequired = 1;
         [_gestureScroll addGestureRecognizer:tapGesture];
     }
@@ -120,9 +125,9 @@
 - (void)redraw {
     [_containerView removeFromSuperview];
     _containerView = nil;
-    _containerView= [[UIView alloc] initWithFrame:self.bounds];
+    _containerView = [[UIView alloc] initWithFrame:self.bounds];
     _containerView.backgroundColor = [UIColor clearColor];
-    
+
     [self insertSubview:_containerView belowSubview:_gestureScroll];
     [self findBeginAndEndIndex];
     [self calculateMaxAndMinValue];
@@ -139,7 +144,7 @@
     NSDictionary *groupItemDict = [self tappedGroupAndItem:tapP];
     NSUInteger group = [[groupItemDict objectForKey:@"group"] integerValue];
     NSUInteger item = [[groupItemDict objectForKey:@"item"] integerValue];
-    
+
     CGPoint containerP = [tapGesture locationInView:self.containerView];
     [self updateTipLayer:group item:item containerPoint:containerP];
     if (self.delegate && [self.delegate respondsToSelector:@selector(didTapChart:group:item:)]) {
@@ -152,17 +157,14 @@
 }
 - (NSDictionary *)tappedGroupAndItem:(CGPoint)tapP {
     NSUInteger group = 0, item = 0;
-    return @{
-             @"group":@(group),
-             @"item":@(item)
-             };
+    return @{ @"group": @(group), @"item": @(item) };
 }
 - (void)updateTipLayer:(NSUInteger)group item:(NSUInteger)item containerPoint:(CGPoint)point {
     NSDictionary *dataDict = [self prepareTipViewData:group item:item containerPoint:point];
     CGPoint tempP = CGPointFromString([dataDict objectForKey:@"adjustPoint"]);
     NSString *axisStr = [dataDict objectForKey:@"axisStr"];
     NSString *dataStr = [dataDict objectForKey:@"dataStr"];
-    
+
     CGFloat tipTextH = 11;
     CGFloat tipH = 10 + tipTextH + 5;
     CGFloat tipMaxW = [dataStr measureTextWidth:[UIFont systemFontOfSize:9]];
@@ -171,7 +173,7 @@
         tipH += tipTextH;
     }
     tipMaxW += 10;
-    
+
     NSUInteger arrowP = 2; //箭头在中间位置
     CGFloat originX = tempP.x - tipMaxW / 2.0;
     if (originX < LeftEdge) {
@@ -181,18 +183,18 @@
         originX = tempP.x - tipMaxW;
         arrowP = 3; //箭头在右边位置
     }
-    
+
     CGFloat originY = tempP.y - tipH;
     if (originY < TopEdge) {
         originY = tempP.y;
         arrowP += 10; //箭头在弹窗上方
     }
-    
+
     UIView *tipView = [[UIView alloc] initWithFrame:CGRectMake(originX, originY, tipMaxW, tipH)];
     tipView.backgroundColor = [UIColor clearColor];
     tipView.tag = 101;
     [self.containerView addSubview:tipView];
-    
+
     CAShapeLayer *rectLayer = [CAShapeLayer layer];
     UIBezierPath *rectPath;
     if (arrowP > 10) {
@@ -206,9 +208,9 @@
     switch (arrowP) {
         case 1: { //左下箭头
             rectPath = [UIBezierPath
-                        bezierPathWithRoundedRect:topRect
+                bezierPathWithRoundedRect:topRect
                         byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomRight
-                        cornerRadii:cornerRadii];
+                              cornerRadii:cornerRadii];
             [self drawArrow:rectPath
                      startP:CGPointMake(0, tipH - 5)
                     middleP:CGPointMake(0, tipH)
@@ -225,9 +227,9 @@
         } break;
         case 3: { //右下箭头
             rectPath = [UIBezierPath
-                        bezierPathWithRoundedRect:topRect
+                bezierPathWithRoundedRect:topRect
                         byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft
-                        cornerRadii:cornerRadii];
+                              cornerRadii:cornerRadii];
             [self drawArrow:rectPath
                      startP:CGPointMake(tipMaxW - 2.5, tipH - 5)
                     middleP:CGPointMake(tipMaxW, tipH)
@@ -235,9 +237,9 @@
         } break;
         case 11: { //左上箭头
             rectPath = [UIBezierPath
-                        bezierPathWithRoundedRect:bottomRect
+                bezierPathWithRoundedRect:bottomRect
                         byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerTopRight | UIRectCornerBottomRight
-                        cornerRadii:cornerRadii];
+                              cornerRadii:cornerRadii];
             [self drawArrow:rectPath startP:CGPointMake(0, 5) middleP:CGPointMake(0, 0) endP:CGPointMake(2.5, 5)];
         } break;
         case 12: { //中上箭头
@@ -251,22 +253,22 @@
         } break;
         case 13: { //右上箭头
             rectPath = [UIBezierPath
-                        bezierPathWithRoundedRect:bottomRect
+                bezierPathWithRoundedRect:bottomRect
                         byRoundingCorners:UIRectCornerTopLeft | UIRectCornerBottomLeft | UIRectCornerBottomRight
-                        cornerRadii:cornerRadii];
+                              cornerRadii:cornerRadii];
             [self drawArrow:rectPath
                      startP:CGPointMake(tipMaxW - 2.5, 5)
                     middleP:CGPointMake(tipMaxW, 0)
                        endP:CGPointMake(tipMaxW, 5)];
         } break;
-            
+
         default:
             break;
     }
     rectLayer.path = rectPath.CGPath;
     rectLayer.fillColor = [UIColor hexChangeFloat:@"0D2940"].CGColor;
     [tipView.layer addSublayer:rectLayer];
-    
+
     CGRect textFrame = CGRectZero;
     CGFloat startY = 5;
     if (arrowP > 10) {
@@ -308,20 +310,16 @@
 
 - (NSDictionary *)prepareTipViewData:(NSUInteger)group item:(NSUInteger)item containerPoint:(CGPoint)point {
     CGPoint tempP = point;
-    
+
     NSString *axisStr = [NSString stringWithFormat:@"%@: %@", self.axisTitle, self.AxisArray[group]];
     NSString *dataStr =
         [NSString stringWithFormat:@"%@: %@", self.groupMembers[item], [self.Datas[item] objectAtIndex:group]];
-    return @{
-             @"adjustPoint":NSStringFromCGPoint(tempP),
-             @"axisStr":axisStr,
-             @"dataStr":dataStr
-             };
+    return @{ @"adjustPoint": NSStringFromCGPoint(tempP), @"axisStr": axisStr, @"dataStr": dataStr };
 }
 
 - (void)findBeginAndEndIndex {
     [self findGroupAndItemIndex];
-    
+
     if (self.beginGroupIndex < 0) {
         self.beginGroupIndex = 0;
     }
@@ -337,7 +335,7 @@
     if (self.endItemIndex > self.Datas.count) {
         self.endItemIndex = self.Datas.count - 1;
     }
-    
+
     if (self.endGroupIndex > [self.Datas[0] count] - 1) {
         self.endGroupIndex = [self.Datas[0] count] - 1;
     }
@@ -433,17 +431,13 @@
     return ceil(ceil(maxNum / tenCube) / self.valueInterval) * self.valueInterval * tenCube;
 }
 - (void)drawDataPoint {
-   
 }
 
 - (void)addAxisLayer {
-    
 }
 - (void)addAxisScaleLayer {
-    
 }
 - (void)addDataLayer {
-    
 }
 - (NSString *)adjustScaleValue:(NSUInteger)scaleValue {
     NSString *tempStr = [NSString stringWithFormat:@"%lu", scaleValue];
@@ -470,7 +464,6 @@
     return tempStr;
 }
 - (void)addDataScaleLayer {
-    
 }
 - (CATextLayer *)getTextLayerWithString:(NSString *)text
                               textColor:(UIColor *)textColor
@@ -515,9 +508,9 @@
 }
 - (void)defaultColors {
     NSArray *colors = @[
-                        @"45abff", @"6be6c1", @"ffa51f", @"ffd64e", @"3fd183", @"6ea7c7", @"5b7cf4", @"00bfd5", @"8bc7ff", @"f48784",
-                        @"d25537"
-                        ];
+        @"45abff", @"6be6c1", @"ffa51f", @"ffd64e", @"3fd183", @"6ea7c7", @"5b7cf4", @"00bfd5", @"8bc7ff", @"f48784",
+        @"d25537"
+    ];
     NSMutableArray *tempColors = [NSMutableArray arrayWithCapacity:self.Datas.count];
     for (NSUInteger i = 0; i < self.Datas.count; i++) {
         [tempColors addObject:colors[i % colors.count]];

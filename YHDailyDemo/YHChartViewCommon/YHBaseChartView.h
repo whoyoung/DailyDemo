@@ -6,21 +6,17 @@
 //  Copyright © 2018年 杨虎. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "YHBaseChartMethodProtocol.h"
 #import "YHCommonChartViewDelegate.h"
 #import "YHCommonHeader.h"
-#import "YHBaseChartMethodProtocol.h"
+#import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSUInteger,BarChartType) {
-    BarChartTypeSingle = 0,
-    BarChartTypeGroup = 1,
-    BarChartTypeStack = 2
-};
+typedef NS_ENUM(NSUInteger, BarChartType) { BarChartTypeSingle = 0, BarChartTypeGroup = 1, BarChartTypeStack = 2 };
 
 @interface YHBaseChartView : UIView <YHBaseChartMethodProtocol>
 
 @property (nonatomic, weak) id<YHCommonChartViewDelegate> delegate;
-@property (nonatomic, weak, readonly) UIScrollView *gestureScroll;
+@property (nonatomic, weak) UIScrollView *gestureScroll;
 @property (nonatomic, strong, readonly) UIView *containerView;
 
 @property (nonatomic, strong, readonly) NSMutableArray<NSString *> *AxisArray;
@@ -74,4 +70,5 @@ typedef NS_ENUM(NSUInteger,BarChartType) {
                           alignmentMode:(NSString *)alignmentMode;
 - (CGFloat)zoomedItemAxis;
 - (void)removeTipView;
+- (void)updateChartFrame:(CGRect)frame;
 @end
