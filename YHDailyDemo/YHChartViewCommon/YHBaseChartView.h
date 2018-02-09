@@ -5,11 +5,10 @@
 //  Created by 杨虎 on 2018/2/2.
 //  Copyright © 2018年 杨虎. All rights reserved.
 //
-
+#import <UIKit/UIKit.h>
 #import "YHBaseChartMethodProtocol.h"
 #import "YHCommonChartViewDelegate.h"
 #import "YHCommonHeader.h"
-#import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSUInteger, BarChartType) { BarChartTypeSingle = 0, BarChartTypeGroup = 1, BarChartTypeStack = 2 };
 
