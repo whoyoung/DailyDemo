@@ -321,13 +321,11 @@
     [path addLineToPoint:endP];
 }
 
-- (NSDictionary *)prepareTipViewData:(NSUInteger)group item:(NSUInteger)item containerPoint:(CGPoint)point {
-    CGPoint tempP = point;
-
+- (NSDictionary *)prepareTipViewData:(NSUInteger)group item:(NSUInteger)item {
     NSString *axisStr = [NSString stringWithFormat:@"%@: %@", self.axisTitle, self.AxisArray[group]];
     NSString *dataStr =
         [NSString stringWithFormat:@"%@: %@", self.groupMembers[item], [self.Datas[item] objectAtIndex:group]];
-    return @{ @"adjustPoint": NSStringFromCGPoint(tempP), @"axisStr": axisStr, @"dataStr": dataStr };
+    return @{ @"adjustPoint": NSStringFromCGPoint(CGPointZero), @"axisStr": axisStr, @"dataStr": dataStr };
 }
 
 - (void)findBeginAndEndIndex {
