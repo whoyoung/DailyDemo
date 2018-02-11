@@ -42,7 +42,7 @@
     if (!self.itemColors) {
         [self defaultColors];
     }
-    BOOL isStack = [dict objectForKey:@"stack"];
+    BOOL isStack = [[dict objectForKey:@"stack"] boolValue];
     if (isStack) {
         _chartType = BarChartTypeStack;
     } else if (self.Datas.count > 1) {
