@@ -100,11 +100,14 @@
              };
     
 }
-- (NSDictionary *)prepareTipViewData:(NSUInteger)group item:(NSUInteger)item containerPoint:(CGPoint)point {
-    CGPoint tempP = point;
+- (void)saveTapPointRatio:(CGPoint)tapP group:(NSUInteger)group item:(NSUInteger)item {
+    self.pointRatio = YHTapPointRatioInItemMake(1, 1);
+}
+- (NSDictionary *)prepareTipViewData:(NSUInteger)group item:(NSUInteger)item {
+    CGPoint tempP;
     CGFloat absoluteZeroLine = self.zeroLine + TopEdge;
     tempP.x = group * self.zoomedItemAxis + LeftEdge;
-    tempP.y = absoluteZeroLine - [[self.Datas[item] objectAtIndex:group] floatValue] * self.dataItemUnitScale;
+    tempP.y = absoluteZeroLine - [self dataAtGroup:group item:item] * self.dataItemUnitScale;
     
     NSString *axisStr;
     NSString *dataStr = [NSString stringWithFormat:@"%@: %@",self.dataTitle,[self.Datas[item] objectAtIndex:group]];

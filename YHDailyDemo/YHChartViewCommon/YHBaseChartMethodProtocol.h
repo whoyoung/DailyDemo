@@ -16,7 +16,8 @@
 - (CGSize)gestureScrollContentSize;
 - (void)chartDidZooming:(UIPinchGestureRecognizer *)pinGesture;
 - (NSDictionary *)tappedGroupAndItem:(CGPoint)tapP;
-- (NSDictionary *)prepareTipViewData:(NSUInteger)group item:(NSUInteger)item containerPoint:(CGPoint)point;
+- (void)saveTapPointRatio:(CGPoint)tapP group:(NSUInteger)group item:(NSUInteger)item;
+- (NSDictionary *)prepareTipViewData:(NSUInteger)group item:(NSUInteger)item;
 
 - (void)findGroupAndItemIndex;
 - (void)calculateMaxAndMinValue;

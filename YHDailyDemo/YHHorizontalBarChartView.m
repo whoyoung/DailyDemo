@@ -108,7 +108,7 @@
         group = floorf(tapP.x / (self.zoomedItemAxis + self.groupSpace));
         CGFloat tempY = self.zeroLine;
         for (NSUInteger i = 0; i < self.Datas.count; i++) {
-            CGFloat h = [[self.Datas[i] objectAtIndex:group] floatValue] * self.dataItemUnitScale;
+            CGFloat h = [self dataAtGroup:group item:i] * self.dataItemUnitScale;
             if (tapP.y > self.zeroLine) {
                 if (h < 0) {
                     if (tapP.y <= (tempY - h) || i == self.Datas.count - 1) {
@@ -137,50 +137,80 @@
              };
 
 }
-
-- (NSDictionary *)prepareTipViewData:(NSUInteger)group item:(NSUInteger)item containerPoint:(CGPoint)point {
-    CGPoint tempP = point;
-    CGFloat absoluteZeroLine = self.zeroLine + TopEdge;
+- (void)saveTapPointRatio:(CGPoint)tapP group:(NSUInteger)group item:(NSUInteger)item {
+    CGFloat xRatio = 1.0, yRatio = 1.0;
     if (self.chartType == BarChartTypeStack) {
-        CGFloat tempZeroLine = absoluteZeroLine;
-        if (tempP.y > absoluteZeroLine) {
-            for (NSUInteger i = 0; i <= item; i++) {
-                if ([[self.Datas[i] objectAtIndex:group] floatValue] < 0) {
-                    tempZeroLine -= [[self.Datas[i] objectAtIndex:group] floatValue] * self.dataItemUnitScale;
-                    if (tempZeroLine >= tempP.y) break;
+        xRatio = (tapP.x - group*(self.zoomedItemAxis + self.groupSpace))/self.zoomedItemAxis;
+        xRatio = xRatio > 1 ? 1 : xRatio;
+        CGFloat dataY = [self dataAtGroup:group item:item]*self.dataItemUnitScale;
+        CGFloat difference = self.zeroLine;
+        if (dataY >= 0) {
+            for (NSUInteger i=0; i<item; i++) {
+                if ([self dataAtGroup:group item:i] > 0) {
+                    difference -= [self dataAtGroup:group item:i]*self.dataItemUnitScale;
                 }
-            }
-            if (tempP.y > tempZeroLine) {
-                tempP = CGPointMake(tempP.x, tempZeroLine);
             }
         } else {
-            for (NSUInteger i = 0; i <= item; i++) {
-                if ([[self.Datas[i] objectAtIndex:group] floatValue] > 0) {
-                    tempZeroLine -= [[self.Datas[i] objectAtIndex:group] floatValue] * self.dataItemUnitScale;
-                    if (tempZeroLine <= tempP.y) break;
+            for (NSUInteger i=0; i<item; i++) {
+                if ([self dataAtGroup:group item:i] < 0) {
+                    difference -= [self dataAtGroup:group item:i]*self.dataItemUnitScale;
                 }
-            }
-            if (tempP.y < tempZeroLine) {
-                tempP = CGPointMake(tempP.x, tempZeroLine);
             }
         }
+        yRatio = (difference - tapP.y)/dataY;
     } else {
-        if (tempP.y > absoluteZeroLine) {
-            if ([[self.Datas[item] objectAtIndex:group] floatValue] >= 0) {
-                tempP = CGPointMake(tempP.x, absoluteZeroLine);
-            } else if (tempP.y >
-                       (absoluteZeroLine - [[self.Datas[item] objectAtIndex:group] floatValue] * self.dataItemUnitScale)) {
-                tempP.y = absoluteZeroLine - [[self.Datas[item] objectAtIndex:group] floatValue] * self.dataItemUnitScale;
+        if (self.chartType == BarChartTypeGroup) {
+            xRatio = (tapP.x - group*(self.Datas.count * self.zoomedItemAxis + self.groupSpace) - item*self.zoomedItemAxis)/self.zoomedItemAxis;
+        } else {
+            xRatio = (tapP.x - group*(self.zoomedItemAxis + self.groupSpace))/self.zoomedItemAxis;
+        }
+        xRatio = xRatio > 1 ? 1 : xRatio;
+        CGFloat dataY = [self dataAtGroup:group item:item]*self.dataItemUnitScale;
+        if (dataY > 0) {
+            if (tapP.y > (self.zeroLine - dataY) && tapP.y < self.zeroLine) {
+                yRatio = (self.zeroLine-tapP.y)/dataY;
+            } else if (tapP.y >= self.zeroLine) {
+                yRatio = 0;
             }
         } else {
-            if ([[self.Datas[item] objectAtIndex:group] floatValue] < 0) {
-                tempP = CGPointMake(tempP.x, absoluteZeroLine);
-            } else if (tempP.y <
-                       (absoluteZeroLine - [[self.Datas[item] objectAtIndex:group] floatValue] * self.dataItemUnitScale)) {
-                tempP.y = absoluteZeroLine - [[self.Datas[item] objectAtIndex:group] floatValue] * self.dataItemUnitScale;
+            if (tapP.y <= (self.zeroLine - dataY) && tapP.y >= self.zeroLine) {
+                yRatio = (tapP.y-self.zeroLine)/fabs(dataY);
+            } else if (tapP.y < self.zeroLine) {
+                yRatio = 0;
             }
         }
     }
+    if (yRatio > 1) {
+        yRatio = 1;
+    } else if (yRatio < 0) {
+        yRatio = 0;
+    }
+    self.pointRatio = YHTapPointRatioInItemMake(xRatio, yRatio);
+}
+- (NSDictionary *)prepareTipViewData:(NSUInteger)group item:(NSUInteger)item {
+    CGFloat dataValue = [self dataAtGroup:group item:item];
+    CGPoint tempP;
+    if (self.chartType == BarChartTypeStack) {
+        tempP = CGPointMake((self.itemAxisScale+self.groupSpace)*group+self.itemAxisScale*self.pointRatio.xRatio, self.zeroLine);
+
+        if (dataValue > 0) {
+            for (NSUInteger i=0; i<item; i++) {
+                if ([self dataAtGroup:group item:i] > 0) {
+                    tempP.y -= [self dataAtGroup:group item:i]*self.dataItemUnitScale;
+                }
+            }
+        } else {
+            for (NSUInteger i=0; i<item; i++) {
+                if ([self dataAtGroup:group item:i] < 0) {
+                    tempP.y -= [self dataAtGroup:group item:i]*self.dataItemUnitScale;
+                }
+            }
+        }
+    } else {
+        tempP = CGPointMake((self.Datas.count*self.itemAxisScale+self.groupSpace)*group+self.itemAxisScale*(self.pointRatio.xRatio+item), self.zeroLine);
+    }
+    tempP.y -= dataValue*self.dataItemUnitScale * self.pointRatio.yRatio;
+    tempP = [self.gestureScroll convertPoint:tempP toView:self.containerView];
     
     NSString *axisStr;
     NSString *dataStr = [NSString stringWithFormat:@"%@: %@", self.dataTitle, [self.Datas[item] objectAtIndex:group]];
@@ -233,7 +263,7 @@
     switch (self.chartType) {
         case BarChartTypeSingle: {
             if (self.beginGroupIndex == self.endGroupIndex) {
-                self.minDataValue = [[(NSArray *)self.Datas[0] objectAtIndex:self.beginGroupIndex] floatValue];
+                self.minDataValue = [self dataAtGroup:self.beginGroupIndex item:0];
                 self.maxDataValue = self.minDataValue;
             } else {
                 NSMutableArray *array =
@@ -251,7 +281,7 @@
                 self.minDataValue = 0;
                 self.maxDataValue = 0;
                 for (NSUInteger i = 0; i < self.Datas.count; i++) {
-                    CGFloat y = [[self.Datas[i] objectAtIndex:self.beginGroupIndex] floatValue];
+                    CGFloat y = [self dataAtGroup:self.beginGroupIndex item:i];
                     if (y < 0) {
                         self.minDataValue += y;
                     } else {
@@ -267,7 +297,7 @@
                 for (NSUInteger i = self.beginGroupIndex; i <= self.endGroupIndex; i++) {
                     CGFloat tempMinYValue = 0, tempMaxYValue = 0;
                     for (NSUInteger j = 0; j < self.Datas.count; j++) {
-                        CGFloat y = [[self.Datas[j] objectAtIndex:i] floatValue];
+                        CGFloat y = [self dataAtGroup:i item:j];
                         if (y < 0) {
                             tempMinYValue += y;
                         } else {
@@ -292,15 +322,15 @@
                 if (self.beginItemIndex > self.endItemIndex) {
                     self.beginItemIndex = self.endItemIndex;
                 }
-                self.minDataValue = [[self.Datas[self.beginItemIndex] objectAtIndex:self.beginGroupIndex] floatValue];
+                self.minDataValue = [self dataAtGroup:self.beginGroupIndex item:self.beginItemIndex];
                 self.maxDataValue = self.minDataValue;
                 for (NSUInteger i = self.beginItemIndex + 1; i <= self.endItemIndex; i++) {
-                    CGFloat tempValue = [[self.Datas[i] objectAtIndex:self.beginGroupIndex] floatValue];
+                    CGFloat tempValue = [self dataAtGroup:self.beginGroupIndex item:i];
                     self.minDataValue = MIN(self.minDataValue, tempValue);
                     self.maxDataValue = MAX(self.maxDataValue, tempValue);
                 }
             } else if (self.beginGroupIndex == self.endGroupIndex - 1) {
-                self.minDataValue = [[self.Datas[self.beginItemIndex] objectAtIndex:self.beginGroupIndex] floatValue];
+                self.minDataValue = [self dataAtGroup:self.beginGroupIndex item:self.beginItemIndex];
                 self.maxDataValue = self.minDataValue;
 
                 [self compareBeginAndEndItemValue:self.beginItemIndex + 1
@@ -308,7 +338,7 @@
                                      isBeginGroup:YES];
                 [self compareBeginAndEndItemValue:0 endItem:self.endItemIndex isBeginGroup:NO];
             } else {
-                self.minDataValue = [[self.Datas[self.beginItemIndex] objectAtIndex:self.beginGroupIndex] floatValue];
+                self.minDataValue = [self dataAtGroup:self.beginGroupIndex item:self.beginItemIndex];
                 self.maxDataValue = self.minDataValue;
 
                 [self compareBeginAndEndItemValue:self.beginItemIndex + 1

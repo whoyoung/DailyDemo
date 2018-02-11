@@ -20,12 +20,13 @@
         self.backgroundColor = [UIColor whiteColor];
         [self dealChartConfigure:configureDict];
         self.layer.masksToBounds = YES;
+        self.pointRatio = YHTapPointRatioInItemMake(0, 0);
     }
     return self;
 }
 - (void)updateChartFrame:(CGRect)frame {
     self.frame = frame;
-    self.gestureScroll.frame = CGRectMake(LeftEdge, RightEdge, [self gestureScrollContentSize].width, ChartHeight);
+    self.gestureScroll.frame = CGRectMake(LeftEdge, RightEdge, [self gestureScrollContentSize].width, [self gestureScrollContentSize].height);
     [self redraw];
 }
 - (void)dealChartConfigure:(NSDictionary *)dict {
@@ -114,7 +115,6 @@
     _newPinScale = 1.0;
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self removeTipView];
     [self redraw];
 }
 
@@ -137,34 +137,41 @@
     [self addDataLayer];
     [self addDataScaleLayer];
     [self drawDataPoint];
-}
-- (void)chartDidTapping:(UITapGestureRecognizer *)tapGesture {
-    [self removeTipView];
-    CGPoint tapP = [tapGesture locationInView:self.gestureScroll];
-    NSDictionary *groupItemDict = [self tappedGroupAndItem:tapP];
-    NSUInteger group = [[groupItemDict objectForKey:@"group"] integerValue];
-    NSUInteger item = [[groupItemDict objectForKey:@"item"] integerValue];
-
-    CGPoint containerP = [tapGesture locationInView:self.containerView];
-    [self updateTipLayer:group item:item containerPoint:containerP];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didTapChart:group:item:)]) {
-        [self.delegate didTapChart:self group:group item:item];
+    if (self.hadTapped) {
+        [self updateTipLayer:self.tappedGroup item:self.tappedItem];
     }
 }
+- (void)chartDidTapping:(UITapGestureRecognizer *)tapGesture {
+    CGPoint tapP = [tapGesture locationInView:self.gestureScroll];
+    NSDictionary *groupItemDict = [self tappedGroupAndItem:tapP];
+    _tappedGroup = [[groupItemDict objectForKey:@"group"] integerValue];
+    _tappedItem = [[groupItemDict objectForKey:@"item"] integerValue];
+    _hadTapped = YES;
+    [self saveTapPointRatio:tapP group:_tappedGroup item:_tappedItem];
+
+    [self updateTipLayer:_tappedGroup item:_tappedItem];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didTapChart:group:item:)]) {
+        [self.delegate didTapChart:self group:_tappedGroup item:_tappedItem];
+    }
+}
+- (void)saveTapPointRatio:(CGPoint)tapP group:(NSUInteger)group item:(NSUInteger)item {
+    self.pointRatio = YHTapPointRatioInItemMake(0, 0);
+}
 - (void)removeTipView {
-    UIView *existedV = [self.containerView viewWithTag:101];
+    UIView *existedV = [self.gestureScroll viewWithTag:101];
     [existedV removeFromSuperview];
 }
 - (NSDictionary *)tappedGroupAndItem:(CGPoint)tapP {
     NSUInteger group = 0, item = 0;
     return @{ @"group": @(group), @"item": @(item) };
 }
-- (void)updateTipLayer:(NSUInteger)group item:(NSUInteger)item containerPoint:(CGPoint)point {
-    NSDictionary *dataDict = [self prepareTipViewData:group item:item containerPoint:point];
+- (void)updateTipLayer:(NSUInteger)group item:(NSUInteger)item {
+    [self removeTipView];
+    NSDictionary *dataDict = [self prepareTipViewData:group item:item];
     CGPoint tempP = CGPointFromString([dataDict objectForKey:@"adjustPoint"]);
     NSString *axisStr = [dataDict objectForKey:@"axisStr"];
     NSString *dataStr = [dataDict objectForKey:@"dataStr"];
-
+    
     CGFloat tipTextH = 11;
     CGFloat tipH = 10 + tipTextH + 5;
     CGFloat tipMaxW = [dataStr measureTextWidth:[UIFont systemFontOfSize:9]];
@@ -189,11 +196,11 @@
         originY = tempP.y;
         arrowP += 10; //箭头在弹窗上方
     }
-
-    UIView *tipView = [[UIView alloc] initWithFrame:CGRectMake(originX, originY, tipMaxW, tipH)];
+    CGPoint contentOffset = self.gestureScroll.contentOffset;
+    UIView *tipView = [[UIView alloc] initWithFrame:CGRectMake(contentOffset.x + originX- LeftEdge, contentOffset.y + originY - TopEdge, tipMaxW, tipH)];
     tipView.backgroundColor = [UIColor clearColor];
     tipView.tag = 101;
-    [self.containerView addSubview:tipView];
+    [self.gestureScroll addSubview:tipView];
 
     CAShapeLayer *rectLayer = [CAShapeLayer layer];
     UIBezierPath *rectPath;
@@ -520,5 +527,9 @@
 
 - (CGFloat)dataItemUnitScale {
     return 0;
+}
+
+- (CGFloat)dataAtGroup:(NSUInteger)group item:(NSUInteger)item {
+    return [[self.Datas[item] objectAtIndex:group] floatValue];
 }
 @end

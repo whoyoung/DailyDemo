@@ -12,6 +12,16 @@
 
 typedef NS_ENUM(NSUInteger, BarChartType) { BarChartTypeSingle = 0, BarChartTypeGroup = 1, BarChartTypeStack = 2 };
 
+typedef struct YHTapPointRatioInItem {
+    CGFloat xRatio;
+    CGFloat yRatio;
+} YHTapPointRatioInItem;
+
+CG_INLINE YHTapPointRatioInItem
+YHTapPointRatioInItemMake(CGFloat x, CGFloat y) {
+    YHTapPointRatioInItem pointRatio; pointRatio.xRatio = x; pointRatio.yRatio = y; return pointRatio;
+}
+
 @interface YHBaseChartView : UIView <YHBaseChartMethodProtocol>
 
 @property (nonatomic, weak) id<YHCommonChartViewDelegate> delegate;
@@ -55,6 +65,10 @@ typedef NS_ENUM(NSUInteger, BarChartType) { BarChartTypeSingle = 0, BarChartType
 @property (nonatomic, assign) CGFloat newPinScale;
 @property (nonatomic, assign) CGFloat pinCenterToLeftDistance;
 @property (nonatomic, assign) CGFloat pinCenterRatio;
+@property (nonatomic, assign) YHTapPointRatioInItem pointRatio;
+@property (nonatomic, assign, readonly) BOOL hadTapped;
+@property (nonatomic, assign, readonly) NSUInteger tappedGroup;
+@property (nonatomic, assign, readonly) NSUInteger tappedItem;
 
 - (void)redraw;
 - (void)compareBeginAndEndItemValue:(NSUInteger)beginItem endItem:(NSUInteger)endItem isBeginGroup:(BOOL)isBeginGroup;
@@ -70,4 +84,5 @@ typedef NS_ENUM(NSUInteger, BarChartType) { BarChartTypeSingle = 0, BarChartType
 - (CGFloat)zoomedItemAxis;
 - (void)removeTipView;
 - (void)updateChartFrame:(CGRect)frame;
+- (CGFloat)dataAtGroup:(NSUInteger)group item:(NSUInteger)item;
 @end
