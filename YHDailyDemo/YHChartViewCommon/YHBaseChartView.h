@@ -85,4 +85,5 @@ YHTapPointRatioInItemMake(CGFloat x, CGFloat y) {
 - (void)removeTipView;
 - (void)updateChartFrame:(CGRect)frame;
 - (CGFloat)dataAtGroup:(NSUInteger)group item:(NSUInteger)item;
+- (CGFloat)verifyDataValue:(id)value;
 @end

@@ -212,13 +212,14 @@
     tempP = [self.gestureScroll convertPoint:tempP toView:self.containerView];
     
     NSString *axisStr;
-    NSString *dataStr = [NSString stringWithFormat:@"%@: %@", self.dataTitle, [self.Datas[item] objectAtIndex:group]];
+    NSString *data = [[self.Datas[item] objectAtIndex:group] respondsToSelector:@selector(floatValue)] ? [self.Datas[item] objectAtIndex:group] : @"N/A";
+    NSString *dataStr = [NSString stringWithFormat:@"%@: %@", self.dataTitle, data];
     if (self.chartType == BarChartTypeSingle) {
-        dataStr = [NSString stringWithFormat:@"%@: %@", self.AxisArray[group], [self.Datas[item] objectAtIndex:group]];
+        dataStr = [NSString stringWithFormat:@"%@: %@", self.AxisArray[group], data];
     } else {
         axisStr = [NSString stringWithFormat:@"%@: %@", self.axisTitle, self.AxisArray[group]];
         dataStr =
-        [NSString stringWithFormat:@"%@: %@", self.groupMembers[item], [self.Datas[item] objectAtIndex:group]];
+        [NSString stringWithFormat:@"%@: %@", self.groupMembers[item], data];
     }
     
     return @{
@@ -367,14 +368,15 @@
             CGFloat offsetX = self.gestureScroll.contentOffset.x;
             for (NSUInteger i = self.beginGroupIndex; i <= self.endGroupIndex; i++) {
                 CAShapeLayer *yValueLayer = [CAShapeLayer layer];
-                CGFloat yPoint = self.zeroLine - [array[i] floatValue] * self.dataItemUnitScale;
-                if ([array[i] floatValue] < 0) {
+                CGFloat dataV = [self verifyDataValue:array[i]];
+                CGFloat yPoint = self.zeroLine - dataV * self.dataItemUnitScale;
+                if (dataV < 0) {
                     yPoint = self.zeroLine;
                 }
                 UIBezierPath *yValueBezier =
                     [UIBezierPath bezierPathWithRect:CGRectMake(i * (self.zoomedItemAxis + self.groupSpace) - offsetX,
                                                                 yPoint, self.zoomedItemAxis,
-                                                                fabs([array[i] floatValue]) * self.dataItemUnitScale)];
+                                                                fabs(dataV) * self.dataItemUnitScale)];
                 yValueLayer.path = yValueBezier.CGPath;
                 yValueLayer.lineWidth = 1;
                 yValueLayer.strokeColor = [self.itemColors[0] CGColor];
@@ -388,26 +390,27 @@
                 CGFloat positiveY = self.zeroLine, negativeY = self.zeroLine, yPoint = self.zeroLine;
                 for (NSUInteger j = 0; j < self.Datas.count; j++) {
                     NSArray *array = self.Datas[j];
+                    CGFloat dataV = [self verifyDataValue:array[i]];
                     CAShapeLayer *yValueLayer = [CAShapeLayer layer];
-                    if ([array[i] floatValue] >= 0) {
-                        positiveY -= [array[i] floatValue] * self.dataItemUnitScale;
+                    if (dataV >= 0) {
+                        positiveY -= dataV * self.dataItemUnitScale;
                         yPoint = positiveY;
                     }
-                    if ([array[i] floatValue] < 0 && 0 <= yPoint && yPoint < self.zeroLine) {
+                    if (dataV < 0 && 0 <= yPoint && yPoint < self.zeroLine) {
                         yPoint = self.zeroLine;
                     }
                     UIBezierPath *yValueBezier = [UIBezierPath
                         bezierPathWithRect:CGRectMake(i * (self.zoomedItemAxis + self.groupSpace) - offsetX, yPoint,
                                                       self.zoomedItemAxis,
-                                                      fabs([array[i] floatValue]) * self.dataItemUnitScale)];
+                                                      fabs(dataV) * self.dataItemUnitScale)];
                     yValueLayer.path = yValueBezier.CGPath;
                     yValueLayer.lineWidth = 1;
                     yValueLayer.strokeColor = [[UIColor hexChangeFloat:self.itemColors[j]] CGColor];
                     yValueLayer.fillColor = [[UIColor hexChangeFloat:self.itemColors[j]] CGColor];
                     [subContainerV.layer addSublayer:yValueLayer];
 
-                    if ([array[i] floatValue] < 0) {
-                        negativeY -= [array[i] floatValue] * self.dataItemUnitScale;
+                    if (dataV < 0) {
+                        negativeY -= dataV * self.dataItemUnitScale;
                         yPoint = negativeY;
                     }
                 }
@@ -438,16 +441,17 @@
             for (NSUInteger i = self.beginGroupIndex + 1; i < self.endGroupIndex; i++) {
                 for (NSUInteger j = 0; j < self.Datas.count; j++) {
                     NSArray *array = self.Datas[j];
+                    CGFloat dataV = [self verifyDataValue:array[i]];
                     CAShapeLayer *yValueLayer = [CAShapeLayer layer];
-                    CGFloat yPoint = self.zeroLine - [array[i] floatValue] * self.dataItemUnitScale;
-                    if ([array[i] floatValue] < 0) {
+                    CGFloat yPoint = self.zeroLine - dataV * self.dataItemUnitScale;
+                    if (dataV < 0) {
                         yPoint = self.zeroLine;
                     }
                     UIBezierPath *yValueBezier = [UIBezierPath
                         bezierPathWithRect:CGRectMake(i * (self.zoomedItemAxis * self.Datas.count + self.groupSpace) +
                                                           j * self.zoomedItemAxis - offsetX,
                                                       yPoint, self.zoomedItemAxis,
-                                                      fabs([array[i] floatValue]) * self.dataItemUnitScale)];
+                                                      fabs(dataV) * self.dataItemUnitScale)];
                     yValueLayer.path = yValueBezier.CGPath;
                     yValueLayer.lineWidth = 1;
                     yValueLayer.strokeColor = [[UIColor hexChangeFloat:self.itemColors[j]] CGColor];
@@ -470,7 +474,7 @@
     for (NSUInteger i = leftIndex; i <= rightIndex; i++) {
         NSArray *array = self.Datas[i];
         CAShapeLayer *yValueLayer = [CAShapeLayer layer];
-        CGFloat itemValue = isBegin ? [array[self.beginGroupIndex] floatValue] : [array[self.endGroupIndex] floatValue];
+        CGFloat itemValue = isBegin ? [self verifyDataValue:array[self.beginGroupIndex]] : [self verifyDataValue:array[self.endGroupIndex]];
         CGFloat yPoint = self.zeroLine - itemValue * self.dataItemUnitScale;
         if (itemValue < 0) {
             yPoint = self.zeroLine;

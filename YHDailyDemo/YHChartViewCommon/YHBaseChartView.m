@@ -367,7 +367,7 @@
 - (void)compareBeginAndEndItemValue:(NSUInteger)beginItem endItem:(NSUInteger)endItem isBeginGroup:(BOOL)isBeginGroup {
     for (NSUInteger i = beginItem; i <= endItem; i++) {
         NSUInteger index = isBeginGroup ? self.beginGroupIndex : self.endGroupIndex;
-        CGFloat tempValue = [[self.Datas[i] objectAtIndex:index] floatValue];
+        CGFloat tempValue = [self dataAtGroup:index item:i];
         self.minDataValue = MIN(self.minDataValue, tempValue);
         self.maxDataValue = MAX(self.maxDataValue, tempValue);
     }
@@ -381,18 +381,25 @@
     if (leftIndex > rightIndex) {
         leftIndex = rightIndex;
     }
+    CGFloat leftValue = 0, rightValue = 0;
+    if ([compareA[leftIndex] respondsToSelector:@selector(floatValue)]) {
+        leftValue = [compareA[leftIndex] floatValue];
+    }
+    if ([compareA[rightIndex] respondsToSelector:@selector(floatValue)]) {
+        rightValue = [compareA[rightIndex] floatValue];
+    }
     if (leftIndex == rightIndex) {
-        self.minDataValue = MIN([compareA[leftIndex] floatValue], self.minDataValue);
-        self.maxDataValue = MAX([compareA[leftIndex] floatValue], self.maxDataValue);
+        self.minDataValue = MIN(leftValue, self.minDataValue);
+        self.maxDataValue = MAX(leftValue, self.maxDataValue);
         return;
     } else if (leftIndex == rightIndex - 1) {
-        if ([compareA[leftIndex] floatValue] < [compareA[rightIndex] floatValue]) {
-            self.minDataValue = MIN([compareA[leftIndex] floatValue], self.minDataValue);
-            self.maxDataValue = MAX([compareA[rightIndex] floatValue], self.maxDataValue);
+        if (leftValue < rightValue) {
+            self.minDataValue = MIN(leftValue, self.minDataValue);
+            self.maxDataValue = MAX(rightValue, self.maxDataValue);
             return;
         } else {
-            self.minDataValue = MIN([compareA[rightIndex] floatValue], self.minDataValue);
-            self.maxDataValue = MAX([compareA[leftIndex] floatValue], self.maxDataValue);
+            self.minDataValue = MIN(rightValue, self.minDataValue);
+            self.maxDataValue = MAX(leftValue, self.maxDataValue);
             return;
         }
     }
@@ -409,7 +416,7 @@
         }
         _dataNegativeSegmentNum = 0;
         self.itemDataScale = ceil([self absoluteMaxValue:self.maxDataValue] / _dataPostiveSegmentNum);
-    } else if (self.maxDataValue < 0) {
+    } else if (self.maxDataValue <= 0) {
         _dataPostiveSegmentNum = 0;
         _dataNegativeSegmentNum = self.valueInterval;
         if (fabs(self.minDataValue) < 1) {
@@ -534,6 +541,15 @@
 }
 
 - (CGFloat)dataAtGroup:(NSUInteger)group item:(NSUInteger)item {
-    return [[self.Datas[item] objectAtIndex:group] floatValue];
+    if ([[self.Datas[item] objectAtIndex:group] respondsToSelector:@selector(floatValue)]) {
+        return [[self.Datas[item] objectAtIndex:group] floatValue];
+    }
+    return 0;
+}
+- (CGFloat)verifyDataValue:(id)value {
+    if ([value respondsToSelector:@selector(floatValue)]) {
+        return [value floatValue];
+    }
+    return 0;
 }
 @end

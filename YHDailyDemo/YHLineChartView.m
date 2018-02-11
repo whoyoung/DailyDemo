@@ -79,9 +79,13 @@
         group += 1;
     }
     if (self.Datas.count > 1) {
-        CGFloat actualY = self.zeroLine - [[self.Datas[0] objectAtIndex:group] floatValue] * self.dataItemUnitScale;
+        CGFloat actualY = self.zeroLine;
+        if ([self dataAtGroup:group item:item] != MAXFLOAT) {
+            actualY -= [[self.Datas[0] objectAtIndex:group] floatValue] * self.dataItemUnitScale;
+        }
         CGFloat minDistance = fabs(tapP.y - actualY);
-        for (NSUInteger i=1; i<self.Datas.count; i++) {
+        for (NSUInteger i=item+1; i<self.Datas.count; i++) {
+            if ([self dataAtGroup:group item:i] == MAXFLOAT) continue;
             CGFloat tempActualY = self.zeroLine - [[self.Datas[i] objectAtIndex:group] floatValue] * self.dataItemUnitScale;
             if (minDistance > fabs(tapP.y - tempActualY)) {
                 minDistance = fabs(tapP.y - tempActualY);
@@ -105,15 +109,16 @@
 - (NSDictionary *)prepareTipViewData:(NSUInteger)group item:(NSUInteger)item {
     CGPoint tempP;
     tempP.x = group * self.zoomedItemAxis;
-    tempP.y = self.zeroLine - [self dataAtGroup:group item:item] * self.dataItemUnitScale;
+    tempP.y = self.zeroLine - [super dataAtGroup:group item:item] * self.dataItemUnitScale;
     tempP = [self.gestureScroll convertPoint:tempP toView:self.containerView];
     NSString *axisStr;
-    NSString *dataStr = [NSString stringWithFormat:@"%@: %@",self.dataTitle,[self.Datas[item] objectAtIndex:group]];
+    NSString *data = [self dataAtGroup:group item:item] == MAXFLOAT ? @"N/A" : [NSString stringWithFormat:@"%f",[self dataAtGroup:group item:item]];
+    NSString *dataStr = [NSString stringWithFormat:@"%@: %@",self.dataTitle,data];
     if (self.Datas.count < 2) {
-        dataStr = [NSString stringWithFormat:@"%@: %@",self.AxisArray[group],[self.Datas[item] objectAtIndex:group]];
+        dataStr = [NSString stringWithFormat:@"%@: %@",self.AxisArray[group],data];
     } else {
         axisStr = [NSString stringWithFormat:@"%@: %@",self.axisTitle,self.AxisArray[group]];
-        dataStr = [NSString stringWithFormat:@"%@: %@",self.groupMembers[item],[self.Datas[item] objectAtIndex:group]];
+        dataStr = [NSString stringWithFormat:@"%@: %@",self.groupMembers[item],data];
     }
     
     return @{
@@ -130,7 +135,7 @@
 }
 
 - (void)calculateMaxAndMinValue {
-    self.minDataValue = [self.Datas[0][self.beginGroupIndex] floatValue];
+    self.minDataValue = 0;
     self.maxDataValue = self.minDataValue;
     for (NSArray *values in self.Datas) {
         [self findMaxAndMinValue:self.beginGroupIndex rightIndex:self.endGroupIndex compareA:values];
@@ -147,10 +152,11 @@
         UIBezierPath *yValueBezier = [UIBezierPath bezierPath];
         CGFloat offsetX = self.gestureScroll.contentOffset.x;
         CGFloat zeroY = self.dataPostiveSegmentNum * [self axisUnitScale];
-        for (NSUInteger i=self.beginGroupIndex; i<self.endGroupIndex+1; i++) {
-            CGFloat yPoint = zeroY - [values[i] floatValue] * self.dataItemUnitScale;
-            CGPoint p = CGPointMake(i*self.zoomedItemAxis-offsetX, yPoint);
-            if (i == self.beginGroupIndex) {
+        for (NSUInteger j=self.beginGroupIndex; j<self.endGroupIndex+1; j++) {
+            if (![values[j] respondsToSelector:@selector(floatValue)]) continue;
+            CGFloat yPoint = zeroY - [values[j] floatValue] * self.dataItemUnitScale;
+            CGPoint p = CGPointMake(j*self.zoomedItemAxis-offsetX, yPoint);
+            if (j == self.beginGroupIndex || ![values[j-1] respondsToSelector:@selector(floatValue)]) {
                 [yValueBezier moveToPoint:p];
             } else {
                 [yValueBezier addLineToPoint:p];
@@ -276,5 +282,11 @@
 }
 - (CGFloat)dataItemUnitScale {
     return ChartHeight / (self.itemDataScale * (self.dataPostiveSegmentNum + self.dataNegativeSegmentNum));
+}
+- (CGFloat)dataAtGroup:(NSUInteger)group item:(NSUInteger)item {
+    if ([[self.Datas[item] objectAtIndex:group] respondsToSelector:@selector(floatValue)]) {
+        return [[self.Datas[item] objectAtIndex:group] floatValue];
+    }
+    return MAXFLOAT;
 }
 @end
