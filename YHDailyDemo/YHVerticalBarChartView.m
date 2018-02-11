@@ -32,7 +32,6 @@
 }
 
 - (void)chartDidZooming:(UIPinchGestureRecognizer *)pinGesture {
-    [self removeTipView];
     switch (pinGesture.state) {
         case UIGestureRecognizerStateBegan: {
             CGPoint pinCenterContainer = [pinGesture locationInView:self.containerView];
@@ -191,7 +190,7 @@
     CGFloat dataValue = [self dataAtGroup:group item:item] * self.dataItemUnitScale;
     CGPoint tempP;
     if (self.chartType == BarChartTypeStack) {
-        tempP = CGPointMake(self.zeroLine, (self.itemAxisScale+self.groupSpace)*group+self.itemAxisScale*self.pointRatio.yRatio);
+        tempP = CGPointMake(self.zeroLine, (self.zoomedItemAxis+self.groupSpace)*group+self.zoomedItemAxis*self.pointRatio.yRatio);
         if (dataValue > 0) {
             for (NSUInteger i=0; i<item; i++) {
                 if ([self dataAtGroup:group item:i] > 0) {
@@ -206,7 +205,7 @@
             }
         }
     } else {
-        tempP = CGPointMake(self.zeroLine, (self.Datas.count*self.itemAxisScale+self.groupSpace)*group+self.itemAxisScale*(self.pointRatio.yRatio+item));
+        tempP = CGPointMake(self.zeroLine, (self.Datas.count*self.zoomedItemAxis+self.groupSpace)*group+self.zoomedItemAxis*(self.pointRatio.yRatio+item));
     }
     tempP.x += dataValue * self.pointRatio.xRatio;
     tempP = [self.gestureScroll convertPoint:tempP toView:self.containerView];
