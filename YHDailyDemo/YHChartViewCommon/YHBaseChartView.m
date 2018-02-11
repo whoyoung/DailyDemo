@@ -186,9 +186,15 @@
     if (originX < LeftEdge) {
         originX = tempP.x;
         arrowP = 1; //箭头在左边位置
+        if ((originX+LeftEdge) < LeftEdge) {
+            return;
+        }
     } else if (tempP.x + tipMaxW / 2.0 > ChartWidth + LeftEdge) {
         originX = tempP.x - tipMaxW;
         arrowP = 3; //箭头在右边位置
+        if (originX>(LeftEdge+ChartWidth)) {
+            return;
+        }
     }
 
     CGFloat originY = tempP.y - tipH;
