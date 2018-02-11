@@ -195,13 +195,13 @@
         if (dataValue > 0) {
             for (NSUInteger i=0; i<item; i++) {
                 if ([self dataAtGroup:group item:i] > 0) {
-                    tempP.x += dataValue;
+                    tempP.x += [self dataAtGroup:group item:i]*self.dataItemUnitScale;
                 }
             }
         } else {
             for (NSUInteger i=0; i<item; i++) {
                 if ([self dataAtGroup:group item:i] < 0) {
-                    tempP.x += dataValue;
+                    tempP.x += [self dataAtGroup:group item:i]*self.dataItemUnitScale;
                 }
             }
         }
