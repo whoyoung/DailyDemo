@@ -28,12 +28,11 @@
 }
 
 - (void)chartDidZooming:(UIPinchGestureRecognizer *)pinGesture {
-    [self removeTipView];
     switch (pinGesture.state) {
         case UIGestureRecognizerStateBegan: {
             CGPoint pinCenterContainer = [pinGesture locationInView:self.containerView];
             self.pinCenterToLeftDistance = pinCenterContainer.x - LeftEdge;
-            CGPoint pinCenterScrollView = [pinGesture locationInView:self.containerView];
+            CGPoint pinCenterScrollView = [pinGesture locationInView:self.gestureScroll];
             self.pinCenterRatio = pinCenterScrollView.x/self.gestureScroll.contentSize.width;
         }
             break;
@@ -105,10 +104,9 @@
 }
 - (NSDictionary *)prepareTipViewData:(NSUInteger)group item:(NSUInteger)item {
     CGPoint tempP;
-    CGFloat absoluteZeroLine = self.zeroLine + TopEdge;
-    tempP.x = group * self.zoomedItemAxis + LeftEdge;
-    tempP.y = absoluteZeroLine - [self dataAtGroup:group item:item] * self.dataItemUnitScale;
-    
+    tempP.x = group * self.zoomedItemAxis;
+    tempP.y = self.zeroLine - [self dataAtGroup:group item:item] * self.dataItemUnitScale;
+    tempP = [self.gestureScroll convertPoint:tempP toView:self.containerView];
     NSString *axisStr;
     NSString *dataStr = [NSString stringWithFormat:@"%@: %@",self.dataTitle,[self.Datas[item] objectAtIndex:group]];
     if (self.Datas.count < 2) {
