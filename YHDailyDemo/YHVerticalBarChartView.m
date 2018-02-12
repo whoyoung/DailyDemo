@@ -363,8 +363,8 @@
                 UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemAxis+self.groupSpace)-offsetY, fabs(dataV) * self.dataItemUnitScale, self.zoomedItemAxis)];
                 xValueLayer.path = xValueBezier.CGPath;
                 xValueLayer.lineWidth = 1;
-                xValueLayer.strokeColor = [self.itemColors[0] CGColor];
-                xValueLayer.fillColor = [self.itemColors[0] CGColor];
+                xValueLayer.strokeColor = [[UIColor hexChangeFloat:self.itemColors[0]] CGColor];
+                xValueLayer.fillColor = [[UIColor hexChangeFloat:self.itemColors[0]] CGColor];
                 [subContainerV.layer addSublayer:xValueLayer];
             }
         }

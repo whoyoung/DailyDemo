@@ -379,8 +379,8 @@
                                                                 fabs(dataV) * self.dataItemUnitScale)];
                 yValueLayer.path = yValueBezier.CGPath;
                 yValueLayer.lineWidth = 1;
-                yValueLayer.strokeColor = [self.itemColors[0] CGColor];
-                yValueLayer.fillColor = [self.itemColors[0] CGColor];
+                yValueLayer.strokeColor = [[UIColor hexChangeFloat:self.itemColors[0]] CGColor];
+                yValueLayer.fillColor = [[UIColor hexChangeFloat:self.itemColors[0]] CGColor];
                 [subContainerV.layer addSublayer:yValueLayer];
             }
         } break;
