@@ -215,6 +215,7 @@
     NSString *data = [[self.Datas[item] objectAtIndex:group] respondsToSelector:@selector(floatValue)] ? [self.Datas[item] objectAtIndex:group] : @"N/A";
     NSString *dataStr = [NSString stringWithFormat:@"%@: %@", self.dataTitle, data];
     if (self.chartType == BarChartTypeSingle) {
+        axisStr = @"";
         dataStr = [NSString stringWithFormat:@"%@: %@", self.AxisArray[group], data];
     } else {
         axisStr = [NSString stringWithFormat:@"%@: %@", self.axisTitle, self.AxisArray[group]];

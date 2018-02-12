@@ -175,7 +175,7 @@
     CGFloat tipTextH = 11;
     CGFloat tipH = 10 + tipTextH + 5;
     CGFloat tipMaxW = [dataStr measureTextWidth:[UIFont systemFontOfSize:9]];
-    if (axisStr) {
+    if (axisStr.length) {
         tipMaxW = MAX(tipMaxW, [axisStr measureTextWidth:[UIFont systemFontOfSize:9]]);
         tipH += tipTextH;
     }
@@ -287,7 +287,7 @@
     if (arrowP > 10) {
         startY = 10;
     }
-    if (axisStr) {
+    if (axisStr.length) {
         textFrame = CGRectMake(5, startY, tipMaxW - 10, tipTextH);
         CATextLayer *text = [self getTextLayerWithString:axisStr
                                                textColor:TipTextColor
@@ -306,7 +306,7 @@
                                            alignmentMode:kCAAlignmentLeft];
         [tipView.layer addSublayer:text];
     } else {
-        CATextLayer *text = [self getTextLayerWithString:axisStr
+        CATextLayer *text = [self getTextLayerWithString:dataStr
                                                textColor:TipTextColor
                                                 fontSize:TipTextFont
                                          backgroundColor:[UIColor clearColor]

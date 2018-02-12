@@ -115,6 +115,7 @@
     NSString *data = [self dataAtGroup:group item:item] == MAXFLOAT ? @"N/A" : [NSString stringWithFormat:@"%f",[self dataAtGroup:group item:item]];
     NSString *dataStr = [NSString stringWithFormat:@"%@: %@",self.dataTitle,data];
     if (self.Datas.count < 2) {
+        axisStr = @"";
         dataStr = [NSString stringWithFormat:@"%@: %@",self.AxisArray[group],data];
     } else {
         axisStr = [NSString stringWithFormat:@"%@: %@",self.axisTitle,self.AxisArray[group]];
