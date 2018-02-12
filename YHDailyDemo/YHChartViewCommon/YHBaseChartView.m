@@ -381,13 +381,8 @@
     if (leftIndex > rightIndex) {
         leftIndex = rightIndex;
     }
-    CGFloat leftValue = 0, rightValue = 0;
-    if ([compareA[leftIndex] respondsToSelector:@selector(floatValue)]) {
-        leftValue = [compareA[leftIndex] floatValue];
-    }
-    if ([compareA[rightIndex] respondsToSelector:@selector(floatValue)]) {
-        rightValue = [compareA[rightIndex] floatValue];
-    }
+    CGFloat leftValue = [self verifyDataValue:compareA[leftIndex]];
+    CGFloat rightValue = [self verifyDataValue:compareA[rightIndex]];
     if (leftIndex == rightIndex) {
         self.minDataValue = MIN(leftValue, self.minDataValue);
         self.maxDataValue = MAX(leftValue, self.maxDataValue);

@@ -191,7 +191,7 @@
     CGPoint tempP;
     if (self.chartType == BarChartTypeStack) {
         tempP = CGPointMake(self.zeroLine, (self.zoomedItemAxis+self.groupSpace)*group+self.zoomedItemAxis*self.pointRatio.yRatio);
-        if (dataValue > 0) {
+        if (dataValue >= 0) {
             for (NSUInteger i=0; i<item; i++) {
                 if ([self dataAtGroup:group item:i] > 0) {
                     tempP.x += [self dataAtGroup:group item:i]*self.dataItemUnitScale;
@@ -211,12 +211,13 @@
     tempP = [self.gestureScroll convertPoint:tempP toView:self.containerView];
     
     NSString *axisStr;
-    NSString *dataStr = [NSString stringWithFormat:@"%@: %@",self.dataTitle,[self.Datas[item] objectAtIndex:group]];
+    NSString *data = [[self.Datas[item] objectAtIndex:group] respondsToSelector:@selector(floatValue)] ? [self.Datas[item] objectAtIndex:group] : @"N/A";
+    NSString *dataStr = [NSString stringWithFormat:@"%@: %@",self.dataTitle,data];
     if (self.chartType == BarChartTypeSingle) {
-        dataStr = [NSString stringWithFormat:@"%@: %@",self.AxisArray[group],[self.Datas[item] objectAtIndex:group]];
+        dataStr = [NSString stringWithFormat:@"%@: %@",self.AxisArray[group],data];
     } else {
         axisStr = [NSString stringWithFormat:@"%@: %@",self.axisTitle,self.AxisArray[group]];
-        dataStr = [NSString stringWithFormat:@"%@: %@",self.groupMembers[item],[self.Datas[item] objectAtIndex:group]];
+        dataStr = [NSString stringWithFormat:@"%@: %@",self.groupMembers[item],data];
     }
     
     return @{
@@ -264,7 +265,7 @@
                 for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
                     [array addObject:[(NSArray *)self.Datas[0] objectAtIndex:i]];
                 }
-                self.minDataValue = [array[0] floatValue];
+                self.minDataValue = 0;
                 self.maxDataValue = self.minDataValue;
                 [self findMaxAndMinValue:0 rightIndex:array.count-1 compareA:array];
             }
@@ -322,7 +323,8 @@
                     self.minDataValue = MIN(self.minDataValue, tempValue);
                     self.maxDataValue = MAX(self.maxDataValue, tempValue);
                 }
-            } else if (self.beginGroupIndex == [self dataAtGroup:self.beginGroupIndex item:self.beginItemIndex]) {
+            } else if (self.beginGroupIndex == self.endGroupIndex - 1) {
+                self.minDataValue = [self dataAtGroup:self.beginGroupIndex item:self.beginItemIndex];
                 self.maxDataValue = self.minDataValue;
                 
                 [self compareBeginAndEndItemValue:self.beginItemIndex+1 endItem:self.Datas.count-1 isBeginGroup:YES];
@@ -354,10 +356,11 @@
             for (NSUInteger i=self.beginGroupIndex; i<=self.endGroupIndex; i++) {
                 CAShapeLayer *xValueLayer = [CAShapeLayer layer];
                 CGFloat xPoint = self.zeroLine;
-                if ([array[i] floatValue] < 0) {
-                    xPoint = self.zeroLine + [array[i] floatValue] * self.dataItemUnitScale;
+                CGFloat dataV = [self verifyDataValue:array[i]];
+                if (dataV < 0) {
+                    xPoint = self.zeroLine + dataV * self.dataItemUnitScale;
                 }
-                UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemAxis+self.groupSpace)-offsetY, fabs([array[i] floatValue]) * self.dataItemUnitScale, self.zoomedItemAxis)];
+                UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemAxis+self.groupSpace)-offsetY, fabs(dataV) * self.dataItemUnitScale, self.zoomedItemAxis)];
                 xValueLayer.path = xValueBezier.CGPath;
                 xValueLayer.lineWidth = 1;
                 xValueLayer.strokeColor = [self.itemColors[0] CGColor];
@@ -372,23 +375,24 @@
                 CGFloat positiveX = self.zeroLine, negativeX = self.zeroLine, xPoint = self.zeroLine;
                 for (NSUInteger j=0; j<self.Datas.count; j++) {
                     NSArray *array = self.Datas[j];
+                    CGFloat dataV = [self verifyDataValue:array[i]];
                     CAShapeLayer *xValueLayer = [CAShapeLayer layer];
-                    if ([array[i] floatValue] < 0) {
-                        negativeX += [array[i] floatValue] * self.dataItemUnitScale;
+                    if (dataV < 0) {
+                        negativeX += dataV * self.dataItemUnitScale;
                         xPoint = negativeX;
                     }
-                    if ([array[i] floatValue] >= 0 && xPoint < self.zeroLine) {
+                    if (dataV >= 0 && xPoint < self.zeroLine) {
                         xPoint = self.zeroLine;
                     }
-                    UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemAxis+self.groupSpace)-offsetY, fabs([array[i] floatValue]) * self.dataItemUnitScale, self.zoomedItemAxis)];
+                    UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemAxis+self.groupSpace)-offsetY, fabs(dataV) * self.dataItemUnitScale, self.zoomedItemAxis)];
                     xValueLayer.path = xValueBezier.CGPath;
                     xValueLayer.lineWidth = 1;
                     xValueLayer.strokeColor = [[UIColor hexChangeFloat:self.itemColors[j]] CGColor];
                     xValueLayer.fillColor = [[UIColor hexChangeFloat:self.itemColors[j]] CGColor];
                     [subContainerV.layer addSublayer:xValueLayer];
                     
-                    if ([array[i] floatValue] >= 0) {
-                        positiveX += [array[i] floatValue] * self.dataItemUnitScale;
+                    if (dataV >= 0) {
+                        positiveX += dataV * self.dataItemUnitScale;
                         xPoint = positiveX;
                     }
                 }
@@ -414,13 +418,14 @@
             for (NSUInteger i=self.beginGroupIndex+1; i<self.endGroupIndex; i++) {
                 for (NSUInteger j=0; j<self.Datas.count; j++) {
                     NSArray *array = self.Datas[j];
+                    CGFloat dataV = [self verifyDataValue:array[i]];
                     CAShapeLayer *xValueLayer = [CAShapeLayer layer];
                     
                     CGFloat xPoint = self.zeroLine;
-                    if ([array[i] floatValue] < 0) {
-                        xPoint = self.zeroLine + [array[i] floatValue] * self.dataItemUnitScale;
+                    if (dataV < 0) {
+                        xPoint = self.zeroLine + dataV * self.dataItemUnitScale;
                     }
-                    UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemAxis*self.Datas.count+self.groupSpace)+j*self.zoomedItemAxis-offsetY, fabs([array[i] floatValue]) * self.dataItemUnitScale, self.zoomedItemAxis)];
+                    UIBezierPath *xValueBezier = [UIBezierPath bezierPathWithRect:CGRectMake(xPoint, i*(self.zoomedItemAxis*self.Datas.count+self.groupSpace)+j*self.zoomedItemAxis-offsetY, fabs(dataV) * self.dataItemUnitScale, self.zoomedItemAxis)];
                     xValueLayer.path = xValueBezier.CGPath;
                     xValueLayer.lineWidth = 1;
                     xValueLayer.strokeColor = [[UIColor hexChangeFloat:self.itemColors[j]] CGColor];
@@ -441,7 +446,7 @@
     for (NSUInteger i=leftIndex; i<=rightIndex; i++) {
         NSArray *array = self.Datas[i];
         CAShapeLayer *xValueLayer = [CAShapeLayer layer];
-        CGFloat itemValue = isBegin ? [array[self.beginGroupIndex] floatValue] :  [array[self.endGroupIndex] floatValue];
+        CGFloat itemValue = isBegin ? [self verifyDataValue:array[self.beginGroupIndex]] :  [self verifyDataValue:array[self.endGroupIndex]];
         CGFloat xPoint = self.zeroLine;
         if (itemValue < 0) {
             xPoint = self.zeroLine + itemValue * self.dataItemUnitScale;

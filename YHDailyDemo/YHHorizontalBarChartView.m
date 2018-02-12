@@ -192,7 +192,7 @@
     if (self.chartType == BarChartTypeStack) {
         tempP = CGPointMake((self.zoomedItemAxis+self.groupSpace)*group+self.zoomedItemAxis*self.pointRatio.xRatio, self.zeroLine);
 
-        if (dataValue > 0) {
+        if (dataValue >= 0) {
             for (NSUInteger i=0; i<item; i++) {
                 if ([self dataAtGroup:group item:i] > 0) {
                     tempP.y -= [self dataAtGroup:group item:i]*self.dataItemUnitScale;
