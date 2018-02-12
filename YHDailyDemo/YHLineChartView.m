@@ -153,6 +153,9 @@
         UIBezierPath *yValueBezier = [UIBezierPath bezierPath];
         CGFloat offsetX = self.gestureScroll.contentOffset.x;
         CGFloat zeroY = self.dataPostiveSegmentNum * [self axisUnitScale];
+
+        NSMutableArray *circlePoints = [NSMutableArray array];
+        
         for (NSUInteger j=self.beginGroupIndex; j<self.endGroupIndex+1; j++) {
             if (![values[j] respondsToSelector:@selector(floatValue)]) continue;
             CGFloat yPoint = zeroY - [values[j] floatValue] * self.dataItemUnitScale;
@@ -162,14 +165,35 @@
             } else {
                 [yValueBezier addLineToPoint:p];
             }
+            if (j < self.endGroupIndex && [values[j + 1] respondsToSelector:@selector(floatValue)]) {
+                [circlePoints addObject:NSStringFromCGPoint(p)];
+            } else if (j > self.beginGroupIndex && [values[j - 1] respondsToSelector:@selector(floatValue)]) {
+                [circlePoints addObject:NSStringFromCGPoint(p)];
+            }
         }
         yValueLayer.path = yValueBezier.CGPath;
         yValueLayer.lineWidth = 1;
         yValueLayer.strokeColor = [[UIColor hexChangeFloat:self.itemColors[i]] CGColor];
-        yValueLayer.fillColor = [UIColor clearColor].CGColor;
+        yValueLayer.fillColor = [[UIColor clearColor] CGColor];
         [subContainerV.layer addSublayer:yValueLayer];
+
+        [self addCircleLayers:circlePoints
+                  circleColor:[[UIColor hexChangeFloat:self.itemColors[i]] CGColor]
+                   parentView:subContainerV];
     }
-    
+}
+- (void)addCircleLayers:(NSMutableArray *)circlePoints circleColor:(CGColorRef)color parentView:(UIView *)parentV {
+    for (NSUInteger index = 0; index < circlePoints.count; index++) {
+        CAShapeLayer *shaperLayer = [CAShapeLayer layer];
+        UIBezierPath *bezierP = [UIBezierPath bezierPathWithArcCenter:CGPointFromString(circlePoints[index])
+                                                               radius:2
+                                                           startAngle:0
+                                                             endAngle:2 * M_PI
+                                                            clockwise:YES];
+        shaperLayer.path = bezierP.CGPath;
+        shaperLayer.fillColor = color;
+        [parentV.layer addSublayer:shaperLayer];
+    }
 }
 
 - (void)addAxisLayer {
