@@ -272,7 +272,7 @@
                 for (NSUInteger i = self.beginGroupIndex; i <= self.endGroupIndex; i++) {
                     [array addObject:[(NSArray *)self.Datas[0] objectAtIndex:i]];
                 }
-                self.minDataValue = [array[0] floatValue];
+                self.minDataValue = [self verifyDataValue:array[0]];
                 self.maxDataValue = self.minDataValue;
                 [self findMaxAndMinValue:0 rightIndex:array.count - 1 compareA:array];
             }
@@ -308,13 +308,13 @@
                     [minDataValues addObject:[NSString stringWithFormat:@"%f", tempMinYValue]];
                     [maxDataValues addObject:[NSString stringWithFormat:@"%f", tempMaxYValue]];
                 }
-                self.minDataValue = [minDataValues[0] floatValue];
-                self.maxDataValue = [maxDataValues[0] floatValue];
+                self.minDataValue = [self verifyDataValue:minDataValues[0]];
+                self.maxDataValue = [self verifyDataValue:maxDataValues[0]];
                 for (NSString *value in minDataValues) {
-                    self.minDataValue = MIN(self.minDataValue, [value floatValue]);
+                    self.minDataValue = MIN(self.minDataValue, [self verifyDataValue:value]);
                 }
                 for (NSString *value in maxDataValues) {
-                    self.maxDataValue = MAX(self.maxDataValue, [value floatValue]);
+                    self.maxDataValue = MAX(self.maxDataValue, [self verifyDataValue:value]);
                 }
             }
         } break;

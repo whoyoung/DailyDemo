@@ -81,12 +81,12 @@
     if (self.Datas.count > 1) {
         CGFloat actualY = self.zeroLine;
         if ([self dataAtGroup:group item:item] != MAXFLOAT) {
-            actualY -= [[self.Datas[0] objectAtIndex:group] floatValue] * self.dataItemUnitScale;
+            actualY -= [self dataAtGroup:group item:0] * self.dataItemUnitScale;
         }
         CGFloat minDistance = fabs(tapP.y - actualY);
         for (NSUInteger i=item+1; i<self.Datas.count; i++) {
             if ([self dataAtGroup:group item:i] == MAXFLOAT) continue;
-            CGFloat tempActualY = self.zeroLine - [[self.Datas[i] objectAtIndex:group] floatValue] * self.dataItemUnitScale;
+            CGFloat tempActualY = self.zeroLine - [self dataAtGroup:group item:i] * self.dataItemUnitScale;
             if (minDistance > fabs(tapP.y - tempActualY)) {
                 minDistance = fabs(tapP.y - tempActualY);
                 item = i;
@@ -158,7 +158,7 @@
         
         for (NSUInteger j=self.beginGroupIndex; j<self.endGroupIndex+1; j++) {
             if (![values[j] respondsToSelector:@selector(floatValue)]) continue;
-            CGFloat yPoint = zeroY - [values[j] floatValue] * self.dataItemUnitScale;
+            CGFloat yPoint = zeroY - [self verifyDataValue:values[j]] * self.dataItemUnitScale;
             CGPoint p = CGPointMake(j*self.zoomedItemAxis-offsetX, yPoint);
             if (j == self.beginGroupIndex || ![values[j-1] respondsToSelector:@selector(floatValue)]) {
                 [yValueBezier moveToPoint:p];
@@ -310,7 +310,7 @@
 }
 - (CGFloat)dataAtGroup:(NSUInteger)group item:(NSUInteger)item {
     if ([[self.Datas[item] objectAtIndex:group] respondsToSelector:@selector(floatValue)]) {
-        return [[self.Datas[item] objectAtIndex:group] floatValue];
+        return [self dataAtGroup:group item:item];
     }
     return MAXFLOAT;
 }

@@ -301,13 +301,13 @@
                     [minDataValues addObject:[NSString stringWithFormat:@"%f",tempMinXValue]];
                     [maxDataValues addObject:[NSString stringWithFormat:@"%f",tempMaxXValue]];
                 }
-                self.minDataValue = [minDataValues[0] floatValue];
-                self.maxDataValue = [maxDataValues[0] floatValue];
+                self.minDataValue = [self verifyDataValue:minDataValues[0]];
+                self.maxDataValue = [self verifyDataValue:maxDataValues[0]];
                 for (NSString *value in minDataValues) {
-                    self.minDataValue = MIN(self.minDataValue, [value floatValue]);
+                    self.minDataValue = MIN(self.minDataValue, [self verifyDataValue:value]);
                 }
                 for (NSString *value in maxDataValues) {
-                    self.maxDataValue = MAX(self.maxDataValue, [value floatValue]);
+                    self.maxDataValue = MAX(self.maxDataValue, [self verifyDataValue:value]);
                 }
             }
         }
