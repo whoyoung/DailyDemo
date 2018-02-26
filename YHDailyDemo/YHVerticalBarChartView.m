@@ -564,4 +564,23 @@
 - (CGFloat)dataItemUnitScale {
     return ChartWidth / (self.itemDataScale * (self.dataPostiveSegmentNum + self.dataNegativeSegmentNum));
 }
+- (void)adjustScale:(CGRect)origionFrame newFrame:(CGRect)newFrame {
+    self.itemAxisScale *=
+    (newFrame.size.height - TopEdge - BottomEdge) / (origionFrame.size.height - TopEdge - BottomEdge);
+    
+    if ([self gestureScrollContentSize].height < (newFrame.size.height - TopEdge - BottomEdge)) {
+        if (self.chartType == BarChartTypeGroup) {
+            self.oldPinScale *=
+            ((newFrame.size.height - TopEdge - BottomEdge) / [self.Datas[0] count] - self.groupSpace) /
+            self.Datas.count / self.itemAxisScale / self.oldPinScale;
+        } else {
+            self.oldPinScale *=
+            ((newFrame.size.height - TopEdge - BottomEdge) / [self.Datas[0] count] - self.groupSpace) /
+            self.itemAxisScale / self.oldPinScale;
+        }
+    } else {
+        self.oldPinScale *=
+        (origionFrame.size.height - TopEdge - BottomEdge) / (newFrame.size.height - TopEdge - BottomEdge);
+    }
+}
 @end
