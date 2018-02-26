@@ -25,9 +25,26 @@
     return self;
 }
 - (void)updateChartFrame:(CGRect)frame {
+    [self adjustScale:self.frame newFrame:frame];
+    CGFloat offSetXRatio = self.gestureScroll.contentOffset.x / self.gestureScroll.contentSize.width;
+    CGFloat offSetYRatio = self.gestureScroll.contentOffset.y / self.gestureScroll.contentSize.height;
     self.frame = frame;
-    self.gestureScroll.frame = CGRectMake(LeftEdge, RightEdge, [self gestureScrollContentSize].width, [self gestureScrollContentSize].height);
+    self.gestureScroll.frame = CGRectMake(LeftEdge, TopEdge, ChartWidth, ChartHeight);
+    self.gestureScroll.contentSize = [self gestureScrollContentSize];
+    if (offSetXRatio * self.gestureScroll.contentSize.width + ChartWidth > self.gestureScroll.contentSize.width ||
+        offSetYRatio * self.gestureScroll.contentSize.height + ChartHeight > self.gestureScroll.contentSize.height) {
+        self.gestureScroll.contentOffset = CGPointMake(self.gestureScroll.contentSize.width - ChartWidth,
+                                                       self.gestureScroll.contentSize.height - ChartHeight);
+    } else {
+        self.gestureScroll.contentOffset = CGPointMake(offSetXRatio * self.gestureScroll.contentSize.width,
+                                                       offSetYRatio * self.gestureScroll.contentSize.height);
+    }
+    
     [self redraw];
+}
+- (void)adjustScale:(CGRect)origionFrame newFrame:(CGRect)newFrame {
+    _itemAxisScale *= (newFrame.size.width - LeftEdge - RightEdge) / (origionFrame.size.width - LeftEdge - RightEdge);
+    _oldPinScale *= (origionFrame.size.width - LeftEdge - RightEdge) / (newFrame.size.width - LeftEdge - RightEdge);
 }
 - (void)dealChartConfigure:(NSDictionary *)dict {
     _AxisArray = [dict objectForKey:@"axis"];

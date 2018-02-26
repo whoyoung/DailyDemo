@@ -27,4 +27,7 @@
 - (void)addDataLayer;
 - (void)addDataScaleLayer;
 - (void)drawDataPoint;
+
+@optional
+- (void)adjustScale:(CGRect)origionFrame newFrame:(CGRect)newFrame;
 @end
