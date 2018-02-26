@@ -320,9 +320,6 @@
     
     if ([self gestureScrollContentSize].width < (newFrame.size.width - LeftEdge - RightEdge)) {
         self.oldPinScale *= (newFrame.size.width - LeftEdge - RightEdge) / [self.Datas[0] count] / self.Datas.count / self.itemAxisScale / self.oldPinScale;
-    } else {
-        self.oldPinScale *=
-        (origionFrame.size.width - LeftEdge - RightEdge) / (newFrame.size.width - LeftEdge - RightEdge);
     }
 }
 @end

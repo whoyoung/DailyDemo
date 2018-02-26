@@ -578,9 +578,6 @@
             ((newFrame.size.height - TopEdge - BottomEdge) / [self.Datas[0] count] - self.groupSpace) /
             self.itemAxisScale / self.oldPinScale;
         }
-    } else {
-        self.oldPinScale *=
-        (origionFrame.size.height - TopEdge - BottomEdge) / (newFrame.size.height - TopEdge - BottomEdge);
     }
 }
 @end
