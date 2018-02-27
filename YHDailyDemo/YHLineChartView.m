@@ -106,27 +106,12 @@
 - (void)saveTapPointRatio:(CGPoint)tapP group:(NSUInteger)group item:(NSUInteger)item {
     self.pointRatio = YHTapPointRatioInItemMake(1, 1);
 }
-- (NSDictionary *)prepareTipViewData:(NSUInteger)group item:(NSUInteger)item {
+- (CGPoint)adjustTipViewLocation:(NSUInteger)group item:(NSUInteger)item {
     CGPoint tempP;
     tempP.x = group * self.zoomedItemAxis;
     tempP.y = self.zeroLine - [super dataAtGroup:group item:item] * self.dataItemUnitScale;
     tempP = [self.gestureScroll convertPoint:tempP toView:self.containerView];
-    NSString *axisStr;
-    NSString *data = [self dataAtGroup:group item:item] == MAXFLOAT ? @"N/A" : [NSString stringWithFormat:@"%f",[self dataAtGroup:group item:item]];
-    NSString *dataStr = [NSString stringWithFormat:@"%@: %@",self.dataTitle,data];
-    if (self.Datas.count < 2) {
-        axisStr = @"";
-        dataStr = [NSString stringWithFormat:@"%@: %@",self.AxisArray[group],data];
-    } else {
-        axisStr = [NSString stringWithFormat:@"%@: %@",self.axisTitle,self.AxisArray[group]];
-        dataStr = [NSString stringWithFormat:@"%@: %@",self.groupMembers[item],data];
-    }
-    
-    return @{
-             @"adjustPoint":NSStringFromCGPoint(tempP),
-             @"axisStr":axisStr,
-             @"dataStr":dataStr
-             };
+    return tempP;
 }
 
 - (void)findGroupAndItemIndex {
@@ -310,7 +295,7 @@
 }
 - (CGFloat)dataAtGroup:(NSUInteger)group item:(NSUInteger)item {
     if ([[self.Datas[item] objectAtIndex:group] respondsToSelector:@selector(floatValue)]) {
-        return [self dataAtGroup:group item:item];
+        return [[self.Datas[item] objectAtIndex:group] floatValue];
     }
     return MAXFLOAT;
 }

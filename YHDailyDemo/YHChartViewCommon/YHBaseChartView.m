@@ -185,21 +185,23 @@
 }
 - (void)updateTipLayer:(NSUInteger)group item:(NSUInteger)item {
     [self removeTipView];
-    NSDictionary *dataDict = [self prepareTipViewData:group item:item];
-    CGPoint tempP = CGPointFromString([dataDict objectForKey:@"adjustPoint"]);
+    NSDictionary *dataDict = [self prepareTipViewTexts:group item:item];
+    NSString *groupStr = [dataDict objectForKey:@"groupStr"];
     NSString *axisStr = [dataDict objectForKey:@"axisStr"];
     NSString *dataStr = [dataDict objectForKey:@"dataStr"];
     
     CGFloat tipTextH = 11;
-    CGFloat tipH = 10 + tipTextH + 5;
-    CGFloat tipMaxW = [dataStr measureTextWidth:[UIFont systemFontOfSize:9]];
-    if (axisStr.length) {
-        tipMaxW = MAX(tipMaxW, [axisStr measureTextWidth:[UIFont systemFontOfSize:9]]);
+    CGFloat tipH = 10 + 2 * tipTextH + 5;
+    CGFloat tipMaxW = [axisStr measureTextWidth:[UIFont systemFontOfSize:9]];
+    tipMaxW = MAX(tipMaxW, [dataStr measureTextWidth:[UIFont systemFontOfSize:9]]);
+    if (groupStr.length) {
+        tipMaxW = MAX(tipMaxW, [groupStr measureTextWidth:[UIFont systemFontOfSize:9]]);
         tipH += tipTextH;
     }
     tipMaxW += 10;
 
     NSUInteger arrowP = 2; //箭头在中间位置
+    CGPoint tempP = [self adjustTipViewLocation:group item:item];
     CGFloat originX = tempP.x - tipMaxW / 2.0;
     if (originX < LeftEdge) {
         originX = tempP.x;
@@ -300,38 +302,35 @@
     rectLayer.fillColor = [UIColor hexChangeFloat:@"0D2940"].CGColor;
     [tipView.layer addSublayer:rectLayer];
 
-    CGRect textFrame = CGRectZero;
     CGFloat startY = 5;
     if (arrowP > 10) {
         startY = 10;
     }
-    if (axisStr.length) {
-        textFrame = CGRectMake(5, startY, tipMaxW - 10, tipTextH);
-        CATextLayer *text = [self getTextLayerWithString:axisStr
+    if (groupStr.length) {
+        CGRect textFrame = CGRectMake(5, startY, tipMaxW - 10, tipTextH);
+        CATextLayer *text = [self getTextLayerWithString:groupStr
                                                textColor:TipTextColor
                                                 fontSize:TipTextFont
                                          backgroundColor:[UIColor clearColor]
                                                    frame:textFrame
                                            alignmentMode:kCAAlignmentLeft];
         [tipView.layer addSublayer:text];
+        startY += tipTextH;
     }
-    if (textFrame.origin.x > 0) {
-        CATextLayer *text = [self getTextLayerWithString:dataStr
-                                               textColor:TipTextColor
-                                                fontSize:TipTextFont
-                                         backgroundColor:[UIColor clearColor]
-                                                   frame:CGRectMake(5, CGRectGetMaxY(textFrame), tipMaxW - 10, tipTextH)
-                                           alignmentMode:kCAAlignmentLeft];
-        [tipView.layer addSublayer:text];
-    } else {
-        CATextLayer *text = [self getTextLayerWithString:dataStr
+    CATextLayer *axisText = [self getTextLayerWithString:axisStr
                                                textColor:TipTextColor
                                                 fontSize:TipTextFont
                                          backgroundColor:[UIColor clearColor]
                                                    frame:CGRectMake(5, startY, tipMaxW - 10, tipTextH)
                                            alignmentMode:kCAAlignmentLeft];
-        [tipView.layer addSublayer:text];
-    }
+    [tipView.layer addSublayer:axisText];
+    CATextLayer *dataText = [self getTextLayerWithString:dataStr
+                                               textColor:TipTextColor
+                                                fontSize:TipTextFont
+                                         backgroundColor:[UIColor clearColor]
+                                                   frame:CGRectMake(5, startY + tipTextH, tipMaxW - 10, tipTextH)
+                                           alignmentMode:kCAAlignmentLeft];
+    [tipView.layer addSublayer:dataText];
 }
 - (void)drawArrow:(UIBezierPath *)path startP:(CGPoint)startP middleP:(CGPoint)middleP endP:(CGPoint)endP {
     [path moveToPoint:startP];
@@ -339,11 +338,21 @@
     [path addLineToPoint:endP];
 }
 
-- (NSDictionary *)prepareTipViewData:(NSUInteger)group item:(NSUInteger)item {
+- (NSDictionary *)prepareTipViewTexts:(NSUInteger)group item:(NSUInteger)item {
+    NSString *groupStr = @"";
+    if (self.groupMembers.count > 1) {
+        groupStr = [NSString stringWithFormat:@"%@: %@", self.groupDimension, self.groupMembers[item]];
+    }
     NSString *axisStr = [NSString stringWithFormat:@"%@: %@", self.axisTitle, self.AxisArray[group]];
-    NSString *dataStr =
-        [NSString stringWithFormat:@"%@: %@", self.groupMembers[item], [self.Datas[item] objectAtIndex:group]];
-    return @{ @"adjustPoint": NSStringFromCGPoint(CGPointZero), @"axisStr": axisStr, @"dataStr": dataStr };
+    NSString *data = [[self.Datas[item] objectAtIndex:group] respondsToSelector:@selector(floatValue)]
+    ? [self.Datas[item] objectAtIndex:group]
+    : @"N/A";
+    NSString *dataStr = [NSString stringWithFormat:@"%@: %@", self.dataTitle, data];
+    
+    return @{ @"groupStr": groupStr, @"axisStr": axisStr, @"dataStr": dataStr };
+}
+- (CGPoint)adjustTipViewLocation:(NSUInteger)group item:(NSUInteger)item {
+    return CGPointZero;
 }
 
 - (void)findBeginAndEndIndex {

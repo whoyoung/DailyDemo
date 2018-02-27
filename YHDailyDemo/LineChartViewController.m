@@ -24,6 +24,7 @@
                                    @[@"10.5",@"125.6",@"-670.7",@"91.9",@"510.12",@"220.13",@"-770.14"]
                                    ],
                            @"groupMembers":@[@"zhang",@"yang"],
+                           @"groupDimension":@"成交人",
                            @"axisTitle":@"星期",
                            @"dataTitle":@"成交量",
                            @"valueInterval": @"3",

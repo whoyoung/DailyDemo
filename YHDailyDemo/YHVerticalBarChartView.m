@@ -186,46 +186,32 @@
     }
     self.pointRatio = YHTapPointRatioInItemMake(xRatio, yRatio);
 }
-- (NSDictionary *)prepareTipViewData:(NSUInteger)group item:(NSUInteger)item {
+- (CGPoint)adjustTipViewLocation:(NSUInteger)group item:(NSUInteger)item {
     CGFloat dataValue = [self dataAtGroup:group item:item] * self.dataItemUnitScale;
     CGPoint tempP;
     if (self.chartType == BarChartTypeStack) {
-        tempP = CGPointMake(self.zeroLine, (self.zoomedItemAxis+self.groupSpace)*group+self.zoomedItemAxis*self.pointRatio.yRatio);
+        tempP = CGPointMake(self.zeroLine, (self.zoomedItemAxis + self.groupSpace) * group +
+                            self.zoomedItemAxis * self.pointRatio.yRatio);
         if (dataValue >= 0) {
-            for (NSUInteger i=0; i<item; i++) {
+            for (NSUInteger i = 0; i < item; i++) {
                 if ([self dataAtGroup:group item:i] > 0) {
-                    tempP.x += [self dataAtGroup:group item:i]*self.dataItemUnitScale;
+                    tempP.x += [self dataAtGroup:group item:i] * self.dataItemUnitScale;
                 }
             }
         } else {
-            for (NSUInteger i=0; i<item; i++) {
+            for (NSUInteger i = 0; i < item; i++) {
                 if ([self dataAtGroup:group item:i] < 0) {
-                    tempP.x += [self dataAtGroup:group item:i]*self.dataItemUnitScale;
+                    tempP.x += [self dataAtGroup:group item:i] * self.dataItemUnitScale;
                 }
             }
         }
     } else {
-        tempP = CGPointMake(self.zeroLine, (self.Datas.count*self.zoomedItemAxis+self.groupSpace)*group+self.zoomedItemAxis*(self.pointRatio.yRatio+item));
+        tempP = CGPointMake(self.zeroLine, (self.Datas.count * self.zoomedItemAxis + self.groupSpace) * group +
+                            self.zoomedItemAxis * (self.pointRatio.yRatio + item));
     }
     tempP.x += dataValue * self.pointRatio.xRatio;
     tempP = [self.gestureScroll convertPoint:tempP toView:self.containerView];
-    
-    NSString *axisStr;
-    NSString *data = [[self.Datas[item] objectAtIndex:group] respondsToSelector:@selector(floatValue)] ? [self.Datas[item] objectAtIndex:group] : @"N/A";
-    NSString *dataStr = [NSString stringWithFormat:@"%@: %@",self.dataTitle,data];
-    if (self.chartType == BarChartTypeSingle) {
-        axisStr = @"";
-        dataStr = [NSString stringWithFormat:@"%@: %@",self.AxisArray[group],data];
-    } else {
-        axisStr = [NSString stringWithFormat:@"%@: %@",self.axisTitle,self.AxisArray[group]];
-        dataStr = [NSString stringWithFormat:@"%@: %@",self.groupMembers[item],data];
-    }
-    
-    return @{
-             @"adjustPoint":NSStringFromCGPoint(tempP),
-             @"axisStr":axisStr,
-             @"dataStr":dataStr
-             };
+    return tempP;
 }
 
 - (void)findGroupAndItemIndex {

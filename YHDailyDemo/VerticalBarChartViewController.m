@@ -24,6 +24,7 @@
                                    @[[NSNull null],@"12533.6",@"-58.7",@"91.9",@"1066.12",@"50.13",@"-6033.14"]
                                    ],
                            @"groupMembers":@[@"zhang",@"yang"],
+                           @"groupDimension":@"成交人",
                            @"axisTitle":@"星期",
                            @"dataTitle":@"成交量",
                            @"stack":@YES,
