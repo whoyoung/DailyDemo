@@ -8,7 +8,7 @@
 
 #import "LineChartViewController.h"
 #import "YHLineChartView.h"
-@interface LineChartViewController ()<YHCommonChartViewDelegate>
+@interface LineChartViewController ()
 
 @end
 
@@ -16,7 +16,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
     NSDictionary *dict = @{
                            @"axis":@[@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun"],
                            @"datas":@[
@@ -34,15 +33,9 @@
                                            }
                                    }
                            };
-    YHLineChartView *chartView = [[YHLineChartView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64) configure:dict];
-    chartView.delegate = self;
-    [self.view addSubview:chartView];
-}
-- (void)didTapChart:(id)chart group:(NSUInteger)group item:(NSUInteger)item {
-    NSLog(@"group=%ld, item=%ld",group,item);
-}
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+    self.chartView = [[YHLineChartView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64) configure:dict];
+    self.chartView.delegate = self;
+    [self.view addSubview:self.chartView];
 }
 
 @end

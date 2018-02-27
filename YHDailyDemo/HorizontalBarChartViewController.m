@@ -8,15 +8,14 @@
 
 #import "HorizontalBarChartViewController.h"
 #import "YHHorizontalBarChartView.h"
-@interface HorizontalBarChartViewController ()<YHCommonChartViewDelegate>
-
+@interface HorizontalBarChartViewController ()
 @end
 
 @implementation HorizontalBarChartViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    
     NSDictionary *dict = @{
                            @"axis":@[@"Mon",@"Tues",@"Wed",@"Thu",@"Fri",@"Sat",@"Sun"],
                            @"datas":@[
@@ -39,15 +38,9 @@
                                }
                            }
                         };
-    YHHorizontalBarChartView *chartView = [[YHHorizontalBarChartView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64) configure:dict];
-    chartView.delegate = self;
-    [self.view addSubview:chartView];
-}
-- (void)didTapChart:(id)chart group:(NSUInteger)group item:(NSUInteger)item {
-    NSLog(@"group=%ld, item=%ld",group,item);
-}
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+    self.chartView = [[YHHorizontalBarChartView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-64) configure:dict];
+    self.chartView.delegate = self;
+    [self.view addSubview:self.chartView];
 }
 
 @end

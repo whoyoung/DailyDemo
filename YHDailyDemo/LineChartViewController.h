@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface LineChartViewController : UIViewController
+#import "BaseChartViewController.h"
+@interface LineChartViewController : BaseChartViewController
 
 @end
