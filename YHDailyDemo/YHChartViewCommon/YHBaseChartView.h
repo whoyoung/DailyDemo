@@ -31,6 +31,7 @@ YHTapPointRatioInItemMake(CGFloat x, CGFloat y) {
 @property (nonatomic, strong, readonly) NSMutableArray<NSString *> *AxisArray;
 @property (nonatomic, strong, readonly) NSArray<NSArray *> *Datas;
 @property (nonatomic, strong, readonly) NSArray *groupMembers;
+@property (nonatomic, copy, readonly) NSString *groupDimension;
 @property (nonatomic, copy, readonly) NSString *axisTitle;
 @property (nonatomic, copy, readonly) NSString *dataTitle;
 @property (nonatomic, strong, readonly) NSArray *itemColors;

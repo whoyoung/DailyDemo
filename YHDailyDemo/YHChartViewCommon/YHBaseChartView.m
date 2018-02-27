@@ -53,6 +53,7 @@
                    !self.Datas || ![self.Datas isKindOfClass:[NSArray class]] || !self.Datas.count;
 
     _groupMembers = [dict objectForKey:@"groupMembers"];
+    _groupDimension = [dict objectForKey:@"groupDimension"];
     _axisTitle = [dict objectForKey:@"axisTitle"];
     _dataTitle = [dict objectForKey:@"dataTitle"];
     _itemColors = [dict objectForKey:@"colors"];
