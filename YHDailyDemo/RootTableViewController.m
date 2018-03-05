@@ -21,7 +21,7 @@
 }
 - (NSArray *)controllers {
     if (!_controllers) {
-        _controllers = @[@"FindMaxAndMinNumberViewController",@"DrawViewController",@"LineChartViewController",@"HorizontalBarChartViewController",@"VerticalBarChartViewController"];
+        _controllers = @[@"FindMaxAndMinNumberViewController",@"DrawViewController",@"LineChartViewController",@"HorizontalBarChartViewController",@"VerticalBarChartViewController",@"SemaphoreViewController"];
     }
     return _controllers;
 }

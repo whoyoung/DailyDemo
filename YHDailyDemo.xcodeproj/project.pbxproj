@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F43F36F204D945500EA7DCD /* SemaphoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F36E204D945500EA7DCD /* SemaphoreViewController.m */; };
 		7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7721C3E7202C2A9100859A67 /* YHBaseChartView.m */; };
 		776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1902011F04100CDF3E6 /* AppDelegate.m */; };
 		776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1932011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m */; };
@@ -30,6 +31,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6F43F36D204D945500EA7DCD /* SemaphoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SemaphoreViewController.h; sourceTree = "<group>"; };
+		6F43F36E204D945500EA7DCD /* SemaphoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SemaphoreViewController.m; sourceTree = "<group>"; };
 		7721C3E3202C2A9000859A67 /* YHCommonChartViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHCommonChartViewDelegate.h; sourceTree = "<group>"; };
 		7721C3E4202C2A9000859A67 /* YHCommonHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHCommonHeader.h; sourceTree = "<group>"; };
 		7721C3E5202C2A9000859A67 /* YHBaseChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHBaseChartView.h; sourceTree = "<group>"; };
@@ -84,6 +87,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6F43F36C204D940C00EA7DCD /* SemaphoreDemo */ = {
+			isa = PBXGroup;
+			children = (
+				6F43F36D204D945500EA7DCD /* SemaphoreViewController.h */,
+				6F43F36E204D945500EA7DCD /* SemaphoreViewController.m */,
+			);
+			path = SemaphoreDemo;
+			sourceTree = "<group>";
+		};
 		776FC1832011F04100CDF3E6 = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +121,7 @@
 				77BE096B20457B8D009712CC /* BaseChartViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				6F43F36C204D940C00EA7DCD /* SemaphoreDemo */,
 				77E4ABFB2024789C00568AFA /* YHChartViewCommon */,
 				77714A37202158C8004DD6EB /* VerticalBarChar */,
 				77714A2F20200B31004DD6EB /* HorizontalBarChart */,
@@ -267,6 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */,
+				6F43F36F204D945500EA7DCD /* SemaphoreViewController.m in Sources */,
 				776FC1AA2011F53000CDF3E6 /* DrawViewController.m in Sources */,
 				7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */,
 				77E4AC06202862D500568AFA /* NSString+Extra.m in Sources */,
