@@ -38,14 +38,27 @@
 - (void)startRequest {
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSLog(@"Request_1");
-    });
-    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSBlockOperation *blockO = [NSBlockOperation blockOperationWithBlock:^{
+            dispatch_apply(3, dispatch_get_main_queue(), ^(size_t index) {
+                NSLog(@"block %zu",index);
+            });
+
+        }];
+        [blockO start];
         
-        NSLog(@"Request_2");
     });
     dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSLog(@"Request_3");
+        NSBlockOperation *blockO = [NSBlockOperation blockOperationWithBlock:^{
+            sleep(2);
+            NSLog(@"Request_2");
+        }];
+        [blockO start];
+    });
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSBlockOperation *blockO = [NSBlockOperation blockOperationWithBlock:^{
+            NSLog(@"Request_3");
+        }];
+        [blockO start];
     });
     dispatch_group_notify(group, dispatch_get_main_queue(), ^{
         NSLog(@"任务均完成，刷新界面");
