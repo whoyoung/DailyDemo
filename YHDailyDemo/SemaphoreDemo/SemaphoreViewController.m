@@ -7,7 +7,7 @@
 //
 
 #import "SemaphoreViewController.h"
-
+#import <objc/runtime.h>
 @interface SemaphoreViewController ()
 @property (nonatomic, strong) NSDateFormatter *formatter;
 @end
