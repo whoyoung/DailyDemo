@@ -11,6 +11,7 @@
 		6F43F3732056C3BC00EA7DCD /* RespondChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3722056C3BC00EA7DCD /* RespondChainViewController.m */; };
 		6F43F3762056C3DC00EA7DCD /* View1.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3752056C3DC00EA7DCD /* View1.m */; };
 		6F43F3792056C3EF00EA7DCD /* View11.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3782056C3EF00EA7DCD /* View11.m */; };
+		6F43F37D20581D8600EA7DCD /* CopyStrongDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F37C20581D8600EA7DCD /* CopyStrongDemoViewController.m */; };
 		7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7721C3E7202C2A9100859A67 /* YHBaseChartView.m */; };
 		776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1902011F04100CDF3E6 /* AppDelegate.m */; };
 		776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1932011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m */; };
@@ -42,6 +43,8 @@
 		6F43F3752056C3DC00EA7DCD /* View1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = View1.m; sourceTree = "<group>"; };
 		6F43F3772056C3EF00EA7DCD /* View11.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = View11.h; sourceTree = "<group>"; };
 		6F43F3782056C3EF00EA7DCD /* View11.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = View11.m; sourceTree = "<group>"; };
+		6F43F37B20581D8600EA7DCD /* CopyStrongDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CopyStrongDemoViewController.h; sourceTree = "<group>"; };
+		6F43F37C20581D8600EA7DCD /* CopyStrongDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CopyStrongDemoViewController.m; sourceTree = "<group>"; };
 		7721C3E3202C2A9000859A67 /* YHCommonChartViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHCommonChartViewDelegate.h; sourceTree = "<group>"; };
 		7721C3E4202C2A9000859A67 /* YHCommonHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHCommonHeader.h; sourceTree = "<group>"; };
 		7721C3E5202C2A9000859A67 /* YHBaseChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHBaseChartView.h; sourceTree = "<group>"; };
@@ -118,6 +121,15 @@
 			path = RespondChainDemo;
 			sourceTree = "<group>";
 		};
+		6F43F37A20581BED00EA7DCD /* CopyStrongDemo */ = {
+			isa = PBXGroup;
+			children = (
+				6F43F37B20581D8600EA7DCD /* CopyStrongDemoViewController.h */,
+				6F43F37C20581D8600EA7DCD /* CopyStrongDemoViewController.m */,
+			);
+			path = CopyStrongDemo;
+			sourceTree = "<group>";
+		};
 		776FC1832011F04100CDF3E6 = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +155,7 @@
 				77BE096B20457B8D009712CC /* BaseChartViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				6F43F37A20581BED00EA7DCD /* CopyStrongDemo */,
 				6F43F3702056C38F00EA7DCD /* RespondChainDemo */,
 				6F43F36C204D940C00EA7DCD /* SemaphoreDemo */,
 				77E4ABFB2024789C00568AFA /* YHChartViewCommon */,
@@ -323,6 +336,7 @@
 				77714A3A202158FB004DD6EB /* YHVerticalBarChartView.m in Sources */,
 				776FC1A72011F08200CDF3E6 /* RootTableViewController.m in Sources */,
 				77714A28201B4725004DD6EB /* YHLineChartView.m in Sources */,
+				6F43F37D20581D8600EA7DCD /* CopyStrongDemoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
