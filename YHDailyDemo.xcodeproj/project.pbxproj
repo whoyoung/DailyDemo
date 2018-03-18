@@ -15,6 +15,10 @@
 		6F43F381205E9D3500EA7DCD /* NSProxyDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F380205E9D3500EA7DCD /* NSProxyDemoViewController.m */; };
 		6F43F384205E9E0100EA7DCD /* YHWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F383205E9E0100EA7DCD /* YHWeakProxy.m */; };
 		6F43F387205EA44500EA7DCD /* SecondPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F386205EA44500EA7DCD /* SecondPageViewController.m */; };
+		6F43F38B205EB48100EA7DCD /* NSProxyMultiInheritDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F38A205EB48000EA7DCD /* NSProxyMultiInheritDemoViewController.m */; };
+		6F43F38E205EB4B200EA7DCD /* YHMultiInheritProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F38D205EB4B200EA7DCD /* YHMultiInheritProxy.m */; };
+		6F43F391205EB6CC00EA7DCD /* YHBookProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F390205EB6CC00EA7DCD /* YHBookProvider.m */; };
+		6F43F394205EB6E600EA7DCD /* YHClothesProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F393205EB6E600EA7DCD /* YHClothesProvider.m */; };
 		7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7721C3E7202C2A9100859A67 /* YHBaseChartView.m */; };
 		776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1902011F04100CDF3E6 /* AppDelegate.m */; };
 		776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1932011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m */; };
@@ -54,6 +58,14 @@
 		6F43F383205E9E0100EA7DCD /* YHWeakProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YHWeakProxy.m; sourceTree = "<group>"; };
 		6F43F385205EA44500EA7DCD /* SecondPageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondPageViewController.h; sourceTree = "<group>"; };
 		6F43F386205EA44500EA7DCD /* SecondPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondPageViewController.m; sourceTree = "<group>"; };
+		6F43F389205EB48000EA7DCD /* NSProxyMultiInheritDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSProxyMultiInheritDemoViewController.h; sourceTree = "<group>"; };
+		6F43F38A205EB48000EA7DCD /* NSProxyMultiInheritDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSProxyMultiInheritDemoViewController.m; sourceTree = "<group>"; };
+		6F43F38C205EB4B200EA7DCD /* YHMultiInheritProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YHMultiInheritProxy.h; sourceTree = "<group>"; };
+		6F43F38D205EB4B200EA7DCD /* YHMultiInheritProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YHMultiInheritProxy.m; sourceTree = "<group>"; };
+		6F43F38F205EB6CC00EA7DCD /* YHBookProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YHBookProvider.h; sourceTree = "<group>"; };
+		6F43F390205EB6CC00EA7DCD /* YHBookProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YHBookProvider.m; sourceTree = "<group>"; };
+		6F43F392205EB6E600EA7DCD /* YHClothesProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YHClothesProvider.h; sourceTree = "<group>"; };
+		6F43F393205EB6E600EA7DCD /* YHClothesProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YHClothesProvider.m; sourceTree = "<group>"; };
 		7721C3E3202C2A9000859A67 /* YHCommonChartViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHCommonChartViewDelegate.h; sourceTree = "<group>"; };
 		7721C3E4202C2A9000859A67 /* YHCommonHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHCommonHeader.h; sourceTree = "<group>"; };
 		7721C3E5202C2A9000859A67 /* YHBaseChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHBaseChartView.h; sourceTree = "<group>"; };
@@ -152,6 +164,21 @@
 			path = NSProxyDemo;
 			sourceTree = "<group>";
 		};
+		6F43F388205EB44B00EA7DCD /* NSProxyMultiInheritDemo */ = {
+			isa = PBXGroup;
+			children = (
+				6F43F389205EB48000EA7DCD /* NSProxyMultiInheritDemoViewController.h */,
+				6F43F38A205EB48000EA7DCD /* NSProxyMultiInheritDemoViewController.m */,
+				6F43F38C205EB4B200EA7DCD /* YHMultiInheritProxy.h */,
+				6F43F38D205EB4B200EA7DCD /* YHMultiInheritProxy.m */,
+				6F43F38F205EB6CC00EA7DCD /* YHBookProvider.h */,
+				6F43F390205EB6CC00EA7DCD /* YHBookProvider.m */,
+				6F43F392205EB6E600EA7DCD /* YHClothesProvider.h */,
+				6F43F393205EB6E600EA7DCD /* YHClothesProvider.m */,
+			);
+			path = NSProxyMultiInheritDemo;
+			sourceTree = "<group>";
+		};
 		776FC1832011F04100CDF3E6 = {
 			isa = PBXGroup;
 			children = (
@@ -177,6 +204,7 @@
 				77BE096B20457B8D009712CC /* BaseChartViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				6F43F388205EB44B00EA7DCD /* NSProxyMultiInheritDemo */,
 				6F43F37E205E9CED00EA7DCD /* NSProxyDemo */,
 				6F43F37A20581BED00EA7DCD /* CopyStrongDemo */,
 				6F43F3702056C38F00EA7DCD /* RespondChainDemo */,
@@ -339,6 +367,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */,
+				6F43F38B205EB48100EA7DCD /* NSProxyMultiInheritDemoViewController.m in Sources */,
+				6F43F391205EB6CC00EA7DCD /* YHBookProvider.m in Sources */,
 				6F43F36F204D945500EA7DCD /* SemaphoreViewController.m in Sources */,
 				776FC1AA2011F53000CDF3E6 /* DrawViewController.m in Sources */,
 				6F43F384205E9E0100EA7DCD /* YHWeakProxy.m in Sources */,
@@ -352,6 +382,7 @@
 				6F43F3792056C3EF00EA7DCD /* View11.m in Sources */,
 				6F43F3732056C3BC00EA7DCD /* RespondChainViewController.m in Sources */,
 				77714A3520200B94004DD6EB /* YHHorizontalBarChartView.m in Sources */,
+				6F43F38E205EB4B200EA7DCD /* YHMultiInheritProxy.m in Sources */,
 				776FC1AD2011F69600CDF3E6 /* CoreGraphicDrawView.m in Sources */,
 				776FC1B02012204400CDF3E6 /* CoreAnimationDrawView.m in Sources */,
 				776FC19F2011F04100CDF3E6 /* main.m in Sources */,
@@ -361,6 +392,7 @@
 				77714A3D20215909004DD6EB /* VerticalBarChartViewController.m in Sources */,
 				77714A3A202158FB004DD6EB /* YHVerticalBarChartView.m in Sources */,
 				776FC1A72011F08200CDF3E6 /* RootTableViewController.m in Sources */,
+				6F43F394205EB6E600EA7DCD /* YHClothesProvider.m in Sources */,
 				77714A28201B4725004DD6EB /* YHLineChartView.m in Sources */,
 				6F43F37D20581D8600EA7DCD /* CopyStrongDemoViewController.m in Sources */,
 			);

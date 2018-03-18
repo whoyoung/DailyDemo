@@ -20,9 +20,9 @@
     _target = target;
     return self;
 }
-- (id)forwardingTargetForSelector:(SEL)aSelector {
-    return self.target;
-}
+//- (id)forwardingTargetForSelector:(SEL)aSelector {
+//    return self.target;
+//}
 - (void)forwardInvocation:(NSInvocation *)invocation {
     SEL sel = invocation.selector;
     if ([self.target respondsToSelector:sel]) {
