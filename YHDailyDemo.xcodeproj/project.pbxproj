@@ -12,6 +12,9 @@
 		6F43F3762056C3DC00EA7DCD /* View1.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3752056C3DC00EA7DCD /* View1.m */; };
 		6F43F3792056C3EF00EA7DCD /* View11.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3782056C3EF00EA7DCD /* View11.m */; };
 		6F43F37D20581D8600EA7DCD /* CopyStrongDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F37C20581D8600EA7DCD /* CopyStrongDemoViewController.m */; };
+		6F43F381205E9D3500EA7DCD /* NSProxyDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F380205E9D3500EA7DCD /* NSProxyDemoViewController.m */; };
+		6F43F384205E9E0100EA7DCD /* YHWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F383205E9E0100EA7DCD /* YHWeakProxy.m */; };
+		6F43F387205EA44500EA7DCD /* SecondPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F386205EA44500EA7DCD /* SecondPageViewController.m */; };
 		7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7721C3E7202C2A9100859A67 /* YHBaseChartView.m */; };
 		776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1902011F04100CDF3E6 /* AppDelegate.m */; };
 		776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1932011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m */; };
@@ -45,6 +48,12 @@
 		6F43F3782056C3EF00EA7DCD /* View11.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = View11.m; sourceTree = "<group>"; };
 		6F43F37B20581D8600EA7DCD /* CopyStrongDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CopyStrongDemoViewController.h; sourceTree = "<group>"; };
 		6F43F37C20581D8600EA7DCD /* CopyStrongDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CopyStrongDemoViewController.m; sourceTree = "<group>"; };
+		6F43F37F205E9D3500EA7DCD /* NSProxyDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSProxyDemoViewController.h; sourceTree = "<group>"; };
+		6F43F380205E9D3500EA7DCD /* NSProxyDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSProxyDemoViewController.m; sourceTree = "<group>"; };
+		6F43F382205E9E0100EA7DCD /* YHWeakProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YHWeakProxy.h; sourceTree = "<group>"; };
+		6F43F383205E9E0100EA7DCD /* YHWeakProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YHWeakProxy.m; sourceTree = "<group>"; };
+		6F43F385205EA44500EA7DCD /* SecondPageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondPageViewController.h; sourceTree = "<group>"; };
+		6F43F386205EA44500EA7DCD /* SecondPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondPageViewController.m; sourceTree = "<group>"; };
 		7721C3E3202C2A9000859A67 /* YHCommonChartViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHCommonChartViewDelegate.h; sourceTree = "<group>"; };
 		7721C3E4202C2A9000859A67 /* YHCommonHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHCommonHeader.h; sourceTree = "<group>"; };
 		7721C3E5202C2A9000859A67 /* YHBaseChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHBaseChartView.h; sourceTree = "<group>"; };
@@ -130,6 +139,19 @@
 			path = CopyStrongDemo;
 			sourceTree = "<group>";
 		};
+		6F43F37E205E9CED00EA7DCD /* NSProxyDemo */ = {
+			isa = PBXGroup;
+			children = (
+				6F43F37F205E9D3500EA7DCD /* NSProxyDemoViewController.h */,
+				6F43F380205E9D3500EA7DCD /* NSProxyDemoViewController.m */,
+				6F43F385205EA44500EA7DCD /* SecondPageViewController.h */,
+				6F43F386205EA44500EA7DCD /* SecondPageViewController.m */,
+				6F43F382205E9E0100EA7DCD /* YHWeakProxy.h */,
+				6F43F383205E9E0100EA7DCD /* YHWeakProxy.m */,
+			);
+			path = NSProxyDemo;
+			sourceTree = "<group>";
+		};
 		776FC1832011F04100CDF3E6 = {
 			isa = PBXGroup;
 			children = (
@@ -155,6 +177,7 @@
 				77BE096B20457B8D009712CC /* BaseChartViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				6F43F37E205E9CED00EA7DCD /* NSProxyDemo */,
 				6F43F37A20581BED00EA7DCD /* CopyStrongDemo */,
 				6F43F3702056C38F00EA7DCD /* RespondChainDemo */,
 				6F43F36C204D940C00EA7DCD /* SemaphoreDemo */,
@@ -318,11 +341,14 @@
 				776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */,
 				6F43F36F204D945500EA7DCD /* SemaphoreViewController.m in Sources */,
 				776FC1AA2011F53000CDF3E6 /* DrawViewController.m in Sources */,
+				6F43F384205E9E0100EA7DCD /* YHWeakProxy.m in Sources */,
 				7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */,
+				6F43F387205EA44500EA7DCD /* SecondPageViewController.m in Sources */,
 				77E4AC06202862D500568AFA /* NSString+Extra.m in Sources */,
 				77714A2B201EB312004DD6EB /* LineChartViewController.m in Sources */,
 				6F43F3762056C3DC00EA7DCD /* View1.m in Sources */,
 				77BE096C20457B8D009712CC /* BaseChartViewController.m in Sources */,
+				6F43F381205E9D3500EA7DCD /* NSProxyDemoViewController.m in Sources */,
 				6F43F3792056C3EF00EA7DCD /* View11.m in Sources */,
 				6F43F3732056C3BC00EA7DCD /* RespondChainViewController.m in Sources */,
 				77714A3520200B94004DD6EB /* YHHorizontalBarChartView.m in Sources */,
