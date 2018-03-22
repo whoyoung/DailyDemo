@@ -17,7 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _datas = @[@"recursiveLock",@"pthreadRecursiveLock",@"semaphoreLock",@"conditionLock"];
+    _datas = @[@"recursiveLock",@"pthreadRecursiveLock",@"semaphoreLock",@"conditionLock",@"dispatchBarrierLock"];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -154,4 +154,45 @@ assert(res == 0); \
     NSLog(@"after unlock");
 
 }
+
+- (void)dispatchBarrierLock {
+    dispatch_queue_t queue = dispatch_queue_create("thread", DISPATCH_QUEUE_CONCURRENT);
+    
+    dispatch_async(queue, ^{
+        sleep(1);
+        NSLog(@"test1");
+    });
+    dispatch_async(queue, ^{
+        sleep(1);
+
+        NSLog(@"test2");
+    });
+    dispatch_async(queue, ^{
+        sleep(1);
+
+        NSLog(@"test3");
+    });
+    dispatch_barrier_sync(queue, ^{
+        sleep(5);
+
+        NSLog(@"barrier");
+    });
+    NSLog(@"aaa");
+    dispatch_async(queue, ^{
+        sleep(1);
+
+        NSLog(@"test4");
+    });
+    dispatch_async(queue, ^{
+        sleep(1);
+
+        NSLog(@"test5");
+    });
+    dispatch_async(queue, ^{
+        sleep(1);
+
+        NSLog(@"test6");
+    });
+}
+
 @end
