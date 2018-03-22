@@ -17,7 +17,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _datas = @[@"recursiveLock",@"pthreadRecursiveLock",@"semaphoreLock"];
+    _datas = @[@"recursiveLock",@"pthreadRecursiveLock",@"semaphoreLock",@"conditionLock"];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -112,5 +112,46 @@ assert(res == 0); \
         sleep(1);
         dispatch_semaphore_signal(sema);
     }
+}
+
+- (void)conditionLock {
+    NSConditionLock* lock = [[NSConditionLock alloc] init];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        for (NSUInteger i=0; i<3; i++) {
+            sleep(2);
+            NSLog(@"thread 0");
+            if (i == 2) {
+                NSLog(@"lock");
+                [lock unlockWithCondition:i];
+            }
+            
+        }
+    });
+    
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        sleep(1);
+        NSLog(@"thread 1");
+        [self threadMethodOfNSCoditionLock:lock];
+    });
+    
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        sleep(1);
+        NSLog(@"thread 2");
+
+        [self threadMethodOfNSCoditionLock:lock];
+    });
+}
+
+-(void)threadMethodOfNSCoditionLock:(NSConditionLock*)lock{
+    NSLog(@"before threadMethodOfNSCoditionLock");
+
+    [lock lockWhenCondition:2];
+    NSLog(@"threadMethodOfNSCoditionLock");
+
+//    [lock unlock];
+    NSLog(@"after unlock");
+
 }
 @end
