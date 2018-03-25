@@ -20,6 +20,7 @@
 		6F43F391205EB6CC00EA7DCD /* YHBookProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F390205EB6CC00EA7DCD /* YHBookProvider.m */; };
 		6F43F394205EB6E600EA7DCD /* YHClothesProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F393205EB6E600EA7DCD /* YHClothesProvider.m */; };
 		6F43F3982063F8F900EA7DCD /* LockDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3972063F8F900EA7DCD /* LockDemoViewController.m */; };
+		6FF94E952067BDEC00475287 /* AssignObjectDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF94E942067BDEC00475287 /* AssignObjectDemoViewController.m */; };
 		7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7721C3E7202C2A9100859A67 /* YHBaseChartView.m */; };
 		776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1902011F04100CDF3E6 /* AppDelegate.m */; };
 		776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1932011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m */; };
@@ -69,6 +70,8 @@
 		6F43F393205EB6E600EA7DCD /* YHClothesProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YHClothesProvider.m; sourceTree = "<group>"; };
 		6F43F3962063F8F900EA7DCD /* LockDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LockDemoViewController.h; sourceTree = "<group>"; };
 		6F43F3972063F8F900EA7DCD /* LockDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LockDemoViewController.m; sourceTree = "<group>"; };
+		6FF94E932067BDEC00475287 /* AssignObjectDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssignObjectDemoViewController.h; sourceTree = "<group>"; };
+		6FF94E942067BDEC00475287 /* AssignObjectDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AssignObjectDemoViewController.m; sourceTree = "<group>"; };
 		7721C3E3202C2A9000859A67 /* YHCommonChartViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHCommonChartViewDelegate.h; sourceTree = "<group>"; };
 		7721C3E4202C2A9000859A67 /* YHCommonHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHCommonHeader.h; sourceTree = "<group>"; };
 		7721C3E5202C2A9000859A67 /* YHBaseChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHBaseChartView.h; sourceTree = "<group>"; };
@@ -191,6 +194,15 @@
 			path = LockDemo;
 			sourceTree = "<group>";
 		};
+		6FF94E922067BDB800475287 /* AssignObjectDemo */ = {
+			isa = PBXGroup;
+			children = (
+				6FF94E932067BDEC00475287 /* AssignObjectDemoViewController.h */,
+				6FF94E942067BDEC00475287 /* AssignObjectDemoViewController.m */,
+			);
+			path = AssignObjectDemo;
+			sourceTree = "<group>";
+		};
 		776FC1832011F04100CDF3E6 = {
 			isa = PBXGroup;
 			children = (
@@ -216,6 +228,7 @@
 				77BE096B20457B8D009712CC /* BaseChartViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				6FF94E922067BDB800475287 /* AssignObjectDemo */,
 				6F43F3952063F8A700EA7DCD /* LockDemo */,
 				6F43F388205EB44B00EA7DCD /* NSProxyMultiInheritDemo */,
 				6F43F37E205E9CED00EA7DCD /* NSProxyDemo */,
@@ -386,6 +399,7 @@
 				6F43F3982063F8F900EA7DCD /* LockDemoViewController.m in Sources */,
 				776FC1AA2011F53000CDF3E6 /* DrawViewController.m in Sources */,
 				6F43F384205E9E0100EA7DCD /* YHWeakProxy.m in Sources */,
+				6FF94E952067BDEC00475287 /* AssignObjectDemoViewController.m in Sources */,
 				7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */,
 				6F43F387205EA44500EA7DCD /* SecondPageViewController.m in Sources */,
 				77E4AC06202862D500568AFA /* NSString+Extra.m in Sources */,
