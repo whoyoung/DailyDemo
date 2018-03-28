@@ -64,6 +64,29 @@
         NSLog(@"任务均完成，刷新界面");
     });
 }
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self startNSOperationQueueRequest];
+    [super touchesBegan:touches withEvent:event];
+}
+- (void)startNSOperationQueueRequest {
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    NSBlockOperation *operation1 = [NSBlockOperation blockOperationWithBlock:^{
+        NSLog(@"1");
+    }];
+    NSBlockOperation *operation2 = [NSBlockOperation blockOperationWithBlock:^{
+        NSLog(@"2");
+    }];
+    NSBlockOperation *operation3 = [NSBlockOperation blockOperationWithBlock:^{
+        NSLog(@"3");
+    }];
+    NSBlockOperation *operation4 = [NSBlockOperation blockOperationWithBlock:^{
+        NSLog(@"4");
+    }];
+    
+    queue.maxConcurrentOperationCount = 2;
+    [queue addOperations:@[operation1,operation2,operation3,operation4] waitUntilFinished:NO];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

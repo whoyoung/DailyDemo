@@ -22,7 +22,7 @@
 }
 - (NSArray *)controllers {
     if (!_controllers) {
-        _controllers = @[@"FindMaxAndMinNumberViewController",@"DrawViewController",@"LineChartViewController",@"HorizontalBarChartViewController",@"VerticalBarChartViewController",@"SemaphoreViewController",@"RespondChainViewController",@"CopyStrongDemoViewController",@"NSProxyDemoViewController",@"NSProxyMultiInheritDemoViewController",@"LockDemoViewController",@"AssignObjectDemoViewController"];
+        _controllers = @[@"FindMaxAndMinNumberViewController",@"DrawViewController",@"LineChartViewController",@"HorizontalBarChartViewController",@"VerticalBarChartViewController",@"SemaphoreViewController",@"RespondChainViewController",@"CopyStrongDemoViewController",@"NSProxyDemoViewController",@"NSProxyMultiInheritDemoViewController",@"LockDemoViewController",@"AssignObjectDemoViewController",@"WeakStrongObjectDemoViewController"];
     }
     return _controllers;
 }
