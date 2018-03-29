@@ -23,6 +23,8 @@
 		6FF94E952067BDEC00475287 /* AssignObjectDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF94E942067BDEC00475287 /* AssignObjectDemoViewController.m */; };
 		6FF94E9A2067C8C600475287 /* WeakStrongObjectDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF94E992067C8C600475287 /* WeakStrongObjectDemoViewController.m */; };
 		7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7721C3E7202C2A9100859A67 /* YHBaseChartView.m */; };
+		776B4E0A206CE2EA00443D92 /* MemoryMapDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776B4E09206CE2EA00443D92 /* MemoryMapDemoViewController.m */; };
+		776B4E0D206CE37800443D92 /* SourceTree_2.0.5.5.dmg in Resources */ = {isa = PBXBuildFile; fileRef = 776B4E0C206CE37800443D92 /* SourceTree_2.0.5.5.dmg */; };
 		776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1902011F04100CDF3E6 /* AppDelegate.m */; };
 		776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1932011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m */; };
 		776FC1972011F04100CDF3E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 776FC1952011F04100CDF3E6 /* Main.storyboard */; };
@@ -80,6 +82,9 @@
 		7721C3E5202C2A9000859A67 /* YHBaseChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHBaseChartView.h; sourceTree = "<group>"; };
 		7721C3E6202C2A9000859A67 /* YHBaseChartMethodProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHBaseChartMethodProtocol.h; sourceTree = "<group>"; };
 		7721C3E7202C2A9100859A67 /* YHBaseChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHBaseChartView.m; sourceTree = "<group>"; };
+		776B4E08206CE2EA00443D92 /* MemoryMapDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MemoryMapDemoViewController.h; sourceTree = "<group>"; };
+		776B4E09206CE2EA00443D92 /* MemoryMapDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MemoryMapDemoViewController.m; sourceTree = "<group>"; };
+		776B4E0C206CE37800443D92 /* SourceTree_2.0.5.5.dmg */ = {isa = PBXFileReference; lastKnownFileType = file; path = SourceTree_2.0.5.5.dmg; sourceTree = "<group>"; };
 		776FC18C2011F04100CDF3E6 /* YHDailyDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YHDailyDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		776FC18F2011F04100CDF3E6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		776FC1902011F04100CDF3E6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -215,6 +220,16 @@
 			path = WeakStrongObjectDemo;
 			sourceTree = "<group>";
 		};
+		776B4E0B206CE32300443D92 /* MemoryMapDemo */ = {
+			isa = PBXGroup;
+			children = (
+				776B4E08206CE2EA00443D92 /* MemoryMapDemoViewController.h */,
+				776B4E09206CE2EA00443D92 /* MemoryMapDemoViewController.m */,
+				776B4E0C206CE37800443D92 /* SourceTree_2.0.5.5.dmg */,
+			);
+			path = MemoryMapDemo;
+			sourceTree = "<group>";
+		};
 		776FC1832011F04100CDF3E6 = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +255,7 @@
 				77BE096B20457B8D009712CC /* BaseChartViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				776B4E0B206CE32300443D92 /* MemoryMapDemo */,
 				6FF94E972067C89700475287 /* WeakStrongObjectDemo */,
 				6FF94E922067BDB800475287 /* AssignObjectDemo */,
 				6F43F3952063F8A700EA7DCD /* LockDemo */,
@@ -394,6 +410,7 @@
 			files = (
 				776FC19C2011F04100CDF3E6 /* LaunchScreen.storyboard in Resources */,
 				776FC1992011F04100CDF3E6 /* Assets.xcassets in Resources */,
+				776B4E0D206CE37800443D92 /* SourceTree_2.0.5.5.dmg in Resources */,
 				776FC1972011F04100CDF3E6 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -427,6 +444,7 @@
 				6F43F38E205EB4B200EA7DCD /* YHMultiInheritProxy.m in Sources */,
 				776FC1AD2011F69600CDF3E6 /* CoreGraphicDrawView.m in Sources */,
 				776FC1B02012204400CDF3E6 /* CoreAnimationDrawView.m in Sources */,
+				776B4E0A206CE2EA00443D92 /* MemoryMapDemoViewController.m in Sources */,
 				776FC19F2011F04100CDF3E6 /* main.m in Sources */,
 				77E4ABE72022EE5800568AFA /* UIColor+HexColor.m in Sources */,
 				776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */,
