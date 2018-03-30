@@ -20,6 +20,7 @@
 		6F43F391205EB6CC00EA7DCD /* YHBookProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F390205EB6CC00EA7DCD /* YHBookProvider.m */; };
 		6F43F394205EB6E600EA7DCD /* YHClothesProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F393205EB6E600EA7DCD /* YHClothesProvider.m */; };
 		6F43F3982063F8F900EA7DCD /* LockDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3972063F8F900EA7DCD /* LockDemoViewController.m */; };
+		6FCD3C39206E867D00FD504B /* RevertStringDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCD3C38206E867D00FD504B /* RevertStringDemoViewController.m */; };
 		6FF94E952067BDEC00475287 /* AssignObjectDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF94E942067BDEC00475287 /* AssignObjectDemoViewController.m */; };
 		6FF94E9A2067C8C600475287 /* WeakStrongObjectDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF94E992067C8C600475287 /* WeakStrongObjectDemoViewController.m */; };
 		7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7721C3E7202C2A9100859A67 /* YHBaseChartView.m */; };
@@ -73,6 +74,8 @@
 		6F43F393205EB6E600EA7DCD /* YHClothesProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YHClothesProvider.m; sourceTree = "<group>"; };
 		6F43F3962063F8F900EA7DCD /* LockDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LockDemoViewController.h; sourceTree = "<group>"; };
 		6F43F3972063F8F900EA7DCD /* LockDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LockDemoViewController.m; sourceTree = "<group>"; };
+		6FCD3C37206E867D00FD504B /* RevertStringDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RevertStringDemoViewController.h; sourceTree = "<group>"; };
+		6FCD3C38206E867D00FD504B /* RevertStringDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RevertStringDemoViewController.m; sourceTree = "<group>"; };
 		6FF94E932067BDEC00475287 /* AssignObjectDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssignObjectDemoViewController.h; sourceTree = "<group>"; };
 		6FF94E942067BDEC00475287 /* AssignObjectDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AssignObjectDemoViewController.m; sourceTree = "<group>"; };
 		6FF94E982067C8C600475287 /* WeakStrongObjectDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeakStrongObjectDemoViewController.h; sourceTree = "<group>"; };
@@ -202,6 +205,15 @@
 			path = LockDemo;
 			sourceTree = "<group>";
 		};
+		6FCD3C36206E865500FD504B /* RevertString */ = {
+			isa = PBXGroup;
+			children = (
+				6FCD3C37206E867D00FD504B /* RevertStringDemoViewController.h */,
+				6FCD3C38206E867D00FD504B /* RevertStringDemoViewController.m */,
+			);
+			path = RevertString;
+			sourceTree = "<group>";
+		};
 		6FF94E922067BDB800475287 /* AssignObjectDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -251,6 +263,7 @@
 			children = (
 				776FC1A52011F08200CDF3E6 /* RootTableViewController.h */,
 				776FC1A62011F08200CDF3E6 /* RootTableViewController.m */,
+				6FCD3C36206E865500FD504B /* RevertString */,
 				77BE096A20457B8D009712CC /* BaseChartViewController.h */,
 				77BE096B20457B8D009712CC /* BaseChartViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
@@ -432,6 +445,7 @@
 				6FF94E952067BDEC00475287 /* AssignObjectDemoViewController.m in Sources */,
 				7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */,
 				6F43F387205EA44500EA7DCD /* SecondPageViewController.m in Sources */,
+				6FCD3C39206E867D00FD504B /* RevertStringDemoViewController.m in Sources */,
 				77E4AC06202862D500568AFA /* NSString+Extra.m in Sources */,
 				77714A2B201EB312004DD6EB /* LineChartViewController.m in Sources */,
 				6F43F3762056C3DC00EA7DCD /* View1.m in Sources */,
