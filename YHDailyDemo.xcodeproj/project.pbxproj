@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6F04EA81206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F04EA80206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.m */; };
 		6F04EA84206F402200837529 /* CustomizeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F04EA83206F402200837529 /* CustomizeObject.m */; };
+		6F404C43206F6A4200FB53F6 /* IPConvertNumDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C42206F6A4200FB53F6 /* IPConvertNumDemoViewController.m */; };
 		6F43F36F204D945500EA7DCD /* SemaphoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F36E204D945500EA7DCD /* SemaphoreViewController.m */; };
 		6F43F3732056C3BC00EA7DCD /* RespondChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3722056C3BC00EA7DCD /* RespondChainViewController.m */; };
 		6F43F3762056C3DC00EA7DCD /* View1.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3752056C3DC00EA7DCD /* View1.m */; };
@@ -54,6 +55,8 @@
 		6F04EA80206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSUserDefaultsSaveObjectViewController.m; sourceTree = "<group>"; };
 		6F04EA82206F402200837529 /* CustomizeObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomizeObject.h; sourceTree = "<group>"; };
 		6F04EA83206F402200837529 /* CustomizeObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomizeObject.m; sourceTree = "<group>"; };
+		6F404C41206F6A4200FB53F6 /* IPConvertNumDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPConvertNumDemoViewController.h; sourceTree = "<group>"; };
+		6F404C42206F6A4200FB53F6 /* IPConvertNumDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPConvertNumDemoViewController.m; sourceTree = "<group>"; };
 		6F43F36D204D945500EA7DCD /* SemaphoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SemaphoreViewController.h; sourceTree = "<group>"; };
 		6F43F36E204D945500EA7DCD /* SemaphoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SemaphoreViewController.m; sourceTree = "<group>"; };
 		6F43F3712056C3BC00EA7DCD /* RespondChainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RespondChainViewController.h; sourceTree = "<group>"; };
@@ -152,6 +155,15 @@
 				6F04EA83206F402200837529 /* CustomizeObject.m */,
 			);
 			path = NSUserDefaultsSaveObject;
+			sourceTree = "<group>";
+		};
+		6F404C40206F6A0700FB53F6 /* IPConvertNumDemo */ = {
+			isa = PBXGroup;
+			children = (
+				6F404C41206F6A4200FB53F6 /* IPConvertNumDemoViewController.h */,
+				6F404C42206F6A4200FB53F6 /* IPConvertNumDemoViewController.m */,
+			);
+			path = IPConvertNumDemo;
 			sourceTree = "<group>";
 		};
 		6F43F36C204D940C00EA7DCD /* SemaphoreDemo */ = {
@@ -284,6 +296,7 @@
 				77BE096B20457B8D009712CC /* BaseChartViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				6F404C40206F6A0700FB53F6 /* IPConvertNumDemo */,
 				6F04EA7E206F3DD400837529 /* NSUserDefaultsSaveObject */,
 				6FCD3C36206E865500FD504B /* RevertString */,
 				776B4E0B206CE32300443D92 /* MemoryMapDemo */,
@@ -463,6 +476,7 @@
 				6FF94E952067BDEC00475287 /* AssignObjectDemoViewController.m in Sources */,
 				7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */,
 				6F43F387205EA44500EA7DCD /* SecondPageViewController.m in Sources */,
+				6F404C43206F6A4200FB53F6 /* IPConvertNumDemoViewController.m in Sources */,
 				6FCD3C39206E867D00FD504B /* RevertStringDemoViewController.m in Sources */,
 				77E4AC06202862D500568AFA /* NSString+Extra.m in Sources */,
 				77714A2B201EB312004DD6EB /* LineChartViewController.m in Sources */,
