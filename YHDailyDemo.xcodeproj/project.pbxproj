@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F04EA81206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F04EA80206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.m */; };
+		6F04EA84206F402200837529 /* CustomizeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F04EA83206F402200837529 /* CustomizeObject.m */; };
 		6F43F36F204D945500EA7DCD /* SemaphoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F36E204D945500EA7DCD /* SemaphoreViewController.m */; };
 		6F43F3732056C3BC00EA7DCD /* RespondChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3722056C3BC00EA7DCD /* RespondChainViewController.m */; };
 		6F43F3762056C3DC00EA7DCD /* View1.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3752056C3DC00EA7DCD /* View1.m */; };
@@ -48,6 +50,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6F04EA7F206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSUserDefaultsSaveObjectViewController.h; sourceTree = "<group>"; };
+		6F04EA80206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSUserDefaultsSaveObjectViewController.m; sourceTree = "<group>"; };
+		6F04EA82206F402200837529 /* CustomizeObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomizeObject.h; sourceTree = "<group>"; };
+		6F04EA83206F402200837529 /* CustomizeObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomizeObject.m; sourceTree = "<group>"; };
 		6F43F36D204D945500EA7DCD /* SemaphoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SemaphoreViewController.h; sourceTree = "<group>"; };
 		6F43F36E204D945500EA7DCD /* SemaphoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SemaphoreViewController.m; sourceTree = "<group>"; };
 		6F43F3712056C3BC00EA7DCD /* RespondChainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RespondChainViewController.h; sourceTree = "<group>"; };
@@ -137,6 +143,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6F04EA7E206F3DD400837529 /* NSUserDefaultsSaveObject */ = {
+			isa = PBXGroup;
+			children = (
+				6F04EA7F206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.h */,
+				6F04EA80206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.m */,
+				6F04EA82206F402200837529 /* CustomizeObject.h */,
+				6F04EA83206F402200837529 /* CustomizeObject.m */,
+			);
+			path = NSUserDefaultsSaveObject;
+			sourceTree = "<group>";
+		};
 		6F43F36C204D940C00EA7DCD /* SemaphoreDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,11 +280,12 @@
 			children = (
 				776FC1A52011F08200CDF3E6 /* RootTableViewController.h */,
 				776FC1A62011F08200CDF3E6 /* RootTableViewController.m */,
-				6FCD3C36206E865500FD504B /* RevertString */,
 				77BE096A20457B8D009712CC /* BaseChartViewController.h */,
 				77BE096B20457B8D009712CC /* BaseChartViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				6F04EA7E206F3DD400837529 /* NSUserDefaultsSaveObject */,
+				6FCD3C36206E865500FD504B /* RevertString */,
 				776B4E0B206CE32300443D92 /* MemoryMapDemo */,
 				6FF94E972067C89700475287 /* WeakStrongObjectDemo */,
 				6FF94E922067BDB800475287 /* AssignObjectDemo */,
@@ -449,6 +467,7 @@
 				77E4AC06202862D500568AFA /* NSString+Extra.m in Sources */,
 				77714A2B201EB312004DD6EB /* LineChartViewController.m in Sources */,
 				6F43F3762056C3DC00EA7DCD /* View1.m in Sources */,
+				6F04EA84206F402200837529 /* CustomizeObject.m in Sources */,
 				77BE096C20457B8D009712CC /* BaseChartViewController.m in Sources */,
 				6F43F381205E9D3500EA7DCD /* NSProxyDemoViewController.m in Sources */,
 				6FF94E9A2067C8C600475287 /* WeakStrongObjectDemoViewController.m in Sources */,
@@ -456,6 +475,7 @@
 				6F43F3732056C3BC00EA7DCD /* RespondChainViewController.m in Sources */,
 				77714A3520200B94004DD6EB /* YHHorizontalBarChartView.m in Sources */,
 				6F43F38E205EB4B200EA7DCD /* YHMultiInheritProxy.m in Sources */,
+				6F04EA81206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.m in Sources */,
 				776FC1AD2011F69600CDF3E6 /* CoreGraphicDrawView.m in Sources */,
 				776FC1B02012204400CDF3E6 /* CoreAnimationDrawView.m in Sources */,
 				776B4E0A206CE2EA00443D92 /* MemoryMapDemoViewController.m in Sources */,
