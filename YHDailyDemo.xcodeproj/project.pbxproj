@@ -11,6 +11,7 @@
 		6F04EA84206F402200837529 /* CustomizeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F04EA83206F402200837529 /* CustomizeObject.m */; };
 		6F404C43206F6A4200FB53F6 /* IPConvertNumDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C42206F6A4200FB53F6 /* IPConvertNumDemoViewController.m */; };
 		6F404C47206FB91200FB53F6 /* NestedBlockDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C46206FB91200FB53F6 /* NestedBlockDemoViewController.m */; };
+		6F404C4C2070E7FC00FB53F6 /* FindValueInTwoDimensionalArrayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C4B2070E7FC00FB53F6 /* FindValueInTwoDimensionalArrayViewController.m */; };
 		6F43F36F204D945500EA7DCD /* SemaphoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F36E204D945500EA7DCD /* SemaphoreViewController.m */; };
 		6F43F3732056C3BC00EA7DCD /* RespondChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3722056C3BC00EA7DCD /* RespondChainViewController.m */; };
 		6F43F3762056C3DC00EA7DCD /* View1.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3752056C3DC00EA7DCD /* View1.m */; };
@@ -60,6 +61,8 @@
 		6F404C42206F6A4200FB53F6 /* IPConvertNumDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPConvertNumDemoViewController.m; sourceTree = "<group>"; };
 		6F404C45206FB91200FB53F6 /* NestedBlockDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NestedBlockDemoViewController.h; sourceTree = "<group>"; };
 		6F404C46206FB91200FB53F6 /* NestedBlockDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NestedBlockDemoViewController.m; sourceTree = "<group>"; };
+		6F404C4A2070E7FC00FB53F6 /* FindValueInTwoDimensionalArrayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FindValueInTwoDimensionalArrayViewController.h; sourceTree = "<group>"; };
+		6F404C4B2070E7FC00FB53F6 /* FindValueInTwoDimensionalArrayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FindValueInTwoDimensionalArrayViewController.m; sourceTree = "<group>"; };
 		6F43F36D204D945500EA7DCD /* SemaphoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SemaphoreViewController.h; sourceTree = "<group>"; };
 		6F43F36E204D945500EA7DCD /* SemaphoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SemaphoreViewController.m; sourceTree = "<group>"; };
 		6F43F3712056C3BC00EA7DCD /* RespondChainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RespondChainViewController.h; sourceTree = "<group>"; };
@@ -176,6 +179,15 @@
 				6F404C46206FB91200FB53F6 /* NestedBlockDemoViewController.m */,
 			);
 			path = NestedBlockDemo;
+			sourceTree = "<group>";
+		};
+		6F404C492070E79100FB53F6 /* FindValueInTwoDimensionalArray */ = {
+			isa = PBXGroup;
+			children = (
+				6F404C4A2070E7FC00FB53F6 /* FindValueInTwoDimensionalArrayViewController.h */,
+				6F404C4B2070E7FC00FB53F6 /* FindValueInTwoDimensionalArrayViewController.m */,
+			);
+			path = FindValueInTwoDimensionalArray;
 			sourceTree = "<group>";
 		};
 		6F43F36C204D940C00EA7DCD /* SemaphoreDemo */ = {
@@ -308,6 +320,7 @@
 				77BE096B20457B8D009712CC /* BaseChartViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				6F404C492070E79100FB53F6 /* FindValueInTwoDimensionalArray */,
 				6F404C44206FB8F400FB53F6 /* NestedBlockDemo */,
 				6F404C40206F6A0700FB53F6 /* IPConvertNumDemo */,
 				6F04EA7E206F3DD400837529 /* NSUserDefaultsSaveObject */,
@@ -484,6 +497,7 @@
 				6F43F391205EB6CC00EA7DCD /* YHBookProvider.m in Sources */,
 				6F43F36F204D945500EA7DCD /* SemaphoreViewController.m in Sources */,
 				6F43F3982063F8F900EA7DCD /* LockDemoViewController.m in Sources */,
+				6F404C4C2070E7FC00FB53F6 /* FindValueInTwoDimensionalArrayViewController.m in Sources */,
 				776FC1AA2011F53000CDF3E6 /* DrawViewController.m in Sources */,
 				6F404C47206FB91200FB53F6 /* NestedBlockDemoViewController.m in Sources */,
 				6F43F384205E9E0100EA7DCD /* YHWeakProxy.m in Sources */,
