@@ -14,6 +14,8 @@
 		6F404C4C2070E7FC00FB53F6 /* FindValueInTwoDimensionalArrayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C4B2070E7FC00FB53F6 /* FindValueInTwoDimensionalArrayViewController.m */; };
 		6F404C5020710F4B00FB53F6 /* SingleTonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C4F20710F4B00FB53F6 /* SingleTonViewController.m */; };
 		6F404C5320710F7200FB53F6 /* SingleTonObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C5220710F7200FB53F6 /* SingleTonObject.m */; };
+		6F404C5720711D9000FB53F6 /* IsEqualObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C5620711D9000FB53F6 /* IsEqualObject.m */; };
+		6F404C5A20711DA700FB53F6 /* IsEqualDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C5920711DA700FB53F6 /* IsEqualDemoViewController.m */; };
 		6F43F36F204D945500EA7DCD /* SemaphoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F36E204D945500EA7DCD /* SemaphoreViewController.m */; };
 		6F43F3732056C3BC00EA7DCD /* RespondChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3722056C3BC00EA7DCD /* RespondChainViewController.m */; };
 		6F43F3762056C3DC00EA7DCD /* View1.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3752056C3DC00EA7DCD /* View1.m */; };
@@ -69,6 +71,10 @@
 		6F404C4F20710F4B00FB53F6 /* SingleTonViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleTonViewController.m; sourceTree = "<group>"; };
 		6F404C5120710F7200FB53F6 /* SingleTonObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleTonObject.h; sourceTree = "<group>"; };
 		6F404C5220710F7200FB53F6 /* SingleTonObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleTonObject.m; sourceTree = "<group>"; };
+		6F404C5520711D9000FB53F6 /* IsEqualObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IsEqualObject.h; sourceTree = "<group>"; };
+		6F404C5620711D9000FB53F6 /* IsEqualObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IsEqualObject.m; sourceTree = "<group>"; };
+		6F404C5820711DA700FB53F6 /* IsEqualDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IsEqualDemoViewController.h; sourceTree = "<group>"; };
+		6F404C5920711DA700FB53F6 /* IsEqualDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IsEqualDemoViewController.m; sourceTree = "<group>"; };
 		6F43F36D204D945500EA7DCD /* SemaphoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SemaphoreViewController.h; sourceTree = "<group>"; };
 		6F43F36E204D945500EA7DCD /* SemaphoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SemaphoreViewController.m; sourceTree = "<group>"; };
 		6F43F3712056C3BC00EA7DCD /* RespondChainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RespondChainViewController.h; sourceTree = "<group>"; };
@@ -207,6 +213,17 @@
 			path = SingleTon;
 			sourceTree = "<group>";
 		};
+		6F404C5420711D6300FB53F6 /* IsEqualDemo */ = {
+			isa = PBXGroup;
+			children = (
+				6F404C5520711D9000FB53F6 /* IsEqualObject.h */,
+				6F404C5620711D9000FB53F6 /* IsEqualObject.m */,
+				6F404C5820711DA700FB53F6 /* IsEqualDemoViewController.h */,
+				6F404C5920711DA700FB53F6 /* IsEqualDemoViewController.m */,
+			);
+			path = IsEqualDemo;
+			sourceTree = "<group>";
+		};
 		6F43F36C204D940C00EA7DCD /* SemaphoreDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -337,6 +354,7 @@
 				77BE096B20457B8D009712CC /* BaseChartViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				6F404C5420711D6300FB53F6 /* IsEqualDemo */,
 				6F404C4D20710F2400FB53F6 /* SingleTon */,
 				6F404C492070E79100FB53F6 /* FindValueInTwoDimensionalArray */,
 				6F404C44206FB8F400FB53F6 /* NestedBlockDemo */,
@@ -543,11 +561,13 @@
 				6F404C5020710F4B00FB53F6 /* SingleTonViewController.m in Sources */,
 				77E4ABE72022EE5800568AFA /* UIColor+HexColor.m in Sources */,
 				776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */,
+				6F404C5720711D9000FB53F6 /* IsEqualObject.m in Sources */,
 				77714A3220200B6E004DD6EB /* HorizontalBarChartViewController.m in Sources */,
 				77714A3D20215909004DD6EB /* VerticalBarChartViewController.m in Sources */,
 				6F404C5320710F7200FB53F6 /* SingleTonObject.m in Sources */,
 				77714A3A202158FB004DD6EB /* YHVerticalBarChartView.m in Sources */,
 				776FC1A72011F08200CDF3E6 /* RootTableViewController.m in Sources */,
+				6F404C5A20711DA700FB53F6 /* IsEqualDemoViewController.m in Sources */,
 				6F43F394205EB6E600EA7DCD /* YHClothesProvider.m in Sources */,
 				77714A28201B4725004DD6EB /* YHLineChartView.m in Sources */,
 				6F43F37D20581D8600EA7DCD /* CopyStrongDemoViewController.m in Sources */,
