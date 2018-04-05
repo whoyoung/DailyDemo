@@ -62,19 +62,31 @@
 
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+//    NSString *str = @"222";
+//
+//    NSString *copyStr = [str copy];
+//    NSMutableString *mutableCopyStr = [str mutableCopy];
+//    NSLog(@"str====%p, copyStr====%p , mutableCopyStr====%p",str,copyStr,mutableCopyStr);
+//
+//    str = @"333";
+//    NSLog(@"str====%p, copyStr====%p , mutableCopyStr====%p",str,copyStr,mutableCopyStr);
+    
+    NSMutableString *mStr = [NSMutableString stringWithFormat:@"222"];
+    NSMutableString *mStrCopy = [mStr copy];
+    NSMutableString *mStrMCopy = [mStr mutableCopy];
+    NSString *strCopy = [mStr copy];
+    NSString *strMCopy = [mStr mutableCopy];
+    
+    NSLog(@"mStr=%p, mStrCopy=%p ,mStrMCopy=%p, strCopy=%p, strMCopy=%p",mStr,mStrCopy,mStrMCopy,strCopy,strMCopy);
+    
+    [mStr appendString:@"333"];
+    NSLog(@"mStr=%@, mStrCopy=%@ ,mStrMCopy=%@, strCopy=%@, strMCopy=%@",mStr,mStrCopy,mStrMCopy,strCopy,strMCopy);
+    NSLog(@"mStr=%p, mStrCopy=%p ,mStrMCopy=%p, strCopy=%p, strMCopy=%p",mStr,mStrCopy,mStrMCopy,strCopy,strMCopy);
+    
+    [mStrMCopy appendString:@"444"];
+    NSLog(@"mStrCopy=====%@, strMCopy===%@",mStrMCopy,strMCopy);
+    
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
