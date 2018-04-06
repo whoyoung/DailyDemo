@@ -19,6 +19,7 @@
 		6F404C672076298B00FB53F6 /* MultiCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C652076298B00FB53F6 /* MultiCategoryViewController.m */; };
 		6F404C6B20762B9200FB53F6 /* NSString+append.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C6A20762B9200FB53F6 /* NSString+append.m */; };
 		6F404C6E20762D3E00FB53F6 /* NSString+append1.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C6D20762D3E00FB53F6 /* NSString+append1.m */; };
+		6F404C722077B10F00FB53F6 /* MultiTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C712077B10F00FB53F6 /* MultiTableViewController.m */; };
 		6F43F36F204D945500EA7DCD /* SemaphoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F36E204D945500EA7DCD /* SemaphoreViewController.m */; };
 		6F43F3732056C3BC00EA7DCD /* RespondChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3722056C3BC00EA7DCD /* RespondChainViewController.m */; };
 		6F43F3762056C3DC00EA7DCD /* View1.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3752056C3DC00EA7DCD /* View1.m */; };
@@ -84,6 +85,8 @@
 		6F404C6A20762B9200FB53F6 /* NSString+append.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+append.m"; sourceTree = "<group>"; };
 		6F404C6C20762D3E00FB53F6 /* NSString+append1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+append1.h"; sourceTree = "<group>"; };
 		6F404C6D20762D3E00FB53F6 /* NSString+append1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+append1.m"; sourceTree = "<group>"; };
+		6F404C702077B10F00FB53F6 /* MultiTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MultiTableViewController.h; sourceTree = "<group>"; };
+		6F404C712077B10F00FB53F6 /* MultiTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MultiTableViewController.m; sourceTree = "<group>"; };
 		6F43F36D204D945500EA7DCD /* SemaphoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SemaphoreViewController.h; sourceTree = "<group>"; };
 		6F43F36E204D945500EA7DCD /* SemaphoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SemaphoreViewController.m; sourceTree = "<group>"; };
 		6F43F3712056C3BC00EA7DCD /* RespondChainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RespondChainViewController.h; sourceTree = "<group>"; };
@@ -246,6 +249,15 @@
 			path = multiCategory;
 			sourceTree = "<group>";
 		};
+		6F404C6F2077B0D800FB53F6 /* MultiTableview */ = {
+			isa = PBXGroup;
+			children = (
+				6F404C702077B10F00FB53F6 /* MultiTableViewController.h */,
+				6F404C712077B10F00FB53F6 /* MultiTableViewController.m */,
+			);
+			path = MultiTableview;
+			sourceTree = "<group>";
+		};
 		6F43F36C204D940C00EA7DCD /* SemaphoreDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -376,6 +388,7 @@
 				77BE096B20457B8D009712CC /* BaseChartViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				6F404C6F2077B0D800FB53F6 /* MultiTableview */,
 				6F404C622076298B00FB53F6 /* multiCategory */,
 				6F404C5420711D6300FB53F6 /* IsEqualDemo */,
 				6F404C4D20710F2400FB53F6 /* SingleTon */,
@@ -551,6 +564,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F404C722077B10F00FB53F6 /* MultiTableViewController.m in Sources */,
 				6F404C672076298B00FB53F6 /* MultiCategoryViewController.m in Sources */,
 				776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */,
 				6F43F38B205EB48100EA7DCD /* NSProxyMultiInheritDemoViewController.m in Sources */,
