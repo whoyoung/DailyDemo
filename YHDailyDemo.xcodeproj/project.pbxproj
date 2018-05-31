@@ -36,6 +36,8 @@
 		6FCD3C39206E867D00FD504B /* RevertStringDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCD3C38206E867D00FD504B /* RevertStringDemoViewController.m */; };
 		6FF94E952067BDEC00475287 /* AssignObjectDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF94E942067BDEC00475287 /* AssignObjectDemoViewController.m */; };
 		6FF94E9A2067C8C600475287 /* WeakStrongObjectDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF94E992067C8C600475287 /* WeakStrongObjectDemoViewController.m */; };
+		77082CC220BFD34D00DCF52E /* TableViewRegisterClassController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77082CC120BFD34D00DCF52E /* TableViewRegisterClassController.m */; };
+		77082CC520BFD3CA00DCF52E /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77082CC420BFD3CA00DCF52E /* CustomTableViewCell.m */; };
 		7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7721C3E7202C2A9100859A67 /* YHBaseChartView.m */; };
 		776B4E0A206CE2EA00443D92 /* MemoryMapDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776B4E09206CE2EA00443D92 /* MemoryMapDemoViewController.m */; };
 		776B4E0D206CE37800443D92 /* SourceTree_2.0.5.5.dmg in Resources */ = {isa = PBXBuildFile; fileRef = 776B4E0C206CE37800443D92 /* SourceTree_2.0.5.5.dmg */; };
@@ -119,6 +121,10 @@
 		6FF94E942067BDEC00475287 /* AssignObjectDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AssignObjectDemoViewController.m; sourceTree = "<group>"; };
 		6FF94E982067C8C600475287 /* WeakStrongObjectDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeakStrongObjectDemoViewController.h; sourceTree = "<group>"; };
 		6FF94E992067C8C600475287 /* WeakStrongObjectDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeakStrongObjectDemoViewController.m; sourceTree = "<group>"; };
+		77082CC020BFD34D00DCF52E /* TableViewRegisterClassController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableViewRegisterClassController.h; sourceTree = "<group>"; };
+		77082CC120BFD34D00DCF52E /* TableViewRegisterClassController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableViewRegisterClassController.m; sourceTree = "<group>"; };
+		77082CC320BFD3CA00DCF52E /* CustomTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCell.h; sourceTree = "<group>"; };
+		77082CC420BFD3CA00DCF52E /* CustomTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCell.m; sourceTree = "<group>"; };
 		7721C3E3202C2A9000859A67 /* YHCommonChartViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHCommonChartViewDelegate.h; sourceTree = "<group>"; };
 		7721C3E4202C2A9000859A67 /* YHCommonHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHCommonHeader.h; sourceTree = "<group>"; };
 		7721C3E5202C2A9000859A67 /* YHBaseChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHBaseChartView.h; sourceTree = "<group>"; };
@@ -353,6 +359,17 @@
 			path = WeakStrongObjectDemo;
 			sourceTree = "<group>";
 		};
+		77082CBF20BFD31100DCF52E /* TableViewRegisterClass */ = {
+			isa = PBXGroup;
+			children = (
+				77082CC020BFD34D00DCF52E /* TableViewRegisterClassController.h */,
+				77082CC120BFD34D00DCF52E /* TableViewRegisterClassController.m */,
+				77082CC320BFD3CA00DCF52E /* CustomTableViewCell.h */,
+				77082CC420BFD3CA00DCF52E /* CustomTableViewCell.m */,
+			);
+			path = TableViewRegisterClass;
+			sourceTree = "<group>";
+		};
 		776B4E0B206CE32300443D92 /* MemoryMapDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -388,6 +405,7 @@
 				77BE096B20457B8D009712CC /* BaseChartViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				77082CBF20BFD31100DCF52E /* TableViewRegisterClass */,
 				6F404C6F2077B0D800FB53F6 /* MultiTableview */,
 				6F404C622076298B00FB53F6 /* multiCategory */,
 				6F404C5420711D6300FB53F6 /* IsEqualDemo */,
@@ -591,6 +609,7 @@
 				6F43F3732056C3BC00EA7DCD /* RespondChainViewController.m in Sources */,
 				77714A3520200B94004DD6EB /* YHHorizontalBarChartView.m in Sources */,
 				6F43F38E205EB4B200EA7DCD /* YHMultiInheritProxy.m in Sources */,
+				77082CC220BFD34D00DCF52E /* TableViewRegisterClassController.m in Sources */,
 				6F404C6E20762D3E00FB53F6 /* NSString+append1.m in Sources */,
 				6F404C6B20762B9200FB53F6 /* NSString+append.m in Sources */,
 				6F04EA81206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.m in Sources */,
@@ -606,6 +625,7 @@
 				77714A3D20215909004DD6EB /* VerticalBarChartViewController.m in Sources */,
 				6F404C5320710F7200FB53F6 /* SingleTonObject.m in Sources */,
 				77714A3A202158FB004DD6EB /* YHVerticalBarChartView.m in Sources */,
+				77082CC520BFD3CA00DCF52E /* CustomTableViewCell.m in Sources */,
 				776FC1A72011F08200CDF3E6 /* RootTableViewController.m in Sources */,
 				6F404C5A20711DA700FB53F6 /* IsEqualDemoViewController.m in Sources */,
 				6F43F394205EB6E600EA7DCD /* YHClothesProvider.m in Sources */,
