@@ -11,4 +11,5 @@
 @interface SingleTonObject : NSObject
 + (instancetype)shareInstance;
 
+- (void)singletonParam:(NSString *)a block:(void (^)(NSString *str))block;
 @end

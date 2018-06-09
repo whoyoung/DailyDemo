@@ -9,7 +9,7 @@
 #import "SingleTonViewController.h"
 #import "SingleTonObject.h"
 @interface SingleTonViewController ()
-
+@property (nonatomic, assign) NSUInteger testNum;
 @end
 
 @implementation SingleTonViewController
@@ -22,8 +22,27 @@
     SingleTonObject *obj2 = [[SingleTonObject alloc] init];
 
     NSLog(@"%p; %p; %p",obj0,obj1,obj2);
+    
+}
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    [[SingleTonObject shareInstance] singletonParam:@"aaa" block:^(NSString *str) {
+        NSLog(@"self.testNum=%ld",++self.testNum);
+        [self testMethod];
+    }];
+    [super touchesBegan:touches withEvent:event];
 }
 
+- (void)testMethod {
+    NSLog(@"i am a method");
+    [[SingleTonObject shareInstance] singletonParam:@"dddd" block:^(NSString *str) {
+        NSLog(@"another self.testNum=%ld",++self.testNum);
+    }];
+}
+
+- (void)dealloc {
+    NSLog(@"oh, i am dead!");
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

@@ -22,7 +22,7 @@
 }
 - (NSArray *)controllers {
     if (!_controllers) {
-        _controllers = @[@"TableViewRegisterClassController",@"MultiTableViewController",@"MultiCategoryViewController",@"IsEqualDemoViewController",@"SingleTonViewController",@"FindValueInTwoDimensionalArrayViewController",@"NestedBlockDemoViewController",@"IPConvertNumDemoViewController",@"NSUserDefaultsSaveObjectViewController",@"FindMaxAndMinNumberViewController",@"DrawViewController",@"LineChartViewController",@"HorizontalBarChartViewController",@"VerticalBarChartViewController",@"SemaphoreViewController",@"RespondChainViewController",@"CopyStrongDemoViewController",@"NSProxyDemoViewController",@"NSProxyMultiInheritDemoViewController",@"LockDemoViewController",@"AssignObjectDemoViewController",@"WeakStrongObjectDemoViewController",@"MemoryMapDemoViewController",@"RevertStringDemoViewController"];
+        _controllers = @[@"WeakStrongObjectDemoViewController",@"TableViewRegisterClassController",@"MultiTableViewController",@"MultiCategoryViewController",@"IsEqualDemoViewController",@"SingleTonViewController",@"FindValueInTwoDimensionalArrayViewController",@"NestedBlockDemoViewController",@"IPConvertNumDemoViewController",@"NSUserDefaultsSaveObjectViewController",@"FindMaxAndMinNumberViewController",@"DrawViewController",@"LineChartViewController",@"HorizontalBarChartViewController",@"VerticalBarChartViewController",@"SemaphoreViewController",@"RespondChainViewController",@"CopyStrongDemoViewController",@"NSProxyDemoViewController",@"NSProxyMultiInheritDemoViewController",@"LockDemoViewController",@"AssignObjectDemoViewController",@"MemoryMapDemoViewController",@"RevertStringDemoViewController"];
     }
     return _controllers;
 }
