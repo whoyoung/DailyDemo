@@ -18,11 +18,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationItem setTitle:@"RootViewController"];
-    
 }
+
 - (NSArray *)controllers {
     if (!_controllers) {
-        _controllers = @[@"TableViewRegisterClassController",@"MultiTableViewController",@"MultiCategoryViewController",@"IsEqualDemoViewController",@"SingleTonViewController",@"FindValueInTwoDimensionalArrayViewController",@"NestedBlockDemoViewController",@"IPConvertNumDemoViewController",@"NSUserDefaultsSaveObjectViewController",@"FindMaxAndMinNumberViewController",@"DrawViewController",@"LineChartViewController",@"HorizontalBarChartViewController",@"VerticalBarChartViewController",@"SemaphoreViewController",@"RespondChainViewController",@"CopyStrongDemoViewController",@"NSProxyDemoViewController",@"NSProxyMultiInheritDemoViewController",@"LockDemoViewController",@"AssignObjectDemoViewController",@"WeakStrongObjectDemoViewController",@"MemoryMapDemoViewController",@"RevertStringDemoViewController"];
+        _controllers = @[@"FormulaCalculateViewController",@"ForInDeleteViewController",@"TableViewRegisterClassController",@"MultiTableViewController",@"MultiCategoryViewController",@"IsEqualDemoViewController",@"SingleTonViewController",@"FindValueInTwoDimensionalArrayViewController",@"NestedBlockDemoViewController",@"IPConvertNumDemoViewController",@"NSUserDefaultsSaveObjectViewController",@"FindMaxAndMinNumberViewController",@"DrawViewController",@"LineChartViewController",@"HorizontalBarChartViewController",@"VerticalBarChartViewController",@"SemaphoreViewController",@"RespondChainViewController",@"CopyStrongDemoViewController",@"NSProxyDemoViewController",@"NSProxyMultiInheritDemoViewController",@"LockDemoViewController",@"AssignObjectDemoViewController",@"WeakStrongObjectDemoViewController",@"MemoryMapDemoViewController",@"RevertStringDemoViewController",@"DismissViewController"];
     }
     return _controllers;
 }
@@ -47,7 +47,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Class cls = NSClassFromString(self.controllers[indexPath.row]);
-    [self.navigationController pushViewController:[[cls alloc] init] animated:YES];
+    if ([self.controllers[indexPath.row] isEqualToString:@"DismissViewController"]) {
+        [self presentViewController:[[cls alloc] init] animated:YES completion:nil];
+    } else {
+        [self.navigationController pushViewController:[[cls alloc] init] animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

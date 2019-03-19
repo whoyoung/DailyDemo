@@ -57,6 +57,9 @@
 		77714A3520200B94004DD6EB /* YHHorizontalBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A3420200B94004DD6EB /* YHHorizontalBarChartView.m */; };
 		77714A3A202158FB004DD6EB /* YHVerticalBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A39202158FB004DD6EB /* YHVerticalBarChartView.m */; };
 		77714A3D20215909004DD6EB /* VerticalBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A3C20215909004DD6EB /* VerticalBarChartViewController.m */; };
+		77931AC821FF0119009D5F88 /* ForInDeleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77931AC721FF0119009D5F88 /* ForInDeleteViewController.m */; };
+		779A3497221E5F6400BB9915 /* FormulaCalculateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779A3496221E5F6400BB9915 /* FormulaCalculateViewController.m */; };
+		77B6D17921B23DEC008F668D /* DismissViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B6D17821B23DEC008F668D /* DismissViewController.m */; };
 		77BE096C20457B8D009712CC /* BaseChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BE096B20457B8D009712CC /* BaseChartViewController.m */; };
 		77E4ABE72022EE5800568AFA /* UIColor+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */; };
 		77E4AC06202862D500568AFA /* NSString+Extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4AC05202862D500568AFA /* NSString+Extra.m */; };
@@ -163,6 +166,12 @@
 		77714A39202158FB004DD6EB /* YHVerticalBarChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YHVerticalBarChartView.m; sourceTree = "<group>"; };
 		77714A3B20215909004DD6EB /* VerticalBarChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerticalBarChartViewController.h; sourceTree = "<group>"; };
 		77714A3C20215909004DD6EB /* VerticalBarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerticalBarChartViewController.m; sourceTree = "<group>"; };
+		77931AC621FF0119009D5F88 /* ForInDeleteViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForInDeleteViewController.h; sourceTree = "<group>"; };
+		77931AC721FF0119009D5F88 /* ForInDeleteViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForInDeleteViewController.m; sourceTree = "<group>"; };
+		779A3495221E5F6400BB9915 /* FormulaCalculateViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormulaCalculateViewController.h; sourceTree = "<group>"; };
+		779A3496221E5F6400BB9915 /* FormulaCalculateViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormulaCalculateViewController.m; sourceTree = "<group>"; };
+		77B6D17721B23DEC008F668D /* DismissViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DismissViewController.h; sourceTree = "<group>"; };
+		77B6D17821B23DEC008F668D /* DismissViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DismissViewController.m; sourceTree = "<group>"; };
 		77BE096A20457B8D009712CC /* BaseChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseChartViewController.h; sourceTree = "<group>"; };
 		77BE096B20457B8D009712CC /* BaseChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseChartViewController.m; sourceTree = "<group>"; };
 		77E4ABE52022EE5800568AFA /* UIColor+HexColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColor.h"; sourceTree = "<group>"; };
@@ -405,6 +414,9 @@
 				77BE096B20457B8D009712CC /* BaseChartViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				779A3494221E5EEB00BB9915 /* formulaCalculate */,
+				77931AC521FF00D3009D5F88 /* ForInDelete */,
+				77B6D17621B23CF1008F668D /* MemoryLeakAboutDismissViewController */,
 				77082CBF20BFD31100DCF52E /* TableViewRegisterClass */,
 				6F404C6F2077B0D800FB53F6 /* MultiTableview */,
 				6F404C622076298B00FB53F6 /* multiCategory */,
@@ -492,6 +504,33 @@
 				77714A3C20215909004DD6EB /* VerticalBarChartViewController.m */,
 			);
 			name = VerticalBarChar;
+			sourceTree = "<group>";
+		};
+		77931AC521FF00D3009D5F88 /* ForInDelete */ = {
+			isa = PBXGroup;
+			children = (
+				77931AC621FF0119009D5F88 /* ForInDeleteViewController.h */,
+				77931AC721FF0119009D5F88 /* ForInDeleteViewController.m */,
+			);
+			path = ForInDelete;
+			sourceTree = "<group>";
+		};
+		779A3494221E5EEB00BB9915 /* formulaCalculate */ = {
+			isa = PBXGroup;
+			children = (
+				779A3495221E5F6400BB9915 /* FormulaCalculateViewController.h */,
+				779A3496221E5F6400BB9915 /* FormulaCalculateViewController.m */,
+			);
+			path = formulaCalculate;
+			sourceTree = "<group>";
+		};
+		77B6D17621B23CF1008F668D /* MemoryLeakAboutDismissViewController */ = {
+			isa = PBXGroup;
+			children = (
+				77B6D17721B23DEC008F668D /* DismissViewController.h */,
+				77B6D17821B23DEC008F668D /* DismissViewController.m */,
+			);
+			path = MemoryLeakAboutDismissViewController;
 			sourceTree = "<group>";
 		};
 		77E4ABFB2024789C00568AFA /* YHChartViewCommon */ = {
@@ -585,6 +624,7 @@
 				6F404C722077B10F00FB53F6 /* MultiTableViewController.m in Sources */,
 				6F404C672076298B00FB53F6 /* MultiCategoryViewController.m in Sources */,
 				776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */,
+				77931AC821FF0119009D5F88 /* ForInDeleteViewController.m in Sources */,
 				6F43F38B205EB48100EA7DCD /* NSProxyMultiInheritDemoViewController.m in Sources */,
 				6F43F391205EB6CC00EA7DCD /* YHBookProvider.m in Sources */,
 				6F43F36F204D945500EA7DCD /* SemaphoreViewController.m in Sources */,
@@ -601,9 +641,11 @@
 				77E4AC06202862D500568AFA /* NSString+Extra.m in Sources */,
 				77714A2B201EB312004DD6EB /* LineChartViewController.m in Sources */,
 				6F43F3762056C3DC00EA7DCD /* View1.m in Sources */,
+				77B6D17921B23DEC008F668D /* DismissViewController.m in Sources */,
 				6F04EA84206F402200837529 /* CustomizeObject.m in Sources */,
 				77BE096C20457B8D009712CC /* BaseChartViewController.m in Sources */,
 				6F43F381205E9D3500EA7DCD /* NSProxyDemoViewController.m in Sources */,
+				779A3497221E5F6400BB9915 /* FormulaCalculateViewController.m in Sources */,
 				6FF94E9A2067C8C600475287 /* WeakStrongObjectDemoViewController.m in Sources */,
 				6F43F3792056C3EF00EA7DCD /* View11.m in Sources */,
 				6F43F3732056C3BC00EA7DCD /* RespondChainViewController.m in Sources */,
