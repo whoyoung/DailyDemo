@@ -23,6 +23,7 @@ typedef void(^TestBlock)(void);
     self.testStr = @"1";
 }
 
+
 - (void)testBlock {
     self.block = ^{
         self.testStr = @"2";
@@ -62,15 +63,14 @@ typedef void(^TestBlock)(void);
     self.block();
 }
 
+
+
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
 //    [self testBlock];
     
 //    [self test1Block];
-//    [self.navigationController popViewControllerAnimated:YES];
     
-    [self test2Block];
-    [self.navigationController popViewControllerAnimated:YES];
-    
+    [self test2Block];    
     [super touchesBegan:touches withEvent:event];
 }
 

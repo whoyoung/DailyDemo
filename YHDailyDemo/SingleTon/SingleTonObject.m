@@ -29,4 +29,12 @@ static SingleTonObject *singleTon = nil;
     });
     return singleTon;
 }
+
+- (void)singletonParam:(NSString *)a block:(void (^)(NSString *str))block {
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        sleep(5);
+        block([NSString stringWithFormat:@"%@_str",a]);
+
+    });
+}
 @end

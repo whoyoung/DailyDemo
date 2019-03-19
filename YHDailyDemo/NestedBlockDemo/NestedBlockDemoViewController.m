@@ -11,6 +11,9 @@
 @interface NestedBlockDemoViewController ()
 @property (nonatomic, copy) NSString *firstName;
 @property (nonatomic, copy) NSString *fullName;
+
+@property (nonatomic, copy) NSString *testStr;
+
 @end
 
 @implementation NestedBlockDemoViewController
@@ -34,13 +37,46 @@
         weakSelf.fullName = [NSString stringWithFormat:@"%@_yang",firstName];
         NSLog(@"full name == %@",weakSelf.fullName);
     });
+    
+    self.testStr = @"test";
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     
-    if (self.blockA) {
-        self.blockA(@"lalallal");
-    }
+//    if (self.blockA) {
+//        self.blockA(@"lalallal");
+//    }
+    
+    //    [self nestedNoIvarBlock];
+    
+    [self nestedIvarBlock];
+}
+- (void)invokeBlock:(void (^)(NSString *str))block {
+    block(self.testStr);
+}
+- (void)nestedNoIvarBlock {
+    [self invokeBlock:^(NSString *str) {
+        self.testStr = [str stringByAppendingString:@"-2"];
+        NSLog(@"nestedBlock--%@",self.testStr);
+        [self invokeBlock:^(NSString *str) {
+            self.testStr = [str stringByAppendingString:@"-3"];
+            NSLog(@"nestedBlock--%@",self.testStr);
+        }];
+    }];
+}
+
+- (void)invokeIvar:(NSString *)str block:(void (^)(NSString *str))block {
+    block([str stringByAppendingString:@"-ivar"]);
+}
+- (void)nestedIvarBlock {
+    [self invokeIvar:self.testStr block:^(NSString *str) {
+        self.testStr = [str stringByAppendingString:@"-2"];
+        NSLog(@"nestedBlock--%@",self.testStr);
+        [self invokeIvar:self.testStr block:^(NSString *str) {
+            self.testStr = [str stringByAppendingString:@"-3"];
+            NSLog(@"nestedBlock--%@",self.testStr);
+        }];
+    }];
 }
 - (void)dealloc {
     NSLog(@"i am dead!");

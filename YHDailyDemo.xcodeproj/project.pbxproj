@@ -34,6 +34,8 @@
 		6F43F394205EB6E600EA7DCD /* YHClothesProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F393205EB6E600EA7DCD /* YHClothesProvider.m */; };
 		6F43F3982063F8F900EA7DCD /* LockDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3972063F8F900EA7DCD /* LockDemoViewController.m */; };
 		6FCD3C39206E867D00FD504B /* RevertStringDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCD3C38206E867D00FD504B /* RevertStringDemoViewController.m */; };
+		6FDBCE2820CCFC38001017CC /* MLeaksFinderDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBCE2720CCFC38001017CC /* MLeaksFinderDemoViewController.m */; };
+		6FDBCE2B20CCFC57001017CC /* LeakView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBCE2A20CCFC57001017CC /* LeakView.m */; };
 		6FF94E952067BDEC00475287 /* AssignObjectDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF94E942067BDEC00475287 /* AssignObjectDemoViewController.m */; };
 		6FF94E9A2067C8C600475287 /* WeakStrongObjectDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF94E992067C8C600475287 /* WeakStrongObjectDemoViewController.m */; };
 		77082CC220BFD34D00DCF52E /* TableViewRegisterClassController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77082CC120BFD34D00DCF52E /* TableViewRegisterClassController.m */; };
@@ -63,9 +65,11 @@
 		77BE096C20457B8D009712CC /* BaseChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BE096B20457B8D009712CC /* BaseChartViewController.m */; };
 		77E4ABE72022EE5800568AFA /* UIColor+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */; };
 		77E4AC06202862D500568AFA /* NSString+Extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4AC05202862D500568AFA /* NSString+Extra.m */; };
+		874EB0C2401E70266F4749BC /* libPods-YHDailyDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B98B5E95EC6F15F12224A98C /* libPods-YHDailyDemo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		53B62AD59CC735A0C7EFFB6A /* Pods-YHDailyDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YHDailyDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-YHDailyDemo/Pods-YHDailyDemo.release.xcconfig"; sourceTree = "<group>"; };
 		6F04EA7F206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSUserDefaultsSaveObjectViewController.h; sourceTree = "<group>"; };
 		6F04EA80206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSUserDefaultsSaveObjectViewController.m; sourceTree = "<group>"; };
 		6F04EA82206F402200837529 /* CustomizeObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomizeObject.h; sourceTree = "<group>"; };
@@ -120,10 +124,15 @@
 		6F43F3972063F8F900EA7DCD /* LockDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LockDemoViewController.m; sourceTree = "<group>"; };
 		6FCD3C37206E867D00FD504B /* RevertStringDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RevertStringDemoViewController.h; sourceTree = "<group>"; };
 		6FCD3C38206E867D00FD504B /* RevertStringDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RevertStringDemoViewController.m; sourceTree = "<group>"; };
+		6FDBCE2620CCFC38001017CC /* MLeaksFinderDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLeaksFinderDemoViewController.h; sourceTree = "<group>"; };
+		6FDBCE2720CCFC38001017CC /* MLeaksFinderDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MLeaksFinderDemoViewController.m; sourceTree = "<group>"; };
+		6FDBCE2920CCFC57001017CC /* LeakView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LeakView.h; sourceTree = "<group>"; };
+		6FDBCE2A20CCFC57001017CC /* LeakView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LeakView.m; sourceTree = "<group>"; };
 		6FF94E932067BDEC00475287 /* AssignObjectDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssignObjectDemoViewController.h; sourceTree = "<group>"; };
 		6FF94E942067BDEC00475287 /* AssignObjectDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AssignObjectDemoViewController.m; sourceTree = "<group>"; };
 		6FF94E982067C8C600475287 /* WeakStrongObjectDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeakStrongObjectDemoViewController.h; sourceTree = "<group>"; };
 		6FF94E992067C8C600475287 /* WeakStrongObjectDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeakStrongObjectDemoViewController.m; sourceTree = "<group>"; };
+		73010122AE898507CB587393 /* Pods-YHDailyDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YHDailyDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YHDailyDemo/Pods-YHDailyDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		77082CC020BFD34D00DCF52E /* TableViewRegisterClassController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableViewRegisterClassController.h; sourceTree = "<group>"; };
 		77082CC120BFD34D00DCF52E /* TableViewRegisterClassController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableViewRegisterClassController.m; sourceTree = "<group>"; };
 		77082CC320BFD3CA00DCF52E /* CustomTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCell.h; sourceTree = "<group>"; };
@@ -178,6 +187,7 @@
 		77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColor.m"; sourceTree = "<group>"; };
 		77E4AC04202862D500568AFA /* NSString+Extra.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Extra.h"; sourceTree = "<group>"; };
 		77E4AC05202862D500568AFA /* NSString+Extra.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extra.m"; sourceTree = "<group>"; };
+		B98B5E95EC6F15F12224A98C /* libPods-YHDailyDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YHDailyDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,12 +195,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				874EB0C2401E70266F4749BC /* libPods-YHDailyDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		578CB228AAB12F516E2BC43A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B98B5E95EC6F15F12224A98C /* libPods-YHDailyDemo.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		6F04EA7E206F3DD400837529 /* NSUserDefaultsSaveObject */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,6 +369,17 @@
 			path = RevertString;
 			sourceTree = "<group>";
 		};
+		6FDBCE2520CCFC0B001017CC /* MLeaksFinderDemo */ = {
+			isa = PBXGroup;
+			children = (
+				6FDBCE2620CCFC38001017CC /* MLeaksFinderDemoViewController.h */,
+				6FDBCE2720CCFC38001017CC /* MLeaksFinderDemoViewController.m */,
+				6FDBCE2920CCFC57001017CC /* LeakView.h */,
+				6FDBCE2A20CCFC57001017CC /* LeakView.m */,
+			);
+			path = MLeaksFinderDemo;
+			sourceTree = "<group>";
+		};
 		6FF94E922067BDB800475287 /* AssignObjectDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -394,6 +424,8 @@
 			children = (
 				776FC18E2011F04100CDF3E6 /* YHDailyDemo */,
 				776FC18D2011F04100CDF3E6 /* Products */,
+				7B9CB0474A2DE131F11657BB /* Pods */,
+				578CB228AAB12F516E2BC43A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -417,6 +449,7 @@
 				779A3494221E5EEB00BB9915 /* formulaCalculate */,
 				77931AC521FF00D3009D5F88 /* ForInDelete */,
 				77B6D17621B23CF1008F668D /* MemoryLeakAboutDismissViewController */,
+				6FDBCE2520CCFC0B001017CC /* MLeaksFinderDemo */,
 				77082CBF20BFD31100DCF52E /* TableViewRegisterClass */,
 				6F404C6F2077B0D800FB53F6 /* MultiTableview */,
 				6F404C622076298B00FB53F6 /* multiCategory */,
@@ -549,6 +582,15 @@
 			path = YHChartViewCommon;
 			sourceTree = "<group>";
 		};
+		7B9CB0474A2DE131F11657BB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				73010122AE898507CB587393 /* Pods-YHDailyDemo.debug.xcconfig */,
+				53B62AD59CC735A0C7EFFB6A /* Pods-YHDailyDemo.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -556,6 +598,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 776FC1A22011F04100CDF3E6 /* Build configuration list for PBXNativeTarget "YHDailyDemo" */;
 			buildPhases = (
+				3C36F88D3CA11FDF6C27D4C9 /* [CP] Check Pods Manifest.lock */,
 				776FC1882011F04100CDF3E6 /* Sources */,
 				776FC1892011F04100CDF3E6 /* Frameworks */,
 				776FC18A2011F04100CDF3E6 /* Resources */,
@@ -616,6 +659,27 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3C36F88D3CA11FDF6C27D4C9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-YHDailyDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		776FC1882011F04100CDF3E6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -652,6 +716,7 @@
 				77714A3520200B94004DD6EB /* YHHorizontalBarChartView.m in Sources */,
 				6F43F38E205EB4B200EA7DCD /* YHMultiInheritProxy.m in Sources */,
 				77082CC220BFD34D00DCF52E /* TableViewRegisterClassController.m in Sources */,
+				6FDBCE2820CCFC38001017CC /* MLeaksFinderDemoViewController.m in Sources */,
 				6F404C6E20762D3E00FB53F6 /* NSString+append1.m in Sources */,
 				6F404C6B20762B9200FB53F6 /* NSString+append.m in Sources */,
 				6F04EA81206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.m in Sources */,
@@ -661,6 +726,7 @@
 				776FC19F2011F04100CDF3E6 /* main.m in Sources */,
 				6F404C5020710F4B00FB53F6 /* SingleTonViewController.m in Sources */,
 				77E4ABE72022EE5800568AFA /* UIColor+HexColor.m in Sources */,
+				6FDBCE2B20CCFC57001017CC /* LeakView.m in Sources */,
 				776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */,
 				6F404C5720711D9000FB53F6 /* IsEqualObject.m in Sources */,
 				77714A3220200B6E004DD6EB /* HorizontalBarChartViewController.m in Sources */,
@@ -804,6 +870,7 @@
 		};
 		776FC1A32011F04100CDF3E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 73010122AE898507CB587393 /* Pods-YHDailyDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -818,6 +885,7 @@
 		};
 		776FC1A42011F04100CDF3E6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 53B62AD59CC735A0C7EFFB6A /* Pods-YHDailyDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
