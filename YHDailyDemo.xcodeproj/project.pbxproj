@@ -41,6 +41,8 @@
 		77082CC220BFD34D00DCF52E /* TableViewRegisterClassController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77082CC120BFD34D00DCF52E /* TableViewRegisterClassController.m */; };
 		77082CC520BFD3CA00DCF52E /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77082CC420BFD3CA00DCF52E /* CustomTableViewCell.m */; };
 		7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7721C3E7202C2A9100859A67 /* YHBaseChartView.m */; };
+		773BB84122A619A500B5259C /* ZeroClockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 773BB84022A619A500B5259C /* ZeroClockViewController.m */; };
+		773BB84722A64ACB00B5259C /* BrainStromingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 773BB84622A64ACA00B5259C /* BrainStromingViewController.m */; };
 		776B4E0A206CE2EA00443D92 /* MemoryMapDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776B4E09206CE2EA00443D92 /* MemoryMapDemoViewController.m */; };
 		776B4E0D206CE37800443D92 /* SourceTree_2.0.5.5.dmg in Resources */ = {isa = PBXBuildFile; fileRef = 776B4E0C206CE37800443D92 /* SourceTree_2.0.5.5.dmg */; };
 		776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1902011F04100CDF3E6 /* AppDelegate.m */; };
@@ -144,6 +146,10 @@
 		7721C3E5202C2A9000859A67 /* YHBaseChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHBaseChartView.h; sourceTree = "<group>"; };
 		7721C3E6202C2A9000859A67 /* YHBaseChartMethodProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHBaseChartMethodProtocol.h; sourceTree = "<group>"; };
 		7721C3E7202C2A9100859A67 /* YHBaseChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHBaseChartView.m; sourceTree = "<group>"; };
+		773BB83F22A619A500B5259C /* ZeroClockViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZeroClockViewController.h; sourceTree = "<group>"; };
+		773BB84022A619A500B5259C /* ZeroClockViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZeroClockViewController.m; sourceTree = "<group>"; };
+		773BB84522A64ACA00B5259C /* BrainStromingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BrainStromingViewController.h; sourceTree = "<group>"; };
+		773BB84622A64ACA00B5259C /* BrainStromingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrainStromingViewController.m; sourceTree = "<group>"; };
 		776B4E08206CE2EA00443D92 /* MemoryMapDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MemoryMapDemoViewController.h; sourceTree = "<group>"; };
 		776B4E09206CE2EA00443D92 /* MemoryMapDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MemoryMapDemoViewController.m; sourceTree = "<group>"; };
 		776B4E0C206CE37800443D92 /* SourceTree_2.0.5.5.dmg */ = {isa = PBXFileReference; lastKnownFileType = file; path = SourceTree_2.0.5.5.dmg; sourceTree = "<group>"; };
@@ -415,6 +421,24 @@
 			path = TableViewRegisterClass;
 			sourceTree = "<group>";
 		};
+		773BB83E22A6196000B5259C /* ZeroClock */ = {
+			isa = PBXGroup;
+			children = (
+				773BB83F22A619A500B5259C /* ZeroClockViewController.h */,
+				773BB84022A619A500B5259C /* ZeroClockViewController.m */,
+			);
+			path = ZeroClock;
+			sourceTree = "<group>";
+		};
+		773BB84422A64AAE00B5259C /* BrainStroming */ = {
+			isa = PBXGroup;
+			children = (
+				773BB84522A64ACA00B5259C /* BrainStromingViewController.h */,
+				773BB84622A64ACA00B5259C /* BrainStromingViewController.m */,
+			);
+			path = BrainStroming;
+			sourceTree = "<group>";
+		};
 		776B4E0B206CE32300443D92 /* MemoryMapDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -454,6 +478,8 @@
 				77DE62142248705700BD2DF6 /* BaseWhiteBGColorViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				773BB84422A64AAE00B5259C /* BrainStroming */,
+				773BB83E22A6196000B5259C /* ZeroClock */,
 				77DE621022486FB400BD2DF6 /* ScrollViewAndPanGesture */,
 				779A3494221E5EEB00BB9915 /* formulaCalculate */,
 				77931AC521FF00D3009D5F88 /* ForInDelete */,
@@ -730,6 +756,7 @@
 				6F43F381205E9D3500EA7DCD /* NSProxyDemoViewController.m in Sources */,
 				779A3497221E5F6400BB9915 /* FormulaCalculateViewController.m in Sources */,
 				6FF94E9A2067C8C600475287 /* WeakStrongObjectDemoViewController.m in Sources */,
+				773BB84122A619A500B5259C /* ZeroClockViewController.m in Sources */,
 				6F43F3792056C3EF00EA7DCD /* View11.m in Sources */,
 				6F43F3732056C3BC00EA7DCD /* RespondChainViewController.m in Sources */,
 				77DE6218224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.m in Sources */,
@@ -737,6 +764,7 @@
 				77714A3520200B94004DD6EB /* YHHorizontalBarChartView.m in Sources */,
 				6F43F38E205EB4B200EA7DCD /* YHMultiInheritProxy.m in Sources */,
 				77082CC220BFD34D00DCF52E /* TableViewRegisterClassController.m in Sources */,
+				773BB84722A64ACB00B5259C /* BrainStromingViewController.m in Sources */,
 				6FDBCE2820CCFC38001017CC /* MLeaksFinderDemoViewController.m in Sources */,
 				6F404C6E20762D3E00FB53F6 /* NSString+append1.m in Sources */,
 				6F404C6B20762B9200FB53F6 /* NSString+append.m in Sources */,
