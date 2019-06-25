@@ -17,7 +17,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [self decoderUTF8String];
+}
 
+- (void)decoderUTF8String {
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"dataString" ofType:nil];
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    NSString *originStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"originStr === %@",originStr);
 }
 
 @end

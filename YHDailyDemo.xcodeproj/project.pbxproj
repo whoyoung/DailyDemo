@@ -43,6 +43,7 @@
 		7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7721C3E7202C2A9100859A67 /* YHBaseChartView.m */; };
 		773BB84122A619A500B5259C /* ZeroClockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 773BB84022A619A500B5259C /* ZeroClockViewController.m */; };
 		773BB84722A64ACB00B5259C /* BrainStromingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 773BB84622A64ACA00B5259C /* BrainStromingViewController.m */; };
+		773BB84922A64D1100B5259C /* dataString in Resources */ = {isa = PBXBuildFile; fileRef = 773BB84822A64D1000B5259C /* dataString */; };
 		776B4E0A206CE2EA00443D92 /* MemoryMapDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776B4E09206CE2EA00443D92 /* MemoryMapDemoViewController.m */; };
 		776B4E0D206CE37800443D92 /* SourceTree_2.0.5.5.dmg in Resources */ = {isa = PBXBuildFile; fileRef = 776B4E0C206CE37800443D92 /* SourceTree_2.0.5.5.dmg */; };
 		776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 776FC1902011F04100CDF3E6 /* AppDelegate.m */; };
@@ -65,10 +66,13 @@
 		779A3497221E5F6400BB9915 /* FormulaCalculateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779A3496221E5F6400BB9915 /* FormulaCalculateViewController.m */; };
 		77B6D17921B23DEC008F668D /* DismissViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B6D17821B23DEC008F668D /* DismissViewController.m */; };
 		77BE096C20457B8D009712CC /* BaseChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BE096B20457B8D009712CC /* BaseChartViewController.m */; };
+		77D1623E22C1C4C900D29FA3 /* SynchronizedDemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D1623D22C1C4C900D29FA3 /* SynchronizedDemoVC.m */; };
 		77DE62152248705700BD2DF6 /* BaseWhiteBGColorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DE62142248705700BD2DF6 /* BaseWhiteBGColorViewController.m */; };
 		77DE6218224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DE6217224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.m */; };
 		77E4ABE72022EE5800568AFA /* UIColor+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */; };
 		77E4AC06202862D500568AFA /* NSString+Extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4AC05202862D500568AFA /* NSString+Extra.m */; };
+		77EC96DB22AE605200877B53 /* WeakIVarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC96DA22AE605200877B53 /* WeakIVarViewController.m */; };
+		77EC96DE22AE611000877B53 /* WeakIVarDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC96DD22AE611000877B53 /* WeakIVarDataSource.m */; };
 		874EB0C2401E70266F4749BC /* libPods-YHDailyDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B98B5E95EC6F15F12224A98C /* libPods-YHDailyDemo.a */; };
 /* End PBXBuildFile section */
 
@@ -150,6 +154,7 @@
 		773BB84022A619A500B5259C /* ZeroClockViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZeroClockViewController.m; sourceTree = "<group>"; };
 		773BB84522A64ACA00B5259C /* BrainStromingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BrainStromingViewController.h; sourceTree = "<group>"; };
 		773BB84622A64ACA00B5259C /* BrainStromingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrainStromingViewController.m; sourceTree = "<group>"; };
+		773BB84822A64D1000B5259C /* dataString */ = {isa = PBXFileReference; lastKnownFileType = text; path = dataString; sourceTree = "<group>"; };
 		776B4E08206CE2EA00443D92 /* MemoryMapDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MemoryMapDemoViewController.h; sourceTree = "<group>"; };
 		776B4E09206CE2EA00443D92 /* MemoryMapDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MemoryMapDemoViewController.m; sourceTree = "<group>"; };
 		776B4E0C206CE37800443D92 /* SourceTree_2.0.5.5.dmg */ = {isa = PBXFileReference; lastKnownFileType = file; path = SourceTree_2.0.5.5.dmg; sourceTree = "<group>"; };
@@ -191,6 +196,8 @@
 		77B6D17821B23DEC008F668D /* DismissViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DismissViewController.m; sourceTree = "<group>"; };
 		77BE096A20457B8D009712CC /* BaseChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseChartViewController.h; sourceTree = "<group>"; };
 		77BE096B20457B8D009712CC /* BaseChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseChartViewController.m; sourceTree = "<group>"; };
+		77D1623C22C1C4C900D29FA3 /* SynchronizedDemoVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SynchronizedDemoVC.h; sourceTree = "<group>"; };
+		77D1623D22C1C4C900D29FA3 /* SynchronizedDemoVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SynchronizedDemoVC.m; sourceTree = "<group>"; };
 		77DE62132248705600BD2DF6 /* BaseWhiteBGColorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseWhiteBGColorViewController.h; sourceTree = "<group>"; };
 		77DE62142248705700BD2DF6 /* BaseWhiteBGColorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseWhiteBGColorViewController.m; sourceTree = "<group>"; };
 		77DE6216224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScrollViewAndLongPressGestureViewController.h; sourceTree = "<group>"; };
@@ -199,6 +206,10 @@
 		77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColor.m"; sourceTree = "<group>"; };
 		77E4AC04202862D500568AFA /* NSString+Extra.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Extra.h"; sourceTree = "<group>"; };
 		77E4AC05202862D500568AFA /* NSString+Extra.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extra.m"; sourceTree = "<group>"; };
+		77EC96D922AE605200877B53 /* WeakIVarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeakIVarViewController.h; sourceTree = "<group>"; };
+		77EC96DA22AE605200877B53 /* WeakIVarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeakIVarViewController.m; sourceTree = "<group>"; };
+		77EC96DC22AE611000877B53 /* WeakIVarDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeakIVarDataSource.h; sourceTree = "<group>"; };
+		77EC96DD22AE611000877B53 /* WeakIVarDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeakIVarDataSource.m; sourceTree = "<group>"; };
 		B98B5E95EC6F15F12224A98C /* libPods-YHDailyDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YHDailyDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -435,6 +446,7 @@
 			children = (
 				773BB84522A64ACA00B5259C /* BrainStromingViewController.h */,
 				773BB84622A64ACA00B5259C /* BrainStromingViewController.m */,
+				773BB84822A64D1000B5259C /* dataString */,
 			);
 			path = BrainStroming;
 			sourceTree = "<group>";
@@ -478,6 +490,8 @@
 				77DE62142248705700BD2DF6 /* BaseWhiteBGColorViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				77D1623B22C1C45800D29FA3 /* Synchronized */,
+				77EC96D822AE602300877B53 /* WeakIVar */,
 				773BB84422A64AAE00B5259C /* BrainStroming */,
 				773BB83E22A6196000B5259C /* ZeroClock */,
 				77DE621022486FB400BD2DF6 /* ScrollViewAndPanGesture */,
@@ -601,6 +615,15 @@
 			path = MemoryLeakAboutDismissViewController;
 			sourceTree = "<group>";
 		};
+		77D1623B22C1C45800D29FA3 /* Synchronized */ = {
+			isa = PBXGroup;
+			children = (
+				77D1623C22C1C4C900D29FA3 /* SynchronizedDemoVC.h */,
+				77D1623D22C1C4C900D29FA3 /* SynchronizedDemoVC.m */,
+			);
+			path = Synchronized;
+			sourceTree = "<group>";
+		};
 		77DE621022486FB400BD2DF6 /* ScrollViewAndPanGesture */ = {
 			isa = PBXGroup;
 			children = (
@@ -624,6 +647,17 @@
 				77E4AC05202862D500568AFA /* NSString+Extra.m */,
 			);
 			path = YHChartViewCommon;
+			sourceTree = "<group>";
+		};
+		77EC96D822AE602300877B53 /* WeakIVar */ = {
+			isa = PBXGroup;
+			children = (
+				77EC96D922AE605200877B53 /* WeakIVarViewController.h */,
+				77EC96DA22AE605200877B53 /* WeakIVarViewController.m */,
+				77EC96DC22AE611000877B53 /* WeakIVarDataSource.h */,
+				77EC96DD22AE611000877B53 /* WeakIVarDataSource.m */,
+			);
+			path = WeakIVar;
 			sourceTree = "<group>";
 		};
 		7B9CB0474A2DE131F11657BB /* Pods */ = {
@@ -698,6 +732,7 @@
 				776FC19C2011F04100CDF3E6 /* LaunchScreen.storyboard in Resources */,
 				776FC1992011F04100CDF3E6 /* Assets.xcassets in Resources */,
 				776B4E0D206CE37800443D92 /* SourceTree_2.0.5.5.dmg in Resources */,
+				773BB84922A64D1100B5259C /* dataString in Resources */,
 				776FC1972011F04100CDF3E6 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -756,6 +791,7 @@
 				6F43F381205E9D3500EA7DCD /* NSProxyDemoViewController.m in Sources */,
 				779A3497221E5F6400BB9915 /* FormulaCalculateViewController.m in Sources */,
 				6FF94E9A2067C8C600475287 /* WeakStrongObjectDemoViewController.m in Sources */,
+				77EC96DB22AE605200877B53 /* WeakIVarViewController.m in Sources */,
 				773BB84122A619A500B5259C /* ZeroClockViewController.m in Sources */,
 				6F43F3792056C3EF00EA7DCD /* View11.m in Sources */,
 				6F43F3732056C3BC00EA7DCD /* RespondChainViewController.m in Sources */,
@@ -774,9 +810,11 @@
 				776B4E0A206CE2EA00443D92 /* MemoryMapDemoViewController.m in Sources */,
 				776FC19F2011F04100CDF3E6 /* main.m in Sources */,
 				6F404C5020710F4B00FB53F6 /* SingleTonViewController.m in Sources */,
+				77D1623E22C1C4C900D29FA3 /* SynchronizedDemoVC.m in Sources */,
 				77E4ABE72022EE5800568AFA /* UIColor+HexColor.m in Sources */,
 				6FDBCE2B20CCFC57001017CC /* LeakView.m in Sources */,
 				776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */,
+				77EC96DE22AE611000877B53 /* WeakIVarDataSource.m in Sources */,
 				6F404C5720711D9000FB53F6 /* IsEqualObject.m in Sources */,
 				77714A3220200B6E004DD6EB /* HorizontalBarChartViewController.m in Sources */,
 				77714A3D20215909004DD6EB /* VerticalBarChartViewController.m in Sources */,
