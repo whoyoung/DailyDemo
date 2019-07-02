@@ -13,6 +13,7 @@ typedef void(^TestBlock)(void);
 @interface WeakStrongObjectDemoViewController ()
 @property (nonatomic, copy) TestBlock block;
 @property (nonatomic, copy) NSString *testStr;
+@property (nonatomic, assign) NSUInteger interval;
 @end
 
 @implementation WeakStrongObjectDemoViewController
@@ -63,14 +64,26 @@ typedef void(^TestBlock)(void);
     self.block();
 }
 
+- (void)test3Block { // 无内存泄露
+    self.interval = 3;
+    [UIView animateWithDuration:self.interval animations:^{
+        self.view.backgroundColor = [UIColor redColor];
+    }];
+}
 
+- (void)test4Block { // 无内存泄露
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.interval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.view.backgroundColor = [UIColor redColor];
+    });
+}
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
 //    [self testBlock];
     
 //    [self test1Block];
     
-    [self test2Block];    
+//    [self test2Block];
+    [self test4Block];
     [super touchesBegan:touches withEvent:event];
 }
 
