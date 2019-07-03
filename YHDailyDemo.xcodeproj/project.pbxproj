@@ -66,6 +66,7 @@
 		779A3497221E5F6400BB9915 /* FormulaCalculateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779A3496221E5F6400BB9915 /* FormulaCalculateViewController.m */; };
 		77B6D17921B23DEC008F668D /* DismissViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B6D17821B23DEC008F668D /* DismissViewController.m */; };
 		77BE096C20457B8D009712CC /* BaseChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BE096B20457B8D009712CC /* BaseChartViewController.m */; };
+		77C1F4AC22CC4995000AE7A9 /* EnumerateDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C1F4AB22CC4995000AE7A9 /* EnumerateDemoViewController.m */; };
 		77D1623E22C1C4C900D29FA3 /* SynchronizedDemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D1623D22C1C4C900D29FA3 /* SynchronizedDemoVC.m */; };
 		77DE62152248705700BD2DF6 /* BaseWhiteBGColorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DE62142248705700BD2DF6 /* BaseWhiteBGColorViewController.m */; };
 		77DE6218224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DE6217224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.m */; };
@@ -196,6 +197,8 @@
 		77B6D17821B23DEC008F668D /* DismissViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DismissViewController.m; sourceTree = "<group>"; };
 		77BE096A20457B8D009712CC /* BaseChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseChartViewController.h; sourceTree = "<group>"; };
 		77BE096B20457B8D009712CC /* BaseChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseChartViewController.m; sourceTree = "<group>"; };
+		77C1F4AA22CC4995000AE7A9 /* EnumerateDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnumerateDemoViewController.h; sourceTree = "<group>"; };
+		77C1F4AB22CC4995000AE7A9 /* EnumerateDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnumerateDemoViewController.m; sourceTree = "<group>"; };
 		77D1623C22C1C4C900D29FA3 /* SynchronizedDemoVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SynchronizedDemoVC.h; sourceTree = "<group>"; };
 		77D1623D22C1C4C900D29FA3 /* SynchronizedDemoVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SynchronizedDemoVC.m; sourceTree = "<group>"; };
 		77DE62132248705600BD2DF6 /* BaseWhiteBGColorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseWhiteBGColorViewController.h; sourceTree = "<group>"; };
@@ -490,6 +493,7 @@
 				77DE62142248705700BD2DF6 /* BaseWhiteBGColorViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				77C1F4A922CC491B000AE7A9 /* Enumerate */,
 				77D1623B22C1C45800D29FA3 /* Synchronized */,
 				77EC96D822AE602300877B53 /* WeakIVar */,
 				773BB84422A64AAE00B5259C /* BrainStroming */,
@@ -613,6 +617,15 @@
 				77B6D17821B23DEC008F668D /* DismissViewController.m */,
 			);
 			path = MemoryLeakAboutDismissViewController;
+			sourceTree = "<group>";
+		};
+		77C1F4A922CC491B000AE7A9 /* Enumerate */ = {
+			isa = PBXGroup;
+			children = (
+				77C1F4AA22CC4995000AE7A9 /* EnumerateDemoViewController.h */,
+				77C1F4AB22CC4995000AE7A9 /* EnumerateDemoViewController.m */,
+			);
+			path = Enumerate;
 			sourceTree = "<group>";
 		};
 		77D1623B22C1C45800D29FA3 /* Synchronized */ = {
@@ -789,6 +802,7 @@
 				6F04EA84206F402200837529 /* CustomizeObject.m in Sources */,
 				77BE096C20457B8D009712CC /* BaseChartViewController.m in Sources */,
 				6F43F381205E9D3500EA7DCD /* NSProxyDemoViewController.m in Sources */,
+				77C1F4AC22CC4995000AE7A9 /* EnumerateDemoViewController.m in Sources */,
 				779A3497221E5F6400BB9915 /* FormulaCalculateViewController.m in Sources */,
 				6FF94E9A2067C8C600475287 /* WeakStrongObjectDemoViewController.m in Sources */,
 				77EC96DB22AE605200877B53 /* WeakIVarViewController.m in Sources */,
