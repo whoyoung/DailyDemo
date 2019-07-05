@@ -37,6 +37,11 @@
     NSLog(@"%@",info.userInfo);
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:nil];
+}
+
 - (void)dealloc {
     NSLog(@"%s",__func__);
 }

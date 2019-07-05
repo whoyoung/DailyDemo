@@ -25,7 +25,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         center = [[CustomNotificationCenter alloc] init];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMemoryWarning) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:center selector:@selector(didReceiveMemoryWarning) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
     });
     return center;
 }
