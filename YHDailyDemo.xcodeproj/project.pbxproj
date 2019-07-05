@@ -41,6 +41,7 @@
 		77082CC220BFD34D00DCF52E /* TableViewRegisterClassController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77082CC120BFD34D00DCF52E /* TableViewRegisterClassController.m */; };
 		77082CC520BFD3CA00DCF52E /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77082CC420BFD3CA00DCF52E /* CustomTableViewCell.m */; };
 		7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7721C3E7202C2A9100859A67 /* YHBaseChartView.m */; };
+		7731955E22CF068300F87D7D /* NSPointerArrayAndNSMutabelSetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7731955D22CF068300F87D7D /* NSPointerArrayAndNSMutabelSetViewController.m */; };
 		773BB84122A619A500B5259C /* ZeroClockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 773BB84022A619A500B5259C /* ZeroClockViewController.m */; };
 		773BB84722A64ACB00B5259C /* BrainStromingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 773BB84622A64ACA00B5259C /* BrainStromingViewController.m */; };
 		773BB84922A64D1100B5259C /* dataString in Resources */ = {isa = PBXBuildFile; fileRef = 773BB84822A64D1000B5259C /* dataString */; };
@@ -74,6 +75,9 @@
 		77E4AC06202862D500568AFA /* NSString+Extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4AC05202862D500568AFA /* NSString+Extra.m */; };
 		77EC96DB22AE605200877B53 /* WeakIVarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC96DA22AE605200877B53 /* WeakIVarViewController.m */; };
 		77EC96DE22AE611000877B53 /* WeakIVarDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC96DD22AE611000877B53 /* WeakIVarDataSource.m */; };
+		77F8E28B22CCB93C002337A0 /* CustomNotificationCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F8E28A22CCB93C002337A0 /* CustomNotificationCenterViewController.m */; };
+		77F8E28E22CCB975002337A0 /* CustomNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F8E28D22CCB975002337A0 /* CustomNotificationCenter.m */; };
+		77F8E29122CCBC6D002337A0 /* CustomObserverInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F8E29022CCBC6D002337A0 /* CustomObserverInfo.m */; };
 		874EB0C2401E70266F4749BC /* libPods-YHDailyDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B98B5E95EC6F15F12224A98C /* libPods-YHDailyDemo.a */; };
 /* End PBXBuildFile section */
 
@@ -151,6 +155,8 @@
 		7721C3E5202C2A9000859A67 /* YHBaseChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHBaseChartView.h; sourceTree = "<group>"; };
 		7721C3E6202C2A9000859A67 /* YHBaseChartMethodProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHBaseChartMethodProtocol.h; sourceTree = "<group>"; };
 		7721C3E7202C2A9100859A67 /* YHBaseChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHBaseChartView.m; sourceTree = "<group>"; };
+		7731955C22CF068300F87D7D /* NSPointerArrayAndNSMutabelSetViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSPointerArrayAndNSMutabelSetViewController.h; sourceTree = "<group>"; };
+		7731955D22CF068300F87D7D /* NSPointerArrayAndNSMutabelSetViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSPointerArrayAndNSMutabelSetViewController.m; sourceTree = "<group>"; };
 		773BB83F22A619A500B5259C /* ZeroClockViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZeroClockViewController.h; sourceTree = "<group>"; };
 		773BB84022A619A500B5259C /* ZeroClockViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZeroClockViewController.m; sourceTree = "<group>"; };
 		773BB84522A64ACA00B5259C /* BrainStromingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BrainStromingViewController.h; sourceTree = "<group>"; };
@@ -213,6 +219,12 @@
 		77EC96DA22AE605200877B53 /* WeakIVarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeakIVarViewController.m; sourceTree = "<group>"; };
 		77EC96DC22AE611000877B53 /* WeakIVarDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeakIVarDataSource.h; sourceTree = "<group>"; };
 		77EC96DD22AE611000877B53 /* WeakIVarDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeakIVarDataSource.m; sourceTree = "<group>"; };
+		77F8E28922CCB93C002337A0 /* CustomNotificationCenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomNotificationCenterViewController.h; sourceTree = "<group>"; };
+		77F8E28A22CCB93C002337A0 /* CustomNotificationCenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomNotificationCenterViewController.m; sourceTree = "<group>"; };
+		77F8E28C22CCB975002337A0 /* CustomNotificationCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomNotificationCenter.h; sourceTree = "<group>"; };
+		77F8E28D22CCB975002337A0 /* CustomNotificationCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomNotificationCenter.m; sourceTree = "<group>"; };
+		77F8E28F22CCBC6D002337A0 /* CustomObserverInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomObserverInfo.h; sourceTree = "<group>"; };
+		77F8E29022CCBC6D002337A0 /* CustomObserverInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomObserverInfo.m; sourceTree = "<group>"; };
 		B98B5E95EC6F15F12224A98C /* libPods-YHDailyDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YHDailyDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -435,6 +447,15 @@
 			path = TableViewRegisterClass;
 			sourceTree = "<group>";
 		};
+		7731955B22CF063D00F87D7D /* NSPointerArrayAndNSMutabelSet */ = {
+			isa = PBXGroup;
+			children = (
+				7731955C22CF068300F87D7D /* NSPointerArrayAndNSMutabelSetViewController.h */,
+				7731955D22CF068300F87D7D /* NSPointerArrayAndNSMutabelSetViewController.m */,
+			);
+			path = NSPointerArrayAndNSMutabelSet;
+			sourceTree = "<group>";
+		};
 		773BB83E22A6196000B5259C /* ZeroClock */ = {
 			isa = PBXGroup;
 			children = (
@@ -493,6 +514,8 @@
 				77DE62142248705700BD2DF6 /* BaseWhiteBGColorViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				7731955B22CF063D00F87D7D /* NSPointerArrayAndNSMutabelSet */,
+				77F8E28822CCB8B6002337A0 /* CustomNotificationCenter */,
 				77C1F4A922CC491B000AE7A9 /* Enumerate */,
 				77D1623B22C1C45800D29FA3 /* Synchronized */,
 				77EC96D822AE602300877B53 /* WeakIVar */,
@@ -673,6 +696,19 @@
 			path = WeakIVar;
 			sourceTree = "<group>";
 		};
+		77F8E28822CCB8B6002337A0 /* CustomNotificationCenter */ = {
+			isa = PBXGroup;
+			children = (
+				77F8E28922CCB93C002337A0 /* CustomNotificationCenterViewController.h */,
+				77F8E28A22CCB93C002337A0 /* CustomNotificationCenterViewController.m */,
+				77F8E28C22CCB975002337A0 /* CustomNotificationCenter.h */,
+				77F8E28D22CCB975002337A0 /* CustomNotificationCenter.m */,
+				77F8E28F22CCBC6D002337A0 /* CustomObserverInfo.h */,
+				77F8E29022CCBC6D002337A0 /* CustomObserverInfo.m */,
+			);
+			path = CustomNotificationCenter;
+			sourceTree = "<group>";
+		};
 		7B9CB0474A2DE131F11657BB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -788,6 +824,7 @@
 				6F43F3982063F8F900EA7DCD /* LockDemoViewController.m in Sources */,
 				6F404C4C2070E7FC00FB53F6 /* FindValueInTwoDimensionalArrayViewController.m in Sources */,
 				776FC1AA2011F53000CDF3E6 /* DrawViewController.m in Sources */,
+				7731955E22CF068300F87D7D /* NSPointerArrayAndNSMutabelSetViewController.m in Sources */,
 				6F404C47206FB91200FB53F6 /* NestedBlockDemoViewController.m in Sources */,
 				6F43F384205E9E0100EA7DCD /* YHWeakProxy.m in Sources */,
 				6FF94E952067BDEC00475287 /* AssignObjectDemoViewController.m in Sources */,
@@ -796,6 +833,7 @@
 				6F404C43206F6A4200FB53F6 /* IPConvertNumDemoViewController.m in Sources */,
 				6FCD3C39206E867D00FD504B /* RevertStringDemoViewController.m in Sources */,
 				77E4AC06202862D500568AFA /* NSString+Extra.m in Sources */,
+				77F8E29122CCBC6D002337A0 /* CustomObserverInfo.m in Sources */,
 				77714A2B201EB312004DD6EB /* LineChartViewController.m in Sources */,
 				6F43F3762056C3DC00EA7DCD /* View1.m in Sources */,
 				77B6D17921B23DEC008F668D /* DismissViewController.m in Sources */,
@@ -820,6 +858,7 @@
 				6F404C6B20762B9200FB53F6 /* NSString+append.m in Sources */,
 				6F04EA81206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.m in Sources */,
 				776FC1AD2011F69600CDF3E6 /* CoreGraphicDrawView.m in Sources */,
+				77F8E28B22CCB93C002337A0 /* CustomNotificationCenterViewController.m in Sources */,
 				776FC1B02012204400CDF3E6 /* CoreAnimationDrawView.m in Sources */,
 				776B4E0A206CE2EA00443D92 /* MemoryMapDemoViewController.m in Sources */,
 				776FC19F2011F04100CDF3E6 /* main.m in Sources */,
@@ -833,6 +872,7 @@
 				77714A3220200B6E004DD6EB /* HorizontalBarChartViewController.m in Sources */,
 				77714A3D20215909004DD6EB /* VerticalBarChartViewController.m in Sources */,
 				6F404C5320710F7200FB53F6 /* SingleTonObject.m in Sources */,
+				77F8E28E22CCB975002337A0 /* CustomNotificationCenter.m in Sources */,
 				77714A3A202158FB004DD6EB /* YHVerticalBarChartView.m in Sources */,
 				77082CC520BFD3CA00DCF52E /* CustomTableViewCell.m in Sources */,
 				776FC1A72011F08200CDF3E6 /* RootTableViewController.m in Sources */,
