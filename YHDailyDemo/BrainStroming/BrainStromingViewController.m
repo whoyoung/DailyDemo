@@ -27,4 +27,26 @@
     NSLog(@"originStr === %@",originStr);
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle: @"title"
+                                                                             message: @"message"
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"cancel"
+                                                            style:UIAlertActionStyleCancel
+                                                          handler:^(UIAlertAction *_Nonnull action) {
+                                                              
+                                                          }]];
+    
+    UIViewController *controller = [UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    while (controller.presentedViewController) {
+        controller = controller.presentedViewController;
+    }
+    [controller presentViewController:alertController
+                             animated:YES
+                           completion:nil];
+}
+
 @end

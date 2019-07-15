@@ -30,34 +30,42 @@
     return center;
 }
 
+- (NSMutableDictionary<NSString *,NSPointerArray *> *)observerDict {
+    if (!_observerDict) {
+        _observerDict = [NSMutableDictionary dictionary];
+    }
+    return _observerDict;
+}
+
+- (NSMutableDictionary<NSString *,NSMutableSet<CustomObserverInfo *> *> *)observerInfoDict {
+    if (!_observerInfoDict) {
+        _observerInfoDict = [NSMutableDictionary dictionary];
+    }
+    return _observerInfoDict;
+}
+
 - (void)addObserver:(id)observer selector:(SEL)aSelector name:(nullable NSNotificationName)aName object:(nullable id)anObject {
     if (!aName || !aName.length) {
         return;
     }
-    if (!self.observerDict) {
-        self.observerDict = [NSMutableDictionary dictionary];
-    }
+    
     NSPointerArray *array = [self.observerDict objectForKey:aName];
     if (!array) {
         array = [NSPointerArray weakObjectsPointerArray];
         [self.observerDict setObject:array forKey:aName];
     }
     BOOL hasExisted = [self hasExistedObserver:observer pointerArray:array];
-    if (hasExisted) {
-        return;
+    if (!hasExisted) {
+        [array addPointer:(void *)observer];
     }
-    [array addPointer:(void *)observer];
     
-    if (!self.observerInfoDict) {
-        self.observerInfoDict = [NSMutableDictionary dictionary];
-    }
-    NSMutableSet *set = [self.observerInfoDict objectForKey:aName];
-    if (!set) {
-        set = [NSMutableSet set];
-        [self.observerInfoDict setObject:set forKey:aName];
-    }
     CustomObserverInfo *info = [[CustomObserverInfo alloc] initWithObserver:observer selector:aSelector name:aName object:anObject];
-    if (info) {
+    if (info && ![self hasExistedObserverInfo:info]) {
+        NSMutableSet *set = [self.observerInfoDict objectForKey:aName];
+        if (!set) {
+            set = [NSMutableSet set];
+            [self.observerInfoDict setObject:set forKey:aName];
+        }
         [set addObject:info];
     }
 }
@@ -71,6 +79,19 @@
         }
     }
     return existed;
+}
+
+- (BOOL)hasExistedObserverInfo:(CustomObserverInfo *)newInfo {
+    NSMutableSet *set = [self.observerInfoDict objectForKey:newInfo.name];
+    if (!set || !set.count) {
+        return NO;
+    }
+    for (CustomObserverInfo *info in set) {
+        if (info.observer == newInfo.observer && info.object == newInfo.object && info.aSelector == newInfo.aSelector) {
+                return YES;
+        }
+    }
+    return NO;
 }
 
 - (void)postNotification:(NSNotification *)notification {
