@@ -8,7 +8,6 @@
 
 #import "CustomNotificationCenter.h"
 #import <UIKit/UIKit.h>
-#import "CustomObserverInfo.h"
 
 @interface CustomNotificationCenter ()
 
@@ -68,6 +67,10 @@
         }
         [set addObject:info];
     }
+}
+
+- (void)addObserverForName:(nullable NSNotificationName)name object:(nullable id)obj queue:(nullable NSOperationQueue *)queue usingBlock:(void (^)(CustomObserverInfo *info))block {
+    
 }
 
 - (BOOL)hasExistedObserver:(id)observer pointerArray:(NSPointerArray *)array {

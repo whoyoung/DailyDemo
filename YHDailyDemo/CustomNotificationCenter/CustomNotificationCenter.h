@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CustomObserverInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)defaultCenter;
 
 - (void)addObserver:(id)observer selector:(SEL)aSelector name:(nullable NSNotificationName)aName object:(nullable id)anObject;
+
+- (void)addObserverForName:(nullable NSNotificationName)name object:(nullable id)obj queue:(nullable NSOperationQueue *)queue usingBlock:(void (^)(CustomObserverInfo *info))block;
 
 - (void)postNotification:(NSNotification *)notification;
 
