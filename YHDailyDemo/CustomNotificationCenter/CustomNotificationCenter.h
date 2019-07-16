@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)addObserver:(id)observer selector:(SEL)aSelector name:(nullable NSNotificationName)aName object:(nullable id)anObject;
 
-- (void)addObserverForName:(nullable NSNotificationName)name object:(nullable id)obj queue:(nullable NSOperationQueue *)queue usingBlock:(void (^)(CustomObserverInfo *info))block;
+- (void)addObserverForName:(nullable NSNotificationName)name observer:(nullable id)observer queue:(nullable NSOperationQueue *)queue usingBlock:(void (^)(CustomObserverInfo *info))block;
 
 - (void)postNotification:(NSNotification *)notification;
 

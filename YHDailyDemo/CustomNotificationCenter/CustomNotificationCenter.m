@@ -59,7 +59,7 @@
     }
     
     CustomObserverInfo *info = [[CustomObserverInfo alloc] initWithObserver:observer selector:aSelector name:aName object:anObject];
-    if (info && ![self hasExistedObserverInfo:info]) {
+    if (![self hasExistedObserverInfo:info]) {
         NSMutableSet *set = [self.observerInfoDict objectForKey:aName];
         if (!set) {
             set = [NSMutableSet set];
@@ -69,8 +69,30 @@
     }
 }
 
-- (void)addObserverForName:(nullable NSNotificationName)name object:(nullable id)obj queue:(nullable NSOperationQueue *)queue usingBlock:(void (^)(CustomObserverInfo *info))block {
+- (void)addObserverForName:(nullable NSNotificationName)aName observer:(nullable id)observer queue:(nullable NSOperationQueue *)queue usingBlock:(void (^)(CustomObserverInfo *info))block {
+    if (!aName || !aName.length || !observer) {
+        return;
+    }
     
+    NSPointerArray *array = [self.observerDict objectForKey:aName];
+    if (!array) {
+        array = [NSPointerArray weakObjectsPointerArray];
+        [self.observerDict setObject:array forKey:aName];
+    }
+    BOOL hasExisted = [self hasExistedObserver:observer pointerArray:array];
+    if (!hasExisted) {
+        [array addPointer:(void *)observer];
+    }
+    
+    CustomObserverInfo *info = [[CustomObserverInfo alloc] initWithObserver:observer name:aName queue:queue block:block];
+    if (![self hasExistedObserverInfo:info]) {
+        NSMutableSet *set = [self.observerInfoDict objectForKey:aName];
+        if (!set) {
+            set = [NSMutableSet set];
+            [self.observerInfoDict setObject:set forKey:aName];
+        }
+        [set addObject:info];
+    }
 }
 
 - (BOOL)hasExistedObserver:(id)observer pointerArray:(NSPointerArray *)array {
@@ -90,8 +112,8 @@
         return NO;
     }
     for (CustomObserverInfo *info in set) {
-        if (info.observer == newInfo.observer && info.object == newInfo.object && info.aSelector == newInfo.aSelector) {
-                return YES;
+        if ([info isEqual:newInfo]) {
+            return YES;
         }
     }
     return NO;
@@ -116,8 +138,8 @@
     }
     for (id observer in pointerA) {
         for (CustomObserverInfo *info in set) {
-            if (info.observer == observer) {
-                if (info.object == anObject) {
+            if (info.observer == observer && info.object == anObject) {
+                if (info.aSelector) {
                     NSString *selString = NSStringFromSelector(info.aSelector);
                     if ([selString hasSuffix:@":"]) {
                         info.userInfo = aUserInfo;
@@ -128,7 +150,21 @@
                         [observer performSelector:info.aSelector withObject:info];
 #pragma clang diagnostic pop
                     }
+                } else if (info.block) {
+                    info.userInfo = aUserInfo;
+                    if (info.queue) {
+                        __weak typeof(info) weakInfo = info;
+                        [info.queue addOperationWithBlock:^{
+                            if (weakInfo) {
+                                __strong typeof(weakInfo) strongInfo = weakInfo;
+                                strongInfo.block(info);
+                            }
+                        }];
+                    } else {
+                        info.block(info);
+                    }
                 }
+                
             }
         }
     }
@@ -161,6 +197,7 @@
         [obj enumerateObjectsUsingBlock:^(CustomObserverInfo * _Nonnull infoObj, BOOL * _Nonnull stop) {
             if (!infoObj.observer) {
                 [obj removeObject:infoObj];
+                infoObj = nil;
             }
         }];
     }];

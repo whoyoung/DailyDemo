@@ -33,6 +33,18 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(anotherSystemNotificationWithObjectSel) name:@"systemNotificationWithObject" object:self];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemNotificationSel) name:@"systemNotification" object:nil];
+    
+    [[CustomNotificationCenter defaultCenter] addObserverForName:@"notificationUsingBlock" observer:self queue:nil usingBlock:^(CustomObserverInfo * _Nonnull info) {
+        NSLog(@"usingBlock ==== %@ . default queue",info.name);
+    }];
+    
+    NSOperationQueue *customQueue = [[NSOperationQueue alloc] init];
+    customQueue.name = @"yh_custom_queue";
+    [[CustomNotificationCenter defaultCenter] addObserverForName:@"notificationUsingBlock" observer:self queue:customQueue usingBlock:^(CustomObserverInfo * _Nonnull info) {
+        NSLog(@"usingBlock ==== %@ . queue's name ==== %@",info.name,info.queue.name);
+    }];
+    
+    [[CustomNotificationCenter defaultCenter] postNotificationName:@"notificationUsingBlock" object:nil];
 }
 
 - (void)testNotification {
@@ -63,13 +75,9 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"systemNotificationWithObject" object:self]; // addObserver:selector:name:object:anObject; name 和 object 都一致，才能监听到通知
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:nil];
-}
-
 - (void)dealloc {
     NSLog(@"%s",__func__);
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:nil];
 }
 
 @end
