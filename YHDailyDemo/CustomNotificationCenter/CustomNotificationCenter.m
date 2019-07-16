@@ -44,7 +44,7 @@
 }
 
 - (void)addObserver:(id)observer selector:(SEL)aSelector name:(nullable NSNotificationName)aName object:(nullable id)anObject {
-    if (!aName || !aName.length) {
+    if (!aName || !aName.length || !observer) {
         return;
     }
     
