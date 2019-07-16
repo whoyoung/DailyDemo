@@ -123,6 +123,10 @@
     [self postNotificationName:notification.name object:notification.object userInfo:notification.userInfo];
 }
 
+- (void)postNotificationName:(NSNotificationName)aName {
+    [self postNotificationName:aName object:nil userInfo:nil];
+}
+
 - (void)postNotificationName:(NSNotificationName)aName object:(nullable id)anObject {
     [self postNotificationName:aName object:anObject userInfo:nil];
 }
