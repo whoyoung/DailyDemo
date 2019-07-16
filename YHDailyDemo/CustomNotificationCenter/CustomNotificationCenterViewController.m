@@ -10,7 +10,11 @@
 #import "CustomNotificationCenter.h"
 #import "CustomObserverInfo.h"
 
-@interface CustomNotificationCenterViewController ()
+@interface CustomNotificationCenterViewController ()<UITableViewDelegate,UITableViewDataSource>
+
+@property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) NSArray<NSString *> *datas;
 
 @end
 
@@ -18,61 +22,103 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[CustomNotificationCenter defaultCenter] addObserver:self selector:@selector(testNotification) name:@"noParamNotification" object:nil];
-    [[CustomNotificationCenter defaultCenter] addObserver:self selector:@selector(anotherTestNotification) name:@"noParamNotification" object:nil];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 84, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 84) style:UITableViewStylePlain];
+    [self.view addSubview:self.tableView];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     
-    [[CustomNotificationCenter defaultCenter] postNotificationName:@"noParamNotification" object:nil];
-    [[CustomNotificationCenter defaultCenter] postNotificationName:@"noParamNotification" object:[NSObject new] userInfo:nil];
-    [[CustomNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"noParamNotification" object:[NSObject new]]];
+    [self addNotifications];
     
-    [[CustomNotificationCenter defaultCenter] addObserver:self selector:@selector(testNotificationWithParam:) name:@"testNotificationWithParam" object:nil];
-    [[CustomNotificationCenter defaultCenter] postNotificationName:@"testNotificationWithParam" object:nil];
-    [[CustomNotificationCenter defaultCenter] postNotificationName:@"testNotificationWithParam" object:nil userInfo:@{@"param":@"i am param"}];
+}
+
+- (void)addNotifications {
+    [[CustomNotificationCenter defaultCenter] addObserver:self selector:@selector(pureNotificationEvent) name:@"pureNotification" object:nil];
+    [[CustomNotificationCenter defaultCenter] addObserver:self selector:@selector(notiWithObjectEvent:) name:@"notiWithObject" object:self.datas];
+    [[CustomNotificationCenter defaultCenter] addObserver:self selector:@selector(notiWithUserInfoEvent:) name:@"notiWithUserInfo" object:nil];
+    [[CustomNotificationCenter defaultCenter] addObserver:self selector:@selector(notiWithObjectAndUserInfoEvent:) name:@"notiWithObjectAndUserInfo" object:self.datas];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemNotificationWithObjectSel) name:@"systemNotificationWithObject" object:self];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(anotherSystemNotificationWithObjectSel) name:@"systemNotificationWithObject" object:self];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemNotificationSel) name:@"systemNotification" object:nil];
-    
-    [[CustomNotificationCenter defaultCenter] addObserverForName:@"notificationUsingBlock" observer:self queue:nil usingBlock:^(CustomObserverInfo * _Nonnull info) {
-        NSLog(@"usingBlock ==== %@ . default queue",info.name);
+    [[CustomNotificationCenter defaultCenter] addObserverForName:@"notiWithDefaultQueue" observer:self queue:nil usingBlock:^(CustomObserverInfo * _Nonnull info) {
+        NSLog(@"notiWithDefaultQueue ======, info.userInfo = %@",info.userInfo);
     }];
     
     NSOperationQueue *customQueue = [[NSOperationQueue alloc] init];
     customQueue.name = @"yh_custom_queue";
-    [[CustomNotificationCenter defaultCenter] addObserverForName:@"notificationUsingBlock" observer:self queue:customQueue usingBlock:^(CustomObserverInfo * _Nonnull info) {
-        NSLog(@"usingBlock ==== %@ . queue's name ==== %@",info.name,info.queue.name);
+    [[CustomNotificationCenter defaultCenter] addObserverForName:@"notiWithCustomQueue" observer:self queue:customQueue usingBlock:^(CustomObserverInfo * _Nonnull info) {
+        NSLog(@"notiWithCustomQueue ==== %@ , queue's name ==== %@, info.userInfo = %@",info.name,info.queue.name,info.userInfo);
     }];
-    
-    [[CustomNotificationCenter defaultCenter] postNotificationName:@"notificationUsingBlock" object:nil];
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.datas.count;
 }
 
-- (void)testNotification {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCell"];
+    }
+    cell.textLabel.text = self.datas[indexPath.row];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *selString = self.datas[indexPath.row];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    [self performSelector:NSSelectorFromString(selString)];
+#pragma clang diagnostic pop
+}
+
+- (void)pureNotification {
+    NSLog(@"trigger %s",__func__);
+    [[CustomNotificationCenter defaultCenter] postNotificationName:@"pureNotification"];
+}
+- (void)pureNotificationEvent {
     NSLog(@"trigger %s",__func__);
 }
 
-- (void)anotherTestNotification {
+- (void)notiWithObject {
     NSLog(@"trigger %s",__func__);
+    [[CustomNotificationCenter defaultCenter] postNotificationName:@"notiWithObject" object:self.datas];
+}
+- (void)notiWithObjectEvent:(CustomObserverInfo *)info {
+    NSLog(@"trigger %s",__func__);
+    NSLog(@"info.object = %p",info.object);
 }
 
-- (void)testNotificationWithParam:(CustomObserverInfo *)info {
-    NSLog(@"%@",info.userInfo);
+- (void)notiWithUserInfo {
+    NSLog(@"trigger %s",__func__);
+    [[CustomNotificationCenter defaultCenter] postNotificationName:@"notiWithUserInfo" object:nil userInfo:@{@"param":@"i am param"}];
+
+}
+- (void)notiWithUserInfoEvent:(CustomObserverInfo *)info {
+    NSLog(@"trigger %s",__func__);
+    NSLog(@"info.userInfo = %@",info.userInfo);
 }
 
-- (void)systemNotificationSel {
-    NSLog(@"systemNotificationSel ===");
+- (void)notiWithObjectAndUserInfo {
+    NSLog(@"trigger %s",__func__);
+    [[CustomNotificationCenter defaultCenter] postNotificationName:@"notiWithObjectAndUserInfo" object:self.datas userInfo:@{@"param":@"i am new param"}];
+}
+- (void)notiWithObjectAndUserInfoEvent:(CustomObserverInfo *)info {
+    NSLog(@"trigger %s",__func__);
+    NSLog(@"info.object = %p, info.userInfo = %@",info.object,info.userInfo);
 }
 
-- (void)systemNotificationWithObjectSel {
-    NSLog(@"systemNotificationWithObjectSel ===");
+- (void)notiWithDefaultQueue {
+    NSLog(@"trigger %s",__func__);
+    [[CustomNotificationCenter defaultCenter] postNotificationName:@"notiWithDefaultQueue" object:nil userInfo:@{@"param":@"i am notiWithDefaultQueue"}];
 }
 
-- (void)anotherSystemNotificationWithObjectSel {
-    NSLog(@"anotherSystemNotificationWithObjectSel ===");
+- (void)notiWithCustomQueue {
+    NSLog(@"trigger %s",__func__);
+    [[CustomNotificationCenter defaultCenter] postNotificationName:@"notiWithCustomQueue" object:nil userInfo:@{@"param":@"i am notiWithCustomQueue"}];
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"systemNotificationWithObject" object:self]; // addObserver:selector:name:object:anObject; name 和 object 都一致，才能监听到通知
+- (NSArray<NSString *> *)datas {
+    if (!_datas) {
+        _datas = @[@"pureNotification",@"notiWithObject",@"notiWithUserInfo",@"notiWithObjectAndUserInfo",@"notiWithDefaultQueue",@"notiWithCustomQueue"];
+    }
+    return _datas;
 }
 
 - (void)dealloc {
