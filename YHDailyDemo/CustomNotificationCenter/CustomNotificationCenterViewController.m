@@ -8,7 +8,6 @@
 
 #import "CustomNotificationCenterViewController.h"
 #import "CustomNotificationCenter.h"
-#import "CustomObserverInfo.h"
 
 @interface CustomNotificationCenterViewController ()<UITableViewDelegate,UITableViewDataSource>
 
