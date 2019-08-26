@@ -113,9 +113,51 @@
     [[CustomNotificationCenter defaultCenter] postNotificationName:@"notiWithCustomQueue" object:nil userInfo:@{@"param":@"i am notiWithCustomQueue"}];
 }
 
+- (void)removePureNotification {
+    NSLog(@"trigger %s",__func__);
+    [[CustomNotificationCenter defaultCenter] removeObserver:self name:@"pureNotification" object:nil];
+}
+
+- (void)removeNotiWithSameObject {
+    NSLog(@"trigger %s",__func__);
+    [[CustomNotificationCenter defaultCenter] removeObserver:self name:@"notiWithObject" object:self.datas];
+}
+
+- (void)removeNotiWithNotSameObject {
+    NSLog(@"trigger %s",__func__);
+    [[CustomNotificationCenter defaultCenter] removeObserver:self name:@"notiWithObject" object:@[]];
+}
+
+- (void)removeAllObserver {
+    NSLog(@"trigger %s",__func__);
+    [[CustomNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)multiThreadSafe {
+    NSLog(@"trigger %s",__func__);
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        for (NSUInteger i=0; i<10000; i++) {
+            NSLog(@"add notification %ld",i);
+            [[CustomNotificationCenter defaultCenter] addObserver:self selector:@selector(pureNotificationEvent) name:@"pureNotification" object:nil];
+        }
+    });
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        for (NSUInteger i=0; i<10000; i++) {
+            NSLog(@"remove notification %ld",i);
+            [[CustomNotificationCenter defaultCenter] removeObserver:self name:@"pureNotification" object:nil];
+        }
+    });
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        for (NSUInteger i=0; i<10000; i++) {
+            NSLog(@"post notification %ld",i);
+            [[CustomNotificationCenter defaultCenter] postNotificationName:@"pureNotification" object:nil];
+        }
+    });
+}
+
 - (NSArray<NSString *> *)datas {
     if (!_datas) {
-        _datas = @[@"pureNotification",@"notiWithObject",@"notiWithUserInfo",@"notiWithObjectAndUserInfo",@"notiWithDefaultQueue",@"notiWithCustomQueue"];
+        _datas = @[@"pureNotification",@"notiWithObject",@"notiWithUserInfo",@"notiWithObjectAndUserInfo",@"notiWithDefaultQueue",@"notiWithCustomQueue",@"removePureNotification",@"removeNotiWithSameObject",@"removeNotiWithNotSameObject",@"removeAllObserver",@"multiThreadSafe"];
     }
     return _datas;
 }

@@ -27,6 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)postNotificationName:(NSNotificationName)aName object:(nullable id)anObject userInfo:(nullable NSDictionary *)aUserInfo;
 
+- (void)removeObserver:(id)observer;
+
+- (void)removeObserver:(id)observer name:(nullable NSNotificationName)aName object:(nullable id)anObject;
+
 @end
 
 NS_ASSUME_NONNULL_END
