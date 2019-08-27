@@ -7,8 +7,11 @@
 //
 
 #import "BrainStromingViewController.h"
+#import "YHTempViewController.h"
 
 @interface BrainStromingViewController ()
+
+@property (nonatomic, strong) NSArray *datas;
 
 @end
 
@@ -16,17 +19,30 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.datas = @[@"decoderUTF8String",@"decodeBase64Str",@"arrayToDict",@"sendMessageToNil",@"topController",@"postNotification",@"toTempViewController"];
+}
 
-//    [self decoderUTF8String];
-//    [self decodeBase64Str];
-//    [self arrayToDict];
-    [self sendMessageToNil];
-//    NSUInteger timeStamp = @([NSDate date].timeIntervalSince1970).unsignedIntValue * 1000;
-//    NSArray *array = @[@{@"timestamp":@"timeStamp"}];
-//    NSDictionary *dict = @{@"timestamp":@"timeStamp"};
-    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"stamp",@"key", nil];
-    NSArray *array = @[dict];
-    NSLog(@"%@",array);
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.datas.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    }
+    cell.textLabel.text = self.datas[indexPath.row];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    NSString *selString = self.datas[indexPath.row];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+    [self performSelector:NSSelectorFromString(selString)];
+#pragma clang diagnostic pop
 }
 
 - (void)sendMessageToNil {
@@ -60,8 +76,7 @@
     NSLog(@"originStr === %@",originStr);
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [super touchesBegan:touches withEvent:event];
+- (void)topController {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle: @"title"
                                                                              message: @"message"
                                                                       preferredStyle:UIAlertControllerStyleAlert];
@@ -80,6 +95,14 @@
     [controller presentViewController:alertController
                              animated:YES
                            completion:nil];
+}
+
+- (void)postNotification {
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidReceiveMemoryWarningNotification object:nil];
+}
+
+- (void)toTempViewController {
+    [self.navigationController pushViewController:[YHTempViewController new] animated:YES];
 }
 
 @end

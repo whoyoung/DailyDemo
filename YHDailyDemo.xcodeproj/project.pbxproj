@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6F04EA81206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F04EA80206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.m */; };
 		6F04EA84206F402200837529 /* CustomizeObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F04EA83206F402200837529 /* CustomizeObject.m */; };
+		6F3FCE8123158CA800F0E950 /* YHTempViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F3FCE8023158CA800F0E950 /* YHTempViewController.m */; };
 		6F404C43206F6A4200FB53F6 /* IPConvertNumDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C42206F6A4200FB53F6 /* IPConvertNumDemoViewController.m */; };
 		6F404C47206FB91200FB53F6 /* NestedBlockDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C46206FB91200FB53F6 /* NestedBlockDemoViewController.m */; };
 		6F404C4C2070E7FC00FB53F6 /* FindValueInTwoDimensionalArrayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C4B2070E7FC00FB53F6 /* FindValueInTwoDimensionalArrayViewController.m */; };
@@ -87,6 +88,8 @@
 		6F04EA80206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSUserDefaultsSaveObjectViewController.m; sourceTree = "<group>"; };
 		6F04EA82206F402200837529 /* CustomizeObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomizeObject.h; sourceTree = "<group>"; };
 		6F04EA83206F402200837529 /* CustomizeObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomizeObject.m; sourceTree = "<group>"; };
+		6F3FCE7F23158CA800F0E950 /* YHTempViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YHTempViewController.h; sourceTree = "<group>"; };
+		6F3FCE8023158CA800F0E950 /* YHTempViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YHTempViewController.m; sourceTree = "<group>"; };
 		6F404C41206F6A4200FB53F6 /* IPConvertNumDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IPConvertNumDemoViewController.h; sourceTree = "<group>"; };
 		6F404C42206F6A4200FB53F6 /* IPConvertNumDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IPConvertNumDemoViewController.m; sourceTree = "<group>"; };
 		6F404C45206FB91200FB53F6 /* NestedBlockDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NestedBlockDemoViewController.h; sourceTree = "<group>"; };
@@ -470,6 +473,8 @@
 			children = (
 				773BB84522A64ACA00B5259C /* BrainStromingViewController.h */,
 				773BB84622A64ACA00B5259C /* BrainStromingViewController.m */,
+				6F3FCE7F23158CA800F0E950 /* YHTempViewController.h */,
+				6F3FCE8023158CA800F0E950 /* YHTempViewController.m */,
 				773BB84822A64D1000B5259C /* dataString */,
 			);
 			path = BrainStroming;
@@ -848,6 +853,7 @@
 				6F43F3792056C3EF00EA7DCD /* View11.m in Sources */,
 				6F43F3732056C3BC00EA7DCD /* RespondChainViewController.m in Sources */,
 				77DE6218224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.m in Sources */,
+				6F3FCE8123158CA800F0E950 /* YHTempViewController.m in Sources */,
 				77DE62152248705700BD2DF6 /* BaseWhiteBGColorViewController.m in Sources */,
 				77714A3520200B94004DD6EB /* YHHorizontalBarChartView.m in Sources */,
 				6F43F38E205EB4B200EA7DCD /* YHMultiInheritProxy.m in Sources */,
