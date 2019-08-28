@@ -24,9 +24,15 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>需要使用蓝牙，用于连接你的心率设备</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>bluetooth-central</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
