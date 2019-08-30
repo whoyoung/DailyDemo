@@ -41,6 +41,8 @@
 		6FF94E9A2067C8C600475287 /* WeakStrongObjectDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF94E992067C8C600475287 /* WeakStrongObjectDemoViewController.m */; };
 		77082CC220BFD34D00DCF52E /* TableViewRegisterClassController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77082CC120BFD34D00DCF52E /* TableViewRegisterClassController.m */; };
 		77082CC520BFD3CA00DCF52E /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77082CC420BFD3CA00DCF52E /* CustomTableViewCell.m */; };
+		771F8CA423194603009E587D /* JsonModelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8CA323194603009E587D /* JsonModelViewController.m */; };
+		771F8CA72319462A009E587D /* CustomJsonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8CA62319462A009E587D /* CustomJsonModel.m */; };
 		7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7721C3E7202C2A9100859A67 /* YHBaseChartView.m */; };
 		7731955E22CF068300F87D7D /* NSPointerArrayAndNSMutabelSetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7731955D22CF068300F87D7D /* NSPointerArrayAndNSMutabelSetViewController.m */; };
 		773BB84122A619A500B5259C /* ZeroClockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 773BB84022A619A500B5259C /* ZeroClockViewController.m */; };
@@ -154,6 +156,10 @@
 		77082CC120BFD34D00DCF52E /* TableViewRegisterClassController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableViewRegisterClassController.m; sourceTree = "<group>"; };
 		77082CC320BFD3CA00DCF52E /* CustomTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCell.h; sourceTree = "<group>"; };
 		77082CC420BFD3CA00DCF52E /* CustomTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCell.m; sourceTree = "<group>"; };
+		771F8CA223194603009E587D /* JsonModelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JsonModelViewController.h; sourceTree = "<group>"; };
+		771F8CA323194603009E587D /* JsonModelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JsonModelViewController.m; sourceTree = "<group>"; };
+		771F8CA52319462A009E587D /* CustomJsonModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomJsonModel.h; sourceTree = "<group>"; };
+		771F8CA62319462A009E587D /* CustomJsonModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomJsonModel.m; sourceTree = "<group>"; };
 		7721C3E3202C2A9000859A67 /* YHCommonChartViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHCommonChartViewDelegate.h; sourceTree = "<group>"; };
 		7721C3E4202C2A9000859A67 /* YHCommonHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHCommonHeader.h; sourceTree = "<group>"; };
 		7721C3E5202C2A9000859A67 /* YHBaseChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHBaseChartView.h; sourceTree = "<group>"; };
@@ -453,6 +459,17 @@
 			path = TableViewRegisterClass;
 			sourceTree = "<group>";
 		};
+		771F8CA1231944EA009E587D /* JsonModel */ = {
+			isa = PBXGroup;
+			children = (
+				771F8CA223194603009E587D /* JsonModelViewController.h */,
+				771F8CA323194603009E587D /* JsonModelViewController.m */,
+				771F8CA52319462A009E587D /* CustomJsonModel.h */,
+				771F8CA62319462A009E587D /* CustomJsonModel.m */,
+			);
+			path = JsonModel;
+			sourceTree = "<group>";
+		};
 		7731955B22CF063D00F87D7D /* NSPointerArrayAndNSMutabelSet */ = {
 			isa = PBXGroup;
 			children = (
@@ -522,6 +539,7 @@
 				77DE62142248705700BD2DF6 /* BaseWhiteBGColorViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				771F8CA1231944EA009E587D /* JsonModel */,
 				77D1982623065B9A00232165 /* Bluetooth */,
 				7731955B22CF063D00F87D7D /* NSPointerArrayAndNSMutabelSet */,
 				77F8E28822CCB8B6002337A0 /* CustomNotificationCenter */,
@@ -860,9 +878,11 @@
 				6F43F381205E9D3500EA7DCD /* NSProxyDemoViewController.m in Sources */,
 				77C1F4AC22CC4995000AE7A9 /* EnumerateDemoViewController.m in Sources */,
 				779A3497221E5F6400BB9915 /* FormulaCalculateViewController.m in Sources */,
+				771F8CA423194603009E587D /* JsonModelViewController.m in Sources */,
 				6FF94E9A2067C8C600475287 /* WeakStrongObjectDemoViewController.m in Sources */,
 				77EC96DB22AE605200877B53 /* WeakIVarViewController.m in Sources */,
 				773BB84122A619A500B5259C /* ZeroClockViewController.m in Sources */,
+				771F8CA72319462A009E587D /* CustomJsonModel.m in Sources */,
 				6F43F3792056C3EF00EA7DCD /* View11.m in Sources */,
 				6F43F3732056C3BC00EA7DCD /* RespondChainViewController.m in Sources */,
 				77DE6218224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.m in Sources */,
@@ -1035,9 +1055,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7EZ23W2MEV;
 				INFOPLIST_FILE = YHDailyDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yanghu.YHDailyDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1053,9 +1075,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7EZ23W2MEV;
 				INFOPLIST_FILE = YHDailyDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yanghu.YHDailyDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
