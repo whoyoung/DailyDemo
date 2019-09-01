@@ -11,10 +11,13 @@
 
 @interface CustomNotificationCenter ()
 
-@property (nonatomic, strong) NSMutableDictionary<NSString *, NSPointerArray *> *observerDict;
+/** 观察者字典 */
+@property (nonatomic, strong) NSMutableDictionary<NSNotificationName, NSPointerArray *> *observerDict;
 
-@property (nonatomic, strong) NSMutableDictionary<NSString *, NSMutableSet<CustomObserverInfo *> *> *observerInfoDict;
+/** 观察信息字典 */
+@property (nonatomic, strong) NSMutableDictionary<NSNotificationName, NSMutableSet<CustomObserverInfo *> *> *observerInfoDict;
 
+/** 锁。防止线程竞争 */
 @property (nonatomic, strong) NSLock *lock;
 
 @end
@@ -31,20 +34,33 @@
     return center;
 }
 
-- (NSMutableDictionary<NSString *,NSPointerArray *> *)observerDict {
+- (NSMutableDictionary<NSNotificationName,NSPointerArray *> *)observerDict {
     if (!_observerDict) {
         _observerDict = [NSMutableDictionary dictionary];
     }
     return _observerDict;
 }
 
-- (NSMutableDictionary<NSString *,NSMutableSet<CustomObserverInfo *> *> *)observerInfoDict {
+- (NSMutableDictionary<NSNotificationName,NSMutableSet<CustomObserverInfo *> *> *)observerInfoDict {
     if (!_observerInfoDict) {
         _observerInfoDict = [NSMutableDictionary dictionary];
     }
     return _observerInfoDict;
 }
 
+/*
+ 伪代码：
+ 通知名 或 观察者 不存在，return;
+ if (观察者字典中不存在以通知名为 key 的 NSPointerArray) {
+     观察者字典中添加以通知名为 key，以 弱引用的 NSPointerArray 空对象 为 value 的 key-value
+ }
+ if (观察者字典中以通知名为 key 的 NSPointerArray value 中，不存在 要添加的观察者) {
+     观察者字典中以通知名为 key 的 NSPointerArray value 中，添加该观察者
+ }
+ if (观察者信息字典中以通知名为 key 的 通知信息 集合中，不存在 完全一致的通知信息) {
+     观察者信息字典中添加以通知名为 key ，以该 通知信息 为首个元素的集合作为 value 的 key-value
+ }
+ */
 - (void)addObserver:(id)observer selector:(SEL)aSelector name:(nullable NSNotificationName)aName object:(nullable id)anObject {
     if (!aName || !aName.length || !observer) {
         return;
@@ -135,7 +151,26 @@
     [self postNotificationName:aName object:anObject userInfo:nil];
 }
 
+/*
+ 伪代码：
+ 通知名 不存在，return;
+ if (观察者字典中不存在以通知名为 key 的 NSPointerArray) return;
+ if (观察者信息字典中以通知名为 key 的 通知信息集合 value 不存在) return;
+ 遍历观察者信息字典中以通知名为 key 的 通知信息集合 value 中的 通知信息对象 info
+    if (info.observer == observer && info.object == anObject) { // 通知信息完全相同
+         if (info.aSelector) {
+             执行 selector
+         } else if (info.block) {
+             执行 block
+         }
+     } else { // 通知信息不完全相同
+         return;
+     }
+ */
 - (void)postNotificationName:(NSNotificationName)aName object:(nullable id)anObject userInfo:(nullable NSDictionary *)aUserInfo {
+    if (!aName || !aName.length) {
+        return;
+    }
     [self.lock lock];
     NSPointerArray *pointerA = [self.observerDict objectForKey:aName];
     if (!pointerA || !pointerA.allObjects.count) {
@@ -182,6 +217,8 @@
     [self.lock unlock];
 }
 
+
+/** 收到内存警告，则清空 观察者字典 和 观察信息字典 中，观察者 为 nil 的 key-value 键值对 */
 - (void)didReceiveMemoryWarning {
     @synchronized (self) {
         [self cleanObserverDict];
@@ -189,26 +226,29 @@
     };
 }
 
+
+/** 使用 compact 方法，删除 观察者 NSPointerArray 中，观察者为 nil 的对象 */
 - (void)cleanObserverDict {
     if (!self.observerDict.count) {
         return;
     }
     [self.lock lock];
-    [self.observerDict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSPointerArray * _Nonnull obj, BOOL * _Nonnull stop) {
+    [self.observerDict enumerateKeysAndObjectsUsingBlock:^(NSNotificationName _Nonnull key, NSPointerArray * _Nonnull obj, BOOL * _Nonnull stop) {
         if (obj.count) {
-            [obj addPointer:NULL]; // 不加上这句的话，直接调用compact，并不能清除 array 中的 NULL。
+            [obj addPointer:nil]; // 不加上这句的话，直接调用compact，并不能清除 array 中的 nil。
             [obj compact];
         }
     }];
     [self.lock unlock];
 }
 
+/** 删掉观察者信息集合 NSMutableSet 中，观察者信息 CustomObserverInfo 的 观察者 为 nil 的对象*/
 - (void)cleanObserverInfoDict {
     if (!self.observerInfoDict.count) {
         return;
     }
     [self.lock lock];
-    [self.observerInfoDict enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSMutableSet<CustomObserverInfo *> * _Nonnull obj, BOOL * _Nonnull stop) {
+    [self.observerInfoDict enumerateKeysAndObjectsUsingBlock:^(NSNotificationName _Nonnull key, NSMutableSet<CustomObserverInfo *> * _Nonnull obj, BOOL * _Nonnull stop) {
         [obj enumerateObjectsUsingBlock:^(CustomObserverInfo * _Nonnull infoObj, BOOL * _Nonnull stop) {
             if (!infoObj.observer) {
                 [obj removeObject:infoObj];
@@ -277,7 +317,7 @@
                     }
                     if (isInfoSame) { // 观察者相同，且观察信息完全一致
                         [obj removePointerAtIndex:i]; // 观察者数组移除该观察者
-                        if (!obj.allObjects.count) { // 如果观察者数组里非 NULL 对象个数为零，则观察者字典移除该通知
+                        if (!obj.allObjects.count) { // 如果观察者数组里非 nil 对象个数为零，则观察者字典移除该通知
                             [self.observerDict removeObjectForKey:aName];
                         }
 
@@ -304,7 +344,7 @@
                         [obj removePointerAtIndex:i]; // 观察者数组移除该观察者
                     }
                 }
-                if (!obj.allObjects.count) { // 如果观察者数组里非 NULL 对象个数为零，则观察者字典移除该通知
+                if (!obj.allObjects.count) { // 如果观察者数组里非 nil 对象个数为零，则观察者字典移除该通知
                     [self.observerDict removeObjectForKey:key];
                 }
             }];

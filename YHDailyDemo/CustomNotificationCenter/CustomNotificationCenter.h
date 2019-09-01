@@ -15,10 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)defaultCenter;
 
+/** 添加观察者 */
 - (void)addObserver:(id)observer selector:(SEL)aSelector name:(nullable NSNotificationName)aName object:(nullable id)anObject;
 
 - (void)addObserverForName:(nullable NSNotificationName)name observer:(nullable id)observer queue:(nullable NSOperationQueue *)queue usingBlock:(void (^)(CustomObserverInfo *info))block;
 
+/** 发送通知 */
 - (void)postNotification:(NSNotification *)notification;
 
 - (void)postNotificationName:(NSNotificationName)aName;
@@ -27,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)postNotificationName:(NSNotificationName)aName object:(nullable id)anObject userInfo:(nullable NSDictionary *)aUserInfo;
 
+/** 移除观察者 */
 - (void)removeObserver:(id)observer;
 
 - (void)removeObserver:(id)observer name:(nullable NSNotificationName)aName object:(nullable id)anObject;

@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) SEL aSelector;
 
-@property (nonatomic, copy, nonnull) NSString *name;
+@property (nonatomic, copy, nonnull) NSNotificationName name;
 
 @property (nonatomic, strong) id object;
 
