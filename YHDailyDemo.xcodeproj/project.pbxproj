@@ -34,6 +34,7 @@
 		6F43F391205EB6CC00EA7DCD /* YHBookProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F390205EB6CC00EA7DCD /* YHBookProvider.m */; };
 		6F43F394205EB6E600EA7DCD /* YHClothesProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F393205EB6E600EA7DCD /* YHClothesProvider.m */; };
 		6F43F3982063F8F900EA7DCD /* LockDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3972063F8F900EA7DCD /* LockDemoViewController.m */; };
+		6FC0577A231BFAA000C7518C /* JSONValueTransformer+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC05778231BFAA000C7518C /* JSONValueTransformer+Custom.m */; };
 		6FCD3C39206E867D00FD504B /* RevertStringDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCD3C38206E867D00FD504B /* RevertStringDemoViewController.m */; };
 		6FDBCE2820CCFC38001017CC /* MLeaksFinderDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBCE2720CCFC38001017CC /* MLeaksFinderDemoViewController.m */; };
 		6FDBCE2B20CCFC57001017CC /* LeakView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBCE2A20CCFC57001017CC /* LeakView.m */; };
@@ -141,6 +142,8 @@
 		6F43F393205EB6E600EA7DCD /* YHClothesProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YHClothesProvider.m; sourceTree = "<group>"; };
 		6F43F3962063F8F900EA7DCD /* LockDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LockDemoViewController.h; sourceTree = "<group>"; };
 		6F43F3972063F8F900EA7DCD /* LockDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LockDemoViewController.m; sourceTree = "<group>"; };
+		6FC05778231BFAA000C7518C /* JSONValueTransformer+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSONValueTransformer+Custom.m"; sourceTree = "<group>"; };
+		6FC05779231BFAA000C7518C /* JSONValueTransformer+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSONValueTransformer+Custom.h"; sourceTree = "<group>"; };
 		6FCD3C37206E867D00FD504B /* RevertStringDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RevertStringDemoViewController.h; sourceTree = "<group>"; };
 		6FCD3C38206E867D00FD504B /* RevertStringDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RevertStringDemoViewController.m; sourceTree = "<group>"; };
 		6FDBCE2620CCFC38001017CC /* MLeaksFinderDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLeaksFinderDemoViewController.h; sourceTree = "<group>"; };
@@ -462,6 +465,8 @@
 		771F8CA1231944EA009E587D /* JsonModel */ = {
 			isa = PBXGroup;
 			children = (
+				6FC05779231BFAA000C7518C /* JSONValueTransformer+Custom.h */,
+				6FC05778231BFAA000C7518C /* JSONValueTransformer+Custom.m */,
 				771F8CA223194603009E587D /* JsonModelViewController.h */,
 				771F8CA323194603009E587D /* JsonModelViewController.m */,
 				771F8CA52319462A009E587D /* CustomJsonModel.h */,
@@ -907,6 +912,7 @@
 				6FDBCE2B20CCFC57001017CC /* LeakView.m in Sources */,
 				776FC1912011F04100CDF3E6 /* AppDelegate.m in Sources */,
 				77EC96DE22AE611000877B53 /* WeakIVarDataSource.m in Sources */,
+				6FC0577A231BFAA000C7518C /* JSONValueTransformer+Custom.m in Sources */,
 				6F404C5720711D9000FB53F6 /* IsEqualObject.m in Sources */,
 				77714A3220200B6E004DD6EB /* HorizontalBarChartViewController.m in Sources */,
 				77714A3D20215909004DD6EB /* VerticalBarChartViewController.m in Sources */,
