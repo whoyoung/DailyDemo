@@ -24,6 +24,12 @@
                                                                                              NSFontAttributeName : [UIFont systemFontOfSize:14],
                                                                                              NSLinkAttributeName : [NSURL URLWithString:@"http://www.baidu.com"]
                                                                                              }];
+    model.strongString = @"aStrongString";
+    
+    CustomSubModel *subModel = [[CustomSubModel alloc] init];
+    subModel.subString = @"aSubString";
+    model.subModel = subModel;
+    
     NSDictionary *dict = [model toDictionary]; 
     NSLog(@"dict = %@",dict);
 }
