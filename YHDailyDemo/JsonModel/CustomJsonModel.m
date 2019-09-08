@@ -8,6 +8,10 @@
 
 #import "CustomJsonModel.h"
 
+@implementation CustomSubModel
+
+@end
+
 @implementation CustomJsonModel
 
 @end
