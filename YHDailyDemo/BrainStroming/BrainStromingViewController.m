@@ -18,7 +18,7 @@
 @implementation BrainStromingViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+    [super viewDidLoad]; 
     self.datas = @[@"decoderUTF8String",@"decodeBase64Str",@"arrayToDict",@"sendMessageToNil",@"topController",@"postNotification",@"toTempViewController"];
 }
 

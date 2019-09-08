@@ -35,6 +35,7 @@
 		6F43F394205EB6E600EA7DCD /* YHClothesProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F393205EB6E600EA7DCD /* YHClothesProvider.m */; };
 		6F43F3982063F8F900EA7DCD /* LockDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3972063F8F900EA7DCD /* LockDemoViewController.m */; };
 		6FC0577A231BFAA000C7518C /* JSONValueTransformer+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC05778231BFAA000C7518C /* JSONValueTransformer+Custom.m */; };
+		6FC0577D23238A1F00C7518C /* YHTempModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC0577C23238A1F00C7518C /* YHTempModel.m */; };
 		6FCD3C39206E867D00FD504B /* RevertStringDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCD3C38206E867D00FD504B /* RevertStringDemoViewController.m */; };
 		6FDBCE2820CCFC38001017CC /* MLeaksFinderDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBCE2720CCFC38001017CC /* MLeaksFinderDemoViewController.m */; };
 		6FDBCE2B20CCFC57001017CC /* LeakView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBCE2A20CCFC57001017CC /* LeakView.m */; };
@@ -144,6 +145,8 @@
 		6F43F3972063F8F900EA7DCD /* LockDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LockDemoViewController.m; sourceTree = "<group>"; };
 		6FC05778231BFAA000C7518C /* JSONValueTransformer+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSONValueTransformer+Custom.m"; sourceTree = "<group>"; };
 		6FC05779231BFAA000C7518C /* JSONValueTransformer+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSONValueTransformer+Custom.h"; sourceTree = "<group>"; };
+		6FC0577B23238A1F00C7518C /* YHTempModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YHTempModel.h; sourceTree = "<group>"; };
+		6FC0577C23238A1F00C7518C /* YHTempModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YHTempModel.m; sourceTree = "<group>"; };
 		6FCD3C37206E867D00FD504B /* RevertStringDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RevertStringDemoViewController.h; sourceTree = "<group>"; };
 		6FCD3C38206E867D00FD504B /* RevertStringDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RevertStringDemoViewController.m; sourceTree = "<group>"; };
 		6FDBCE2620CCFC38001017CC /* MLeaksFinderDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLeaksFinderDemoViewController.h; sourceTree = "<group>"; };
@@ -500,6 +503,8 @@
 				773BB84622A64ACA00B5259C /* BrainStromingViewController.m */,
 				6F3FCE7F23158CA800F0E950 /* YHTempViewController.h */,
 				6F3FCE8023158CA800F0E950 /* YHTempViewController.m */,
+				6FC0577B23238A1F00C7518C /* YHTempModel.h */,
+				6FC0577C23238A1F00C7518C /* YHTempModel.m */,
 				773BB84822A64D1000B5259C /* dataString */,
 			);
 			path = BrainStroming;
@@ -879,6 +884,7 @@
 				6F43F3762056C3DC00EA7DCD /* View1.m in Sources */,
 				77B6D17921B23DEC008F668D /* DismissViewController.m in Sources */,
 				6F04EA84206F402200837529 /* CustomizeObject.m in Sources */,
+				6FC0577D23238A1F00C7518C /* YHTempModel.m in Sources */,
 				77BE096C20457B8D009712CC /* BaseChartViewController.m in Sources */,
 				6F43F381205E9D3500EA7DCD /* NSProxyDemoViewController.m in Sources */,
 				77C1F4AC22CC4995000AE7A9 /* EnumerateDemoViewController.m in Sources */,
