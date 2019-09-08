@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad]; 
-    self.datas = @[@"decoderUTF8String",@"decodeBase64Str",@"arrayToDict",@"sendMessageToNil",@"topController",@"postNotification",@"toTempViewController"];
+    self.datas = @[@"decoderUTF8String",@"decodeBase64Str",@"arrayToDict",@"sendMessageToNil",@"topController",@"postNotification",@"toTempViewController",@"keyValueType"];
 }
 
 
@@ -103,6 +103,14 @@
 
 - (void)toTempViewController {
     [self.navigationController pushViewController:[YHTempViewController new] animated:YES];
+}
+
+- (void)keyValueType {
+//    NSMutableDictionary *dict = @{}.mutableCopy;
+//    [dict setValue:(nullable id) forKey:(nonnull NSString *)];
+//    [dict setObject:(nonnull id) forKey:(nonnull id<NSCopying>)];
+//    id _Nullable = [dict objectForKey:(nonnull id)];
+//    id _Nullable = [dict valueForKey:(nonnull NSString *)];
 }
 
 @end
