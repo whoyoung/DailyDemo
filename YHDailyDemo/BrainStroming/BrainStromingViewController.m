@@ -8,18 +8,20 @@
 
 #import "BrainStromingViewController.h"
 #import "YHTempViewController.h"
-
-@interface BrainStromingViewController ()
-
-@property (nonatomic, strong) NSArray *datas;
-
-@end
+#import "YHTempModel.h"
 
 @implementation BrainStromingViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad]; 
-    self.datas = @[@"decoderUTF8String",@"decodeBase64Str",@"arrayToDict",@"sendMessageToNil",@"topController",@"postNotification",@"toTempViewController",@"keyValueType"];
+    [super viewDidLoad];
+    [self.datas addObjectsFromArray:@[
+                                      @"decoderUTF8String",@"decodeBase64Str",
+                                      @"arrayToDict",@"sendMessageToNil",
+                                      @"topController",@"postNotification",
+                                      @"toTempViewController",@"keyValueType",
+                                      @"blockVariable",@"numberCount",
+                                      @"setValueForKey"
+       ]];
 }
 
 
@@ -111,6 +113,63 @@
 //    [dict setObject:(nonnull id) forKey:(nonnull id<NSCopying>)];
 //    id _Nullable = [dict objectForKey:(nonnull id)];
 //    id _Nullable = [dict valueForKey:(nonnull NSString *)];
+}
+
+- (void)blockVariable {
+    typedef void(^myBlock)(void);
+    
+    int a = 1;
+    __block int b = 1;
+    
+    myBlock block1 = ^(){
+        NSLog(@"a==%d",a);
+    };
+    myBlock block2 = ^(){
+        NSLog(@"b==%d",b);
+    };
+    
+    a = 2;
+    b = 2;
+    
+    
+    myBlock block3 = ^(){
+        NSLog(@"a==%d",a);
+    };
+    myBlock block4 = ^(){
+        NSLog(@"b==%d",b);
+    };
+    
+    block1();
+    block2();
+    block3();
+    block4();
+}
+
+- (void)numberCount {
+    NSUInteger digital = 504, num = 1;
+    if (num > 9) {
+        NSLog(@"%ld is not between 0 and 9",num);
+    }
+    NSUInteger count = 0, base = 1, round = digital;
+    while (round > 0) {
+        NSUInteger weight = round % 10;
+        NSUInteger right = round / base;
+        count += right * base;
+        if (weight == num) {
+            count += (digital % base) + 1;
+        } else if (weight > num) {
+            count += base;
+        }
+        base *= 10;
+    }
+    NSLog(@"digital = %ld, num = %ld, count = %ld",digital,num,count);
+}
+
+// 通过 setValue:forKey: 给基本数据类型的属性赋值，可以赋值成功。 推测，赋值过程有一个隐藏的类型转换过程
+- (void)setValueForKey {
+    YHTempModel *model = [[YHTempModel alloc] init];
+    [model setValue:@"100" forKey:@"integer"]; // 可以正确赋值
+    NSLog(@"model.integer = %ld",model.integer);
 }
 
 @end

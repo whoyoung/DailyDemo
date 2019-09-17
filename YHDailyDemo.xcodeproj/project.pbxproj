@@ -39,6 +39,8 @@
 		6FCD3C39206E867D00FD504B /* RevertStringDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCD3C38206E867D00FD504B /* RevertStringDemoViewController.m */; };
 		6FDBCE2820CCFC38001017CC /* MLeaksFinderDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBCE2720CCFC38001017CC /* MLeaksFinderDemoViewController.m */; };
 		6FDBCE2B20CCFC57001017CC /* LeakView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBCE2A20CCFC57001017CC /* LeakView.m */; };
+		6FF81EF3232F899900E2F43E /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF81EF2232F899900E2F43E /* BaseTableViewController.m */; };
+		6FF81EF7232F8B8800E2F43E /* AlgorithmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF81EF6232F8B8800E2F43E /* AlgorithmViewController.m */; };
 		6FF94E952067BDEC00475287 /* AssignObjectDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF94E942067BDEC00475287 /* AssignObjectDemoViewController.m */; };
 		6FF94E9A2067C8C600475287 /* WeakStrongObjectDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF94E992067C8C600475287 /* WeakStrongObjectDemoViewController.m */; };
 		77082CC220BFD34D00DCF52E /* TableViewRegisterClassController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77082CC120BFD34D00DCF52E /* TableViewRegisterClassController.m */; };
@@ -153,6 +155,10 @@
 		6FDBCE2720CCFC38001017CC /* MLeaksFinderDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MLeaksFinderDemoViewController.m; sourceTree = "<group>"; };
 		6FDBCE2920CCFC57001017CC /* LeakView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LeakView.h; sourceTree = "<group>"; };
 		6FDBCE2A20CCFC57001017CC /* LeakView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LeakView.m; sourceTree = "<group>"; };
+		6FF81EF1232F899900E2F43E /* BaseTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseTableViewController.h; sourceTree = "<group>"; };
+		6FF81EF2232F899900E2F43E /* BaseTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseTableViewController.m; sourceTree = "<group>"; };
+		6FF81EF5232F8B8800E2F43E /* AlgorithmViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlgorithmViewController.h; sourceTree = "<group>"; };
+		6FF81EF6232F8B8800E2F43E /* AlgorithmViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AlgorithmViewController.m; sourceTree = "<group>"; };
 		6FF94E932067BDEC00475287 /* AssignObjectDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssignObjectDemoViewController.h; sourceTree = "<group>"; };
 		6FF94E942067BDEC00475287 /* AssignObjectDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AssignObjectDemoViewController.m; sourceTree = "<group>"; };
 		6FF94E982067C8C600475287 /* WeakStrongObjectDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeakStrongObjectDemoViewController.h; sourceTree = "<group>"; };
@@ -436,6 +442,15 @@
 			path = MLeaksFinderDemo;
 			sourceTree = "<group>";
 		};
+		6FF81EF4232F8B5E00E2F43E /* Algorithm */ = {
+			isa = PBXGroup;
+			children = (
+				6FF81EF5232F8B8800E2F43E /* AlgorithmViewController.h */,
+				6FF81EF6232F8B8800E2F43E /* AlgorithmViewController.m */,
+			);
+			path = Algorithm;
+			sourceTree = "<group>";
+		};
 		6FF94E922067BDB800475287 /* AssignObjectDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -543,12 +558,15 @@
 			children = (
 				776FC1A52011F08200CDF3E6 /* RootTableViewController.h */,
 				776FC1A62011F08200CDF3E6 /* RootTableViewController.m */,
+				6FF81EF1232F899900E2F43E /* BaseTableViewController.h */,
+				6FF81EF2232F899900E2F43E /* BaseTableViewController.m */,
 				77BE096A20457B8D009712CC /* BaseChartViewController.h */,
 				77BE096B20457B8D009712CC /* BaseChartViewController.m */,
 				77DE62132248705600BD2DF6 /* BaseWhiteBGColorViewController.h */,
 				77DE62142248705700BD2DF6 /* BaseWhiteBGColorViewController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				6FF81EF4232F8B5E00E2F43E /* Algorithm */,
 				771F8CA1231944EA009E587D /* JsonModel */,
 				77D1982623065B9A00232165 /* Bluetooth */,
 				7731955B22CF063D00F87D7D /* NSPointerArrayAndNSMutabelSet */,
@@ -882,11 +900,13 @@
 				77F8E29122CCBC6D002337A0 /* CustomObserverInfo.m in Sources */,
 				77714A2B201EB312004DD6EB /* LineChartViewController.m in Sources */,
 				6F43F3762056C3DC00EA7DCD /* View1.m in Sources */,
+				6FF81EF3232F899900E2F43E /* BaseTableViewController.m in Sources */,
 				77B6D17921B23DEC008F668D /* DismissViewController.m in Sources */,
 				6F04EA84206F402200837529 /* CustomizeObject.m in Sources */,
 				6FC0577D23238A1F00C7518C /* YHTempModel.m in Sources */,
 				77BE096C20457B8D009712CC /* BaseChartViewController.m in Sources */,
 				6F43F381205E9D3500EA7DCD /* NSProxyDemoViewController.m in Sources */,
+				6FF81EF7232F8B8800E2F43E /* AlgorithmViewController.m in Sources */,
 				77C1F4AC22CC4995000AE7A9 /* EnumerateDemoViewController.m in Sources */,
 				779A3497221E5F6400BB9915 /* FormulaCalculateViewController.m in Sources */,
 				771F8CA423194603009E587D /* JsonModelViewController.m in Sources */,

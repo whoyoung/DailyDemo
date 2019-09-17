@@ -10,7 +10,6 @@
 
 @implementation YHTempModel
 
-
 + (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key {
     return NO;
 }
