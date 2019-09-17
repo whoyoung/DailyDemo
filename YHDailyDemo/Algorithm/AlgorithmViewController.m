@@ -18,8 +18,7 @@
     [super viewDidLoad];
     
     [self.datas addObjectsFromArray:@[
-                                      @"maxNoDuplicateCharLength",@"twoNumberEqualTarget",
-                                      @"maxReverseString"
+                                      @"kMaxValueInArray",@"maxNoDuplicateCharLength",@"twoNumberEqualTarget",@"maxReverseString"
                                       ]];
 }
 
@@ -27,7 +26,39 @@
  数组中的第K个最大元素
  */
 - (void)kMaxValueInArray {
+    NSArray *array = @[@7,@8,@9,@2,@8,@10,@7,@4,@34,@12,@56];
+    NSUInteger k = 9;
     
+    NSMutableArray *temp = [NSMutableArray array];
+    for (NSUInteger i=0; i<array.count; i++) {
+        if (temp.count == k) {
+            for (NSUInteger j = k; j>0; j--) {
+                if ([temp[j-1] integerValue] >= [array[i] integerValue]) {
+                    [temp insertObject:array[i] atIndex:j];
+                    [temp removeLastObject];
+                    break;
+                } else if (j == 1) {
+                    [temp insertObject:array[i] atIndex:0];
+                    [temp removeLastObject];
+                }
+            }
+        } else {
+            NSUInteger count = temp.count;
+            if (count == 0) {
+                [temp addObject:array[i]];
+                continue;
+            }
+            for (NSUInteger j = count; j>0; j--) {
+                if ([temp[j-1] integerValue] >= [array[i] integerValue]) {
+                    [temp insertObject:array[i] atIndex:j];
+                    break;
+                } else if (j == 1) {
+                    [temp insertObject:array[i] atIndex:0];
+                }
+            }
+        }
+    }
+    NSLog(@"k values = %@",[temp lastObject]);
 }
 
 /**
