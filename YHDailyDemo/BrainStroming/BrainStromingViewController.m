@@ -14,9 +14,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.datas addObjectsFromArray:@[
-                                      @"asyncOperation",@"semaphoreAsyncOperation",@"dispatchGroupEnterLeave",@"dispatchGroup",@"dispatchApply",@"decoderUTF8String",@"decodeBase64Str",@"arrayToDict",@"sendMessageToNil",@"topController",@"postNotification",@"toTempViewController",@"keyValueType",@"blockVariable",@"numberCount",@"setValueForKey"
-       ]];
+    [self.datas addObjectsFromArray:[self rowDatas]];
 }
 
 
@@ -249,6 +247,72 @@
     });
     dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
     NSLog(@"all done");
+}
+
+- (void)addAutoReleasePool {
+    NSString *string;
+    @autoreleasepool {
+//        string = @"string";
+        string = [NSString stringWithFormat:@"format string"];
+        NSLog(@"in string = %@",string);
+    }
+    NSLog(@"string = %@",string);
+}
+
+
+- (void)forIMemory {
+    for (NSUInteger i = 0; i < 60000; i++) {
+        // 以下注释掉的方法不会导致内存累积过多
+//        NSString *firstString = @"first string; ";
+//        NSString *secondString = @"second string";
+//        NSString *string = [firstString stringByAppendingString:secondString];
+//        NSLog(@"for i = %ld, string = %@",i,string);
+//
+//        NSObject *obj1 = [[NSObject alloc] init];
+//        NSObject *obj2 = [[NSObject alloc] init];
+//        NSObject *obj3 = [[NSObject alloc] init];
+//        NSLog(@"for i = %ld, obj1 = %p, obj2 = %p, obj3 = %p",i,obj1,obj2,obj3);
+//
+//        NSUInteger value1 = 1;
+//        NSUInteger value2 = 2;
+//        NSUInteger value3 = 3;
+//        NSLog(@"for i = %ld, value1 = %ld, value2 = %ld, value3 = %ld",i,value1,value2,value3);
+        
+        NSString *anotherStr = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"https://www.jianshu.com/p/9da2929c9b61"] encoding:NSUTF8StringEncoding error:nil];
+        NSLog(@"anotherStr = %p",anotherStr);
+    }
+}
+
+// 苹果官方文档：Use Local Autorelease Pool Blocks to Reduce Peak Memory Footprint https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/MemoryMgmt/Articles/mmAutoreleasePools.html
+- (void)forIAutoReleasePoolMemory {
+    for (NSUInteger i = 0; i < 60000; i++) {
+        @autoreleasepool {
+//            NSString *firstString = @"first string; ";
+//            NSString *secondString = @"second string";
+//            NSString *string = [firstString stringByAppendingString:secondString];
+//            NSLog(@"for i = %ld, string = %@",i,string);
+//
+//            NSObject *obj1 = [[NSObject alloc] init];
+//            NSObject *obj2 = [[NSObject alloc] init];
+//            NSObject *obj3 = [[NSObject alloc] init];
+//            NSLog(@"for i = %ld, obj1 = %p, obj2 = %p, obj3 = %p",i,obj1,obj2,obj3);
+//
+//            NSUInteger value1 = 1;
+//            NSUInteger value2 = 2;
+//            NSUInteger value3 = 3;
+//            NSLog(@"for i = %ld, value1 = %ld, value2 = %ld, value3 = %ld",i,value1,value2,value3);
+            
+            NSString *anotherStr = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"https://www.jianshu.com/p/9da2929c9b61"] encoding:NSUTF8StringEncoding error:nil];
+            NSLog(@"anotherStr = %p",anotherStr);
+        }
+        
+    }
+}
+
+- (NSArray *)rowDatas {
+    return @[
+        @"forIAutoReleasePoolMemory",@"forIMemory",@"addAutoReleasePool",@"asyncOperation",@"semaphoreAsyncOperation",@"dispatchGroupEnterLeave",@"dispatchGroup",@"dispatchApply",@"decoderUTF8String",@"decodeBase64Str",@"arrayToDict",@"sendMessageToNil",@"topController",@"postNotification",@"toTempViewController",@"keyValueType",@"blockVariable",@"numberCount",@"setValueForKey"
+    ];
 }
 
 @end
