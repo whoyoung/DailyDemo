@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C55418609A0D9143184B841E5697BE20"
-               BlueprintName = "Pods-YHDailyDemo"
+               BlueprintIdentifier = "C3BF0852C7FD6F7448A9A6088127F450"
+               BlueprintName = "YHNotificationCenter"
                ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "libPods-YHDailyDemo.a">
+               BuildableName = "libYHNotificationCenter.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

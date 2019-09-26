@@ -15,12 +15,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.datas addObjectsFromArray:@[
-                                      @"decoderUTF8String",@"decodeBase64Str",
-                                      @"arrayToDict",@"sendMessageToNil",
-                                      @"topController",@"postNotification",
-                                      @"toTempViewController",@"keyValueType",
-                                      @"blockVariable",@"numberCount",
-                                      @"setValueForKey"
+                                      @"asyncOperation",@"semaphoreAsyncOperation",@"dispatchGroupEnterLeave",@"dispatchGroup",@"dispatchApply",@"decoderUTF8String",@"decodeBase64Str",@"arrayToDict",@"sendMessageToNil",@"topController",@"postNotification",@"toTempViewController",@"keyValueType",@"blockVariable",@"numberCount",@"setValueForKey"
        ]];
 }
 
@@ -170,6 +165,90 @@
     YHTempModel *model = [[YHTempModel alloc] init];
     [model setValue:@"100" forKey:@"integer"]; // 可以正确赋值
     NSLog(@"model.integer = %ld",model.integer);
+}
+
+//2019-09-26 21:34:39.090 YHDailyDemo[5765:404336] all done
+//2019-09-26 21:34:39.091 YHDailyDemo[5765:406851] 任务 1 完成，线程：<NSThread: 0x60800026a500>{number = 4, name = (null)}
+//2019-09-26 21:34:39.092 YHDailyDemo[5765:406851] 任务 0 完成，线程：<NSThread: 0x60800026a500>{number = 4, name = (null)}
+//2019-09-26 21:34:39.092 YHDailyDemo[5765:406851] 任务 2 完成，线程：<NSThread: 0x60800026a500>{number = 4, name = (null)}
+- (void)dispatchApply {
+    NSURLSession *session = [NSURLSession sharedSession];
+
+    dispatch_apply(3, dispatch_get_global_queue(0, 0), ^(size_t idx) {
+        NSURLSessionDataTask *task = [session dataTaskWithURL:[NSURL URLWithString:@"https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?201810272230"] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                    NSLog(@"任务 %ld 完成，线程：%@", idx, [NSThread currentThread]);
+                }];
+        [task resume];
+    });
+    NSLog(@"all done");
+}
+
+//2019-09-26 21:33:36.918 YHDailyDemo[5765:406851] all done
+//2019-09-26 21:33:36.919 YHDailyDemo[5765:406851] 任务完成，线程：<NSThread: 0x60800026a500>{number = 4, name = (null)}
+- (void)dispatchGroup {
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_queue_t queue = dispatch_queue_create("concurrentQueue", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_group_async(group, queue, ^{
+        [self startTask];
+    });
+    dispatch_group_notify(group, queue, ^{
+        NSLog(@"all done");
+    });
+}
+- (void)startTask {
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithURL:[NSURL URLWithString:@"https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?201810272230"] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                NSLog(@"任务完成，线程：%@", [NSThread currentThread]);
+            }];
+    [task resume];
+}
+
+//2019-09-26 21:32:48.528 YHDailyDemo[5765:404387] 任务完成，线程：<NSThread: 0x60800026bbc0>{number = 3, name = (null)}
+//2019-09-26 21:32:48.528 YHDailyDemo[5765:406851] all done
+- (void)dispatchGroupEnterLeave {
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_queue_t queue = dispatch_queue_create("concurrentQueue", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_group_enter(group);
+    dispatch_group_async(group, queue, ^{
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSURLSessionDataTask *task = [session dataTaskWithURL:[NSURL URLWithString:@"https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?201810272230"] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                    NSLog(@"任务完成，线程：%@", [NSThread currentThread]);
+                    dispatch_group_leave(group);
+                }];
+        [task resume];
+    });
+    dispatch_group_notify(group, queue, ^{
+        NSLog(@"all done");
+    });
+}
+
+//2019-09-26 21:45:28.050 YHDailyDemo[5845:419192] all done
+//2019-09-26 21:45:28.102 YHDailyDemo[5845:419233] 任务完成，线程：<NSThread: 0x600000279140>{number = 3, name = (null)}
+- (void)asyncOperation {
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSURLSessionDataTask *task = [session dataTaskWithURL:[NSURL URLWithString:@"https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?201810272230"] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                    NSLog(@"任务完成，线程：%@", [NSThread currentThread]);
+                }];
+        [task resume];
+    });
+    NSLog(@"all done");
+}
+
+//2019-09-26 21:42:21.543 YHDailyDemo[5808:414525] 任务完成，线程：<NSThread: 0x600000279fc0>{number = 3, name = (null)}
+//2019-09-26 21:42:21.544 YHDailyDemo[5808:414431] all done
+- (void)semaphoreAsyncOperation {
+    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSURLSessionDataTask *task = [session dataTaskWithURL:[NSURL URLWithString:@"https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?201810272230"] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+                    NSLog(@"任务完成，线程：%@", [NSThread currentThread]);
+                    dispatch_semaphore_signal(sema);
+                }];
+        [task resume];
+    });
+    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    NSLog(@"all done");
 }
 
 @end
