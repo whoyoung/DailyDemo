@@ -9,6 +9,7 @@
 #import "BrainStromingViewController.h"
 #import "YHTempViewController.h"
 #import "YHTempModel.h"
+#import "MyCollectionViewController.h"
 
 @implementation BrainStromingViewController
 
@@ -309,9 +310,19 @@
     }
 }
 
+- (void)toCollectionVC {
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.minimumLineSpacing = 10;
+    layout.minimumInteritemSpacing = 30;
+    layout.itemSize = CGSizeMake(100, 40);
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    MyCollectionViewController *vc = [[MyCollectionViewController alloc] initWithCollectionViewLayout:layout];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (NSArray *)rowDatas {
     return @[
-        @"forIAutoReleasePoolMemory",@"forIMemory",@"addAutoReleasePool",@"asyncOperation",@"semaphoreAsyncOperation",@"dispatchGroupEnterLeave",@"dispatchGroup",@"dispatchApply",@"decoderUTF8String",@"decodeBase64Str",@"arrayToDict",@"sendMessageToNil",@"topController",@"postNotification",@"toTempViewController",@"keyValueType",@"blockVariable",@"numberCount",@"setValueForKey"
+        @"toCollectionVC",@"forIAutoReleasePoolMemory",@"forIMemory",@"addAutoReleasePool",@"asyncOperation",@"semaphoreAsyncOperation",@"dispatchGroupEnterLeave",@"dispatchGroup",@"dispatchApply",@"decoderUTF8String",@"decodeBase64Str",@"arrayToDict",@"sendMessageToNil",@"topController",@"postNotification",@"toTempViewController",@"keyValueType",@"blockVariable",@"numberCount",@"setValueForKey"
     ];
 }
 
