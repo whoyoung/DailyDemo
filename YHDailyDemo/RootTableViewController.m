@@ -7,7 +7,6 @@
 //
 
 #import "RootTableViewController.h"
-#import "FindMaxAndMinNumberViewController.h"
 
 @interface RootTableViewController ()
 @property (nonatomic, strong) NSArray *controllers;
@@ -56,6 +55,10 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeRight;
 }
 
 @end

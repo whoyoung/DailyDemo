@@ -38,6 +38,8 @@
 		6FDBCE2820CCFC38001017CC /* MLeaksFinderDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBCE2720CCFC38001017CC /* MLeaksFinderDemoViewController.m */; };
 		6FDBCE2B20CCFC57001017CC /* LeakView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBCE2A20CCFC57001017CC /* LeakView.m */; };
 		6FE949AE236DAB9C00EF7EB0 /* NSString+append.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C6A20762B9200FB53F6 /* NSString+append.m */; };
+		6FE949B3236DCF3200EF7EB0 /* NSObject+ViewTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE949B2236DCF3200EF7EB0 /* NSObject+ViewTool.m */; };
+		6FE949B6236DE29F00EF7EB0 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE949B5236DE29F00EF7EB0 /* BaseNavigationController.m */; };
 		6FF81EF3232F899900E2F43E /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF81EF2232F899900E2F43E /* BaseTableViewController.m */; };
 		6FF81EF7232F8B8800E2F43E /* AlgorithmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF81EF6232F8B8800E2F43E /* AlgorithmViewController.m */; };
 		6FF94E952067BDEC00475287 /* AssignObjectDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF94E942067BDEC00475287 /* AssignObjectDemoViewController.m */; };
@@ -155,6 +157,10 @@
 		6FDBCE2720CCFC38001017CC /* MLeaksFinderDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MLeaksFinderDemoViewController.m; sourceTree = "<group>"; };
 		6FDBCE2920CCFC57001017CC /* LeakView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LeakView.h; sourceTree = "<group>"; };
 		6FDBCE2A20CCFC57001017CC /* LeakView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LeakView.m; sourceTree = "<group>"; };
+		6FE949B1236DCF3200EF7EB0 /* NSObject+ViewTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+ViewTool.h"; sourceTree = "<group>"; };
+		6FE949B2236DCF3200EF7EB0 /* NSObject+ViewTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ViewTool.m"; sourceTree = "<group>"; };
+		6FE949B4236DE29F00EF7EB0 /* BaseNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
+		6FE949B5236DE29F00EF7EB0 /* BaseNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
 		6FF81EF1232F899900E2F43E /* BaseTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseTableViewController.h; sourceTree = "<group>"; };
 		6FF81EF2232F899900E2F43E /* BaseTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseTableViewController.m; sourceTree = "<group>"; };
 		6FF81EF5232F8B8800E2F43E /* AlgorithmViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlgorithmViewController.h; sourceTree = "<group>"; };
@@ -444,6 +450,15 @@
 			path = MLeaksFinderDemo;
 			sourceTree = "<group>";
 		};
+		6FE949B0236DCEF400EF7EB0 /* CommonCategory */ = {
+			isa = PBXGroup;
+			children = (
+				6FE949B1236DCF3200EF7EB0 /* NSObject+ViewTool.h */,
+				6FE949B2236DCF3200EF7EB0 /* NSObject+ViewTool.m */,
+			);
+			path = CommonCategory;
+			sourceTree = "<group>";
+		};
 		6FF81EF4232F8B5E00E2F43E /* Algorithm */ = {
 			isa = PBXGroup;
 			children = (
@@ -575,8 +590,11 @@
 				77BE096B20457B8D009712CC /* BaseChartViewController.m */,
 				77DE62132248705600BD2DF6 /* BaseWhiteBGColorViewController.h */,
 				77DE62142248705700BD2DF6 /* BaseWhiteBGColorViewController.m */,
+				6FE949B4236DE29F00EF7EB0 /* BaseNavigationController.h */,
+				6FE949B5236DE29F00EF7EB0 /* BaseNavigationController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				6FE949B0236DCEF400EF7EB0 /* CommonCategory */,
 				776B3C39235DE5B100B19EB1 /* CollectionVC */,
 				6FF81EF4232F8B5E00E2F43E /* Algorithm */,
 				771F8CA1231944EA009E587D /* JsonModel */,
@@ -905,6 +923,7 @@
 				6F404C47206FB91200FB53F6 /* NestedBlockDemoViewController.m in Sources */,
 				6F43F384205E9E0100EA7DCD /* YHWeakProxy.m in Sources */,
 				6FF94E952067BDEC00475287 /* AssignObjectDemoViewController.m in Sources */,
+				6FE949B3236DCF3200EF7EB0 /* NSObject+ViewTool.m in Sources */,
 				7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */,
 				6F43F387205EA44500EA7DCD /* SecondPageViewController.m in Sources */,
 				6F404C43206F6A4200FB53F6 /* IPConvertNumDemoViewController.m in Sources */,
@@ -933,6 +952,7 @@
 				77DE6218224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.m in Sources */,
 				6F3FCE8123158CA800F0E950 /* YHTempViewController.m in Sources */,
 				77DE62152248705700BD2DF6 /* BaseWhiteBGColorViewController.m in Sources */,
+				6FE949B6236DE29F00EF7EB0 /* BaseNavigationController.m in Sources */,
 				77714A3520200B94004DD6EB /* YHHorizontalBarChartView.m in Sources */,
 				6F43F38E205EB4B200EA7DCD /* YHMultiInheritProxy.m in Sources */,
 				77082CC220BFD34D00DCF52E /* TableViewRegisterClassController.m in Sources */,
