@@ -10,5 +10,5 @@
 
 @interface NSString (append)
 - (NSString *)stringByWhoyoung;
-- (NSString *)substringFromIndex:(NSUInteger)from;
+//- (NSString *)substringFromIndex:(NSUInteger)from;
 @end
