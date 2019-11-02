@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface NSString (append1)
-- (NSString *)stringByAppendingString;
-- (NSString *)substringFromIndex:(NSUInteger)from;
+//- (NSString *)stringByAppendingString;
+//- (NSString *)substringFromIndex:(NSUInteger)from;
 @end

@@ -18,8 +18,6 @@
 		6F404C5720711D9000FB53F6 /* IsEqualObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C5620711D9000FB53F6 /* IsEqualObject.m */; };
 		6F404C5A20711DA700FB53F6 /* IsEqualDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C5920711DA700FB53F6 /* IsEqualDemoViewController.m */; };
 		6F404C672076298B00FB53F6 /* MultiCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C652076298B00FB53F6 /* MultiCategoryViewController.m */; };
-		6F404C6B20762B9200FB53F6 /* NSString+append.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C6A20762B9200FB53F6 /* NSString+append.m */; };
-		6F404C6E20762D3E00FB53F6 /* NSString+append1.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C6D20762D3E00FB53F6 /* NSString+append1.m */; };
 		6F404C722077B10F00FB53F6 /* MultiTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C712077B10F00FB53F6 /* MultiTableViewController.m */; };
 		6F43F36F204D945500EA7DCD /* SemaphoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F36E204D945500EA7DCD /* SemaphoreViewController.m */; };
 		6F43F3732056C3BC00EA7DCD /* RespondChainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3722056C3BC00EA7DCD /* RespondChainViewController.m */; };
@@ -39,6 +37,7 @@
 		6FCD3C39206E867D00FD504B /* RevertStringDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCD3C38206E867D00FD504B /* RevertStringDemoViewController.m */; };
 		6FDBCE2820CCFC38001017CC /* MLeaksFinderDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBCE2720CCFC38001017CC /* MLeaksFinderDemoViewController.m */; };
 		6FDBCE2B20CCFC57001017CC /* LeakView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBCE2A20CCFC57001017CC /* LeakView.m */; };
+		6FE949AE236DAB9C00EF7EB0 /* NSString+append.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C6A20762B9200FB53F6 /* NSString+append.m */; };
 		6FF81EF3232F899900E2F43E /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF81EF2232F899900E2F43E /* BaseTableViewController.m */; };
 		6FF81EF7232F8B8800E2F43E /* AlgorithmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF81EF6232F8B8800E2F43E /* AlgorithmViewController.m */; };
 		6FF94E952067BDEC00475287 /* AssignObjectDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF94E942067BDEC00475287 /* AssignObjectDemoViewController.m */; };
@@ -891,6 +890,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FE949AE236DAB9C00EF7EB0 /* NSString+append.m in Sources */,
 				6F404C722077B10F00FB53F6 /* MultiTableViewController.m in Sources */,
 				6F404C672076298B00FB53F6 /* MultiCategoryViewController.m in Sources */,
 				776FC1942011F04100CDF3E6 /* FindMaxAndMinNumberViewController.m in Sources */,
@@ -938,8 +938,6 @@
 				77082CC220BFD34D00DCF52E /* TableViewRegisterClassController.m in Sources */,
 				773BB84722A64ACB00B5259C /* BrainStromingViewController.m in Sources */,
 				6FDBCE2820CCFC38001017CC /* MLeaksFinderDemoViewController.m in Sources */,
-				6F404C6E20762D3E00FB53F6 /* NSString+append1.m in Sources */,
-				6F404C6B20762B9200FB53F6 /* NSString+append.m in Sources */,
 				6F04EA81206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.m in Sources */,
 				776FC1AD2011F69600CDF3E6 /* CoreGraphicDrawView.m in Sources */,
 				77F8E28B22CCB93C002337A0 /* CustomNotificationCenterViewController.m in Sources */,

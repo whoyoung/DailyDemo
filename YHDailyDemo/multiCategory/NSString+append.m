@@ -9,10 +9,10 @@
 #import "NSString+append.h"
 
 @implementation NSString (append)
-- (NSString *)stringByAppendingString {
+- (NSString *)stringByWhoyoung {
     return @"who_young";
 }
-- (NSString *)substringFromIndex:(NSUInteger)from {
-    return @"young";
-}
+//- (NSString *)substringFromIndex:(NSUInteger)from {
+//    return @"young";
+//}
 @end
