@@ -320,9 +320,19 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+//2019-12-03 18:21:35.085049+0800 YHDailyDemo[54448:1114732] after dispatchMainOperation log
+//2019-12-03 18:21:36.173350+0800 YHDailyDemo[54448:1114732] dispatchMainOperation log
+//结论：dispatch_after 不会阻塞当前线程
+- (void)dispatchMainOperation {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSLog(@"dispatchMainOperation log");
+    });
+    NSLog(@"after dispatchMainOperation log");
+}
+
 - (NSArray *)rowDatas {
     return @[
-        @"toCollectionVC",@"forIAutoReleasePoolMemory",@"forIMemory",@"addAutoReleasePool",@"asyncOperation",@"semaphoreAsyncOperation",@"dispatchGroupEnterLeave",@"dispatchGroup",@"dispatchApply",@"decoderUTF8String",@"decodeBase64Str",@"arrayToDict",@"sendMessageToNil",@"topController",@"postNotification",@"toTempViewController",@"keyValueType",@"blockVariable",@"numberCount",@"setValueForKey"
+        @"dispatchMainOperation",@"toCollectionVC",@"forIAutoReleasePoolMemory",@"forIMemory",@"addAutoReleasePool",@"asyncOperation",@"semaphoreAsyncOperation",@"dispatchGroupEnterLeave",@"dispatchGroup",@"dispatchApply",@"decoderUTF8String",@"decodeBase64Str",@"arrayToDict",@"sendMessageToNil",@"topController",@"postNotification",@"toTempViewController",@"keyValueType",@"blockVariable",@"numberCount",@"setValueForKey"
     ];
 }
 
