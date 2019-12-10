@@ -77,6 +77,7 @@
 		77B6D17921B23DEC008F668D /* DismissViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B6D17821B23DEC008F668D /* DismissViewController.m */; };
 		77BE096C20457B8D009712CC /* BaseChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BE096B20457B8D009712CC /* BaseChartViewController.m */; };
 		77C1F4AC22CC4995000AE7A9 /* EnumerateDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C1F4AB22CC4995000AE7A9 /* EnumerateDemoViewController.m */; };
+		77C50D84239F42DF00060AC9 /* CommonMoreImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C50D83239F42DF00060AC9 /* CommonMoreImage.m */; };
 		77D1623E22C1C4C900D29FA3 /* SynchronizedDemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D1623D22C1C4C900D29FA3 /* SynchronizedDemoVC.m */; };
 		77D1982923065BD600232165 /* BluetoothViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D1982823065BD600232165 /* BluetoothViewController.m */; };
 		77DE62152248705700BD2DF6 /* BaseWhiteBGColorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DE62142248705700BD2DF6 /* BaseWhiteBGColorViewController.m */; };
@@ -235,6 +236,8 @@
 		77BE096B20457B8D009712CC /* BaseChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseChartViewController.m; sourceTree = "<group>"; };
 		77C1F4AA22CC4995000AE7A9 /* EnumerateDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnumerateDemoViewController.h; sourceTree = "<group>"; };
 		77C1F4AB22CC4995000AE7A9 /* EnumerateDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EnumerateDemoViewController.m; sourceTree = "<group>"; };
+		77C50D82239F42DF00060AC9 /* CommonMoreImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonMoreImage.h; sourceTree = "<group>"; };
+		77C50D83239F42DF00060AC9 /* CommonMoreImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommonMoreImage.m; sourceTree = "<group>"; };
 		77D1623C22C1C4C900D29FA3 /* SynchronizedDemoVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SynchronizedDemoVC.h; sourceTree = "<group>"; };
 		77D1623D22C1C4C900D29FA3 /* SynchronizedDemoVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SynchronizedDemoVC.m; sourceTree = "<group>"; };
 		77D1982723065BD600232165 /* BluetoothViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BluetoothViewController.h; sourceTree = "<group>"; };
@@ -537,6 +540,8 @@
 				6F3FCE8023158CA800F0E950 /* YHTempViewController.m */,
 				6FC0577B23238A1F00C7518C /* YHTempModel.h */,
 				6FC0577C23238A1F00C7518C /* YHTempModel.m */,
+				77C50D82239F42DF00060AC9 /* CommonMoreImage.h */,
+				77C50D83239F42DF00060AC9 /* CommonMoreImage.m */,
 				773BB84822A64D1000B5259C /* dataString */,
 			);
 			path = BrainStroming;
@@ -959,6 +964,7 @@
 				773BB84722A64ACB00B5259C /* BrainStromingViewController.m in Sources */,
 				6FDBCE2820CCFC38001017CC /* MLeaksFinderDemoViewController.m in Sources */,
 				6F04EA81206F3E5100837529 /* NSUserDefaultsSaveObjectViewController.m in Sources */,
+				77C50D84239F42DF00060AC9 /* CommonMoreImage.m in Sources */,
 				776FC1AD2011F69600CDF3E6 /* CoreGraphicDrawView.m in Sources */,
 				77F8E28B22CCB93C002337A0 /* CustomNotificationCenterViewController.m in Sources */,
 				776FC1B02012204400CDF3E6 /* CoreAnimationDrawView.m in Sources */,

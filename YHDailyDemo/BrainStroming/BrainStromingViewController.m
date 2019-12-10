@@ -10,6 +10,7 @@
 #import "YHTempViewController.h"
 #import "YHTempModel.h"
 #import "MyCollectionViewController.h"
+#import "CommonMoreImage.h"
 
 @implementation BrainStromingViewController
 
@@ -330,9 +331,33 @@
     NSLog(@"after dispatchMainOperation log");
 }
 
+- (void)dispatchOnceImages {
+    CGSize size = [UIScreen mainScreen].bounds.size;
+    NSUInteger count = 50;
+    dispatch_apply(count, dispatch_get_global_queue(0, 0), ^(size_t idx) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"idx = %ld",idx); // 乱序遍历
+            UIImage *img = [CommonMoreImage moreImage];
+            UIImageView *imgV = [[UIImageView alloc] initWithImage:img];
+            imgV.tintColor = [UIColor lightGrayColor];
+            imgV.center = CGPointMake(size.width/2, size.height / (count + 2) * (idx + 1));
+            [self.view addSubview:imgV];
+        });
+    });
+}
+
+- (void)removeDispatchOnceImages {
+    NSArray *views = self.view.subviews;
+    for (UIView *view in views) {
+        if ([view isKindOfClass:[UIImageView class]]) {
+            [view removeFromSuperview];
+        }
+    }
+}
+
 - (NSArray *)rowDatas {
     return @[
-        @"dispatchMainOperation",@"toCollectionVC",@"forIAutoReleasePoolMemory",@"forIMemory",@"addAutoReleasePool",@"asyncOperation",@"semaphoreAsyncOperation",@"dispatchGroupEnterLeave",@"dispatchGroup",@"dispatchApply",@"decoderUTF8String",@"decodeBase64Str",@"arrayToDict",@"sendMessageToNil",@"topController",@"postNotification",@"toTempViewController",@"keyValueType",@"blockVariable",@"numberCount",@"setValueForKey"
+        @"removeDispatchOnceImages",@"dispatchOnceImages",@"dispatchMainOperation",@"toCollectionVC",@"forIAutoReleasePoolMemory",@"forIMemory",@"addAutoReleasePool",@"asyncOperation",@"semaphoreAsyncOperation",@"dispatchGroupEnterLeave",@"dispatchGroup",@"dispatchApply",@"decoderUTF8String",@"decodeBase64Str",@"arrayToDict",@"sendMessageToNil",@"topController",@"postNotification",@"toTempViewController",@"keyValueType",@"blockVariable",@"numberCount",@"setValueForKey"
     ];
 }
 
