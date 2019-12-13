@@ -9,7 +9,7 @@
 #import "RootTableViewController.h"
 
 @interface RootTableViewController ()
-@property (nonatomic, strong) NSArray *controllers;
+
 @end
 
 @implementation RootTableViewController
@@ -17,48 +17,37 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationItem setTitle:@"RootViewController"];
+    NSArray *vcs = @[@"AlgorithmViewController",@"JsonModelViewController",@"BluetoothViewController",@"NSPointerArrayAndNSMutabelSetViewController",@"CustomNotificationCenterViewController",@"EnumerateDemoViewController",@"SynchronizedDemoVC",@"WeakIVarViewController",@"BrainStromingViewController",@"ZeroClockViewController",@"ScrollViewAndLongPressGestureViewController",@"FormulaCalculateViewController",@"ForInDeleteViewController",@"MLeaksFinderDemoViewController",@"WeakStrongObjectDemoViewController",@"TableViewRegisterClassController",@"MultiTableViewController",@"MultiCategoryViewController",@"IsEqualDemoViewController",@"SingleTonViewController",@"FindValueInTwoDimensionalArrayViewController",@"NestedBlockDemoViewController",@"IPConvertNumDemoViewController",@"NSUserDefaultsSaveObjectViewController",@"FindMaxAndMinNumberViewController",@"DrawViewController",@"LineChartViewController",@"HorizontalBarChartViewController",@"VerticalBarChartViewController",@"SemaphoreViewController",@"RespondChainViewController",@"CopyStrongDemoViewController",@"NSProxyDemoViewController",@"NSProxyMultiInheritDemoViewController",@"LockDemoViewController",@"AssignObjectDemoViewController",@"MemoryMapDemoViewController",@"RevertStringDemoViewController",];
+    [self.datas addObjectsFromArray:vcs];
 }
 
-- (NSArray *)controllers {
-    if (!_controllers) {
-        _controllers = @[@"AlgorithmViewController",@"JsonModelViewController",@"BluetoothViewController",@"NSPointerArrayAndNSMutabelSetViewController",@"CustomNotificationCenterViewController",@"EnumerateDemoViewController",@"SynchronizedDemoVC",@"WeakIVarViewController",@"BrainStromingViewController",@"ZeroClockViewController",@"ScrollViewAndLongPressGestureViewController",@"FormulaCalculateViewController",@"ForInDeleteViewController",@"MLeaksFinderDemoViewController",@"WeakStrongObjectDemoViewController",@"TableViewRegisterClassController",@"MultiTableViewController",@"MultiCategoryViewController",@"IsEqualDemoViewController",@"SingleTonViewController",@"FindValueInTwoDimensionalArrayViewController",@"NestedBlockDemoViewController",@"IPConvertNumDemoViewController",@"NSUserDefaultsSaveObjectViewController",@"FindMaxAndMinNumberViewController",@"DrawViewController",@"LineChartViewController",@"HorizontalBarChartViewController",@"VerticalBarChartViewController",@"SemaphoreViewController",@"RespondChainViewController",@"CopyStrongDemoViewController",@"NSProxyDemoViewController",@"NSProxyMultiInheritDemoViewController",@"LockDemoViewController",@"AssignObjectDemoViewController",@"MemoryMapDemoViewController",@"RevertStringDemoViewController",];
-    }
-    return _controllers;
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+//    self.navigationController.navigationBar.frame = CGRectMake(0,20, self.navigationController.navigationBar.frame.size.width,44);
+//    [self setNeedsStatusBarAppearanceUpdate];
+
 }
 
-#pragma mark - Table view data source
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.controllers.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"reuseIdentifier"];
-    }
-    cell.textLabel.text = self.controllers[indexPath.row];
-    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    Class cls = NSClassFromString(self.controllers[indexPath.row]);
-    if ([self.controllers[indexPath.row] isEqualToString:@"DismissViewController"]) {
+    Class cls = NSClassFromString(self.datas[indexPath.row]);
+    if ([self.datas[indexPath.row] isEqualToString:@"DismissViewController"]) {
         [self presentViewController:[[cls alloc] init] animated:YES completion:nil];
     } else {
         [self.navigationController pushViewController:[[cls alloc] init] animated:YES];
     }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscapeRight;
-}
+//- (BOOL)prefersStatusBarHidden {
+//    return NO;
+//}
 
 @end

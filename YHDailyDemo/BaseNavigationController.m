@@ -27,24 +27,5 @@
     return self.visibleViewController.supportedInterfaceOrientations;
 }
 
-//- (BOOL)shouldAutorotate {
-//    UIViewController *currentVC = [NSObject currentViewController];
-//    if (currentVC != self && [currentVC respondsToSelector:@selector(shouldAutorotate)]) {
-//        return [currentVC shouldAutorotate];
-//    }
-//    return YES;
-//}
-//
-//- (BOOL)prefersStatusBarHidden {
-//    return NO;
-//}
-//
-//- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-//    UIViewController *currentVC = [NSObject currentViewController];
-//    if (currentVC != self && [currentVC respondsToSelector:@selector(supportedInterfaceOrientations)]) {
-//        return [currentVC supportedInterfaceOrientations];
-//    }
-//    return UIInterfaceOrientationMaskAllButUpsideDown;
-//}
 
 @end

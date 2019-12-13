@@ -156,11 +156,15 @@
 
 
 - (BOOL)shouldAutorotate {
-    return NO;
+    return YES;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
+
+//- (BOOL)prefersStatusBarHidden {
+//    return YES;
+//}
 
 @end

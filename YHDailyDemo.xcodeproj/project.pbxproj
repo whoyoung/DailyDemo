@@ -89,6 +89,7 @@
 		77F8E28B22CCB93C002337A0 /* CustomNotificationCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F8E28A22CCB93C002337A0 /* CustomNotificationCenterViewController.m */; };
 		77F8E28E22CCB975002337A0 /* CustomNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F8E28D22CCB975002337A0 /* CustomNotificationCenter.m */; };
 		77F8E29122CCBC6D002337A0 /* CustomObserverInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F8E29022CCBC6D002337A0 /* CustomObserverInfo.m */; };
+		77F9C61823A0F8580036F905 /* RootTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F9C61723A0F8580036F905 /* RootTabBarController.m */; };
 		874EB0C2401E70266F4749BC /* libPods-YHDailyDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B98B5E95EC6F15F12224A98C /* libPods-YHDailyDemo.a */; };
 /* End PBXBuildFile section */
 
@@ -260,6 +261,8 @@
 		77F8E28D22CCB975002337A0 /* CustomNotificationCenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomNotificationCenter.m; sourceTree = "<group>"; };
 		77F8E28F22CCBC6D002337A0 /* CustomObserverInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomObserverInfo.h; sourceTree = "<group>"; };
 		77F8E29022CCBC6D002337A0 /* CustomObserverInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomObserverInfo.m; sourceTree = "<group>"; };
+		77F9C61623A0F8580036F905 /* RootTabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootTabBarController.h; sourceTree = "<group>"; };
+		77F9C61723A0F8580036F905 /* RootTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootTabBarController.m; sourceTree = "<group>"; };
 		B98B5E95EC6F15F12224A98C /* libPods-YHDailyDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YHDailyDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -597,6 +600,8 @@
 				77DE62142248705700BD2DF6 /* BaseWhiteBGColorViewController.m */,
 				6FE949B4236DE29F00EF7EB0 /* BaseNavigationController.h */,
 				6FE949B5236DE29F00EF7EB0 /* BaseNavigationController.m */,
+				77F9C61623A0F8580036F905 /* RootTabBarController.h */,
+				77F9C61723A0F8580036F905 /* RootTabBarController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
 				6FE949B0236DCEF400EF7EB0 /* CommonCategory */,
@@ -982,6 +987,7 @@
 				77714A3D20215909004DD6EB /* VerticalBarChartViewController.m in Sources */,
 				6F404C5320710F7200FB53F6 /* SingleTonObject.m in Sources */,
 				77F8E28E22CCB975002337A0 /* CustomNotificationCenter.m in Sources */,
+				77F9C61823A0F8580036F905 /* RootTabBarController.m in Sources */,
 				77D1982923065BD600232165 /* BluetoothViewController.m in Sources */,
 				77714A3A202158FB004DD6EB /* YHVerticalBarChartView.m in Sources */,
 				77082CC520BFD3CA00DCF52E /* CustomTableViewCell.m in Sources */,

@@ -48,4 +48,8 @@
     return _datas;
 }
 
+//- (BOOL)prefersStatusBarHidden {
+//    return NO;
+//}
+
 @end

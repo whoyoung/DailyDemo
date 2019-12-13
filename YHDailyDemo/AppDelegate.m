@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "RootTableViewController.h"
 #import "BaseNavigationController.h"
+#import "RootTabBarController.h"
 
 @interface AppDelegate ()
 
@@ -19,9 +20,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     RootTableViewController *rootVC = [[RootTableViewController alloc] initWithStyle:UITableViewStylePlain];
-    BaseNavigationController *navController = [[BaseNavigationController alloc] initWithRootViewController:rootVC];
     
-    self.window.rootViewController = navController;
+    BaseNavigationController *navController = [[BaseNavigationController alloc] initWithRootViewController:rootVC];
+    navController.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemDownloads tag:101];
+    
+    RootTabBarController *tabBarC = [[RootTabBarController alloc] init];
+    [tabBarC setViewControllers:@[navController] animated:NO];
+    
+    self.window.rootViewController = tabBarC;
     [self.window makeKeyAndVisible];
     return YES;
 }
