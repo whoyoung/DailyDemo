@@ -355,9 +355,17 @@
     }
 }
 
+- (void)tintImage {
+    UIButton *btn = [[UIButton alloc] init];
+    btn.frame = CGRectMake(200,100,19,19);
+    [btn setImage:[[UIImage imageNamed:@"zhimg_profile_ic_followingarrow_normal"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:0];
+    btn.tintColor = [UIColor blueColor];
+    [self.view addSubview:btn];
+}
+
 - (NSArray *)rowDatas {
     return @[
-        @"removeDispatchOnceImages",@"dispatchOnceImages",@"dispatchMainOperation",@"toCollectionVC",@"forIAutoReleasePoolMemory",@"forIMemory",@"addAutoReleasePool",@"asyncOperation",@"semaphoreAsyncOperation",@"dispatchGroupEnterLeave",@"dispatchGroup",@"dispatchApply",@"decoderUTF8String",@"decodeBase64Str",@"arrayToDict",@"sendMessageToNil",@"topController",@"postNotification",@"toTempViewController",@"keyValueType",@"blockVariable",@"numberCount",@"setValueForKey"
+        @"tintImage",@"removeDispatchOnceImages",@"dispatchOnceImages",@"dispatchMainOperation",@"toCollectionVC",@"forIAutoReleasePoolMemory",@"forIMemory",@"addAutoReleasePool",@"asyncOperation",@"semaphoreAsyncOperation",@"dispatchGroupEnterLeave",@"dispatchGroup",@"dispatchApply",@"decoderUTF8String",@"decodeBase64Str",@"arrayToDict",@"sendMessageToNil",@"topController",@"postNotification",@"toTempViewController",@"keyValueType",@"blockVariable",@"numberCount",@"setValueForKey"
     ];
 }
 
