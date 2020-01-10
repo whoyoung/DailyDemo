@@ -35,6 +35,9 @@
 
 - (UIButton *)testBtn:(NSString *)title {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
+    btn.layer.cornerRadius = 20;
+    btn.layer.masksToBounds = YES;
+    [btn setBackgroundColor:[UIColor lightGrayColor]];
     [btn setTitle:title forState:UIControlStateNormal];
     [btn addTarget:self action:NSSelectorFromString(title) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
