@@ -192,6 +192,7 @@
 		773BB84522A64ACA00B5259C /* BrainStromingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BrainStromingViewController.h; sourceTree = "<group>"; };
 		773BB84622A64ACA00B5259C /* BrainStromingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrainStromingViewController.m; sourceTree = "<group>"; };
 		773BB84822A64D1000B5259C /* dataString */ = {isa = PBXFileReference; lastKnownFileType = text; path = dataString; sourceTree = "<group>"; };
+		7760B86323C859AB005E0B4C /* TestDemoProtoc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestDemoProtoc.h; sourceTree = "<group>"; };
 		776B3C3A235DE5B100B19EB1 /* MyCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionViewController.h; sourceTree = "<group>"; };
 		776B3C3B235DE5B100B19EB1 /* MyCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionViewController.m; sourceTree = "<group>"; };
 		776B4E08206CE2EA00443D92 /* MemoryMapDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MemoryMapDemoViewController.h; sourceTree = "<group>"; };
@@ -452,6 +453,7 @@
 				6FDBCE2720CCFC38001017CC /* MLeaksFinderDemoViewController.m */,
 				6FDBCE2920CCFC57001017CC /* LeakView.h */,
 				6FDBCE2A20CCFC57001017CC /* LeakView.m */,
+				7760B86323C859AB005E0B4C /* TestDemoProtoc.h */,
 			);
 			path = MLeaksFinderDemo;
 			sourceTree = "<group>";
