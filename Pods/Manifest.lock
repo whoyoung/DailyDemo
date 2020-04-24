@@ -3,12 +3,14 @@ PODS:
   - JSONModel (1.8.0)
   - MLeaksFinder (1.0.0):
     - FBRetainCycleDetector
+  - TTTAttributedLabel (2.0.0)
   - YHNotificationCenter (1.0.0)
 
 DEPENDENCIES:
   - FBRetainCycleDetector
   - JSONModel
   - MLeaksFinder
+  - TTTAttributedLabel
   - YHNotificationCenter
 
 SPEC REPOS:
@@ -16,14 +18,16 @@ SPEC REPOS:
     - FBRetainCycleDetector
     - JSONModel
     - MLeaksFinder
+    - TTTAttributedLabel
     - YHNotificationCenter
 
 SPEC CHECKSUMS:
   FBRetainCycleDetector: 46f8179bbb1c587deee3ea838a1a3ee02acf5015
   JSONModel: 02ab723958366a3fd27da57ea2af2113658762e9
   MLeaksFinder: 8c435bd2f6d070af18cff082b503b21adc130fc0
+  TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   YHNotificationCenter: 536930fb17d23be4f0e224982e28b4209182777d
 
-PODFILE CHECKSUM: 818d4f01926e9db5093bec6d947f1d45fbca84a9
+PODFILE CHECKSUM: 651051c2c664aad435e1cd133a739d0985edfac4
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.0

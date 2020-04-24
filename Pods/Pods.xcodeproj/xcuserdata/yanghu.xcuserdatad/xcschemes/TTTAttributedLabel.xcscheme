@@ -14,9 +14,9 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AB152DB8B506D91CD6BF11FD40D1A390"
-               BuildableName = "libPods-YHDailyDemo.a"
-               BlueprintName = "Pods-YHDailyDemo"
+               BlueprintIdentifier = "63D9CBC59F7615E38AC47015EFDD0B70"
+               BuildableName = "libTTTAttributedLabel.a"
+               BlueprintName = "TTTAttributedLabel"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

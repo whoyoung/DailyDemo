@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1020"
+   LastUpgradeVersion = "1100"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9E72B8254870F73DA49256A58B5F6CC7"
+               BlueprintIdentifier = "8614D2FC26E17A67991B8D563A8EA42B"
                BuildableName = "libYHNotificationCenter.a"
                BlueprintName = "YHNotificationCenter"
                ReferencedContainer = "container:Pods.xcodeproj">

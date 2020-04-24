@@ -72,6 +72,7 @@
 		77714A3520200B94004DD6EB /* YHHorizontalBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A3420200B94004DD6EB /* YHHorizontalBarChartView.m */; };
 		77714A3A202158FB004DD6EB /* YHVerticalBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A39202158FB004DD6EB /* YHVerticalBarChartView.m */; };
 		77714A3D20215909004DD6EB /* VerticalBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A3C20215909004DD6EB /* VerticalBarChartViewController.m */; };
+		778A29262452A6470024EDE2 /* TTTAttributedLabelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 778A29252452A6470024EDE2 /* TTTAttributedLabelViewController.m */; };
 		77931AC821FF0119009D5F88 /* ForInDeleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77931AC721FF0119009D5F88 /* ForInDeleteViewController.m */; };
 		779A3497221E5F6400BB9915 /* FormulaCalculateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779A3496221E5F6400BB9915 /* FormulaCalculateViewController.m */; };
 		77B6D17921B23DEC008F668D /* DismissViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B6D17821B23DEC008F668D /* DismissViewController.m */; };
@@ -228,6 +229,8 @@
 		77714A39202158FB004DD6EB /* YHVerticalBarChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YHVerticalBarChartView.m; sourceTree = "<group>"; };
 		77714A3B20215909004DD6EB /* VerticalBarChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerticalBarChartViewController.h; sourceTree = "<group>"; };
 		77714A3C20215909004DD6EB /* VerticalBarChartViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerticalBarChartViewController.m; sourceTree = "<group>"; };
+		778A29242452A6470024EDE2 /* TTTAttributedLabelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTTAttributedLabelViewController.h; sourceTree = "<group>"; };
+		778A29252452A6470024EDE2 /* TTTAttributedLabelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabelViewController.m; sourceTree = "<group>"; };
 		77931AC621FF0119009D5F88 /* ForInDeleteViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForInDeleteViewController.h; sourceTree = "<group>"; };
 		77931AC721FF0119009D5F88 /* ForInDeleteViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForInDeleteViewController.m; sourceTree = "<group>"; };
 		779A3495221E5F6400BB9915 /* FormulaCalculateViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormulaCalculateViewController.h; sourceTree = "<group>"; };
@@ -606,6 +609,7 @@
 				77F9C61723A0F8580036F905 /* RootTabBarController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				778A29232452A5970024EDE2 /* TTTAttributedLabelDemo */,
 				6FE949B0236DCEF400EF7EB0 /* CommonCategory */,
 				776B3C39235DE5B100B19EB1 /* CollectionVC */,
 				6FF81EF4232F8B5E00E2F43E /* Algorithm */,
@@ -710,6 +714,15 @@
 				77714A3C20215909004DD6EB /* VerticalBarChartViewController.m */,
 			);
 			name = VerticalBarChar;
+			sourceTree = "<group>";
+		};
+		778A29232452A5970024EDE2 /* TTTAttributedLabelDemo */ = {
+			isa = PBXGroup;
+			children = (
+				778A29242452A6470024EDE2 /* TTTAttributedLabelViewController.h */,
+				778A29252452A6470024EDE2 /* TTTAttributedLabelViewController.m */,
+			);
+			path = TTTAttributedLabelDemo;
 			sourceTree = "<group>";
 		};
 		77931AC521FF00D3009D5F88 /* ForInDelete */ = {
@@ -992,6 +1005,7 @@
 				77F9C61823A0F8580036F905 /* RootTabBarController.m in Sources */,
 				77D1982923065BD600232165 /* BluetoothViewController.m in Sources */,
 				77714A3A202158FB004DD6EB /* YHVerticalBarChartView.m in Sources */,
+				778A29262452A6470024EDE2 /* TTTAttributedLabelViewController.m in Sources */,
 				77082CC520BFD3CA00DCF52E /* CustomTableViewCell.m in Sources */,
 				776FC1A72011F08200CDF3E6 /* RootTableViewController.m in Sources */,
 				6F404C5A20711DA700FB53F6 /* IsEqualDemoViewController.m in Sources */,

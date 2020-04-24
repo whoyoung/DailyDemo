@@ -10,6 +10,7 @@ target 'YHDailyDemo' do
 	pod 'FBRetainCycleDetector'
 	pod 'JSONModel'
 	pod 'YHNotificationCenter'
+	pod 'TTTAttributedLabel'
 
 post_install do |installer|
         installer.pods_project.targets.each do |target|
