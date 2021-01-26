@@ -20,7 +20,7 @@
 
     TTTAttributedLabel *attributedLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectMake(40, 100, 200, 200)];
 
-    NSString *originStr = @"Tom Bombadil https://www.baidu.com 多大的 13261965795";
+    NSString *originStr = @"Tom Bombadil https://www.baidu.com 多大的 13261965795 aaaasd dsssssss ssssssssssffwwewefafasfds";
     NSAttributedString *attString = [[NSAttributedString alloc] initWithString:originStr
                                                                     attributes:@{
             (id)kCTForegroundColorAttributeName : (id)[UIColor redColor].CGColor,
@@ -32,12 +32,26 @@
     // The attributed string is directly set, without inheriting any other text
     // properties of the label.
     attributedLabel.text = attString;
-    attributedLabel.numberOfLines = 0;
+    attributedLabel.numberOfLines = 4;
+    attributedLabel.attributedTruncationToken = truncationAttributedString();
     NSRange range = [originStr rangeOfString:@"Tom"];
     [attributedLabel addLinkToURL:[NSURL URLWithString:@"https://www.baidu.com"] withRange:range];
-    
     attributedLabel.delegate = self;
     [self.view addSubview:attributedLabel];
+}
+
+static NSAttributedString *truncationAttributedString() {
+  NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:@"..."
+                                         attributes:@{
+                                             NSFontAttributeName : [UIFont systemFontOfSize:14],
+                                             NSForegroundColorAttributeName : [UIColor redColor],
+                                             NSLinkAttributeName : [NSURL URLWithString:@"https://www.google.com"]
+                                         }];
+    [attributedStr appendAttributedString:[[NSAttributedString alloc] initWithString:@"查看全部" attributes:@{
+        NSFontAttributeName : [UIFont systemFontOfSize:18],
+        NSForegroundColorAttributeName : [UIColor blueColor],
+    }]];
+    return attributedStr.copy;
 }
 
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {

@@ -49,6 +49,7 @@
 		771F8CA423194603009E587D /* JsonModelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8CA323194603009E587D /* JsonModelViewController.m */; };
 		771F8CA72319462A009E587D /* CustomJsonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 771F8CA62319462A009E587D /* CustomJsonModel.m */; };
 		7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7721C3E7202C2A9100859A67 /* YHBaseChartView.m */; };
+		7728D6FB25C01C7300800730 /* WeakStrongTestObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 7728D6FA25C01C7300800730 /* WeakStrongTestObject.m */; };
 		7731955E22CF068300F87D7D /* NSPointerArrayAndNSMutabelSetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7731955D22CF068300F87D7D /* NSPointerArrayAndNSMutabelSetViewController.m */; };
 		773BB84122A619A500B5259C /* ZeroClockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 773BB84022A619A500B5259C /* ZeroClockViewController.m */; };
 		773BB84722A64ACB00B5259C /* BrainStromingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 773BB84622A64ACA00B5259C /* BrainStromingViewController.m */; };
@@ -186,6 +187,8 @@
 		7721C3E5202C2A9000859A67 /* YHBaseChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHBaseChartView.h; sourceTree = "<group>"; };
 		7721C3E6202C2A9000859A67 /* YHBaseChartMethodProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHBaseChartMethodProtocol.h; sourceTree = "<group>"; };
 		7721C3E7202C2A9100859A67 /* YHBaseChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHBaseChartView.m; sourceTree = "<group>"; };
+		7728D6F925C01C7300800730 /* WeakStrongTestObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeakStrongTestObject.h; sourceTree = "<group>"; };
+		7728D6FA25C01C7300800730 /* WeakStrongTestObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeakStrongTestObject.m; sourceTree = "<group>"; };
 		7731955C22CF068300F87D7D /* NSPointerArrayAndNSMutabelSetViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSPointerArrayAndNSMutabelSetViewController.h; sourceTree = "<group>"; };
 		7731955D22CF068300F87D7D /* NSPointerArrayAndNSMutabelSetViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSPointerArrayAndNSMutabelSetViewController.m; sourceTree = "<group>"; };
 		773BB83F22A619A500B5259C /* ZeroClockViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZeroClockViewController.h; sourceTree = "<group>"; };
@@ -493,6 +496,8 @@
 			children = (
 				6FF94E982067C8C600475287 /* WeakStrongObjectDemoViewController.h */,
 				6FF94E992067C8C600475287 /* WeakStrongObjectDemoViewController.m */,
+				7728D6F925C01C7300800730 /* WeakStrongTestObject.h */,
+				7728D6FA25C01C7300800730 /* WeakStrongTestObject.m */,
 			);
 			path = WeakStrongObjectDemo;
 			sourceTree = "<group>";
@@ -1010,6 +1015,7 @@
 				776FC1A72011F08200CDF3E6 /* RootTableViewController.m in Sources */,
 				6F404C5A20711DA700FB53F6 /* IsEqualDemoViewController.m in Sources */,
 				6F43F394205EB6E600EA7DCD /* YHClothesProvider.m in Sources */,
+				7728D6FB25C01C7300800730 /* WeakStrongTestObject.m in Sources */,
 				77714A28201B4725004DD6EB /* YHLineChartView.m in Sources */,
 				6F43F37D20581D8600EA7DCD /* CopyStrongDemoViewController.m in Sources */,
 			);

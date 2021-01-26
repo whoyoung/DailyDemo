@@ -7,6 +7,7 @@
 //
 
 #import "WeakStrongObjectDemoViewController.h"
+#import "WeakStrongTestObject.h"
 
 typedef void(^TestBlock)(void);
 
@@ -14,6 +15,8 @@ typedef void(^TestBlock)(void);
 @property (nonatomic, copy) TestBlock block;
 @property (nonatomic, copy) NSString *testStr;
 @property (nonatomic, assign) NSUInteger interval;
+
+@property (nonatomic) WeakStrongTestObject *testView;
 @end
 
 @implementation WeakStrongObjectDemoViewController
@@ -77,13 +80,43 @@ typedef void(^TestBlock)(void);
     });
 }
 
+- (void)test5Block {// 无内存泄露
+    self.testView = [[WeakStrongTestObject alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    [self.view addSubview:self.testView];
+    self.testView.backgroundColor = [UIColor blueColor];
+    self.testView.center = self.view.center;
+    [self.testView changeColor:^(UIColor * _Nonnull color) {
+        self.testView.backgroundColor = color;
+    }];
+}
+
+- (void)test6Block {// 无内存泄露
+    WeakStrongTestObject *testV = [[WeakStrongTestObject alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    testV.backgroundColor = [UIColor blueColor];
+    [self.view addSubview:testV];
+    testV.center = self.view.center;
+    [testV changeColor:^(UIColor * _Nonnull color) {
+        testV.backgroundColor = color;
+    }];
+}
+
+- (void)test7Block {// 有内存泄露
+    self.testView = [[WeakStrongTestObject alloc] init];
+    self.testView.myBlock = ^{
+        NSLog(@"%p",self);
+    };
+}
+
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
 //    [self testBlock];
     
 //    [self test1Block];
     
 //    [self test2Block];
-    [self test4Block];
+//    [self test4Block];
+//    [self test5Block];
+//    [self test6Block];
+    [self test7Block];
     [super touchesBegan:touches withEvent:event];
 }
 
