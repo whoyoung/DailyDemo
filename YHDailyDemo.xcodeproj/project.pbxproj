@@ -88,6 +88,7 @@
 		77E4AC06202862D500568AFA /* NSString+Extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4AC05202862D500568AFA /* NSString+Extra.m */; };
 		77EC96DB22AE605200877B53 /* WeakIVarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC96DA22AE605200877B53 /* WeakIVarViewController.m */; };
 		77EC96DE22AE611000877B53 /* WeakIVarDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC96DD22AE611000877B53 /* WeakIVarDataSource.m */; };
+		77F42790263AA53200E84036 /* AssertDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F4278F263AA53200E84036 /* AssertDemoViewController.m */; };
 		77F8E28B22CCB93C002337A0 /* CustomNotificationCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F8E28A22CCB93C002337A0 /* CustomNotificationCenterViewController.m */; };
 		77F8E28E22CCB975002337A0 /* CustomNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F8E28D22CCB975002337A0 /* CustomNotificationCenter.m */; };
 		77F8E29122CCBC6D002337A0 /* CustomObserverInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 77F8E29022CCBC6D002337A0 /* CustomObserverInfo.m */; };
@@ -262,6 +263,8 @@
 		77EC96DA22AE605200877B53 /* WeakIVarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeakIVarViewController.m; sourceTree = "<group>"; };
 		77EC96DC22AE611000877B53 /* WeakIVarDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeakIVarDataSource.h; sourceTree = "<group>"; };
 		77EC96DD22AE611000877B53 /* WeakIVarDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeakIVarDataSource.m; sourceTree = "<group>"; };
+		77F4278E263AA53200E84036 /* AssertDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AssertDemoViewController.h; sourceTree = "<group>"; };
+		77F4278F263AA53200E84036 /* AssertDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AssertDemoViewController.m; sourceTree = "<group>"; };
 		77F8E28922CCB93C002337A0 /* CustomNotificationCenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomNotificationCenterViewController.h; sourceTree = "<group>"; };
 		77F8E28A22CCB93C002337A0 /* CustomNotificationCenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomNotificationCenterViewController.m; sourceTree = "<group>"; };
 		77F8E28C22CCB975002337A0 /* CustomNotificationCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomNotificationCenter.h; sourceTree = "<group>"; };
@@ -614,6 +617,7 @@
 				77F9C61723A0F8580036F905 /* RootTabBarController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				77F42788263AA17D00E84036 /* AssertDemo */,
 				778A29232452A5970024EDE2 /* TTTAttributedLabelDemo */,
 				6FE949B0236DCEF400EF7EB0 /* CommonCategory */,
 				776B3C39235DE5B100B19EB1 /* CollectionVC */,
@@ -820,6 +824,15 @@
 			path = WeakIVar;
 			sourceTree = "<group>";
 		};
+		77F42788263AA17D00E84036 /* AssertDemo */ = {
+			isa = PBXGroup;
+			children = (
+				77F4278E263AA53200E84036 /* AssertDemoViewController.h */,
+				77F4278F263AA53200E84036 /* AssertDemoViewController.m */,
+			);
+			path = AssertDemo;
+			sourceTree = "<group>";
+		};
 		77F8E28822CCB8B6002337A0 /* CustomNotificationCenter */ = {
 			isa = PBXGroup;
 			children = (
@@ -874,7 +887,7 @@
 				TargetAttributes = {
 					776FC18B2011F04100CDF3E6 = {
 						CreatedOnToolsVersion = 9.2;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1240;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1014,6 +1027,7 @@
 				77082CC520BFD3CA00DCF52E /* CustomTableViewCell.m in Sources */,
 				776FC1A72011F08200CDF3E6 /* RootTableViewController.m in Sources */,
 				6F404C5A20711DA700FB53F6 /* IsEqualDemoViewController.m in Sources */,
+				77F42790263AA53200E84036 /* AssertDemoViewController.m in Sources */,
 				6F43F394205EB6E600EA7DCD /* YHClothesProvider.m in Sources */,
 				7728D6FB25C01C7300800730 /* WeakStrongTestObject.m in Sources */,
 				77714A28201B4725004DD6EB /* YHLineChartView.m in Sources */,
@@ -1161,6 +1175,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yanghu.YHDailyDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "YHDailyDemo/AssertDemo/YHDailyDemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1181,6 +1196,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yanghu.YHDailyDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "YHDailyDemo/AssertDemo/YHDailyDemo-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

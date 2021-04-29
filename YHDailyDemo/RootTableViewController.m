@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationItem setTitle:@"RootViewController"];
-    NSArray *vcs = @[@"TTTAttributedLabelViewController",@"AlgorithmViewController",@"JsonModelViewController",@"BluetoothViewController",@"NSPointerArrayAndNSMutabelSetViewController",@"CustomNotificationCenterViewController",@"EnumerateDemoViewController",@"SynchronizedDemoVC",@"WeakIVarViewController",@"BrainStromingViewController",@"ZeroClockViewController",@"ScrollViewAndLongPressGestureViewController",@"FormulaCalculateViewController",@"ForInDeleteViewController",@"MLeaksFinderDemoViewController",@"WeakStrongObjectDemoViewController",@"TableViewRegisterClassController",@"MultiTableViewController",@"MultiCategoryViewController",@"IsEqualDemoViewController",@"SingleTonViewController",@"FindValueInTwoDimensionalArrayViewController",@"NestedBlockDemoViewController",@"IPConvertNumDemoViewController",@"NSUserDefaultsSaveObjectViewController",@"FindMaxAndMinNumberViewController",@"DrawViewController",@"LineChartViewController",@"HorizontalBarChartViewController",@"VerticalBarChartViewController",@"SemaphoreViewController",@"RespondChainViewController",@"CopyStrongDemoViewController",@"NSProxyDemoViewController",@"NSProxyMultiInheritDemoViewController",@"LockDemoViewController",@"AssignObjectDemoViewController",@"MemoryMapDemoViewController",@"RevertStringDemoViewController",];
+    NSArray *vcs = @[@"AssertDemoViewController",@"TTTAttributedLabelViewController",@"AlgorithmViewController",@"JsonModelViewController",@"BluetoothViewController",@"NSPointerArrayAndNSMutabelSetViewController",@"CustomNotificationCenterViewController",@"EnumerateDemoViewController",@"SynchronizedDemoVC",@"WeakIVarViewController",@"BrainStromingViewController",@"ZeroClockViewController",@"ScrollViewAndLongPressGestureViewController",@"FormulaCalculateViewController",@"ForInDeleteViewController",@"MLeaksFinderDemoViewController",@"WeakStrongObjectDemoViewController",@"TableViewRegisterClassController",@"MultiTableViewController",@"MultiCategoryViewController",@"IsEqualDemoViewController",@"SingleTonViewController",@"FindValueInTwoDimensionalArrayViewController",@"NestedBlockDemoViewController",@"IPConvertNumDemoViewController",@"NSUserDefaultsSaveObjectViewController",@"FindMaxAndMinNumberViewController",@"DrawViewController",@"LineChartViewController",@"HorizontalBarChartViewController",@"VerticalBarChartViewController",@"SemaphoreViewController",@"RespondChainViewController",@"CopyStrongDemoViewController",@"NSProxyDemoViewController",@"NSProxyMultiInheritDemoViewController",@"LockDemoViewController",@"AssignObjectDemoViewController",@"MemoryMapDemoViewController",@"RevertStringDemoViewController",];
     [self.datas addObjectsFromArray:vcs];
 }
 
@@ -35,10 +35,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Class cls = NSClassFromString(self.datas[indexPath.row]);
+    UIViewController *vc = [[cls alloc] init];
     if ([self.datas[indexPath.row] isEqualToString:@"DismissViewController"]) {
-        [self presentViewController:[[cls alloc] init] animated:YES completion:nil];
+        [self presentViewController:vc animated:YES completion:nil];
     } else {
-        [self.navigationController pushViewController:[[cls alloc] init] animated:YES];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
