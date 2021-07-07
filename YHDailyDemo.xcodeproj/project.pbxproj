@@ -84,6 +84,9 @@
 		77D1982923065BD600232165 /* BluetoothViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D1982823065BD600232165 /* BluetoothViewController.m */; };
 		77DE62152248705700BD2DF6 /* BaseWhiteBGColorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DE62142248705700BD2DF6 /* BaseWhiteBGColorViewController.m */; };
 		77DE6218224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DE6217224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.m */; };
+		77DF033C2695B3A4000D9EDE /* NotiBlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DF033B2695B3A4000D9EDE /* NotiBlockViewController.m */; };
+		77DF033F2695B568000D9EDE /* NotiBlockSecondaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DF033E2695B568000D9EDE /* NotiBlockSecondaryViewController.m */; };
+		77DF03412695B893000D9EDE /* NotiBlockSecondarySwiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77DF03402695B893000D9EDE /* NotiBlockSecondarySwiftViewController.swift */; };
 		77E4ABE72022EE5800568AFA /* UIColor+HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */; };
 		77E4AC06202862D500568AFA /* NSString+Extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 77E4AC05202862D500568AFA /* NSString+Extra.m */; };
 		77EC96DB22AE605200877B53 /* WeakIVarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77EC96DA22AE605200877B53 /* WeakIVarViewController.m */; };
@@ -255,6 +258,12 @@
 		77DE62142248705700BD2DF6 /* BaseWhiteBGColorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseWhiteBGColorViewController.m; sourceTree = "<group>"; };
 		77DE6216224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScrollViewAndLongPressGestureViewController.h; sourceTree = "<group>"; };
 		77DE6217224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScrollViewAndLongPressGestureViewController.m; sourceTree = "<group>"; };
+		77DF033A2695B3A4000D9EDE /* NotiBlockViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotiBlockViewController.h; sourceTree = "<group>"; };
+		77DF033B2695B3A4000D9EDE /* NotiBlockViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotiBlockViewController.m; sourceTree = "<group>"; };
+		77DF033D2695B568000D9EDE /* NotiBlockSecondaryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotiBlockSecondaryViewController.h; sourceTree = "<group>"; };
+		77DF033E2695B568000D9EDE /* NotiBlockSecondaryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotiBlockSecondaryViewController.m; sourceTree = "<group>"; };
+		77DF03402695B893000D9EDE /* NotiBlockSecondarySwiftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotiBlockSecondarySwiftViewController.swift; sourceTree = "<group>"; };
+		77DF03422695BB5C000D9EDE /* YHDailyDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YHDailyDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		77E4ABE52022EE5800568AFA /* UIColor+HexColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexColor.h"; sourceTree = "<group>"; };
 		77E4ABE62022EE5800568AFA /* UIColor+HexColor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexColor.m"; sourceTree = "<group>"; };
 		77E4AC04202862D500568AFA /* NSString+Extra.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Extra.h"; sourceTree = "<group>"; };
@@ -603,6 +612,7 @@
 		776FC18E2011F04100CDF3E6 /* YHDailyDemo */ = {
 			isa = PBXGroup;
 			children = (
+				77DF03392695B358000D9EDE /* NotificationCenterBlock */,
 				776FC1A52011F08200CDF3E6 /* RootTableViewController.h */,
 				776FC1A62011F08200CDF3E6 /* RootTableViewController.m */,
 				6FF81EF1232F899900E2F43E /* BaseTableViewController.h */,
@@ -666,6 +676,7 @@
 				776FC19A2011F04100CDF3E6 /* LaunchScreen.storyboard */,
 				776FC19D2011F04100CDF3E6 /* Info.plist */,
 				776FC19E2011F04100CDF3E6 /* main.m */,
+				77DF03422695BB5C000D9EDE /* YHDailyDemo-Bridging-Header.h */,
 			);
 			path = YHDailyDemo;
 			sourceTree = "<group>";
@@ -795,6 +806,18 @@
 				77DE6217224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.m */,
 			);
 			path = ScrollViewAndPanGesture;
+			sourceTree = "<group>";
+		};
+		77DF03392695B358000D9EDE /* NotificationCenterBlock */ = {
+			isa = PBXGroup;
+			children = (
+				77DF033A2695B3A4000D9EDE /* NotiBlockViewController.h */,
+				77DF033B2695B3A4000D9EDE /* NotiBlockViewController.m */,
+				77DF033D2695B568000D9EDE /* NotiBlockSecondaryViewController.h */,
+				77DF033E2695B568000D9EDE /* NotiBlockSecondaryViewController.m */,
+				77DF03402695B893000D9EDE /* NotiBlockSecondarySwiftViewController.swift */,
+			);
+			path = NotificationCenterBlock;
 			sourceTree = "<group>";
 		};
 		77E4ABFB2024789C00568AFA /* YHChartViewCommon */ = {
@@ -962,6 +985,7 @@
 				6F43F3982063F8F900EA7DCD /* LockDemoViewController.m in Sources */,
 				6F404C4C2070E7FC00FB53F6 /* FindValueInTwoDimensionalArrayViewController.m in Sources */,
 				776FC1AA2011F53000CDF3E6 /* DrawViewController.m in Sources */,
+				77DF03412695B893000D9EDE /* NotiBlockSecondarySwiftViewController.swift in Sources */,
 				7731955E22CF068300F87D7D /* NSPointerArrayAndNSMutabelSetViewController.m in Sources */,
 				6F404C47206FB91200FB53F6 /* NestedBlockDemoViewController.m in Sources */,
 				6F43F384205E9E0100EA7DCD /* YHWeakProxy.m in Sources */,
@@ -1017,8 +1041,10 @@
 				6FC0577A231BFAA000C7518C /* JSONValueTransformer+Custom.m in Sources */,
 				6F404C5720711D9000FB53F6 /* IsEqualObject.m in Sources */,
 				77714A3220200B6E004DD6EB /* HorizontalBarChartViewController.m in Sources */,
+				77DF033C2695B3A4000D9EDE /* NotiBlockViewController.m in Sources */,
 				77714A3D20215909004DD6EB /* VerticalBarChartViewController.m in Sources */,
 				6F404C5320710F7200FB53F6 /* SingleTonObject.m in Sources */,
+				77DF033F2695B568000D9EDE /* NotiBlockSecondaryViewController.m in Sources */,
 				77F8E28E22CCB975002337A0 /* CustomNotificationCenter.m in Sources */,
 				77F9C61823A0F8580036F905 /* RootTabBarController.m in Sources */,
 				77D1982923065BD600232165 /* BluetoothViewController.m in Sources */,
@@ -1175,7 +1201,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yanghu.YHDailyDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "YHDailyDemo/AssertDemo/YHDailyDemo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "YHDailyDemo/YHDailyDemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1196,7 +1222,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yanghu.YHDailyDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "YHDailyDemo/AssertDemo/YHDailyDemo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "YHDailyDemo/YHDailyDemo-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
