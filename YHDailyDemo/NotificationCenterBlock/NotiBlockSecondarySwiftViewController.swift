@@ -10,6 +10,8 @@ import UIKit
 
 @objc public class NotiBlockSecondarySwiftViewController: BaseWhiteBGColorViewController {
 
+    
+    
     private var notiObserver: NSObjectProtocol?
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -25,6 +27,10 @@ import UIKit
         notiObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name("SendNotiBlockNotification"), object: nil, queue: .main, using: { [weak self] _ in
             self?.view.backgroundColor = UIColor.red
         })
+    }
+    
+    public override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
     }
     
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

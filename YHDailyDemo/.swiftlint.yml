@@ -1,0 +1,36 @@
+included:
+    - 
+excluded:
+    - Pods
+disabled_rules:
+    - trailing_newline
+    - opening_brace
+    - empty_count
+    - force_cast
+    - type_name
+    - trailing_semicolon
+    - force_try
+    - function_body_length
+    - nesting
+    - identifier_name
+    - operator_whitespace
+    - control_statement
+    - legacy_constant
+    - line_length
+    - return_arrow_whitespace
+    - trailing_whitespace
+    - closing_brace
+    - statement_position
+    - type_body_length
+    - todo
+    - legacy_constructor
+    - missing_docs
+    - file_length
+    - leading_whitespace
+opt_in_rules:
+    - overridden_super_call
+    - vertical_whitespace
+overridden_super_call:
+  excluded:
+    - viewDidAppear(_:)
+reporter: "xcode"
