@@ -14,7 +14,7 @@ DEPENDENCIES:
   - YHNotificationCenter
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - FBRetainCycleDetector
     - JSONModel
     - MLeaksFinder
@@ -30,4 +30,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 651051c2c664aad435e1cd133a739d0985edfac4
 
-COCOAPODS: 1.6.0
+COCOAPODS: 1.9.1

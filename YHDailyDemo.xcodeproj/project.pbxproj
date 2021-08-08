@@ -76,6 +76,7 @@
 		778A29262452A6470024EDE2 /* TTTAttributedLabelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 778A29252452A6470024EDE2 /* TTTAttributedLabelViewController.m */; };
 		77931AC821FF0119009D5F88 /* ForInDeleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77931AC721FF0119009D5F88 /* ForInDeleteViewController.m */; };
 		779A3497221E5F6400BB9915 /* FormulaCalculateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779A3496221E5F6400BB9915 /* FormulaCalculateViewController.m */; };
+		77AD42FA26C03E3100789DF3 /* SwiftlintCustomRuleClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD42F926C03E3100789DF3 /* SwiftlintCustomRuleClass.swift */; };
 		77B6D17921B23DEC008F668D /* DismissViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B6D17821B23DEC008F668D /* DismissViewController.m */; };
 		77BE096C20457B8D009712CC /* BaseChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BE096B20457B8D009712CC /* BaseChartViewController.m */; };
 		77C1F4AC22CC4995000AE7A9 /* EnumerateDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C1F4AB22CC4995000AE7A9 /* EnumerateDemoViewController.m */; };
@@ -242,6 +243,7 @@
 		77931AC721FF0119009D5F88 /* ForInDeleteViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForInDeleteViewController.m; sourceTree = "<group>"; };
 		779A3495221E5F6400BB9915 /* FormulaCalculateViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormulaCalculateViewController.h; sourceTree = "<group>"; };
 		779A3496221E5F6400BB9915 /* FormulaCalculateViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormulaCalculateViewController.m; sourceTree = "<group>"; };
+		77AD42F926C03E3100789DF3 /* SwiftlintCustomRuleClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftlintCustomRuleClass.swift; sourceTree = "<group>"; };
 		77B6D17721B23DEC008F668D /* DismissViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DismissViewController.h; sourceTree = "<group>"; };
 		77B6D17821B23DEC008F668D /* DismissViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DismissViewController.m; sourceTree = "<group>"; };
 		77BE096A20457B8D009712CC /* BaseChartViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseChartViewController.h; sourceTree = "<group>"; };
@@ -816,6 +818,7 @@
 				77DF033D2695B568000D9EDE /* NotiBlockSecondaryViewController.h */,
 				77DF033E2695B568000D9EDE /* NotiBlockSecondaryViewController.m */,
 				77DF03402695B893000D9EDE /* NotiBlockSecondarySwiftViewController.swift */,
+				77AD42F926C03E3100789DF3 /* SwiftlintCustomRuleClass.swift */,
 			);
 			path = NotificationCenterBlock;
 			sourceTree = "<group>";
@@ -1075,6 +1078,7 @@
 				77F42790263AA53200E84036 /* AssertDemoViewController.m in Sources */,
 				6F43F394205EB6E600EA7DCD /* YHClothesProvider.m in Sources */,
 				7728D6FB25C01C7300800730 /* WeakStrongTestObject.m in Sources */,
+				77AD42FA26C03E3100789DF3 /* SwiftlintCustomRuleClass.swift in Sources */,
 				77714A28201B4725004DD6EB /* YHLineChartView.m in Sources */,
 				6F43F37D20581D8600EA7DCD /* CopyStrongDemoViewController.m in Sources */,
 			);
