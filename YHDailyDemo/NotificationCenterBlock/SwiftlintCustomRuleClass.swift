@@ -10,20 +10,25 @@ import UIKit
 
 class SwiftlintCustomRuleClass: NSObject {
     // MARK : message
-    var testVar = false
+    var identifier = false
     
     // ABTestHelper.
     /// d +d ABTestHelper.  dd
-    let hidden = "///ABTestHelper. my ninja can hide in the string"
+    let hidden = "string"
     
     
     // ABTestHelper.
     func funcName(param: String) -> Bool {
-        if param == "dd d ABTestHelper. ddd" {
-            testVar = true
+        if param == "string" {
+            identifier = true
             return true
         }
-        testVar = false
+        identifier = false
         return false
+    }
+    
+    func funcInvoke() {
+        let result = funcName(param: "argument")
+        print("\(result)")
     }
 }

@@ -88,9 +88,18 @@ reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, em
 custom_rules:
   ab_test_recovery:
     name: "AB Test Recovery"
-    regex: '^ *//+[A-Za-z0-9 \S]* ABTestHelper\.*'
+    regex: '^ *//+[ \S]* ABTestHelper\.*'
     match_kinds:
       - comment
       - doccomment
     message: "AB Test Recovery. 调试期间注释掉的 ab test,上线前记得恢复"
     severity: warning
+  no_hiding_in_identifier:
+    regex: "(identifier)"
+    match_kinds: identifier
+  no_hiding_in_typeidentifier:
+    regex: "(String)"
+    match_kinds: typeidentifier
+  no_hiding_in_string:
+    regex: "(string)"
+    match_kinds: string
