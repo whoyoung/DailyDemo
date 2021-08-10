@@ -88,7 +88,7 @@ reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, em
 custom_rules:
   ab_test_recovery:
     name: "AB Test Recovery"
-    regex: '^ *//+[ \S]* ABTestHelper\.*'
+    regex: '^ *//+[ \S]* ABTestHelper\.+'
     match_kinds:
       - comment
       - doccomment
