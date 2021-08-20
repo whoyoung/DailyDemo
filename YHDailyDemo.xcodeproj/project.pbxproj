@@ -75,6 +75,8 @@
 		77714A3D20215909004DD6EB /* VerticalBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77714A3C20215909004DD6EB /* VerticalBarChartViewController.m */; };
 		778A29262452A6470024EDE2 /* TTTAttributedLabelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 778A29252452A6470024EDE2 /* TTTAttributedLabelViewController.m */; };
 		77931AC821FF0119009D5F88 /* ForInDeleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77931AC721FF0119009D5F88 /* ForInDeleteViewController.m */; };
+		7798CD0A26CFE43700A0C869 /* FlowLayoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7798CD0826CFE43700A0C869 /* FlowLayoutViewController.swift */; };
+		7798CD0B26CFE43700A0C869 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7798CD0926CFE43700A0C869 /* FlowLayout.swift */; };
 		779A3497221E5F6400BB9915 /* FormulaCalculateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779A3496221E5F6400BB9915 /* FormulaCalculateViewController.m */; };
 		77AD42FA26C03E3100789DF3 /* SwiftlintCustomRuleClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AD42F926C03E3100789DF3 /* SwiftlintCustomRuleClass.swift */; };
 		77B6D17921B23DEC008F668D /* DismissViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B6D17821B23DEC008F668D /* DismissViewController.m */; };
@@ -241,6 +243,8 @@
 		778A29252452A6470024EDE2 /* TTTAttributedLabelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabelViewController.m; sourceTree = "<group>"; };
 		77931AC621FF0119009D5F88 /* ForInDeleteViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ForInDeleteViewController.h; sourceTree = "<group>"; };
 		77931AC721FF0119009D5F88 /* ForInDeleteViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForInDeleteViewController.m; sourceTree = "<group>"; };
+		7798CD0826CFE43700A0C869 /* FlowLayoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowLayoutViewController.swift; sourceTree = "<group>"; };
+		7798CD0926CFE43700A0C869 /* FlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 		779A3495221E5F6400BB9915 /* FormulaCalculateViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormulaCalculateViewController.h; sourceTree = "<group>"; };
 		779A3496221E5F6400BB9915 /* FormulaCalculateViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormulaCalculateViewController.m; sourceTree = "<group>"; };
 		77AD42F926C03E3100789DF3 /* SwiftlintCustomRuleClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftlintCustomRuleClass.swift; sourceTree = "<group>"; };
@@ -614,6 +618,7 @@
 		776FC18E2011F04100CDF3E6 /* YHDailyDemo */ = {
 			isa = PBXGroup;
 			children = (
+				7798CD0726CFE3FC00A0C869 /* FlowLayoutCollectionView */,
 				77DF03392695B358000D9EDE /* NotificationCenterBlock */,
 				776FC1A52011F08200CDF3E6 /* RootTableViewController.h */,
 				776FC1A62011F08200CDF3E6 /* RootTableViewController.m */,
@@ -754,6 +759,15 @@
 				77931AC721FF0119009D5F88 /* ForInDeleteViewController.m */,
 			);
 			path = ForInDelete;
+			sourceTree = "<group>";
+		};
+		7798CD0726CFE3FC00A0C869 /* FlowLayoutCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				7798CD0826CFE43700A0C869 /* FlowLayoutViewController.swift */,
+				7798CD0926CFE43700A0C869 /* FlowLayout.swift */,
+			);
+			path = FlowLayoutCollectionView;
 			sourceTree = "<group>";
 		};
 		779A3494221E5EEB00BB9915 /* formulaCalculate */ = {
@@ -1040,6 +1054,7 @@
 				6F43F3732056C3BC00EA7DCD /* RespondChainViewController.m in Sources */,
 				77DE6218224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.m in Sources */,
 				6F3FCE8123158CA800F0E950 /* YHTempViewController.m in Sources */,
+				7798CD0A26CFE43700A0C869 /* FlowLayoutViewController.swift in Sources */,
 				77DE62152248705700BD2DF6 /* BaseWhiteBGColorViewController.m in Sources */,
 				6FE949B6236DE29F00EF7EB0 /* BaseNavigationController.m in Sources */,
 				77714A3520200B94004DD6EB /* YHHorizontalBarChartView.m in Sources */,
@@ -1068,6 +1083,7 @@
 				6F404C5320710F7200FB53F6 /* SingleTonObject.m in Sources */,
 				77DF033F2695B568000D9EDE /* NotiBlockSecondaryViewController.m in Sources */,
 				77F8E28E22CCB975002337A0 /* CustomNotificationCenter.m in Sources */,
+				7798CD0B26CFE43700A0C869 /* FlowLayout.swift in Sources */,
 				77F9C61823A0F8580036F905 /* RootTabBarController.m in Sources */,
 				77D1982923065BD600232165 /* BluetoothViewController.m in Sources */,
 				77714A3A202158FB004DD6EB /* YHVerticalBarChartView.m in Sources */,

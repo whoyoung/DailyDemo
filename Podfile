@@ -6,8 +6,8 @@ target 'YHDailyDemo' do
   # use_frameworks!
 
   # Pods for YHDailyDemo
-	pod 'MLeaksFinder'
-	pod 'FBRetainCycleDetector'
+	#pod 'MLeaksFinder'
+	#pod 'FBRetainCycleDetector'
 	pod 'JSONModel'
 	pod 'YHNotificationCenter'
 	pod 'TTTAttributedLabel'
