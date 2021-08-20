@@ -38,6 +38,9 @@ class FlowLayout: UICollectionViewFlowLayout {
     
     /// 索引
     private var startIndex = 0
+    
+    /// 智能排序: item 拼接在高度最小的列。默认为 false。
+    public var smartSort = false
 }
 
 extension FlowLayout {
@@ -54,10 +57,7 @@ extension FlowLayout {
         
         // 计算所有的item的属性
         for i in startIndex..<itemCount {
-            // 设置每一个Item位置相关的属性
             let indexPath = IndexPath(item: i, section: 0)
-            
-            // 根据位置创建Attributes属性
             let attrs = UICollectionViewLayoutAttributes(forCellWith: indexPath)
             
             // 获取CELL的高度
@@ -65,28 +65,30 @@ extension FlowLayout {
                 fatalError("请设置数据源,并且实现对应的数据源方法")
             }
             
-            // 取出当前列所属的列索引
-            let index = i % cols
+            var destColumn = i % cols
+            var minHeight = columnHeights[destColumn]
+            if smartSort {
+                for idx in 0..<columnHeights.count {
+                    if minHeight > columnHeights[idx] {
+                        minHeight = columnHeights[idx]
+                        destColumn = idx
+                    }
+                }
+            }
             
-            // 获取当前列的总高度
-            var colH = columnHeights[index]
-            
+            let x = self.sectionInset.left + (self.minimumInteritemSpacing + itemW) * CGFloat(destColumn)
+ 
+            // 设置item的属性
+            attrs.frame = CGRect(x: x, y: minHeight, width: itemW, height: height)
             // 将当前列的高度在加载当前ITEM的高度
-            colH += height + minimumLineSpacing
-            
+            minHeight += height + minimumLineSpacing
             // 重新设置当前列的高度
-            columnHeights[index] = colH
-            
-            // 5.设置item的属性
-            attrs.frame = CGRect(x: self.sectionInset.left + (self.minimumInteritemSpacing + itemW) * CGFloat(index), y: colH - height - self.minimumLineSpacing, width: itemW, height: height)
+            columnHeights[destColumn] = minHeight
             
             attrsArray.append(attrs)
         }
         
-        // 4.记录最大值
         maxH = columnHeights.max() ?? 0
-        
-        // 5.给startIndex重新复制
         startIndex = itemCount
     }
 }
