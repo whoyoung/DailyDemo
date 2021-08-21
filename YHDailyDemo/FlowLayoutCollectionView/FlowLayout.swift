@@ -36,9 +36,6 @@ class FlowLayout: UICollectionViewFlowLayout {
     /// 最高的高度
     private var maxH: CGFloat = 0
     
-    /// 索引
-    private var startIndex = 0
-    
     /// 智能排序: item 拼接在高度最小的列。默认为 false。
     public var smartSort = false
 }
@@ -56,7 +53,7 @@ extension FlowLayout {
         let itemW = (collectionView.bounds.width - self.sectionInset.left - self.sectionInset.right - self.minimumInteritemSpacing * CGFloat(cols - 1)) / CGFloat(cols)
         
         // 计算所有的item的属性
-        for i in startIndex..<itemCount {
+        for i in 0..<itemCount {
             let indexPath = IndexPath(item: i, section: 0)
             let attrs = UICollectionViewLayoutAttributes(forCellWith: indexPath)
             
@@ -89,7 +86,6 @@ extension FlowLayout {
         }
         
         maxH = columnHeights.max() ?? 0
-        startIndex = itemCount
     }
 }
 

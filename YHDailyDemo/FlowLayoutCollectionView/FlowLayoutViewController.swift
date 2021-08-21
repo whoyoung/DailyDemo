@@ -21,8 +21,11 @@ public class FlowLayoutViewController: UIViewController {
     }()
     
     private lazy var datas: [String] = {
-        return ["0","1","2","3","4","5","6","7","8","9",
-                "10","11","12","13","14","15","16","17","18","19"]
+        var ds: [String] = []
+        for i in 0..<200 {
+            ds.append("\(i)")
+        }
+        return ds
     }()
     
     public override func viewDidLoad() {
