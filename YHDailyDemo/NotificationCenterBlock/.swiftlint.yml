@@ -94,12 +94,9 @@ custom_rules:
       - doccomment
     message: "AB Test Recovery. 调试期间注释掉的 ab test,上线前记得恢复"
     severity: warning
-  no_hiding_in_identifier:
-    regex: "(identifier)"
-    match_kinds: identifier
-  no_hiding_in_typeidentifier:
-    regex: "(String)"
-    match_kinds: typeidentifier
-  no_hiding_in_string:
-    regex: "(string)"
+  url_Check:
+    name: "URL Check"
+    regex: '(https?|ftp|file)://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]+[()（）]'
     match_kinds: string
+    message: "URL 中发现有 '(' 或 ')' 或 '（' 或 '）' ，请注意确认正确性"
+    severity: warning
