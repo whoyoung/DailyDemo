@@ -10,5 +10,6 @@
 #define YHDailyDemo_Bridging_Header_h
 
 #import "BaseWhiteBGColorViewController.h"
+#import <IGListKit/IGListKit.h>
 
 #endif /* YHDailyDemo_Bridging_Header_h */
