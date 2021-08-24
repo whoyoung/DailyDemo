@@ -12,6 +12,8 @@ class IGListModel: NSObject, ListDiffable {
     
     public var title = ""
     
+    public var size = CGSize.zero
+    
     func diffIdentifier() -> NSObjectProtocol {
         return self
     }
@@ -19,6 +21,22 @@ class IGListModel: NSObject, ListDiffable {
     func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
         if let object = object as? IGListModel {
             return self == object
+        }
+        return false
+    }
+}
+
+
+class IGListModels: NSObject, ListDiffable {
+    public var models: [IGListModel] = []
+    
+    func diffIdentifier() -> NSObjectProtocol {
+        return self
+    }
+    
+    func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
+        if let object = object as? IGListModels {
+            return self.models == object.models
         }
         return false
     }

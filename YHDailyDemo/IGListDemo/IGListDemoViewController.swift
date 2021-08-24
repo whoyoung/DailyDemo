@@ -12,24 +12,27 @@ import UIKit
 public class IGListDemoViewController: BaseWhiteBGColorViewController {
 
     private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
+        let layout = FlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.minimumInteritemSpacing = 10
         layout.minimumLineSpacing = 10
+        layout.dataSource = self
         
         let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor.white
         return collectionView
     }()
     
-    private lazy var datas: [IGListModel] = {
+    private lazy var datas: IGListModels = {
         var ds: [IGListModel] = []
         for i in 0..<200 {
             let m = IGListModel()
             m.title = "\(i)"
             ds.append(m)
         }
-        return ds
+        let ms = IGListModels()
+        ms.models = ds
+        return ms
     }()
     
     private lazy var adapter = ListAdapter(updater: ListAdapterUpdater(), viewController: self, workingRangeSize: 2)
@@ -53,7 +56,7 @@ public class IGListDemoViewController: BaseWhiteBGColorViewController {
 
 extension IGListDemoViewController: ListAdapterDataSource {
     public func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
-        return datas
+        return [datas]
     }
     
     public func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
@@ -79,4 +82,25 @@ extension IGListDemoViewController: ListAdapterDelegate {
 
 extension IGListDemoViewController: UIScrollViewDelegate {
     
+}
+
+extension IGListDemoViewController: FlowLayoutDataSource {
+    func flowLayoutHeight(_ layout: FlowLayout, indexPath: IndexPath) -> CGFloat {
+        let model = datas.models[indexPath.item]
+        if model.size != CGSize.zero {
+            return model.size.height
+        }
+        let w = (view.bounds.width - 10) / 2.0
+        let s = CGSize(width: w, height: CGFloat(arc4random_uniform(100)) + 100)
+        model.size = s
+        return s.height 
+    }
+    
+    func numberOfColumnsInFlowLayout(_ layout: FlowLayout) -> Int {
+        return 2
+    }
+    
+    func numberOfItemsInFlowLayout(_ layout: FlowLayout) -> Int {
+        return adapter.collectionView?.numberOfSections ?? 0
+    }
 }
