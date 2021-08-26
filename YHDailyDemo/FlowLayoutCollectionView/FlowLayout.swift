@@ -16,6 +16,11 @@ import UIKit
     /// - Parameter layout: 布局
     /// - Returns: 列数
     @objc optional func numberOfColumnsInFlowLayout(_ layout: FlowLayout) -> Int
+    
+    /// item 的总数，默认为 collectionView.numberOfSections
+    /// 自定义实现获取 item 总数的方法。
+    @objc optional func numberOfItemsInFlowLayout(_ layout: FlowLayout) -> Int
+
 }
 
 class FlowLayout: UICollectionViewFlowLayout {
@@ -36,8 +41,8 @@ class FlowLayout: UICollectionViewFlowLayout {
     /// 最高的高度
     private var maxH: CGFloat = 0
     
-    /// 智能排序: item 拼接在高度最小的列。默认为 false。
-    public var smartSort = false
+    /// 智能排序: item 拼接在高度最小的列。默认为 true。 false: 按顺序左右逐个排列
+    public var smartSort = true
 }
 
 extension FlowLayout {
@@ -46,7 +51,10 @@ extension FlowLayout {
         super.prepare()
         guard let collectionView = collectionView else { return }
         
-        let itemCount = collectionView.numberOfItems(inSection: 0)
+        var itemCount = collectionView.numberOfItems(inSection: 0)
+        if let number = dataSource?.numberOfItemsInFlowLayout?(self) {
+            itemCount = number
+        }
         let cols = dataSource?.numberOfColumnsInFlowLayout?(self) ?? 2
         
         // Item宽度

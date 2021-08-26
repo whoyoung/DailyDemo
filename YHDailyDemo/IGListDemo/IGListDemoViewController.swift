@@ -99,8 +99,5 @@ extension IGListDemoViewController: FlowLayoutDataSource {
     func numberOfColumnsInFlowLayout(_ layout: FlowLayout) -> Int {
         return 2
     }
-    
-    func numberOfItemsInFlowLayout(_ layout: FlowLayout) -> Int {
-        return adapter.collectionView?.numberOfSections ?? 0
-    }
+
 }
