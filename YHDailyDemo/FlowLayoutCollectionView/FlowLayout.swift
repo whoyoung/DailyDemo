@@ -32,11 +32,7 @@ class FlowLayout: UICollectionViewFlowLayout {
     private lazy var attrsArray: [UICollectionViewLayoutAttributes] = []
     
     /// 每一列的高度累计
-    private lazy var columnHeights: [CGFloat] = {
-        let cols = self.dataSource?.numberOfColumnsInFlowLayout?(self) ?? 2
-        var columnHeights = Array(repeating: self.sectionInset.top, count: cols)
-        return columnHeights
-    }()
+    private lazy var columnHeights: [CGFloat] = []
     
     /// 最高的高度
     private var maxH: CGFloat = 0
@@ -50,7 +46,10 @@ extension FlowLayout {
     override func prepare() {
         super.prepare()
         guard let collectionView = collectionView else { return }
-        
+        columnHeights.removeAll()
+        let columns = self.dataSource?.numberOfColumnsInFlowLayout?(self) ?? 2
+        columnHeights = Array(repeating: self.sectionInset.top, count: columns)
+
         var itemCount = collectionView.numberOfItems(inSection: 0)
         if let number = dataSource?.numberOfItemsInFlowLayout?(self) {
             itemCount = number
