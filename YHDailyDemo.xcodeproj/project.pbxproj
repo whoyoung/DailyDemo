@@ -55,6 +55,7 @@
 		773BB84122A619A500B5259C /* ZeroClockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 773BB84022A619A500B5259C /* ZeroClockViewController.m */; };
 		773BB84722A64ACB00B5259C /* BrainStromingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 773BB84622A64ACA00B5259C /* BrainStromingViewController.m */; };
 		773BB84922A64D1100B5259C /* dataString in Resources */ = {isa = PBXBuildFile; fileRef = 773BB84822A64D1000B5259C /* dataString */; };
+		7747C88F26E9E016008CC914 /* PushSelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7747C88E26E9E016008CC914 /* PushSelfViewController.swift */; };
 		776B3C3C235DE5B100B19EB1 /* MyCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776B3C3B235DE5B100B19EB1 /* MyCollectionViewController.m */; };
 		776B4E0A206CE2EA00443D92 /* MemoryMapDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 776B4E09206CE2EA00443D92 /* MemoryMapDemoViewController.m */; };
 		776B4E0D206CE37800443D92 /* SourceTree_2.0.5.5.dmg in Resources */ = {isa = PBXBuildFile; fileRef = 776B4E0C206CE37800443D92 /* SourceTree_2.0.5.5.dmg */; };
@@ -253,6 +254,7 @@
 		773BB84522A64ACA00B5259C /* BrainStromingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BrainStromingViewController.h; sourceTree = "<group>"; };
 		773BB84622A64ACA00B5259C /* BrainStromingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BrainStromingViewController.m; sourceTree = "<group>"; };
 		773BB84822A64D1000B5259C /* dataString */ = {isa = PBXFileReference; lastKnownFileType = text; path = dataString; sourceTree = "<group>"; };
+		7747C88E26E9E016008CC914 /* PushSelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushSelfViewController.swift; sourceTree = "<group>"; };
 		7760B86323C859AB005E0B4C /* TestDemoProtoc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestDemoProtoc.h; sourceTree = "<group>"; };
 		776B3C3A235DE5B100B19EB1 /* MyCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionViewController.h; sourceTree = "<group>"; };
 		776B3C3B235DE5B100B19EB1 /* MyCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionViewController.m; sourceTree = "<group>"; };
@@ -959,6 +961,14 @@
 			path = BrainStroming;
 			sourceTree = "<group>";
 		};
+		7747C88726E9DFDE008CC914 /* PushSelfDemo */ = {
+			isa = PBXGroup;
+			children = (
+				7747C88E26E9E016008CC914 /* PushSelfViewController.swift */,
+			);
+			path = PushSelfDemo;
+			sourceTree = "<group>";
+		};
 		776B3C39235DE5B100B19EB1 /* CollectionVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -999,6 +1009,7 @@
 		776FC18E2011F04100CDF3E6 /* YHDailyDemo */ = {
 			isa = PBXGroup;
 			children = (
+				7747C88726E9DFDE008CC914 /* PushSelfDemo */,
 				7798CD0726CFE3FC00A0C869 /* FlowLayoutCollectionView */,
 				77DF03392695B358000D9EDE /* NotificationCenterBlock */,
 				777F974426D4C7CC005779FC /* IGListDemo */,
@@ -2135,6 +2146,7 @@
 				6F404C4C2070E7FC00FB53F6 /* FindValueInTwoDimensionalArrayViewController.m in Sources */,
 				776FC1AA2011F53000CDF3E6 /* DrawViewController.m in Sources */,
 				77DF03412695B893000D9EDE /* NotiBlockSecondarySwiftViewController.swift in Sources */,
+				7747C88F26E9E016008CC914 /* PushSelfViewController.swift in Sources */,
 				7731955E22CF068300F87D7D /* NSPointerArrayAndNSMutabelSetViewController.m in Sources */,
 				6F404C47206FB91200FB53F6 /* NestedBlockDemoViewController.m in Sources */,
 				6F43F384205E9E0100EA7DCD /* YHWeakProxy.m in Sources */,
