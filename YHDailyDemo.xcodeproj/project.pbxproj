@@ -90,6 +90,7 @@
 		77C50D84239F42DF00060AC9 /* CommonMoreImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C50D83239F42DF00060AC9 /* CommonMoreImage.m */; };
 		77D1623E22C1C4C900D29FA3 /* SynchronizedDemoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D1623D22C1C4C900D29FA3 /* SynchronizedDemoVC.m */; };
 		77D1982923065BD600232165 /* BluetoothViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D1982823065BD600232165 /* BluetoothViewController.m */; };
+		77D456B527157F91009066AE /* CornerAndShadowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77D456B427157F91009066AE /* CornerAndShadowViewController.swift */; };
 		77DE62152248705700BD2DF6 /* BaseWhiteBGColorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DE62142248705700BD2DF6 /* BaseWhiteBGColorViewController.m */; };
 		77DE6218224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DE6217224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.m */; };
 		77DF033C2695B3A4000D9EDE /* NotiBlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DF033B2695B3A4000D9EDE /* NotiBlockViewController.m */; };
@@ -635,6 +636,7 @@
 		77D1623D22C1C4C900D29FA3 /* SynchronizedDemoVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SynchronizedDemoVC.m; sourceTree = "<group>"; };
 		77D1982723065BD600232165 /* BluetoothViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BluetoothViewController.h; sourceTree = "<group>"; };
 		77D1982823065BD600232165 /* BluetoothViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BluetoothViewController.m; sourceTree = "<group>"; };
+		77D456B427157F91009066AE /* CornerAndShadowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerAndShadowViewController.swift; sourceTree = "<group>"; };
 		77DE62132248705600BD2DF6 /* BaseWhiteBGColorViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseWhiteBGColorViewController.h; sourceTree = "<group>"; };
 		77DE62142248705700BD2DF6 /* BaseWhiteBGColorViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseWhiteBGColorViewController.m; sourceTree = "<group>"; };
 		77DE6216224875E600BD2DF6 /* ScrollViewAndLongPressGestureViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScrollViewAndLongPressGestureViewController.h; sourceTree = "<group>"; };
@@ -1028,6 +1030,7 @@
 				77F9C61723A0F8580036F905 /* RootTabBarController.m */,
 				776FC18F2011F04100CDF3E6 /* AppDelegate.h */,
 				776FC1902011F04100CDF3E6 /* AppDelegate.m */,
+				77D456AD27157F17009066AE /* CornerAndShadowView */,
 				77F42788263AA17D00E84036 /* AssertDemo */,
 				778A29232452A5970024EDE2 /* TTTAttributedLabelDemo */,
 				6FE949B0236DCEF400EF7EB0 /* CommonCategory */,
@@ -1887,6 +1890,14 @@
 			path = Bluetooth;
 			sourceTree = "<group>";
 		};
+		77D456AD27157F17009066AE /* CornerAndShadowView */ = {
+			isa = PBXGroup;
+			children = (
+				77D456B427157F91009066AE /* CornerAndShadowViewController.swift */,
+			);
+			path = CornerAndShadowView;
+			sourceTree = "<group>";
+		};
 		77DE621022486FB400BD2DF6 /* ScrollViewAndPanGesture */ = {
 			isa = PBXGroup;
 			children = (
@@ -2167,6 +2178,7 @@
 				6FC0577D23238A1F00C7518C /* YHTempModel.m in Sources */,
 				77BE096C20457B8D009712CC /* BaseChartViewController.m in Sources */,
 				6F43F381205E9D3500EA7DCD /* NSProxyDemoViewController.m in Sources */,
+				77D456B527157F91009066AE /* CornerAndShadowViewController.swift in Sources */,
 				6FF81EF7232F8B8800E2F43E /* AlgorithmViewController.m in Sources */,
 				77C1F4AC22CC4995000AE7A9 /* EnumerateDemoViewController.m in Sources */,
 				779A3497221E5F6400BB9915 /* FormulaCalculateViewController.m in Sources */,
