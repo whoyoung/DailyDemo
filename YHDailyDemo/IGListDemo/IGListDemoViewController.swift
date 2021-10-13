@@ -85,7 +85,7 @@ extension IGListDemoViewController: UIScrollViewDelegate {
 }
 
 extension IGListDemoViewController: FlowLayoutDataSource {
-    func flowLayoutHeight(_ layout: FlowLayout, indexPath: IndexPath) -> CGFloat {
+    public func flowLayoutHeight(_ layout: FlowLayout, indexPath: IndexPath) -> CGFloat {
         let model = datas.models[indexPath.item]
         if model.size != CGSize.zero {
             return model.size.height
@@ -96,7 +96,7 @@ extension IGListDemoViewController: FlowLayoutDataSource {
         return s.height 
     }
     
-    func numberOfColumnsInFlowLayout(_ layout: FlowLayout) -> Int {
+    private func numberOfColumnsInFlowLayout(_ layout: FlowLayout) -> Int {
         return 2
     }
 

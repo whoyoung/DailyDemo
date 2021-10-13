@@ -7,8 +7,10 @@ import UIKit
 public class FlowLayoutViewController: UIViewController {
     private let kContentCellID = "kContentCellID"
 
+    private let layout = FlowLayout()
+    
     private lazy var collectionView: UICollectionView = {
-        let layout = FlowLayout()
+        
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.minimumInteritemSpacing = 10
         layout.minimumLineSpacing = 10
@@ -16,13 +18,14 @@ public class FlowLayoutViewController: UIViewController {
         
         let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.backgroundColor = UIColor.white
         return collectionView
     }()
     
     private lazy var datas: [String] = {
         var ds: [String] = []
-        for i in 0..<200 {
+        for i in 0..<20 {
             ds.append("\(i)")
         }
         return ds
@@ -33,6 +36,12 @@ public class FlowLayoutViewController: UIViewController {
         
         view.addSubview(collectionView)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: kContentCellID)
+        collectionView.mj_header = MJRefreshHeader(refreshingBlock: { [weak self] in
+            self?.layout.invalidateLayout()
+            self?.collectionView.mj_header?.endRefreshing()
+            self?.collectionView.reloadData()
+        })
+
     }
 
 }
@@ -62,12 +71,27 @@ extension FlowLayoutViewController: UICollectionViewDataSource {
 }
 
 extension FlowLayoutViewController: FlowLayoutDataSource {
-    func flowLayoutHeight(_ layout: FlowLayout, indexPath: IndexPath) -> CGFloat {
+    public func flowLayoutHeight(_ layout: FlowLayout, indexPath: IndexPath) -> CGFloat {
         return CGFloat(arc4random_uniform(150) + 100)
     }
     
-    func numberOfColumnsInFlowLayout(_ layout: FlowLayout) -> Int{
+    private func numberOfColumnsInFlowLayout(_ layout: FlowLayout) -> Int{
         return 2
+    }
+}
+
+extension FlowLayoutViewController: UICollectionViewDelegate {
+    public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == datas.count - 1 {
+            DispatchQueue.main.async {
+                let count = self.datas.count
+                for i in 0..<20 {
+                    self.datas.append("\(count+i)")
+                }
+                self.collectionView.reloadData()
+            }
+            
+        }
     }
 }
 

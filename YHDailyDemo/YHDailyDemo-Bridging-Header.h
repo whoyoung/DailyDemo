@@ -11,5 +11,6 @@
 
 #import "BaseWhiteBGColorViewController.h"
 #import <IGListKit/IGListKit.h>
+#import <MJRefresh/MJRefresh.h>
 
 #endif /* YHDailyDemo_Bridging_Header_h */

@@ -1,7 +1,7 @@
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/IGListDiffKit" "${PODS_ROOT}/Headers/Public/IGListKit" "${PODS_ROOT}/Headers/Public/JSONModel" "${PODS_ROOT}/Headers/Public/TTTAttributedLabel" "${PODS_ROOT}/Headers/Public/YHNotificationCenter"
-LIBRARY_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/IGListDiffKit" "${PODS_CONFIGURATION_BUILD_DIR}/IGListKit" "${PODS_CONFIGURATION_BUILD_DIR}/JSONModel" "${PODS_CONFIGURATION_BUILD_DIR}/TTTAttributedLabel" "${PODS_CONFIGURATION_BUILD_DIR}/YHNotificationCenter"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"IGListDiffKit" -l"IGListKit" -l"JSONModel" -l"TTTAttributedLabel" -l"YHNotificationCenter" -l"c++" -framework "CoreGraphics" -framework "CoreText" -framework "QuartzCore" -framework "UIKit"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/IGListDiffKit" "${PODS_ROOT}/Headers/Public/IGListKit" "${PODS_ROOT}/Headers/Public/JSONModel" "${PODS_ROOT}/Headers/Public/MJRefresh" "${PODS_ROOT}/Headers/Public/TTTAttributedLabel" "${PODS_ROOT}/Headers/Public/YHNotificationCenter"
+LIBRARY_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/IGListDiffKit" "${PODS_CONFIGURATION_BUILD_DIR}/IGListKit" "${PODS_CONFIGURATION_BUILD_DIR}/JSONModel" "${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh" "${PODS_CONFIGURATION_BUILD_DIR}/TTTAttributedLabel" "${PODS_CONFIGURATION_BUILD_DIR}/YHNotificationCenter"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"IGListDiffKit" -l"IGListKit" -l"JSONModel" -l"MJRefresh" -l"TTTAttributedLabel" -l"YHNotificationCenter" -l"c++" -framework "CoreGraphics" -framework "CoreText" -framework "QuartzCore" -framework "UIKit"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_PODFILE_DIR_PATH = ${SRCROOT}/.

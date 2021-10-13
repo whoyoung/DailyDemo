@@ -12,6 +12,7 @@ target 'YHDailyDemo' do
 	pod 'YHNotificationCenter'
 	pod 'TTTAttributedLabel'
 	pod 'IGListKit', '~> 4.0.0'
+         pod 'MJRefresh'
 
 post_install do |installer|
         installer.pods_project.targets.each do |target|

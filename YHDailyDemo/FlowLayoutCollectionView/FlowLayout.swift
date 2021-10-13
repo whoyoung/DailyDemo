@@ -7,8 +7,7 @@
 import UIKit
 
 /// 瀑布流代理
-@objc protocol FlowLayoutDataSource: class {
-    
+@objc public protocol FlowLayoutDataSource: AnyObject {
     /// ITEM 高度
     func flowLayoutHeight(_ layout: FlowLayout, indexPath: IndexPath) -> CGFloat
     
@@ -17,50 +16,53 @@ import UIKit
     /// - Returns: 列数
     @objc optional func numberOfColumnsInFlowLayout(_ layout: FlowLayout) -> Int
     
-    /// item 的总数，默认为 collectionView.numberOfSections
+    /// item 的总数，默认为 collectionView.numberOfItems(inSection: 0)
     /// 自定义实现获取 item 总数的方法。
     @objc optional func numberOfItemsInFlowLayout(_ layout: FlowLayout) -> Int
-
 }
 
-class FlowLayout: UICollectionViewFlowLayout {
+public class FlowLayout: UICollectionViewFlowLayout {
     
     /// 瀑布流数据源代理
-    weak var dataSource: FlowLayoutDataSource?
+    public weak var dataSource: FlowLayoutDataSource?
     
     /// 布局属性数组
     private lazy var attrsArray: [UICollectionViewLayoutAttributes] = []
     
     /// 每一列的高度累计
-    private lazy var columnHeights: [CGFloat] = []
+    private var columnHeights: [CGFloat] = []
     
     /// 最高的高度
     private var maxH: CGFloat = 0
     
     /// 智能排序: item 拼接在高度最小的列。默认为 true。 false: 按顺序左右逐个排列
     public var smartSort = true
+    
+    private var existedNum = 0
 }
 
 extension FlowLayout {
     
-    override func prepare() {
+    public override func prepare() {
         super.prepare()
         guard let collectionView = collectionView else { return }
-        columnHeights.removeAll()
-        let columns = self.dataSource?.numberOfColumnsInFlowLayout?(self) ?? 2
-        columnHeights = Array(repeating: self.sectionInset.top, count: columns)
-
+        if columnHeights.isEmpty {
+            let columns = self.dataSource?.numberOfColumnsInFlowLayout?(self) ?? 2
+            columnHeights = Array(repeating: self.sectionInset.top, count: columns)
+        }
+        
         var itemCount = collectionView.numberOfItems(inSection: 0)
         if let number = dataSource?.numberOfItemsInFlowLayout?(self) {
             itemCount = number
         }
         let cols = dataSource?.numberOfColumnsInFlowLayout?(self) ?? 2
         
+        let drawW = collectionView.bounds.width - self.sectionInset.left - self.sectionInset.right
         // Item宽度
-        let itemW = (collectionView.bounds.width - self.sectionInset.left - self.sectionInset.right - self.minimumInteritemSpacing * CGFloat(cols - 1)) / CGFloat(cols)
+        let itemW = (drawW - self.minimumInteritemSpacing * CGFloat(cols - 1)) / CGFloat(cols)
         
         // 计算所有的item的属性
-        for i in 0..<itemCount {
+        for i in existedNum..<itemCount {
             let indexPath = IndexPath(item: i, section: 0)
             let attrs = UICollectionViewLayoutAttributes(forCellWith: indexPath)
             
@@ -72,12 +74,14 @@ extension FlowLayout {
             var destColumn = i % cols
             var minHeight = columnHeights[destColumn]
             if smartSort {
+                // swiftlint:disable for_where
                 for idx in 0..<columnHeights.count {
                     if minHeight > columnHeights[idx] {
                         minHeight = columnHeights[idx]
                         destColumn = idx
                     }
                 }
+                // swiftlint:enable for_where
             }
             
             let x = self.sectionInset.left + (self.minimumInteritemSpacing + itemW) * CGFloat(destColumn)
@@ -91,17 +95,24 @@ extension FlowLayout {
             
             attrsArray.append(attrs)
         }
-        
+        existedNum = itemCount
         maxH = columnHeights.max() ?? 0
+    }
+    
+    public override func invalidateLayout() {
+        super.invalidateLayout()
+        columnHeights.removeAll()
+        existedNum = 0
+        attrsArray.removeAll()
     }
 }
 
 extension FlowLayout {
-    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+    public override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         return attrsArray
     }
     
-    override var collectionViewContentSize: CGSize {
+    public override var collectionViewContentSize: CGSize {
         return CGSize(width: 0, height: maxH + sectionInset.bottom - minimumLineSpacing)
     }
 }
