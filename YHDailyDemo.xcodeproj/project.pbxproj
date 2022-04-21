@@ -38,6 +38,7 @@
 		6FC0577A231BFAA000C7518C /* JSONValueTransformer+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC05778231BFAA000C7518C /* JSONValueTransformer+Custom.m */; };
 		6FC0577D23238A1F00C7518C /* YHTempModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC0577C23238A1F00C7518C /* YHTempModel.m */; };
 		6FCD3C39206E867D00FD504B /* RevertStringDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FCD3C38206E867D00FD504B /* RevertStringDemoViewController.m */; };
+		6FD04E962811BF630053EFC2 /* MultiTheadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD04E952811BF630053EFC2 /* MultiTheadViewController.swift */; };
 		6FDBCE2820CCFC38001017CC /* MLeaksFinderDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBCE2720CCFC38001017CC /* MLeaksFinderDemoViewController.m */; };
 		6FDBCE2B20CCFC57001017CC /* LeakView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBCE2A20CCFC57001017CC /* LeakView.m */; };
 		6FE949AE236DAB9C00EF7EB0 /* NSString+append.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C6A20762B9200FB53F6 /* NSString+append.m */; };
@@ -227,6 +228,7 @@
 		6FC0577C23238A1F00C7518C /* YHTempModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YHTempModel.m; sourceTree = "<group>"; };
 		6FCD3C37206E867D00FD504B /* RevertStringDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RevertStringDemoViewController.h; sourceTree = "<group>"; };
 		6FCD3C38206E867D00FD504B /* RevertStringDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RevertStringDemoViewController.m; sourceTree = "<group>"; };
+		6FD04E952811BF630053EFC2 /* MultiTheadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiTheadViewController.swift; sourceTree = "<group>"; };
 		6FDBCE2620CCFC38001017CC /* MLeaksFinderDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLeaksFinderDemoViewController.h; sourceTree = "<group>"; };
 		6FDBCE2720CCFC38001017CC /* MLeaksFinderDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MLeaksFinderDemoViewController.m; sourceTree = "<group>"; };
 		6FDBCE2920CCFC57001017CC /* LeakView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LeakView.h; sourceTree = "<group>"; };
@@ -875,6 +877,14 @@
 			path = RevertString;
 			sourceTree = "<group>";
 		};
+		6FD04E8D2811BF220053EFC2 /* MultiThread */ = {
+			isa = PBXGroup;
+			children = (
+				6FD04E952811BF630053EFC2 /* MultiTheadViewController.swift */,
+			);
+			path = MultiThread;
+			sourceTree = "<group>";
+		};
 		6FDBCE2520CCFC0B001017CC /* MLeaksFinderDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -1039,6 +1049,7 @@
 				776FC1A52011F08200CDF3E6 /* RootTableViewController.h */,
 				6FA6D60126D6B6FC0093AB4A /* SourcekittenDemo */,
 				776FC1A62011F08200CDF3E6 /* RootTableViewController.m */,
+				6FD04E8D2811BF220053EFC2 /* MultiThread */,
 				6FF81EF1232F899900E2F43E /* BaseTableViewController.h */,
 				6FF81EF2232F899900E2F43E /* BaseTableViewController.m */,
 				77BE096A20457B8D009712CC /* BaseChartViewController.h */,
@@ -2202,6 +2213,7 @@
 				6F43F38B205EB48100EA7DCD /* NSProxyMultiInheritDemoViewController.m in Sources */,
 				6F43F391205EB6CC00EA7DCD /* YHBookProvider.m in Sources */,
 				6F43F36F204D945500EA7DCD /* SemaphoreViewController.m in Sources */,
+				6FD04E962811BF630053EFC2 /* MultiTheadViewController.swift in Sources */,
 				6F43F3982063F8F900EA7DCD /* LockDemoViewController.m in Sources */,
 				6F404C4C2070E7FC00FB53F6 /* FindValueInTwoDimensionalArrayViewController.m in Sources */,
 				776FC1AA2011F53000CDF3E6 /* DrawViewController.m in Sources */,
