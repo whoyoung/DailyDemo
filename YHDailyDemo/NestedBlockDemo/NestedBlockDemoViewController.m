@@ -39,6 +39,18 @@
     });
     
     self.testStr = @"test";
+    
+    NSMutableString *mStr = [NSMutableString stringWithString:@"1"];
+    BlockC block = ^() {
+        [mStr appendString:@"2"];
+    };
+    [mStr appendString:@"3"];
+    NSLog(@"%@", mStr);
+    block();
+    NSLog(@"%@", mStr);
+    [mStr appendString:@"4"];
+    NSLog(@" %@", mStr);
+
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

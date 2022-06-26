@@ -34,6 +34,7 @@
 		6F43F3982063F8F900EA7DCD /* LockDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F43F3972063F8F900EA7DCD /* LockDemoViewController.m */; };
 		6F66469627FF53A40035EF22 /* HitTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F66468B27FF53A40035EF22 /* HitTestView.swift */; };
 		6F66469727FF53A40035EF22 /* HitTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F66468C27FF53A40035EF22 /* HitTestViewController.swift */; };
+		6F967932286865AA00589614 /* GCDMultiTheadExecutionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F967931286865AA00589614 /* GCDMultiTheadExecutionViewController.m */; };
 		6FA6D60B26D6B74D0093AB4A /* SourcekittenDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA6D60A26D6B74D0093AB4A /* SourcekittenDemoViewController.swift */; };
 		6FC0577A231BFAA000C7518C /* JSONValueTransformer+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC05778231BFAA000C7518C /* JSONValueTransformer+Custom.m */; };
 		6FC0577D23238A1F00C7518C /* YHTempModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FC0577C23238A1F00C7518C /* YHTempModel.m */; };
@@ -45,6 +46,7 @@
 		6FE949AE236DAB9C00EF7EB0 /* NSString+append.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C6A20762B9200FB53F6 /* NSString+append.m */; };
 		6FE949B3236DCF3200EF7EB0 /* NSObject+ViewTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE949B2236DCF3200EF7EB0 /* NSObject+ViewTool.m */; };
 		6FE949B6236DE29F00EF7EB0 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE949B5236DE29F00EF7EB0 /* BaseNavigationController.m */; };
+		6FF039D0286846CE00DB803D /* AtomicMultiThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF039CF286846CE00DB803D /* AtomicMultiThreadViewController.m */; };
 		6FF81EF3232F899900E2F43E /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF81EF2232F899900E2F43E /* BaseTableViewController.m */; };
 		6FF81EF7232F8B8800E2F43E /* AlgorithmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF81EF6232F8B8800E2F43E /* AlgorithmViewController.m */; };
 		6FF94E952067BDEC00475287 /* AssignObjectDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF94E942067BDEC00475287 /* AssignObjectDemoViewController.m */; };
@@ -222,6 +224,8 @@
 		6F43F3972063F8F900EA7DCD /* LockDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LockDemoViewController.m; sourceTree = "<group>"; };
 		6F66468B27FF53A40035EF22 /* HitTestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HitTestView.swift; sourceTree = "<group>"; };
 		6F66468C27FF53A40035EF22 /* HitTestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HitTestViewController.swift; sourceTree = "<group>"; };
+		6F967930286865AA00589614 /* GCDMultiTheadExecutionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCDMultiTheadExecutionViewController.h; sourceTree = "<group>"; };
+		6F967931286865AA00589614 /* GCDMultiTheadExecutionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCDMultiTheadExecutionViewController.m; sourceTree = "<group>"; };
 		6FA6D60A26D6B74D0093AB4A /* SourcekittenDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourcekittenDemoViewController.swift; sourceTree = "<group>"; };
 		6FC05778231BFAA000C7518C /* JSONValueTransformer+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSONValueTransformer+Custom.m"; sourceTree = "<group>"; };
 		6FC05779231BFAA000C7518C /* JSONValueTransformer+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSONValueTransformer+Custom.h"; sourceTree = "<group>"; };
@@ -239,6 +243,8 @@
 		6FE949B2236DCF3200EF7EB0 /* NSObject+ViewTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ViewTool.m"; sourceTree = "<group>"; };
 		6FE949B4236DE29F00EF7EB0 /* BaseNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
 		6FE949B5236DE29F00EF7EB0 /* BaseNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
+		6FF039CE286846CE00DB803D /* AtomicMultiThreadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AtomicMultiThreadViewController.h; sourceTree = "<group>"; };
+		6FF039CF286846CE00DB803D /* AtomicMultiThreadViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AtomicMultiThreadViewController.m; sourceTree = "<group>"; };
 		6FF81EF1232F899900E2F43E /* BaseTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseTableViewController.h; sourceTree = "<group>"; };
 		6FF81EF2232F899900E2F43E /* BaseTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseTableViewController.m; sourceTree = "<group>"; };
 		6FF81EF5232F8B8800E2F43E /* AlgorithmViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlgorithmViewController.h; sourceTree = "<group>"; };
@@ -862,6 +868,15 @@
 			path = HitTest;
 			sourceTree = "<group>";
 		};
+		6F9679282868654F00589614 /* GCDMultiThreadExecution */ = {
+			isa = PBXGroup;
+			children = (
+				6F967930286865AA00589614 /* GCDMultiTheadExecutionViewController.h */,
+				6F967931286865AA00589614 /* GCDMultiTheadExecutionViewController.m */,
+			);
+			path = GCDMultiThreadExecution;
+			sourceTree = "<group>";
+		};
 		6FA6D60126D6B6FC0093AB4A /* SourcekittenDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -914,6 +929,15 @@
 				6FE949B2236DCF3200EF7EB0 /* NSObject+ViewTool.m */,
 			);
 			path = CommonCategory;
+			sourceTree = "<group>";
+		};
+		6FF039C62868469300DB803D /* AtomicMultiThread */ = {
+			isa = PBXGroup;
+			children = (
+				6FF039CE286846CE00DB803D /* AtomicMultiThreadViewController.h */,
+				6FF039CF286846CE00DB803D /* AtomicMultiThreadViewController.m */,
+			);
+			path = AtomicMultiThread;
 			sourceTree = "<group>";
 		};
 		6FF81EF4232F8B5E00E2F43E /* Algorithm */ = {
@@ -1058,10 +1082,12 @@
 				777F974426D4C7CC005779FC /* IGListDemo */,
 				776FC1A52011F08200CDF3E6 /* RootTableViewController.h */,
 				776FC1A62011F08200CDF3E6 /* RootTableViewController.m */,
+				6FF039C62868469300DB803D /* AtomicMultiThread */,
 				6FDFEEFE283F9BD7007A43D7 /* ProtocolExtension */,
 				6FD04E8D2811BF220053EFC2 /* MultiThread */,
 				6FF81EF1232F899900E2F43E /* BaseTableViewController.h */,
 				6FF81EF2232F899900E2F43E /* BaseTableViewController.m */,
+				6F9679282868654F00589614 /* GCDMultiThreadExecution */,
 				6FA6D60126D6B6FC0093AB4A /* SourcekittenDemo */,
 				77BE096A20457B8D009712CC /* BaseChartViewController.h */,
 				77BE096B20457B8D009712CC /* BaseChartViewController.m */,
@@ -2234,6 +2260,7 @@
 				6F404C47206FB91200FB53F6 /* NestedBlockDemoViewController.m in Sources */,
 				6F43F384205E9E0100EA7DCD /* YHWeakProxy.m in Sources */,
 				6FF94E952067BDEC00475287 /* AssignObjectDemoViewController.m in Sources */,
+				6FF039D0286846CE00DB803D /* AtomicMultiThreadViewController.m in Sources */,
 				6FE949B3236DCF3200EF7EB0 /* NSObject+ViewTool.m in Sources */,
 				7721C3E8202C2A9100859A67 /* YHBaseChartView.m in Sources */,
 				6F43F387205EA44500EA7DCD /* SecondPageViewController.m in Sources */,
@@ -2266,6 +2293,7 @@
 				7798CD0A26CFE43700A0C869 /* FlowLayoutViewController.swift in Sources */,
 				77DE62152248705700BD2DF6 /* BaseWhiteBGColorViewController.m in Sources */,
 				6FE949B6236DE29F00EF7EB0 /* BaseNavigationController.m in Sources */,
+				6F967932286865AA00589614 /* GCDMultiTheadExecutionViewController.m in Sources */,
 				77714A3520200B94004DD6EB /* YHHorizontalBarChartView.m in Sources */,
 				6F43F38E205EB4B200EA7DCD /* YHMultiInheritProxy.m in Sources */,
 				77082CC220BFD34D00DCF52E /* TableViewRegisterClassController.m in Sources */,
