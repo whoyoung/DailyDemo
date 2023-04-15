@@ -25,6 +25,7 @@
     TestObject *obj = [TestObject new];
     self.obj = obj;
     self.obj.num = 1;
+    NSLog(@"%@",self.obj);
     
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

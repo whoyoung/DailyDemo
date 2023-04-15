@@ -31,7 +31,7 @@
     [[FollowStatusSyncManager shareManager] registerPlugin:_plugin];
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
-    [btn setTitle:@"third page" forState:UIControlStateNormal];
+    [btn setTitle:@"to third page" forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn.frame = CGRectMake(100, 100, 100, 100);
     [btn setBackgroundColor:[UIColor whiteColor]];

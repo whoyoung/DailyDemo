@@ -43,6 +43,11 @@
 		6FDBCE2820CCFC38001017CC /* MLeaksFinderDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBCE2720CCFC38001017CC /* MLeaksFinderDemoViewController.m */; };
 		6FDBCE2B20CCFC57001017CC /* LeakView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FDBCE2A20CCFC57001017CC /* LeakView.m */; };
 		6FDFEF07283F9C5C007A43D7 /* ProtocolExtensionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FDFEF06283F9C5C007A43D7 /* ProtocolExtensionViewController.swift */; };
+		6FE72BE428758F25009692E3 /* FollowStatusSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE72BDB28758F24009692E3 /* FollowStatusSyncManager.m */; };
+		6FE72BE528758F25009692E3 /* FollowStatusSyncPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE72BDC28758F24009692E3 /* FollowStatusSyncPlugin.m */; };
+		6FE72BE628758F25009692E3 /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE72BDE28758F24009692E3 /* ThirdViewController.m */; };
+		6FE72BE728758F25009692E3 /* FollowPluginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE72BDF28758F24009692E3 /* FollowPluginViewController.m */; };
+		6FE72BE828758F25009692E3 /* NextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE72BE228758F25009692E3 /* NextViewController.m */; };
 		6FE949AE236DAB9C00EF7EB0 /* NSString+append.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F404C6A20762B9200FB53F6 /* NSString+append.m */; };
 		6FE949B3236DCF3200EF7EB0 /* NSObject+ViewTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE949B2236DCF3200EF7EB0 /* NSObject+ViewTool.m */; };
 		6FE949B6236DE29F00EF7EB0 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE949B5236DE29F00EF7EB0 /* BaseNavigationController.m */; };
@@ -121,6 +126,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = E49D6D248DD1CEE584E6776B9164A1B2;
 			remoteInfo = MJRefresh;
+		};
+		6FE72BD828758ECE009692E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 777F976A26D4E3F8005779FC /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1FFED36A657123030ABB700256D73F15;
+			remoteInfo = Masonry;
 		};
 		777F98BD26D4E3F9005779FC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -239,6 +251,16 @@
 		6FDBCE2920CCFC57001017CC /* LeakView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LeakView.h; sourceTree = "<group>"; };
 		6FDBCE2A20CCFC57001017CC /* LeakView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LeakView.m; sourceTree = "<group>"; };
 		6FDFEF06283F9C5C007A43D7 /* ProtocolExtensionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolExtensionViewController.swift; sourceTree = "<group>"; };
+		6FE72BDA28758F23009692E3 /* FollowPluginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowPluginViewController.h; sourceTree = "<group>"; };
+		6FE72BDB28758F24009692E3 /* FollowStatusSyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowStatusSyncManager.m; sourceTree = "<group>"; };
+		6FE72BDC28758F24009692E3 /* FollowStatusSyncPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowStatusSyncPlugin.m; sourceTree = "<group>"; };
+		6FE72BDD28758F24009692E3 /* FollowStatusSyncPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowStatusSyncPlugin.h; sourceTree = "<group>"; };
+		6FE72BDE28758F24009692E3 /* ThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdViewController.m; sourceTree = "<group>"; };
+		6FE72BDF28758F24009692E3 /* FollowPluginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FollowPluginViewController.m; sourceTree = "<group>"; };
+		6FE72BE028758F25009692E3 /* NextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NextViewController.h; sourceTree = "<group>"; };
+		6FE72BE128758F25009692E3 /* FollowStatusSyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FollowStatusSyncManager.h; sourceTree = "<group>"; };
+		6FE72BE228758F25009692E3 /* NextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NextViewController.m; sourceTree = "<group>"; };
+		6FE72BE328758F25009692E3 /* ThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdViewController.h; sourceTree = "<group>"; };
 		6FE949B1236DCF3200EF7EB0 /* NSObject+ViewTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+ViewTool.h"; sourceTree = "<group>"; };
 		6FE949B2236DCF3200EF7EB0 /* NSObject+ViewTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ViewTool.m"; sourceTree = "<group>"; };
 		6FE949B4236DE29F00EF7EB0 /* BaseNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
@@ -922,6 +944,23 @@
 			path = ProtocolExtension;
 			sourceTree = "<group>";
 		};
+		6FE72BCF28758ECD009692E3 /* FollowPluginManager */ = {
+			isa = PBXGroup;
+			children = (
+				6FE72BE128758F25009692E3 /* FollowStatusSyncManager.h */,
+				6FE72BDB28758F24009692E3 /* FollowStatusSyncManager.m */,
+				6FE72BDD28758F24009692E3 /* FollowStatusSyncPlugin.h */,
+				6FE72BDC28758F24009692E3 /* FollowStatusSyncPlugin.m */,
+				6FE72BE028758F25009692E3 /* NextViewController.h */,
+				6FE72BE228758F25009692E3 /* NextViewController.m */,
+				6FE72BE328758F25009692E3 /* ThirdViewController.h */,
+				6FE72BDE28758F24009692E3 /* ThirdViewController.m */,
+				6FE72BDA28758F23009692E3 /* FollowPluginViewController.h */,
+				6FE72BDF28758F24009692E3 /* FollowPluginViewController.m */,
+			);
+			path = FollowPluginManager;
+			sourceTree = "<group>";
+		};
 		6FE949B0236DCEF400EF7EB0 /* CommonCategory */ = {
 			isa = PBXGroup;
 			children = (
@@ -1087,6 +1126,7 @@
 				6FD04E8D2811BF220053EFC2 /* MultiThread */,
 				6FF81EF1232F899900E2F43E /* BaseTableViewController.h */,
 				6FF81EF2232F899900E2F43E /* BaseTableViewController.m */,
+				6FE72BCF28758ECD009692E3 /* FollowPluginManager */,
 				6F9679282868654F00589614 /* GCDMultiThreadExecution */,
 				6FA6D60126D6B6FC0093AB4A /* SourcekittenDemo */,
 				77BE096A20457B8D009712CC /* BaseChartViewController.h */,
@@ -1242,6 +1282,7 @@
 				777F98F926D4E726005779FC /* libIGListDiffKit.a */,
 				777F98BE26D4E3F9005779FC /* libIGListKit.a */,
 				777F98C026D4E3F9005779FC /* libJSONModel.a */,
+				6FE72BD928758ECE009692E3 /* libMasonry.a */,
 				6F66469527FF53A40035EF22 /* libMJRefresh.a */,
 				777F98C226D4E3F9005779FC /* libPods-YHDailyDemo.a */,
 				777F98C426D4E3F9005779FC /* libTTTAttributedLabel.a */,
@@ -2120,6 +2161,13 @@
 			remoteRef = 6F66469427FF53A40035EF22 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		6FE72BD928758ECE009692E3 /* libMasonry.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMasonry.a;
+			remoteRef = 6FE72BD828758ECE009692E3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		777F98BE26D4E3F9005779FC /* libIGListKit.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2252,6 +2300,7 @@
 				6F43F36F204D945500EA7DCD /* SemaphoreViewController.m in Sources */,
 				6FD04E962811BF630053EFC2 /* MultiTheadViewController.swift in Sources */,
 				6F43F3982063F8F900EA7DCD /* LockDemoViewController.m in Sources */,
+				6FE72BE528758F25009692E3 /* FollowStatusSyncPlugin.m in Sources */,
 				6F404C4C2070E7FC00FB53F6 /* FindValueInTwoDimensionalArrayViewController.m in Sources */,
 				776FC1AA2011F53000CDF3E6 /* DrawViewController.m in Sources */,
 				77DF03412695B893000D9EDE /* NotiBlockSecondarySwiftViewController.swift in Sources */,
@@ -2309,6 +2358,7 @@
 				6F66469727FF53A40035EF22 /* HitTestViewController.swift in Sources */,
 				776B4E0A206CE2EA00443D92 /* MemoryMapDemoViewController.m in Sources */,
 				776FC19F2011F04100CDF3E6 /* main.m in Sources */,
+				6FE72BE828758F25009692E3 /* NextViewController.m in Sources */,
 				6F404C5020710F4B00FB53F6 /* SingleTonViewController.m in Sources */,
 				77D1623E22C1C4C900D29FA3 /* SynchronizedDemoVC.m in Sources */,
 				77E4ABE72022EE5800568AFA /* UIColor+HexColor.m in Sources */,
@@ -2332,11 +2382,14 @@
 				77082CC520BFD3CA00DCF52E /* CustomTableViewCell.m in Sources */,
 				776FC1A72011F08200CDF3E6 /* RootTableViewController.m in Sources */,
 				6F404C5A20711DA700FB53F6 /* IsEqualDemoViewController.m in Sources */,
+				6FE72BE628758F25009692E3 /* ThirdViewController.m in Sources */,
 				77F42790263AA53200E84036 /* AssertDemoViewController.m in Sources */,
 				6FA6D60B26D6B74D0093AB4A /* SourcekittenDemoViewController.swift in Sources */,
 				6F43F394205EB6E600EA7DCD /* YHClothesProvider.m in Sources */,
 				7728D6FB25C01C7300800730 /* WeakStrongTestObject.m in Sources */,
+				6FE72BE428758F25009692E3 /* FollowStatusSyncManager.m in Sources */,
 				777F98FB26D4E776005779FC /* DemoSectionController.swift in Sources */,
+				6FE72BE728758F25009692E3 /* FollowPluginViewController.m in Sources */,
 				77AD42FA26C03E3100789DF3 /* SwiftlintCustomRuleClass.swift in Sources */,
 				77714A28201B4725004DD6EB /* YHLineChartView.m in Sources */,
 				6F43F37D20581D8600EA7DCD /* CopyStrongDemoViewController.m in Sources */,
@@ -2413,7 +2466,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -2462,7 +2515,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -2476,13 +2529,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7EZ23W2MEV;
 				INFOPLIST_FILE = YHDailyDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yanghu.YHDailyDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "YHDailyDemo/YHDailyDemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
@@ -2497,13 +2552,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7EZ23W2MEV;
 				INFOPLIST_FILE = YHDailyDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yanghu.YHDailyDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "YHDailyDemo/YHDailyDemo-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

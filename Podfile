@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+platform :ios, '11.0'
 
 target 'YHDailyDemo' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
@@ -12,12 +12,14 @@ target 'YHDailyDemo' do
 	pod 'YHNotificationCenter'
 	pod 'TTTAttributedLabel'
 	pod 'IGListKit', '~> 4.0.0'
-         pod 'MJRefresh'
+        pod 'MJRefresh'
+        pod 'Masonry'
+
 
 post_install do |installer|
         installer.pods_project.targets.each do |target|
             target.build_configurations.each do |config|
-                config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] ='9.0'
+                config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] ='11.0'
             end
         end
     end

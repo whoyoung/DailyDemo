@@ -3,6 +3,7 @@ PODS:
   - IGListKit (4.0.0):
     - IGListDiffKit (= 4.0.0)
   - JSONModel (1.8.0)
+  - Masonry (1.1.0)
   - MJRefresh (3.7.2)
   - TTTAttributedLabel (2.0.0)
   - YHNotificationCenter (1.0.0)
@@ -10,6 +11,7 @@ PODS:
 DEPENDENCIES:
   - IGListKit (~> 4.0.0)
   - JSONModel
+  - Masonry
   - MJRefresh
   - TTTAttributedLabel
   - YHNotificationCenter
@@ -22,16 +24,18 @@ SPEC REPOS:
   trunk:
     - IGListDiffKit
     - IGListKit
+    - Masonry
     - MJRefresh
 
 SPEC CHECKSUMS:
   IGListDiffKit: 665d6cf43ce726e676013db9c7d6c4294259b6b2
   IGListKit: fd5a5d21935298f5849fa49d426843cff97b77c7
   JSONModel: 02ab723958366a3fd27da57ea2af2113658762e9
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJRefresh: 30997d30b347c8e9508a4db11e3a690da0c9b85a
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   YHNotificationCenter: 536930fb17d23be4f0e224982e28b4209182777d
 
-PODFILE CHECKSUM: 68de9ae0e75016a2e92d9c5d9a4364349c9b20df
+PODFILE CHECKSUM: 68c51ed7cca019b3c0736d34edfbec7899f297de
 
 COCOAPODS: 1.9.2
